@@ -1,0 +1,48 @@
+Transform
+/VIBuffer(Tri/RcCol/RcTex)
+/Texture
+/Camra
+/Rigidbody
+/Effect
+/SoundListner
+/Animator
+
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
+
+#endif
+
+private
+생성자
+소멸자
+
+public:
+pubic virtaul 함수
+Get_InitGraphicDev
+
+
+public:
+스테틱함수
+
+pirvate:
+private 버츄얼 함수
+
+-------대문자
+public:
+멤버 get
+get
+
+public:
+멤버 set
+set
+--------소문자
+
+private:
+멤버 변수
+--------------------------
+싱글턴->매크로
+map<ID,>
+
+
+19
+소스트리
