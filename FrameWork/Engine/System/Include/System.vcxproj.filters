@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="00.GrapicDev">
+      <UniqueIdentifier>{53726552-bee0-42b6-bce3-59b540875466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Export">
+      <UniqueIdentifier>{6ad9ce1c-94c0-4de9-8bde-84c3805bb80f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Code\GraphicDev.h">
+      <Filter>00.GrapicDev</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Export\Export_System.h">
+      <Filter>99.Export</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\GraphicDev.cpp">
+      <Filter>00.GrapicDev</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Export\Export_System.inl">
+      <Filter>99.Export</Filter>
+    </None>
+  </ItemGroup>
+</Project>
