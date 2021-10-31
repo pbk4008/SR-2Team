@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <chrono>
 #include <unordered_map>
 #include <algorithm>
 #include <d3d9.h>
@@ -21,5 +22,6 @@ using namespace std;
 #include "Engine_Enum.h"
 #include "Engine_Struct.h"
 
+#pragma warning(disable : 4251)
 using namespace Engine;
 #endif

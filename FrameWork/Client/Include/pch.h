@@ -26,4 +26,5 @@
 #endif
 
 #pragma comment(lib,"System.lib")
+#pragma comment(lib,"Utility.lib")
 #endif //PCH_H

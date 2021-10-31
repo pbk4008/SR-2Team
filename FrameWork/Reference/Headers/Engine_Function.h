@@ -28,11 +28,8 @@ unsigned long Safe_Release(T& point)
 	{
 		dwRefCnt = point->Release();
 		if (dwRefCnt == 0)
-		{
 			point = nullptr;
-			return dwRefCnt;
-		}
 	}
-	return dwRefCnt--;
+	return dwRefCnt;
 }
 #endif

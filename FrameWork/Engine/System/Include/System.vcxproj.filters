@@ -7,6 +7,12 @@
     <Filter Include="99.Export">
       <UniqueIdentifier>{6ad9ce1c-94c0-4de9-8bde-84c3805bb80f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.TimeMgr">
+      <UniqueIdentifier>{3a0a4138-0e91-4bc8-90eb-a361739c3ad4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.FrameMgr">
+      <UniqueIdentifier>{e379b484-b577-4fd6-8b1a-218182b6aa71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\GraphicDev.h">
@@ -15,10 +21,22 @@
     <ClInclude Include="..\..\Export\Export_System.h">
       <Filter>99.Export</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\TimeMgr.h">
+      <Filter>01.TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\FrameMgr.h">
+      <Filter>02.FrameMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDev.cpp">
       <Filter>00.GrapicDev</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TimeMgr.cpp">
+      <Filter>01.TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FrameMgr.cpp">
+      <Filter>02.FrameMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

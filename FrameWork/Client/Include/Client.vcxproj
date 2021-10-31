@@ -177,6 +177,14 @@
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Engine\System\Include\System.vcxproj">
+      <Project>{81e9f2cd-362d-428c-aafa-cbcd8709d3e9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engine\Utility\Include\Utility.vcxproj">
+      <Project>{099b1424-cb1a-4780-a2b2-d7c0e409303d}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -47,6 +47,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
     msg.message = WM_NULL;
+    FAILED_CHECK_RETURN(Init_TimeMgr(), false);
+    FAILED_CHECK_RETURN(Init_FrameMgr(60.f), false);
 
     CMainApp* pMainApp = CMainApp::Create();
     NULL_CHECK_RETURN(pMainApp, false);
@@ -60,9 +62,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
             }
-            pMainApp->Update_MainApp(0.f);
-            pMainApp->LateUpdate_MainApp();
-            pMainApp->Render_MainApp();
+            Update_TimeMgr();
+            _float fDeltaTime = GetDeltaTime();
+            if (IsPermit(fDeltaTime))
+            {
+                pMainApp->Update_MainApp(fDeltaTime);
+                pMainApp->LateUpdate_MainApp();
+                pMainApp->Render_MainApp();
+            }
         }   
     }
     _ulong dwRefCnt = 0;

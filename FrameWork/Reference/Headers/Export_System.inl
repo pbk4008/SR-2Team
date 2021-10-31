@@ -11,7 +11,31 @@ void Render_End()
 	CGraphicDev::GetInstance()->Render_End();
 }
 
+HRESULT Init_TimeMgr()
+{
+	return CTimeMgr::GetInstance()->Init_TimeMgr();
+}
+void Update_TimeMgr()
+{
+	return CTimeMgr::GetInstance()->Update_TimeMgr();
+}
+_float GetDeltaTime()
+{
+	return CTimeMgr::GetInstance()->getDeltaTime();
+}
+
+HRESULT Init_FrameMgr(const _float& fLimitFrame)
+{
+	return CFrameMgr::GetInstance()->Init_FrameMgr(fLimitFrame);
+}
+_bool IsPermit(const _float& fDeltaTime)
+{
+	return CFrameMgr::GetInstance()->IsPermit(fDeltaTime);
+}
+
 void System_Release()
 {
+	CFrameMgr::DestroyInstance();
+	CTimeMgr::DestroyInstance();
 	CGraphicDev::DestroyInstance();
 }
