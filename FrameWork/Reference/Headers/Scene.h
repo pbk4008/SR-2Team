@@ -13,7 +13,7 @@ protected:
 	virtual ~CScene();
 public:
 	virtual HRESULT Init_Scene();
-	virtual _int Update_Scene(const _float& fDeletaTime);
+	virtual _int Update_Scene(const _float& fDeltaTime);
 	virtual void LateUpdate_Scene();
 	virtual void Render_Scene() PURE;
 private:

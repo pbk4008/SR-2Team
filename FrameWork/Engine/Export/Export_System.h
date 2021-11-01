@@ -4,6 +4,7 @@
 #include "GraphicDev.h"
 #include "TimeMgr.h"
 #include "FrameMgr.h"
+#include "InputDev.h"
 
 BEGIN(Engine)
 //GraphicDev
@@ -18,6 +19,12 @@ inline _float GetDeltaTime();
 //FrameMgr
 inline HRESULT Init_FrameMgr(const _float& fLimitFrame);
 inline _bool IsPermit(const _float& fDeltaTime);
+//InputDev
+inline void Update_InputDev();
+inline _bool Key_Up(_ulong dwKey);
+inline _bool Key_Down(_ulong dwKey);
+inline _bool Key_Pressing(_ulong dwKey);
+inline _vec3 MousePos(HWND _hWnd);
 
 inline void System_Release();
 #include "Export_System.inl"

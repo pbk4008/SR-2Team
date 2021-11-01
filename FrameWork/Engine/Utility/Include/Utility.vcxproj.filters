@@ -19,6 +19,9 @@
     <Filter Include="99.Export">
       <UniqueIdentifier>{eea7ebbf-3c51-4dd8-95e8-bf7994aabf0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.ProtoMgr">
+      <UniqueIdentifier>{52100c15-3ea2-4fc4-91ce-b79a7bdf072e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -38,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\Management.h">
       <Filter>00.ManageMent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ProtoMgr.h">
+      <Filter>05.ProtoMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Management.cpp">
       <Filter>00.ManageMent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ProtoMgr.cpp">
+      <Filter>05.ProtoMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

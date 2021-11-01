@@ -157,6 +157,7 @@ call "Update_Utility.bat"</Command>
     <ClInclude Include="..\Code\GameObject.h" />
     <ClInclude Include="..\Code\Layer.h" />
     <ClInclude Include="..\Code\Management.h" />
+    <ClInclude Include="..\Code\ProtoMgr.h" />
     <ClInclude Include="..\Code\Scene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +168,7 @@ call "Update_Utility.bat"</Command>
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
+    <ClCompile Include="..\Code\ProtoMgr.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -13,6 +13,9 @@
     <Filter Include="02.FrameMgr">
       <UniqueIdentifier>{e379b484-b577-4fd6-8b1a-218182b6aa71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.InputDev">
+      <UniqueIdentifier>{199321e6-24d0-446d-9631-0515d038848c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\GraphicDev.h">
@@ -27,6 +30,9 @@
     <ClInclude Include="..\Code\FrameMgr.h">
       <Filter>02.FrameMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\InputDev.h">
+      <Filter>03.InputDev</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDev.cpp">
@@ -37,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\FrameMgr.cpp">
       <Filter>02.FrameMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\InputDev.cpp">
+      <Filter>03.InputDev</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

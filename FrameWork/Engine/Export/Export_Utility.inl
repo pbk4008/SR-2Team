@@ -1,6 +1,8 @@
-void Init_Manangement(CManagement** pManangement)
+HRESULT Init_Manangement(CManagement** pManangement)
 {
 	*pManangement = CManagement::GetInstance();
+	NULL_CHECK_RETURN(pManangement, E_FAIL);
+	return S_OK;
 }
 HRESULT Change_Scene(CScene* pScene)
 {

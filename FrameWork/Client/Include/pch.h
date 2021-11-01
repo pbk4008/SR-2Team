@@ -13,6 +13,10 @@
 #include "Export_Function.h"
 #include "Value.h"
 
+#include <iostream>
+#pragma comment(linker,"/entry:wWinMainCRTStartup /subsystem:console")
+using namespace std;
+
 #ifdef _DEBUG
 #define __CRTDBG_MAP_ALLOC
 #include <stdlib.h>

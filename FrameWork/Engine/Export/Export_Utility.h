@@ -6,7 +6,7 @@
 #include "Scene.h"
 #include "Component.h"
 
-inline void Init_Manangement(CManagement** pManangement);
+inline HRESULT Init_Manangement(CManagement** pManangement);
 inline HRESULT Change_Scene(CScene* pScene);
 inline _int Update_Management(const _float& fDeltaTime);
 inline void LateUpdate_Management();

@@ -1,5 +1,6 @@
 ﻿  FrameMgr.cpp
   GraphicDev.cpp
+  InputDev.cpp
   TimeMgr.cpp
   코드를 생성하고 있습니다...
      ../Bin\System.lib 라이브러리 및 ../Bin\System.exp 개체를 생성하고 있습니다.
@@ -20,8 +21,9 @@
   5개 파일이 복사되었습니다.
   .\Engine\System\Code\FrameMgr.h
   .\Engine\System\Code\GraphicDev.h
+  .\Engine\System\Code\InputDev.h
   .\Engine\System\Code\TimeMgr.h
-  3개 파일이 복사되었습니다.
+  4개 파일이 복사되었습니다.
   .\Engine\System\Bin\System.dll
   1개 파일이 복사되었습니다.
   .\Engine\System\Bin\System.lib

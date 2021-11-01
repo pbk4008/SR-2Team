@@ -12,6 +12,7 @@ protected:
 	virtual ~CComponent();
 protected:
 	virtual _int Update_Component() PURE;
+public:
 	virtual CComponent* Clone_Component() PURE;
 protected:
 	virtual void Free();

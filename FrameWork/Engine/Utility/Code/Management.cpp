@@ -22,24 +22,25 @@ HRESULT CManagement::Change_Scene(CScene* pScene)
 
 _int CManagement::Update_Management(const _float& fDeltaTime)
 {
-	NULL_CHECK_RETURN(m_pScene, -1);
+	_int iExit = 0;
+	/*NULL_CHECK_RETURN(m_pScene, -1);
 
-	_int iExit = m_pScene->Update_Scene(fDeltaTime);
+	iExit = m_pScene->Update_Scene(fDeltaTime);*/
 	return iExit;
 }
 
 void CManagement::LateUpdate_Management()
 {
-	NULL_CHECK(m_pScene);
+	/*NULL_CHECK(m_pScene);
 
-	m_pScene->LateUpdate_Scene();
+	m_pScene->LateUpdate_Scene();*/
 }
 
 void CManagement::Render_Manangement(LPDIRECT3DDEVICE9& pDevice)
 {
-	NULL_CHECK(m_pScene);
+	/*NULL_CHECK(m_pScene);
 
-	m_pScene->Render_Scene();
+	m_pScene->Render_Scene();*/
 }
 
 void CManagement::Free()

@@ -33,8 +33,30 @@ _bool IsPermit(const _float& fDeltaTime)
 	return CFrameMgr::GetInstance()->IsPermit(fDeltaTime);
 }
 
+void Update_InputDev()
+{
+	CInputDev::GetInstance()->Update_InputDev();
+}
+_bool Key_Up(_ulong dwKey)
+{
+	return CInputDev::GetInstance()->Key_Up(dwKey);
+}
+_bool Key_Down(_ulong dwKey)
+{
+	return CInputDev::GetInstance()->Key_Down(dwKey);
+}
+_bool Key_Pressing(_ulong dwKey)
+{
+	return CInputDev::GetInstance()->Key_Pressing(dwKey);
+}
+_vec3 MousePos(HWND _hWnd)
+{
+	return CInputDev::GetInstance()->MousePos(_hWnd);
+}
+
 void System_Release()
 {
+	CInputDev::DestroyInstance();
 	CFrameMgr::DestroyInstance();
 	CTimeMgr::DestroyInstance();
 	CGraphicDev::DestroyInstance();

@@ -155,12 +155,14 @@ call "Update_System.bat"</Command>
   <ItemGroup>
     <ClCompile Include="..\Code\FrameMgr.cpp" />
     <ClCompile Include="..\Code\GraphicDev.cpp" />
+    <ClCompile Include="..\Code\InputDev.cpp" />
     <ClCompile Include="..\Code\TimeMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_System.h" />
     <ClInclude Include="..\Code\FrameMgr.h" />
     <ClInclude Include="..\Code\GraphicDev.h" />
+    <ClInclude Include="..\Code\InputDev.h" />
     <ClInclude Include="..\Code\TimeMgr.h" />
   </ItemGroup>
   <ItemGroup>

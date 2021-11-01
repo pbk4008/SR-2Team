@@ -1,0 +1,11 @@
+﻿  Component.cpp
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Component.cpp(1,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'Engine_Include.h': No such file or directory
+  GameObject.cpp
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\GameObject.cpp(1,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'Engine_Include.h': No such file or directory
+  Layer.cpp
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Layer.cpp(1,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'Engine_Include.h': No such file or directory
+  Management.cpp
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Management.cpp(1,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'Engine_Include.h': No such file or directory
+  Scene.cpp
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Scene.cpp(1,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'Engine_Include.h': No such file or directory
+  코드를 생성하고 있습니다...

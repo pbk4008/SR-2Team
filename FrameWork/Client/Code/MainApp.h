@@ -4,6 +4,7 @@
 #include "Base.h"
 BEGIN(Engine)
 class CGraphicDev;
+class CManageMent;
 END
 class CMainApp final : public CBase
 {
@@ -15,6 +16,9 @@ public:
 	_int Update_MainApp(const float& fDeltaTime);
 	void LateUpdate_MainApp();
 	void Render_MainApp();
+private:
+	HRESULT GraphicDevice_Setting();
+	HRESULT Init_Scene();
 public:
 	static CMainApp* Create();
 private:
@@ -22,5 +26,6 @@ private:
 private:
 	CGraphicDev* m_pGraphicDev;
 	LPDIRECT3DDEVICE9 m_pDevice;
+	CManagement* m_pManagement;
 };
 #endif

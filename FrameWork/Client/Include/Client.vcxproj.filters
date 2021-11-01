@@ -14,6 +14,9 @@
     <Filter Include="00. MainApp">
       <UniqueIdentifier>{6e927b4d-c57d-4386-936e-eb96a8f15be4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene">
+      <UniqueIdentifier>{3e05ddc3-b2e8-4ede-b10a-34d7b3abed80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -34,6 +37,9 @@
     <ClInclude Include="..\Code\MainApp.h">
       <Filter>00. MainApp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Logo.h">
+      <Filter>01.Scene</Filter>
+    </ClInclude>
     <ClInclude Include="..\Headers\Value.h">
       <Filter>98.Headers</Filter>
     </ClInclude>
@@ -45,6 +51,9 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp">
       <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Logo.cpp">
+      <Filter>01.Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
