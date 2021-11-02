@@ -2,29 +2,3 @@
   GraphicDev.cpp
   InputDev.cpp
   TimeMgr.cpp
-  코드를 생성하고 있습니다...
-     ../Bin\System.lib 라이브러리 및 ../Bin\System.exp 개체를 생성하고 있습니다.
-  System.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\System\Bin\System.dll
-  .\Engine\Headers\Engine_Enum.h
-  .\Engine\Headers\Engine_Function.h
-  .\Engine\Headers\Engine_Functor.h
-  .\Engine\Headers\Engine_Include.h
-  .\Engine\Headers\Engine_Macro.h
-  .\Engine\Headers\Engine_Struct.h
-  .\Engine\Headers\Engine_TypeDef.h
-  7개 파일이 복사되었습니다.
-  .\Engine\Export\Export_Function.h
-  .\Engine\Export\Export_System.h
-  .\Engine\Export\Export_System.inl
-  .\Engine\Export\Export_Utility.h
-  .\Engine\Export\Export_Utility.inl
-  5개 파일이 복사되었습니다.
-  .\Engine\System\Code\FrameMgr.h
-  .\Engine\System\Code\GraphicDev.h
-  .\Engine\System\Code\InputDev.h
-  .\Engine\System\Code\TimeMgr.h
-  4개 파일이 복사되었습니다.
-  .\Engine\System\Bin\System.dll
-  1개 파일이 복사되었습니다.
-  .\Engine\System\Bin\System.lib
-  1개 파일이 복사되었습니다.

@@ -11,7 +11,8 @@ protected:
 	explicit CComponent(const CComponent& rhs);
 	virtual ~CComponent();
 protected:
-	virtual _int Update_Component() PURE;
+	virtual _int Update_Component();
+public:
 	virtual CComponent* Clone_Component() PURE;
 protected:
 	virtual void Free();

@@ -1,0 +1,69 @@
+#include "Engine_Include.h"
+#include "Camera.h"
+
+CCamera::CCamera() : m_fAspect(0.f), m_fFar(0.f), m_fFov(0.f), m_fNear(0.f)
+{
+	ZeroMemory(&m_vEye,sizeof(_vec3));
+	ZeroMemory(&m_vAt,sizeof(_vec3));
+	ZeroMemory(&m_vUp,sizeof(_vec3));
+	ZeroMemory(&m_matView,sizeof(_vec3));
+	ZeroMemory(&m_matProjection,sizeof(_vec3));
+}
+
+CCamera::CCamera(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_fAspect(0.f), m_fFar(0.f), m_fFov(0.f), m_fNear(0.f)
+{
+	ZeroMemory(&m_vEye, sizeof(_vec3));
+	ZeroMemory(&m_vAt, sizeof(_vec3));
+	ZeroMemory(&m_vUp, sizeof(_vec3));
+	ZeroMemory(&m_matView, sizeof(_vec3));
+	ZeroMemory(&m_matProjection, sizeof(_vec3));
+}
+
+CCamera::CCamera(const CCamera& rhs) : CComponent(rhs), m_fAspect(rhs.m_fAspect), m_fFar(rhs.m_fFar), m_fFov(rhs.m_fFov), m_fNear(rhs.m_fNear)
+, m_vEye(rhs.m_vEye), m_vAt(rhs.m_vAt), m_vUp(rhs.m_vUp)
+{
+
+}
+
+CCamera::~CCamera()
+{
+}
+
+HRESULT CCamera::Init_Camera(const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
+	, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
+{
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
+	m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
+
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
+	m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProjection);
+
+	return S_OK;
+}
+
+_int CCamera::Update_Component(const _float& fDeltaTime)
+{
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
+	m_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
+
+	return 0;
+}
+
+CComponent* CCamera::Clone_Component()
+{
+	return new CCamera(*this);
+}
+
+CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pDevice, const _vec3& pEye, const _vec3& pAt, const _vec3& pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
+{
+	CCamera* pInstance = new CCamera(pDevice);
+	if (FAILED(pInstance->Init_Camera(pEye, pAt, pUp, fFov, fAspect, fNear, fFar)))
+		Safe_Release(pInstance);
+	return pInstance;
+}
+
+void CCamera::Free()
+{
+	CComponent::Free();
+}
+

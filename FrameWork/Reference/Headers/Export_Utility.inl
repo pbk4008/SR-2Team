@@ -24,7 +24,28 @@ CComponent* Get_Component(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eCo
 {
 	return CManagement::GetInstance()->getComponent(eLayerID, eObjID, eComID, eType);
 }
+
+HRESULT Init_ComProto(COMPONENTID eID, CComponent* pComponent)
+{
+	return CProtoMgr::GetInstance()->Init_ComProto(eID, pComponent);
+}
+HRESULT Init_ObjProto(GAMEOBJECTID eID, CGameObject* pGameObject)
+{
+	return CProtoMgr::GetInstance()->Init_ObjProto(eID, pGameObject);
+}
+template<typename T>
+T* Clone_ComProto(COMPONENTID eID)
+{
+	return CProtoMgr::GetInstance()->Clone_ComProto<T>(eID);
+}
+template<typename T>
+T* Clone_ObjProto(GAMEOBJECTID eID)
+{
+	return CProtoMgr::GetInstance()->Clone_ObjProto<T>(eID);
+}
+
 void Utility_Release()
 {
+	CProtoMgr::DestroyInstance();
 	CManagement::DestroyInstance();
 }

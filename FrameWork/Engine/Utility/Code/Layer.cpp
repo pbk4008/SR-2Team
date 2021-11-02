@@ -21,8 +21,12 @@ _int CLayer::Update_Layer(const _float& fDeltaTime)
 	_int iExit = 0;
 	for (auto& ObjVector : m_mapObject)
 	{
-		for(auto& Obj : ObjVector.second)
+		for (auto& Obj : ObjVector.second)
+		{
+			if (!Obj->getActive())
+				continue;
 			iExit = Obj->Update_GameObject(fDeltaTime);
+		}
 	}
 	return iExit;
 }

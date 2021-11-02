@@ -22,6 +22,36 @@
     <Filter Include="05.ProtoMgr">
       <UniqueIdentifier>{52100c15-3ea2-4fc4-91ce-b79a7bdf072e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer">
+      <UniqueIdentifier>{9d42d722-f0fb-48ef-8298-bb289c13df8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\00.TriColor">
+      <UniqueIdentifier>{e8be8fe9-7dab-4d28-989d-75b649d6f548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\01.RcColor">
+      <UniqueIdentifier>{d4124350-ebf2-41de-af91-f59516be9e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\02.RcTex">
+      <UniqueIdentifier>{f89ac464-c4bc-4d01-a70b-8f594a83a688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\03.TerrainTex">
+      <UniqueIdentifier>{d0a07d33-976d-4de8-9f52-20189df9a569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\00.VIBuffer\04.CubeTex">
+      <UniqueIdentifier>{526c3b46-c265-48f7-867b-bcd5c62d7ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\01.Texture">
+      <UniqueIdentifier>{e79d5666-b2fc-47a2-9899-f22cee4c7b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\02.Transfrom">
+      <UniqueIdentifier>{ceb491e8-0d63-4586-a10d-b664bc70c15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\03.Camera">
+      <UniqueIdentifier>{81c4d6f9-8aeb-4dfd-9d3c-e337f46310cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\04.Renderer">
+      <UniqueIdentifier>{dbc74c84-e7d6-4105-9844-bfa4429db18c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -44,6 +74,36 @@
     </ClInclude>
     <ClInclude Include="..\Code\ProtoMgr.h">
       <Filter>05.ProtoMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\VIBuffer.h">
+      <Filter>04.Component\00.VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\TriCol.h">
+      <Filter>04.Component\00.VIBuffer\00.TriColor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\RcCol.h">
+      <Filter>04.Component\00.VIBuffer\01.RcColor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\RcTex.h">
+      <Filter>04.Component\00.VIBuffer\02.RcTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\TerrainTex.h">
+      <Filter>04.Component\00.VIBuffer\03.TerrainTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\CubeTex.h">
+      <Filter>04.Component\00.VIBuffer\04.CubeTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Texture.h">
+      <Filter>04.Component\01.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Transform.h">
+      <Filter>04.Component\02.Transfrom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Camera.h">
+      <Filter>04.Component\03.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>04.Component\04.Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +129,36 @@
     </ClCompile>
     <ClCompile Include="..\Code\ProtoMgr.cpp">
       <Filter>05.ProtoMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\VIBuffer.cpp">
+      <Filter>04.Component\00.VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TriCol.cpp">
+      <Filter>04.Component\00.VIBuffer\00.TriColor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RcCol.cpp">
+      <Filter>04.Component\00.VIBuffer\01.RcColor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RcTex.cpp">
+      <Filter>04.Component\00.VIBuffer\02.RcTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TerrainTex.cpp">
+      <Filter>04.Component\00.VIBuffer\03.TerrainTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CubeTex.cpp">
+      <Filter>04.Component\00.VIBuffer\04.CubeTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Texture.cpp">
+      <Filter>04.Component\01.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Transform.cpp">
+      <Filter>04.Component\02.Transfrom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Camera.cpp">
+      <Filter>04.Component\03.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>04.Component\04.Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

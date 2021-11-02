@@ -33,23 +33,6 @@ HRESULT CProtoMgr::Init_ObjProto(GAMEOBJECTID eID, CGameObject* pGameObject)
 	m_mapObjProto.emplace(eID, pGameObject);
 	return S_OK;
 }
-
-CComponent* CProtoMgr::Clone_ComProto(COMPONENTID eID)
-{
-	CComponent* pComProto = Find_ComProto(eID);
-	NULL_CHECK_RETURN(pComProto, nullptr);
-
-	return pComProto->Clone_Component();
-}
-
-CGameObject* CProtoMgr::Clone_ObjProto(GAMEOBJECTID eID)
-{
-	CGameObject* pObjProto = Find_ObjProto(eID);
-	NULL_CHECK_RETURN(pObjProto, nullptr);
-
-	return pObjProto->Clone_GameObject();
-}
-
 CComponent* CProtoMgr::Find_ComProto(COMPONENTID eID)
 {
 	auto iter = m_mapComProto.find(eID);

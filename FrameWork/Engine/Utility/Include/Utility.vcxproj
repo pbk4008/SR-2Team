@@ -153,23 +153,43 @@ call "Update_Utility.bat"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h" />
+    <ClInclude Include="..\Code\Camera.h" />
     <ClInclude Include="..\Code\Component.h" />
+    <ClInclude Include="..\Code\CubeTex.h" />
     <ClInclude Include="..\Code\GameObject.h" />
     <ClInclude Include="..\Code\Layer.h" />
     <ClInclude Include="..\Code\Management.h" />
     <ClInclude Include="..\Code\ProtoMgr.h" />
+    <ClInclude Include="..\Code\RcCol.h" />
+    <ClInclude Include="..\Code\RcTex.h" />
     <ClInclude Include="..\Code\Scene.h" />
+    <ClInclude Include="..\Code\TerrainTex.h" />
+    <ClInclude Include="..\Code\Texture.h" />
+    <ClInclude Include="..\Code\Transform.h" />
+    <ClInclude Include="..\Code\TriCol.h" />
+    <ClInclude Include="..\Code\VIBuffer.h" />
+    <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Export\Export_Utility.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
+    <ClCompile Include="..\Code\CubeTex.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
+    <ClCompile Include="..\Code\RcCol.cpp" />
+    <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\TerrainTex.cpp" />
+    <ClCompile Include="..\Code\Texture.cpp" />
+    <ClCompile Include="..\Code\Transform.cpp" />
+    <ClCompile Include="..\Code\TriCol.cpp" />
+    <ClCompile Include="..\Code\VIBuffer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
