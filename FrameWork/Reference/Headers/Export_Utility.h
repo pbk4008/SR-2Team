@@ -8,6 +8,7 @@
 #include "Management.h"
 
 #include "ProtoMgr.h"
+#include "TextureMgr.h"
 
 #include "TriCol.h"
 #include "RcCol.h"
@@ -33,11 +34,17 @@ T* Clone_ComProto(COMPONENTID eID);
 template<typename T>
 T* Clone_ObjProto(GAMEOBJECTID eID);
 
+//TextureMgr
+inline CTextureMgr* Init_TextureMgr();
+inline HRESULT Insert_Texture(LPDIRECT3DDEVICE9 pDevice, TEXTURETYPE eType, const _tchar* pPath, const _tchar* pState, const _uint& iCnt);
+inline vector<LPDIRECT3DBASETEXTURE9>* GetTexture(const _tchar* pTag, TEXTURETYPE eType);
+
 //Renderer
 inline CRenderer* Init_RenderComponent();
 inline HRESULT Insert_RenderGroup(RENDERGROUP eGroup, CGameObject* pGameObject);
 inline void Render_GameObject(LPDIRECT3DDEVICE9 pDevice);
 inline void Clear_RenderList();
+
 inline void Utility_Release();
 #include "Export_Utility.inl"
 #endif

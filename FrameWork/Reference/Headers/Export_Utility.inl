@@ -51,6 +51,24 @@ T* Clone_ObjProto(GAMEOBJECTID eID)
 	return CProtoMgr::GetInstance()->Clone_ObjProto<T>(eID);
 }
 
+
+CTextureMgr* Init_TextureMgr()
+{
+	CTextureMgr* pInstance = CTextureMgr::GetInstance();
+	NULL_CHECK_RETURN(pInstance, nullptr);
+
+	return pInstance;
+}
+HRESULT Insert_Texture(LPDIRECT3DDEVICE9 pDevice, TEXTURETYPE eType, const _tchar* pPath, const _tchar* pState, const _uint& iCnt)
+{
+	return CTextureMgr::GetInstance()->Insert_Texture(pDevice, eType, pPath, pState, iCnt);
+}
+vector<LPDIRECT3DBASETEXTURE9>* GetTexture(const _tchar* pTag, TEXTURETYPE eType)
+{
+	return CTextureMgr::GetInstance()->getTexture(pTag, eType);
+}
+
+
 CRenderer* Init_RenderComponent()
 {
 	CRenderer* pInstance = CRenderer::GetInstance();
@@ -71,6 +89,7 @@ void Clear_RenderList()
 }
 void Utility_Release()
 {
+	CTextureMgr::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
 	CManagement::DestroyInstance();

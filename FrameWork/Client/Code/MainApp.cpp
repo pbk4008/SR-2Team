@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MainApp.h"
+#include "Logo.h"
 
 CMainApp::CMainApp() : m_pGraphicDev(nullptr),m_pDevice(nullptr), m_pManagement(nullptr)
 {
@@ -14,7 +15,6 @@ HRESULT CMainApp::Init_MainApp()
 	FAILED_CHECK_RETURN(GraphicDevice_Setting(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_Scene(), E_FAIL);
 	
-
 	return S_OK;
 }
 
@@ -52,6 +52,8 @@ HRESULT CMainApp::GraphicDevice_Setting()
 	m_pGraphicDev->AddRef();
 	m_pDevice = m_pGraphicDev->getDevice();
 	m_pDevice->AddRef();
+
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	return S_OK;
 }
 
@@ -63,9 +65,10 @@ HRESULT CMainApp::Init_Scene()
 	m_pManagement->AddRef();
 
 	//TODO:¾À ¸¸µé±â
+	pScene = CLogo::Create(m_pDevice);
+	NULL_CHECK_RETURN(pScene, E_FAIL);
 
 	FAILED_CHECK_RETURN(m_pManagement->Change_Scene(pScene),E_FAIL);
-
 
 	return S_OK;
 }
@@ -83,6 +86,6 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pGraphicDev);
 	m_pManagement->DestroyInstance();
-	System_Release();
 	Utility_Release();
+	System_Release();
 }
