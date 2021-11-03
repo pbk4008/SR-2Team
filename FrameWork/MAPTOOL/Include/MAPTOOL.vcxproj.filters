@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="99. Default">
+      <UniqueIdentifier>{24b5fbc6-07a9-4487-9d86-c28d73c8deda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. MainFrame">
+      <UniqueIdentifier>{fefdd1df-7f22-4bb7-b446-7e8920bc3601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. View">
+      <UniqueIdentifier>{b10e0c4c-1a03-4119-b1c3-e066adaccec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Document">
+      <UniqueIdentifier>{545d0b34-e536-4db0-8fba-5fe24294d490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Headers">
+      <UniqueIdentifier>{cf8261ee-d300-4693-8b42-d659f3f0cc19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Headers\00. Include">
+      <UniqueIdentifier>{e7192f37-0bb6-459c-846f-209529745bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. View\Form">
+      <UniqueIdentifier>{d19f5d9d-d92f-4021-ba5d-cb27da6b64a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MAPTOOL.h">
+      <Filter>99. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>99. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>00. MainFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="MAPTOOLDoc.h">
+      <Filter>02. Document</Filter>
+    </ClInclude>
+    <ClInclude Include="MAPTOOLView.h">
+      <Filter>01. View</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ToolDefine.h">
+      <Filter>98. Headers\00. Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ToolExtern.h">
+      <Filter>98. Headers\00. Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ToolStruct.h">
+      <Filter>98. Headers\00. Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\ToolInclude.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Form.h">
+      <Filter>01. View\Form</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MAPTOOL.cpp">
+      <Filter>99. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>99. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>00. MainFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="MAPTOOLDoc.cpp">
+      <Filter>02. Document</Filter>
+    </ClCompile>
+    <ClCompile Include="MAPTOOLView.cpp">
+      <Filter>01. View</Filter>
+    </ClCompile>
+    <ClCompile Include="Form.cpp">
+      <Filter>01. View\Form</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\MAPTOOL.ico">
+      <Filter>99. Default</Filter>
+    </Image>
+    <Image Include="res\MAPTOOLDoc.ico">
+      <Filter>99. Default</Filter>
+    </Image>
+    <Image Include="res\Toolbar.bmp">
+      <Filter>99. Default</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MAPTOOL.rc">
+      <Filter>99. Default</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\MAPTOOL.rc2">
+      <Filter>99. Default</Filter>
+    </None>
+  </ItemGroup>
+</Project>
