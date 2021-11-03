@@ -6,8 +6,7 @@
 
 BEGIN(Engine)
 
-//class CRcTex;
-class CRcCol;
+class CRcTex;
 class CTexture;
 class CTransform;
 
@@ -33,16 +32,21 @@ public:
 
 private:
 	virtual HRESULT Add_Component();
-	virtual void Free();
+	virtual void	Follow_Mouse();
+	virtual void	Key_Input();
+	virtual void	Free();
 
 public:
 	void setTextureCom(SCENEID eID);
 
 private:
-	SCENEID m_eSceneID;
-	CRcCol* m_pBufferCom;
-	//CRcTex* m_pBufferCom;
-	CTexture* m_pTexture;
+	SCENEID			m_eSceneID;
+	CRcTex*			m_pBufferCom;
+	CTexture*		m_pTexture;
+	CTransform*		m_pTransform;
 
+	_float			m_fXPos;
+	_float			m_fYPos;
+	_float			m_fZPos;
 };
 #endif
