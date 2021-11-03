@@ -14,8 +14,9 @@ public:
 	HRESULT Init_Layer();
 	_int Update_Layer(const _float& fDeltaTime);
 	void LateUpdate_Layer();
+	HRESULT Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj);
 private:
-	CGameObject* Find_GameObject(GAMEOBJECTID eObjID, COMPONENTID eComponentID);
+	vector<CGameObject*>* Find_GameObject(GAMEOBJECTID eObjID);
 public:
 	static CLayer* Create();
 private:

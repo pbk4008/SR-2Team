@@ -13,7 +13,8 @@ CComponent::CComponent(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActiv
 CComponent::CComponent(const CComponent& rhs) : m_pDevice(rhs.m_pDevice),m_bActive(rhs.m_bActive)
 {
 	m_bActive = true;
-	m_pDevice->AddRef();
+	if(m_pDevice)
+		m_pDevice->AddRef();
 }
 
 CComponent::~CComponent()
