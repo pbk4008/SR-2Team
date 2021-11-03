@@ -55,6 +55,14 @@ _int CGameObject::Update_GameObject(const _float& fDeltaTime)
     return iExit;
 }
 
+void CGameObject::LateUpdate_GameObject()
+{
+}
+
+void CGameObject::Render_GameObject()
+{
+}
+
 CComponent* CGameObject::Find_Component(COMPONENTID eID,COMPONENTTYPE eType)
 {
     auto iter = m_mapComponent[(_ulong)eType].find(eID);
@@ -63,11 +71,13 @@ CComponent* CGameObject::Find_Component(COMPONENTID eID,COMPONENTTYPE eType)
     return iter->second;
 }
 
-void CGameObject::Add_Component()
+HRESULT CGameObject::Add_Component()
 {
     m_pTransform = m_pProtoMgr->Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
     m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TRANSFORM, m_pTransform);
     m_pTransform->AddRef();
+
+    return S_OK;
 }
 
 void CGameObject::Free()

@@ -1,10 +1,10 @@
 #pragma once
 #ifndef __PROTOMGR_H__
 #define __PROTOMGR_H__
+#include "Component.h"
+#include "GameObject.h"
 #include "Base.h"
 BEGIN(Engine)
-class CComponent;
-class CGameObject;
 class ENGINE_DLL CProtoMgr final : public CBase
 {
 	DECLARE_SINGLETON(CProtoMgr)

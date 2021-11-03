@@ -17,6 +17,15 @@
     <Filter Include="01.Scene">
       <UniqueIdentifier>{3e05ddc3-b2e8-4ede-b10a-34d7b3abed80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\00.Loding">
+      <UniqueIdentifier>{632051fc-a52c-407f-a52e-705b5b67e3ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject">
+      <UniqueIdentifier>{5fa285b2-e861-4bb9-8bb5-0572ba98eebc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\00.BackGround">
+      <UniqueIdentifier>{b4057ca6-b6cd-4041-af9d-af854a1b0b74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -43,6 +52,18 @@
     <ClInclude Include="..\Headers\Value.h">
       <Filter>98.Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Loading.h">
+      <Filter>01.Scene\00.Loding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Enum.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Headers\Include.h">
+      <Filter>98.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\BackGround.h">
+      <Filter>02.GameObject\00.BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -54,6 +75,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Logo.cpp">
       <Filter>01.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Loading.cpp">
+      <Filter>01.Scene\00.Loding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BackGround.cpp">
+      <Filter>02.GameObject\00.BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

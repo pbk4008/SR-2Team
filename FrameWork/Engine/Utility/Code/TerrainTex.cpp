@@ -73,22 +73,22 @@ HRESULT CTerrainTex::Init_Buffer(LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVt
 	_ulong dwRow = m_dwCntX-1;
 	_ulong dwCol = m_dwCntZ - 1;
 
-	for (_ushort i = 0; i < dwRow ; i++)
+	for (_ulong i = 0; i < dwRow ; i++)
 	{
-		for (_ushort j = 0; i < dwCol; j++)
+		for (_ulong j = 0; i < dwCol; j++)
 		{
 			dwIndex = i * dwCol + j;
 
 			//¿À¸¥ÂÊ À§ »ï°¢Çü
-			pIndex[dwTriCnt]._0 = dwIndex + dwCol;
-			pIndex[dwTriCnt]._1 = dwIndex + dwCol +1;
-			pIndex[dwTriCnt]._2 = dwIndex + 1;
+			pIndex[dwTriCnt]._0 = _ushort(dwIndex + dwCol);
+			pIndex[dwTriCnt]._1 = _ushort(dwIndex + dwCol +1);
+			pIndex[dwTriCnt]._2 = _ushort(dwIndex + 1);
 			dwTriCnt++;
 
 			//¿ÞÂÊ ¾Æ·¡ »ï°¢Çü
-			pIndex[dwTriCnt]._0 = dwIndex + dwCol;
-			pIndex[dwTriCnt]._1 = dwIndex + 1;
-			pIndex[dwTriCnt]._2 = dwIndex;
+			pIndex[dwTriCnt]._0 = _ushort(dwIndex + dwCol);
+			pIndex[dwTriCnt]._1 = _ushort(dwIndex + 1);
+			pIndex[dwTriCnt]._2 = _ushort(dwIndex);
 			dwTriCnt++;
 		}
 	}

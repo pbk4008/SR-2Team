@@ -19,9 +19,6 @@
     <Filter Include="99.Export">
       <UniqueIdentifier>{eea7ebbf-3c51-4dd8-95e8-bf7994aabf0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.ProtoMgr">
-      <UniqueIdentifier>{52100c15-3ea2-4fc4-91ce-b79a7bdf072e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Component\00.VIBuffer">
       <UniqueIdentifier>{9d42d722-f0fb-48ef-8298-bb289c13df8f}</UniqueIdentifier>
     </Filter>
@@ -52,6 +49,15 @@
     <Filter Include="04.Component\04.Renderer">
       <UniqueIdentifier>{dbc74c84-e7d6-4105-9844-bfa4429db18c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Manager">
+      <UniqueIdentifier>{3f0206f8-b56c-41d7-a802-a460d9aeb059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Manager\00.ProtoMgr">
+      <UniqueIdentifier>{52100c15-3ea2-4fc4-91ce-b79a7bdf072e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Manager\01.TextureMgr">
+      <UniqueIdentifier>{20f9bf51-80e1-45f2-a735-d935a21ccfd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -73,7 +79,7 @@
       <Filter>00.ManageMent</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\ProtoMgr.h">
-      <Filter>05.ProtoMgr</Filter>
+      <Filter>05.Manager\00.ProtoMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\VIBuffer.h">
       <Filter>04.Component\00.VIBuffer</Filter>
@@ -102,8 +108,11 @@
     <ClInclude Include="..\Code\Camera.h">
       <Filter>04.Component\03.Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="..\Code\Renderer.h">
       <Filter>04.Component\04.Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\TextureMgr.h">
+      <Filter>05.Manager\01.TextureMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,7 +137,7 @@
       <Filter>00.ManageMent</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ProtoMgr.cpp">
-      <Filter>05.ProtoMgr</Filter>
+      <Filter>05.Manager\00.ProtoMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\VIBuffer.cpp">
       <Filter>04.Component\00.VIBuffer</Filter>
@@ -157,8 +166,11 @@
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>04.Component\03.Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
+    <ClCompile Include="..\Code\Renderer.cpp">
       <Filter>04.Component\04.Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TextureMgr.cpp">
+      <Filter>05.Manager\01.TextureMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "Logo.h"
 #include "Layer.h"
-
-CLogo::CLogo()
+#include "Loading.h"
+CLogo::CLogo():m_pLoading(nullptr)
 {
 }
 
-CLogo::CLogo(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice)
+CLogo::CLogo(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr)
 {
 }
 
@@ -16,7 +16,11 @@ CLogo::~CLogo()
 
 HRESULT CLogo::Init_Scene()
 {
+	FAILED_CHECK_RETURN(Init_ProtoMgr(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
+
+	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
+	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
 }
@@ -24,9 +28,22 @@ HRESULT CLogo::Init_Scene()
 _int CLogo::Update_Scene(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	iExit = CScene::Update_Scene(fDeltaTime);
+	if (m_pLoading->getFinish())
+	{
+		//ToDo:로딩 씬에서 다음씬으로 넘어가는 상호작용
+		//if (Key_Down(VIR_ENTER))
+		//{
+		//	/*CScene* pScene = nullptr;
 
-	
+		//	pScene = CStage::Create(m_pDevice);
+		//	NULL_CHECK_RETURN(pScene, E_FAIL);
+
+		//	FAILED_CHECK_RETURN(Change_Scene(pScene), E_FAIL);*/
+
+		//	return iExit;
+		//}
+
+	}
 	return iExit;
 }
 

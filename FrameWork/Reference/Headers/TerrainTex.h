@@ -11,13 +11,15 @@ private:
 	explicit CTerrainTex(const CTerrainTex& rhs);
 	virtual ~CTerrainTex();
 public:
-	virtual HRESULT Init_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv = 1);
+	virtual HRESULT Init_Buffer(LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv = 1);
 	virtual void Render_Buffer();
 	virtual CComponent* Clone_Component();
 public:
-	static CTerrainTex* Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv = 1);
+	static CTerrainTex* Create(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv = 1);
 private:
 	virtual void Free();
+private:
+	LPDIRECT3DTEXTURE9 m_pHeightMap;
 };
 END
 #endif

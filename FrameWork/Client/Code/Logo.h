@@ -2,6 +2,7 @@
 #ifndef __LOGO_H__
 #define __LOGO_H__
 #include "Scene.h"
+class CLoading;
 class CLogo final : public CScene
 {
 private:
@@ -22,5 +23,7 @@ public:
 	static CLogo* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
+private:
+	CLoading* m_pLoading;
 };
 #endif

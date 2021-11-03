@@ -11,9 +11,10 @@
 #include "framework.h"
 #include "Engine_Include.h"
 #include "Export_Function.h"
-#include "Value.h"
-
+#include <process.h>
 #include <iostream>
+#include "Include.h"
+
 #pragma comment(linker,"/entry:wWinMainCRTStartup /subsystem:console")
 using namespace std;
 

@@ -25,6 +25,13 @@ CComponent* Get_Component(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eCo
 	return CManagement::GetInstance()->getComponent(eLayerID, eObjID, eComID, eType);
 }
 
+
+HRESULT Init_ProtoMgr()
+{
+	CProtoMgr* pInstance = CProtoMgr::GetInstance();
+	NULL_CHECK_RETURN(pInstance, E_FAIL);
+	return S_OK;
+}
 HRESULT Init_ComProto(COMPONENTID eID, CComponent* pComponent)
 {
 	return CProtoMgr::GetInstance()->Init_ComProto(eID, pComponent);
@@ -44,8 +51,27 @@ T* Clone_ObjProto(GAMEOBJECTID eID)
 	return CProtoMgr::GetInstance()->Clone_ObjProto<T>(eID);
 }
 
+CRenderer* Init_RenderComponent()
+{
+	CRenderer* pInstance = CRenderer::GetInstance();
+	NULL_CHECK_RETURN(pInstance, nullptr);
+	return pInstance;
+}
+HRESULT Insert_RenderGroup(RENDERGROUP eGroup, CGameObject* pGameObject)
+{
+	return CRenderer::GetInstance()->Insert_RenderGroup(eGroup, pGameObject);
+}
+void Render_GameObject(LPDIRECT3DDEVICE9 pDevice)
+{
+	CRenderer::GetInstance()->Render_GameObject(pDevice);
+}
+void Clear_RenderList()
+{
+	CRenderer::GetInstance()->Clear_RenderList();
+}
 void Utility_Release()
 {
+	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
 	CManagement::DestroyInstance();
 }

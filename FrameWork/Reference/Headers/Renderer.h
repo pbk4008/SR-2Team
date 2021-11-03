@@ -12,9 +12,15 @@ private:
 	virtual ~CRenderer();
 public:
 	HRESULT Insert_RenderGroup(RENDERGROUP eGroup, CGameObject* pGameObject);
+	void Render_GameObject(LPDIRECT3DDEVICE9 pDevice);
+	void Clear_RenderList();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
-	void Render_GameObject(LPDIRECT3DDEVICE9 pDevice);
+private:
+	void Render_Priority(LPDIRECT3DDEVICE9& pDevice);
+	void Render_NonArpha(LPDIRECT3DDEVICE9& pDevice);
+	void Render_Alpha(LPDIRECT3DDEVICE9& pDevice);
+	void Render_UI(LPDIRECT3DDEVICE9& pDevice);
 private:
 	virtual void Free();
 private:

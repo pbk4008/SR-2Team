@@ -31,25 +31,51 @@ CComponent* CRenderer::Clone_Component()
 	return nullptr;
 }
 
-void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9 pDevice)
+void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pDevice)
 {
-	for (_ulong i = 0; i < (_ulong)RENDERGROUP::MAX; i++)
-	{
-		for (auto& iter : m_RenderList[i])
-		{
-			iter->Render_GameObject();
-			Safe_Release(iter);
-		}
-		m_RenderList[i].clear();
-	}
+	for (auto& iter : m_RenderList[(_ulong)RENDERGROUP::PRIORITY])
+		iter->Render_GameObject();
 }
 
-void CRenderer::Free()
+void CRenderer::Render_NonArpha(LPDIRECT3DDEVICE9& pDevice)
+{
+	for (auto& iter : m_RenderList[(_ulong)RENDERGROUP::NONALPHA])
+		iter->Render_GameObject();
+}
+
+void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pDevice)
+{
+	for (auto& iter : m_RenderList[(_ulong)RENDERGROUP::ALPHA])
+		iter->Render_GameObject();
+}
+
+void CRenderer::Render_UI(LPDIRECT3DDEVICE9& pDevice)
+{
+	for (auto& iter : m_RenderList[(_ulong)RENDERGROUP::UI])
+		iter->Render_GameObject();
+}
+
+void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9 pDevice)
+{
+	Render_Priority(pDevice);
+	Render_NonArpha(pDevice);
+	Render_Alpha(pDevice);
+	Render_UI(pDevice);
+
+	Clear_RenderList();
+}
+
+void CRenderer::Clear_RenderList()
 {
 	for (_int i = 0; i < (_int)RENDERGROUP::MAX; i++)
 	{
 		for_each(m_RenderList[i].begin(), m_RenderList[i].end(), DeleteObject);
 		m_RenderList[i].clear();
 	}
+}
+
+void CRenderer::Free()
+{
+	Clear_RenderList();
 	CComponent::Free();
 }

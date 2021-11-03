@@ -51,6 +51,11 @@ HRESULT CTexture::Init_Texture(TEXTURETYPE eType, const _tchar* pPath, const _ui
 	return S_OK;
 }
 
+_int CTexture::Update_Component(const _float& fDeltaTime)
+{
+	return 0;
+}
+
 void CTexture::Render_Texture(const _uint& iIndex)
 {
 	if (m_vecTexture.size() < iIndex)
@@ -73,13 +78,13 @@ CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pDevice, TEXTURETYPE eType, const _
 
 void CTexture::Free()
 {
-	for_each(m_vecTexture.begin(), m_vecTexture.end(), DeleteMap);
+	for_each(m_vecTexture.begin(), m_vecTexture.end(), DeleteObj);
 	m_vecTexture.clear();
 	m_vecTexture.shrink_to_fit();
 	CComponent::Free();
 }
 
-LPDIRECT3DTEXTURE9 CTexture::getTexture(const _int& iCnt)
+LPDIRECT3DTEXTURE9 CTexture::getTexture(const _uint& iCnt)
 {
 	if (m_vecTexture.size() < iCnt)
 		return nullptr;
