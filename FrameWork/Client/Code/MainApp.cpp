@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MainApp.h"
+#include "Logo.h"
 
 CMainApp::CMainApp() : m_pGraphicDev(nullptr),m_pDevice(nullptr), m_pManagement(nullptr)
 {
@@ -14,7 +15,6 @@ HRESULT CMainApp::Init_MainApp()
 	FAILED_CHECK_RETURN(GraphicDevice_Setting(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_Scene(), E_FAIL);
 	
-
 	return S_OK;
 }
 
@@ -63,9 +63,10 @@ HRESULT CMainApp::Init_Scene()
 	m_pManagement->AddRef();
 
 	//TODO:¾À ¸¸µé±â
+	pScene = CLogo::Create(m_pDevice);
+	NULL_CHECK_RETURN(pScene, E_FAIL);
 
 	FAILED_CHECK_RETURN(m_pManagement->Change_Scene(pScene),E_FAIL);
-
 
 	return S_OK;
 }

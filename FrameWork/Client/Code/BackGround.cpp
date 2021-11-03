@@ -2,16 +2,16 @@
 #include "BackGround.h"
 #include "Transform.h"
 
-CBackGround::CBackGround() : m_pBufferCom(nullptr), m_pTexture(nullptr)
+CBackGround::CBackGround() : m_pBufferCom(nullptr), m_pTexture(nullptr), m_eSceneID(SCENEID::STAGE_END)
 {
 }
 
-CBackGround::CBackGround(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr)
+CBackGround::CBackGround(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), m_eSceneID(SCENEID::STAGE_END)
 {
 }
 
 CBackGround::CBackGround(const CBackGround& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom)
-, m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::TEXTURE))
+, m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX)), m_eSceneID(rhs.m_eSceneID)
 {
 }
 
@@ -44,6 +44,8 @@ void CBackGround::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
+	Render_GameObject();
+
 	CGameObject::Render_GameObject();
 }
 
@@ -68,6 +70,11 @@ HRESULT CBackGround::Add_Component()
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
+
+	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX);
+	m_pTexture->AddRef();
+	m_mapComponent->emplace(COMPONENTID::BACKGROUND_TEX, pComponent);
+
 	return S_OK;
 }
 

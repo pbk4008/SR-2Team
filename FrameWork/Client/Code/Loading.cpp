@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "Loading.h"
+#include "BackGround.h"
 
-CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false)
+CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
 	ZeroMemory(m_szLoading, sizeof(_tchar) * 256);
 }
 
-CLoading::CLoading(LPDIRECT3DDEVICE9 pDevice) : m_eSceneID(SCENEID::STAGE_END), m_pDevice(pDevice), m_bFinish(false)
+CLoading::CLoading(LPDIRECT3DDEVICE9 pDevice) : m_eSceneID(SCENEID::STAGE_END), m_pDevice(pDevice), m_bFinish(false), m_pTextureMgr(nullptr)
 {
 	m_pDevice->AddRef();
 	ZeroMemory(m_szLoading, sizeof(_tchar) * 256);
@@ -18,18 +19,41 @@ CLoading::~CLoading()
 
 HRESULT CLoading::Init_Loading(SCENEID eLoading)
 {
+	m_eSceneID = eLoading;
+	m_pTextureMgr = Init_TextureMgr();
+	NULL_CHECK_RETURN(m_pTextureMgr, E_FAIL);
+
 	InitializeCriticalSection(&m_Crt);
 
-	m_hThread = (HANDLE)_beginthreadex(NULL, 0, Thread_Main, this, 0, NULL);
-
-	m_eSceneID = eLoading;
+	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_Main, this, 0, nullptr);
 	return S_OK;
 }
 
 _uint CLoading::Loading_ForStage()
 {
 	//ToDo:쓰레드로 불러들일 곳
-	return _uint();
+	 
+	//Texture불러오기
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/BackGround.png", L"BackGround", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/Player.png", L"Player", 1);
+
+	//Component원본 생성
+	CComponent* pCom = CTexture::Create(m_pDevice,m_pTextureMgr->getTexture(L"Player",TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
+	pCom = CTexture::Create(m_pDevice,m_pTextureMgr->getTexture(L"BackGround",TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::BACKGROUND_TEX, pCom);
+	pCom = CRcTex::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::RCTEX, pCom);
+
+	//GameObject원본 생성
+	CGameObject* pObj = CBackGround::Create(m_pDevice,SCENEID::STAGE_ONE);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BACKGROUND, pObj);
+
+	return 0;
 }
 
 CLoading* CLoading::Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID)
@@ -40,7 +64,7 @@ CLoading* CLoading::Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID)
 	return pInstance;
 }
 
-_uint CLoading::Thread_Main(void* pArg)
+unsigned CLoading::Thread_Main(void* pArg)
 {
 	CLoading* pLoading = (CLoading*)pArg;
 
@@ -63,7 +87,6 @@ _uint CLoading::Thread_Main(void* pArg)
 void CLoading::Free()
 {
 	Safe_Release(m_pDevice);
-
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
 	DeleteCriticalSection(&m_Crt);

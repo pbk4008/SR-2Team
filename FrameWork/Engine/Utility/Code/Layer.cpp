@@ -40,14 +40,27 @@ void CLayer::LateUpdate_Layer()
 	}
 }
 
-CGameObject* CLayer::Find_GameObject(GAMEOBJECTID eObjID, COMPONENTID eComponentID)
+HRESULT CLayer::Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj)
+{
+	vector<CGameObject*>* pObjVec = Find_GameObject(eObjID);
+	if (pObjVec)
+		(*pObjVec).push_back(pObj);
+	else
+	{
+		(*pObjVec).push_back(pObj);
+		m_mapObject.emplace(eObjID, *pObjVec);
+	}
+	pObj->AddRef();
+	return S_OK;
+}
+
+vector<CGameObject*>* CLayer::Find_GameObject(GAMEOBJECTID eObjID)
 {
 	auto objVec = m_mapObject.find(eObjID);//objVectorArr√£±‚
 	if (objVec == m_mapObject.end())
 		return nullptr;
 	
-	return (*objVec).second.front();
-
+	return &((*objVec).second);
 }
 
 CLayer* CLayer::Create()
@@ -71,8 +84,9 @@ void CLayer::Free()
 
 CComponent* CLayer::getComponent(GAMEOBJECTID eObjID, COMPONENTID eComponentID, COMPONENTTYPE eType)
 {
-	CGameObject* pObj = Find_GameObject(eObjID, eComponentID);
+	vector<CGameObject*>* pObj = Find_GameObject(eObjID);
 	NULL_CHECK_RETURN(pObj, nullptr);
 
-	return pObj->getComponent(eComponentID, eType);
+
+	return pObj->front()->getComponent(eComponentID, eType);
 }

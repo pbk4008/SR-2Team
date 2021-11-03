@@ -2,6 +2,8 @@
 #include "Logo.h"
 #include "Layer.h"
 #include "Loading.h"
+#include "BackGround.h"
+
 CLogo::CLogo():m_pLoading(nullptr)
 {
 }
@@ -17,10 +19,11 @@ CLogo::~CLogo()
 HRESULT CLogo::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_ProtoMgr(), E_FAIL);
-	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
-
 	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+
+	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
+
 
 	return S_OK;
 }
@@ -73,7 +76,11 @@ HRESULT CLogo::Init_Environment_Layer()
 
 	//TODO : Environment게임오브젝트 추가
 	CGameObject* pGameObject = nullptr;
+	
+	pGameObject=Clone_ObjProto<CBackGround>(GAMEOBJECTID::BACKGROUND);
 
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BACKGROUND, pGameObject), E_FAIL);
+	
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
 	return S_OK;
 }
@@ -113,5 +120,6 @@ CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CLogo::Free()
 {
+	Safe_Release(m_pLoading);
 	CScene::Free();
 }

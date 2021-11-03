@@ -2,7 +2,7 @@
 #ifndef __LODING_H__
 #define __LODING_H__
 #include "Base.h"
-class CLoading final : public CBase
+class CLoading  : public CBase
 {
 private:
 	explicit CLoading();
@@ -13,7 +13,7 @@ public:
 	_uint   Loading_ForStage();
 public:
 	static CLoading* Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID);
-	static _uint CALLBACK Thread_Main(void* pArg);
+	static unsigned CALLBACK Thread_Main(void* pArg);
 private:
 	virtual void Free();
 public:
@@ -29,5 +29,7 @@ private:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	_bool m_bFinish;
 	_tchar m_szLoading[256];
+
+	CTextureMgr* m_pTextureMgr;
 };
 #endif

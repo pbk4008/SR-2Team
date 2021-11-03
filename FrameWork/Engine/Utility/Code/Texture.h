@@ -11,13 +11,13 @@ private:
 	explicit CTexture(const CTexture& rhs);
 	virtual ~CTexture();
 public:
-	HRESULT Init_Texture(TEXTURETYPE eType, const _tchar* pName, const _uint& iCnt);
+	HRESULT Init_Texture(vector<LPDIRECT3DBASETEXTURE9>* pTexture);
 	virtual _int Update_Component(const _float& fDeltaTime);
 	void Render_Texture(const _uint& iIndex = 0);
 public:
 	virtual CComponent* Clone_Component();
 public:
-	static CTexture* Create(LPDIRECT3DDEVICE9 pDevice, TEXTURETYPE eType, const _tchar* pPath, const _uint& iCnt);
+	static CTexture* Create(LPDIRECT3DDEVICE9 pDevice, vector<LPDIRECT3DBASETEXTURE9>* pTexture);
 private:
 	virtual void Free();
 public:
