@@ -43,9 +43,8 @@ void CBackGround::LateUpdate_GameObject()
 void CBackGround::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-
-	Render_GameObject();
-
+	m_pTexture->Render_Texture();
+	m_pBufferCom->Render_Buffer();
 	CGameObject::Render_GameObject();
 }
 
@@ -80,6 +79,8 @@ HRESULT CBackGround::Add_Component()
 
 void CBackGround::Free()
 {
+	Safe_Release(m_pTexture);
+	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }
 
@@ -90,7 +91,7 @@ void CBackGround::setTextureCom(SCENEID eID)
 	switch (m_eSceneID)
 	{
 	case SCENEID::STAGE_ONE:
-		/*m_pTexture = Clone_ComProto_*/
+		m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX);
 		break;
 	case SCENEID::STAGE_TWO:
 		break;

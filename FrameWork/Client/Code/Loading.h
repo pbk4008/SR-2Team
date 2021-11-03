@@ -2,7 +2,7 @@
 #ifndef __LODING_H__
 #define __LODING_H__
 #include "Base.h"
-class CLoading  : public CBase
+class CLoading  final : public CBase
 {
 private:
 	explicit CLoading();

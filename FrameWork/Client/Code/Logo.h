@@ -3,6 +3,7 @@
 #define __LOGO_H__
 #include "Scene.h"
 class CLoading;
+class CBackGround;
 class CLogo final : public CScene
 {
 private:
@@ -19,11 +20,13 @@ private:
 	HRESULT Init_Environment_Layer();
 	HRESULT Init_GameLogic_Layer();
 	HRESULT Init_UI_Layer();
+	HRESULT Init_LogoScene();
 public:
 	static CLogo* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
 private:
+	CBackGround* m_pBackGround;
 	CLoading* m_pLoading;
 };
 #endif

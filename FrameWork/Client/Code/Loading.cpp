@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Loading.h"
 #include "BackGround.h"
-
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
 	ZeroMemory(m_szLoading, sizeof(_tchar) * 256);
@@ -21,6 +20,7 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 {
 	m_eSceneID = eLoading;
 	m_pTextureMgr = Init_TextureMgr();
+	m_pTextureMgr->AddRef();
 	NULL_CHECK_RETURN(m_pTextureMgr, E_FAIL);
 
 	InitializeCriticalSection(&m_Crt);
@@ -32,27 +32,21 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 _uint CLoading::Loading_ForStage()
 {
 	//ToDo:쓰레드로 불러들일 곳
-	 
-	//Texture불러오기
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/BackGround.png", L"BackGround", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/Player.png", L"Player", 1);
+	m_pTextureMgr = Init_TextureMgr();
+	NULL_CHECK_RETURN(m_pTextureMgr,99);
 
+	//Texture불러오기
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/Player.png", L"Player", 1);
+	
 	//Component원본 생성
-	CComponent* pCom = CTexture::Create(m_pDevice,m_pTextureMgr->getTexture(L"Player",TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, -1);
+	CComponent* pCom = nullptr;
+	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Player", TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
-	pCom = CTexture::Create(m_pDevice,m_pTextureMgr->getTexture(L"BackGround",TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::BACKGROUND_TEX, pCom);
-	pCom = CRcTex::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::RCTEX, pCom);
 
 	//GameObject원본 생성
-	CGameObject* pObj = CBackGround::Create(m_pDevice,SCENEID::STAGE_ONE);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BACKGROUND, pObj);
-
+	CGameObject* pObj = nullptr;
+	
 	return 0;
 }
 
@@ -87,6 +81,7 @@ unsigned CLoading::Thread_Main(void* pArg)
 void CLoading::Free()
 {
 	Safe_Release(m_pDevice);
+	Safe_Release(m_pTextureMgr);
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
 	DeleteCriticalSection(&m_Crt);

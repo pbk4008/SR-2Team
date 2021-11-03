@@ -52,6 +52,8 @@ HRESULT CMainApp::GraphicDevice_Setting()
 	m_pGraphicDev->AddRef();
 	m_pDevice = m_pGraphicDev->getDevice();
 	m_pDevice->AddRef();
+
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	return S_OK;
 }
 
@@ -84,6 +86,6 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pGraphicDev);
 	m_pManagement->DestroyInstance();
-	System_Release();
 	Utility_Release();
+	System_Release();
 }

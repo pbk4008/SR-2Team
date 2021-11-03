@@ -3,7 +3,7 @@
 #define __TEXTUREMGR_H__
 #include "Base.h"
 BEGIN(Engine)
-class ENGINE_DLL CTextureMgr final : CBase
+class ENGINE_DLL CTextureMgr final : public CBase
 {
 DECLARE_SINGLETON(CTextureMgr)
 private:

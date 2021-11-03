@@ -47,8 +47,9 @@ HRESULT CLayer::Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj)
 		(*pObjVec).push_back(pObj);
 	else
 	{
-		(*pObjVec).push_back(pObj);
-		m_mapObject.emplace(eObjID, *pObjVec);
+		vector<CGameObject*> pGameObjectVec;
+		pGameObjectVec.push_back(pObj);
+		m_mapObject.emplace(eObjID, pGameObjectVec);
 	}
 	pObj->AddRef();
 	return S_OK;

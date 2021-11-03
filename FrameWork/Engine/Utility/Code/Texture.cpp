@@ -31,10 +31,7 @@ HRESULT CTexture::Init_Texture(vector<LPDIRECT3DBASETEXTURE9>* pTexture)
 	_int iSize = pTexture->size();
 	m_vecTexture.reserve(iSize);
 	for (auto iter : *pTexture)
-	{
 		iter->AddRef();
-		m_vecTexture.emplace_back(iter);
-	}
 	return S_OK;
 }
 

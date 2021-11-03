@@ -17,9 +17,11 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_pPare
 
 CTransform::CTransform(const CTransform& rhs) : CComponent(rhs)
 {
-	if (!rhs.m_pParent)
+	if (rhs.m_pParent)
+	{
 		m_pParent = rhs.m_pParent;
-	m_pParent->AddRef();
+		m_pParent->AddRef();
+	}
 }
 
 CTransform::~CTransform()
