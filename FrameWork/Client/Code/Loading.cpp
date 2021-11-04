@@ -38,12 +38,17 @@ _uint CLoading::Loading_ForStage()
 
 	//Texture불러오기
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/Player.png", L"Player", 1);
-	
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
+
 	//Component원본 생성
 	CComponent* pCom = nullptr;
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Player", TEXTURETYPE::TEX_NORMAL));
+	/*pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Player", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
+	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);*/
+
+	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
 
 	//GameObject원본 생성
 	CGameObject* pObj = nullptr;

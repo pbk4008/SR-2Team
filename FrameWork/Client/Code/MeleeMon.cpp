@@ -110,20 +110,26 @@ HRESULT CMeleeMon::Add_Component()
 	CGameObject::Add_Component();
 	CComponent* pComponent = nullptr;
 
-	//texture
+	//¹ö¼hÄÞ
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_pBufferCom->AddRef();
 	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
 
-	////transform
-	//pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent->emplace(COMPONENTID::TRANSFORM, pComponent);
+	//texture
+	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX);
+	m_pTexture->AddRef();
+	m_mapComponent->emplace(COMPONENTID::MELEEMON_TEX, pComponent);
+
+	/*pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
+	m_pBufferCom->AddRef();
+	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);*/
 
 	return S_OK;
 }
 
 void CMeleeMon::Free()
 {
+	Safe_Release(m_pTexture);
+	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }

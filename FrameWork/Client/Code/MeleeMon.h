@@ -41,7 +41,6 @@ private:
 
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
-	//CTransform*	m_pTransform;
 
 	_float			m_fXPos;
 	_float			m_fYPos;
