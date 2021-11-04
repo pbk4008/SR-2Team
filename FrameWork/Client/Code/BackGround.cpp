@@ -42,6 +42,7 @@ void CBackGround::LateUpdate_GameObject()
 void CBackGround::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+
 	m_pTexture->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 	CGameObject::Render_GameObject();

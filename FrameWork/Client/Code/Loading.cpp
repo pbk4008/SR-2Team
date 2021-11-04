@@ -2,6 +2,8 @@
 #include "Loading.h"
 #include "BackGround.h"
 #include "MeleeMon.h"
+#include "Player.h"
+
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
 	ZeroMemory(m_szLoading, sizeof(_tchar) * 256);
@@ -53,10 +55,14 @@ _uint CLoading::Loading_ForStage()
 	//GameObject원본 생성
 	CGameObject* pObj = nullptr;
 
-	// 금접몬
-	pObj = CMeleeMon::Create(m_pDevice, GAMEOBJECTID::MONSTER);
+	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+
+	// 금접몬
+	//pObj = CMeleeMon::Create(m_pDevice, GAMEOBJECTID::MONSTER);
+	//NULL_CHECK_RETURN(pObj, E_FAIL);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
 	m_bFinish = true;
 	return 0;

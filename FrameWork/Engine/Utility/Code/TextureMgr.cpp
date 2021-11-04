@@ -44,7 +44,7 @@ HRESULT CTextureMgr::Insert_Texture(LPDIRECT3DDEVICE9 pDevice,TEXTURETYPE eType,
 }
 vector<LPDIRECT3DBASETEXTURE9>* CTextureMgr::Find_Texture(TEXTURETYPE eType, const _tchar* pState)
 {
-	auto iter = find_if(m_mapTexture->begin(), m_mapTexture->begin(), CFind_Tag(pState));
+	auto iter = find_if(m_mapTexture->begin(), m_mapTexture->end(), CFind_Tag(pState));
 	if (iter == m_mapTexture->end())
 		return nullptr;
 
