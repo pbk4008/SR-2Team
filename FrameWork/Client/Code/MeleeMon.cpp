@@ -8,15 +8,15 @@ CMeleeMon::CMeleeMon()
 	
 }
 
-CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
+CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	:CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), 
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_eGameObjectID(eID)
+	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
 {
 
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
-	: CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::RCTEX)),
+	: CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MONSTER_TEX)),
 	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
 {
 
@@ -29,14 +29,14 @@ CMeleeMon::~CMeleeMon()
 
 HRESULT CMeleeMon::Init_MeleeMon()
 {
-	m_fXPos = 1.f;
-	m_fYPos = 1.f;
-	m_fZPos = 1.f;
+	//m_fXPos = 1.f;
+	//m_fYPos = 1.f;
+	//m_fZPos = 1.f;
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransform->setScale(1.f, 1.f, 0.f);
-	m_pTransform->setPos(m_fXPos, m_fYPos, m_fZPos);
+	//m_pTransform->setScale(1.f, 1.f, 0.f);
+	//m_pTransform->setPos(m_fXPos, m_fYPos, m_fZPos);
 
 	return S_OK;
 }
@@ -63,7 +63,7 @@ void CMeleeMon::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
-	m_pTexture->Render_Texture(1);
+	m_pTexture->Render_Texture();
 
 	m_pBufferCom->Render_Buffer();
 
@@ -95,9 +95,9 @@ Engine::CGameObject* CMeleeMon::Clone_GameObject()
 	return new CMeleeMon(*this);
 }
 
-CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
+CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 {
-	CMeleeMon* pInstance = new CMeleeMon(pDevice, eID);
+	CMeleeMon* pInstance = new CMeleeMon(pDevice);
 
 	if (FAILED(pInstance->Init_MeleeMon()))
 		Safe_Release(pInstance);
@@ -110,10 +110,15 @@ HRESULT CMeleeMon::Add_Component()
 	CGameObject::Add_Component();
 	CComponent* pComponent = nullptr;
 
+
 	//texture
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_pBufferCom->AddRef();
 	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
+
+	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MONSTER_TEX);
+	m_pTexture->AddRef();
+	m_mapComponent->emplace(COMPONENTID::MONSTER_TEX, pComponent);
 
 	////transform
 	//pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
@@ -125,5 +130,7 @@ HRESULT CMeleeMon::Add_Component()
 
 void CMeleeMon::Free()
 {
+	Safe_Release(m_pTexture);
+	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }

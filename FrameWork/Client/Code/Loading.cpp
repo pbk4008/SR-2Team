@@ -47,17 +47,21 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
 
+	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Player", TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::MONSTER_TEX, pCom);
+
 	//GameObject원본 생성
 	CGameObject* pObj = nullptr;
 
-	pObj = CPlayer::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
-
-	// 금접몬
-	//pObj = CMeleeMon::Create(m_pDevice, GAMEOBJECTID::MONSTER);
+	//pObj = CPlayer::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, E_FAIL);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	//Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+	
+	// 금접몬
+	pObj = CMeleeMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
 	m_bFinish = true;
 	return 0;
