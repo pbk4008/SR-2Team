@@ -23,5 +23,7 @@ using namespace std;
 #include "Engine_Struct.h"
 
 #pragma warning(disable : 4251)
+
 using namespace Engine;
+
 #endif

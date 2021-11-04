@@ -69,7 +69,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// ==================================== 도구 모음 삭제 =========================================================
 
-
+	
 	return 0;
 }
 

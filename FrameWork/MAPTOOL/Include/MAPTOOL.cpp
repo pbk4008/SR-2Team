@@ -203,6 +203,12 @@ BOOL CMAPTOOLApp::OnIdle(LONG lCount)
 		m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
 
 
+
+
+
+
+
+
 		m_pToolView->m_pGraphicDev->Render_End();
 	}
 

@@ -22,6 +22,15 @@
     <Filter Include="01. View\Form">
       <UniqueIdentifier>{d19f5d9d-d92f-4021-ba5d-cb27da6b64a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Camera">
+      <UniqueIdentifier>{21038886-b59d-4292-873f-1a123c5ef0e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Camera\00. StaticCamera">
+      <UniqueIdentifier>{d7607300-8b71-40b0-a66c-54c05319c66d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Camera\01. DynamicCamera">
+      <UniqueIdentifier>{0bde3d19-bad7-40f9-97cf-54035c748df7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MAPTOOL.h">
@@ -63,6 +72,9 @@
     <ClInclude Include="Form.h">
       <Filter>01. View\Form</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\StaticCamera.h">
+      <Filter>03. Camera\00. StaticCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MAPTOOL.cpp">
@@ -82,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="Form.cpp">
       <Filter>01. View\Form</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StaticCamera.cpp">
+      <Filter>03. Camera\00. StaticCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

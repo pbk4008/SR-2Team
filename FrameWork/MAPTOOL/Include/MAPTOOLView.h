@@ -8,7 +8,6 @@ class CMAPTOOLDoc;
 class CForm;
 class CMainFrame;
 
-
 class CMAPTOOLView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -22,9 +21,12 @@ public:
 	CForm* m_pForm;
 	CGraphicDev* m_pGraphicDev;
 	LPDIRECT3DDEVICE9 m_pDevice;
+	CInputDev* m_pInputDev;
+	CProtoMgr* m_pProtoMgr;
+	
 // 작업입니다.
 public:
-
+	void SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.

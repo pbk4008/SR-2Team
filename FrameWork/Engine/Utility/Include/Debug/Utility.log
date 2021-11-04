@@ -1,21 +1,4 @@
-﻿  Camera.cpp
-  Component.cpp
-  CubeTex.cpp
-  GameObject.cpp
-  Layer.cpp
-  Management.cpp
-  ProtoMgr.cpp
-  RcCol.cpp
-  RcTex.cpp
-  Renderer.cpp
-  Scene.cpp
-  TerrainTex.cpp
-  Texture.cpp
-  TextureMgr.cpp
-  Transform.cpp
-  TriCol.cpp
-  VIBuffer.cpp
-  코드를 생성하고 있습니다...
+﻿  Management.cpp
      ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
@@ -50,6 +33,8 @@
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
   17개 파일이 복사되었습니다.
+  .\Engine\Utility\Bin\Utility.dll
+  1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.lib

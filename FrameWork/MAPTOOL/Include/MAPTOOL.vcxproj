@@ -188,6 +188,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Code\StaticCamera.h" />
     <ClInclude Include="..\Headers\ToolDefine.h" />
     <ClInclude Include="..\Headers\ToolExtern.h" />
     <ClInclude Include="..\Headers\ToolInclude.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MAPTOOL.cpp" />

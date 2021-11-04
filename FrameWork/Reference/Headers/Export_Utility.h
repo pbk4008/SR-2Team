@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Management.h"
+#include "Transform.h"
 
 #include "ProtoMgr.h"
 #include "TextureMgr.h"
@@ -16,6 +17,7 @@
 #include "TerrainTex.h"
 #include "Texture.h"
 #include "Renderer.h"
+#include "Camera.h"
 
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);

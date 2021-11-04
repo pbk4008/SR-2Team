@@ -14,6 +14,7 @@
 #include "MAPTOOLView.h"
 #include "Form.h"
 #include "MainFrm.h"
+#include "StaticCamera.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,6 +35,10 @@ END_MESSAGE_MAP()
 // CMAPTOOLView 생성/소멸
 
 CMAPTOOLView::CMAPTOOLView() noexcept
+	: m_pDevice(nullptr)
+	, m_pForm(nullptr)
+	, m_pGraphicDev(nullptr)
+	, m_pMainFrame(nullptr)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 
@@ -42,6 +47,7 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 CMAPTOOLView::~CMAPTOOLView()
 {
 	m_pGraphicDev->DestroyInstance();
+	m_pInputDev->DestroyInstance();
 }
 
 BOOL CMAPTOOLView::PreCreateWindow(CREATESTRUCT& cs)
@@ -52,7 +58,31 @@ BOOL CMAPTOOLView::PreCreateWindow(CREATESTRUCT& cs)
 	return CView::PreCreateWindow(cs);
 }
 
+void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDev)
+{
+	Engine::Init_GraphicDev(WINDOW::WIN, WINCX, WINCY, g_hWnd, &m_pGraphicDev);
+	
+	(*ppGraphicDev) = m_pGraphicDev->getDevice();
+	(*ppGraphicDev)->AddRef();
+
+	(*ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	// 폰트 설치
+
+	// Input 설치
+	m_pInputDev = CInputDev::GetInstance();
+
+	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+
+	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력
+		clamp : 0~1을 넘는 경우 그냥 잘라냄
+		mirror : 0~1을 넘는 경우 반전하여 출력 */
+
+}
+
 // CMAPTOOLView 그리기
+
 
 void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 {
@@ -113,6 +143,10 @@ CMAPTOOLDoc* CMAPTOOLView::GetDocument() const // 디버그되지 않은 버전�
 
 void CMAPTOOLView::OnInitialUpdate()
 {
+	//VIew는 도크먼트와 프레임과 함께 동작해야됨
+	// 스스로 윈도우가 된건 중요 하지않음
+	// 도큐먼트가 준비가 되어있는지가 중요 그래서 OninitialUpdate를 함
+
 	CView::OnInitialUpdate();
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
@@ -133,8 +167,19 @@ void CMAPTOOLView::OnInitialUpdate()
 	// 갭차이만큼 더해서 진짜 자신의 크기를 구해준다
 
 	g_hWnd = m_hWnd;
-	Init_GraphicDev(WINDOW::WIN, WINCX, WINCY, g_hWnd, &m_pGraphicDev);
-	m_pDevice = m_pGraphicDev->getDevice();
-	
+
+	SetUp_DefaultGraphicDevSetting(&m_pDevice);
+
+	// ==================================== 컴포넌트 원본 생성 =====================================================
+	Init_ProtoMgr();
+	const _vec3 vLook = { 0.f,10.f,-1.f };
+	const _vec3 vAt = { 0.f,0.f,1.f };
+	const _vec3 vUp = { 0.f,1.f,0.f };
+	Init_ComProto(COMPONENTID::CAMERA, CStaticCamera::Create(m_pDevice, &vLook, &vAt, &vUp,D3DXToRadian(60.f),(_float)WINCX / WINCY , 0.1f, 1000.f));
+
+
+	// ==================================== 컴포넌트 원본 생성 =====================================================
+
+
 
 }
