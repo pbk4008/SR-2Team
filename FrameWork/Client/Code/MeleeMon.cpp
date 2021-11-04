@@ -8,9 +8,9 @@ CMeleeMon::CMeleeMon()
 	
 }
 
-CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
+CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	:CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), 
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_eGameObjectID(eID)
+	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
 {
 
 }
@@ -29,7 +29,7 @@ CMeleeMon::~CMeleeMon()
 
 HRESULT CMeleeMon::Init_MeleeMon()
 {
-	/*m_fXPos = 1.f;
+	m_fXPos = 1.f;
 	m_fYPos = 1.f;
 	m_fZPos = 1.f;
 
@@ -37,10 +37,6 @@ HRESULT CMeleeMon::Init_MeleeMon()
 
 	m_pTransform->setScale(1.f, 1.f, 0.f);
 	m_pTransform->setPos(m_fXPos, m_fYPos, m_fZPos);
-
-	return S_OK;*/
-
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
@@ -98,9 +94,9 @@ Engine::CGameObject* CMeleeMon::Clone_GameObject()
 	return new CMeleeMon(*this);
 }
 
-CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
+CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 {
-	CMeleeMon* pInstance = new CMeleeMon(pDevice, eID);
+	CMeleeMon* pInstance = new CMeleeMon(pDevice);
 
 	if (FAILED(pInstance->Init_MeleeMon()))
 		Safe_Release(pInstance);
@@ -114,14 +110,19 @@ HRESULT CMeleeMon::Add_Component()
 	CComponent* pComponent = nullptr;
 
 	//¹ö¼hÄÞ
+	//texture
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
-
 	//texture
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX);
 	m_pTexture->AddRef();
 	m_mapComponent->emplace(COMPONENTID::MELEEMON_TEX, pComponent);
+
+	////transform
+	//pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
+	//NULL_CHECK_RETURN(pComponent, E_FAIL);
+	//m_mapComponent->emplace(COMPONENTID::TRANSFORM, pComponent);
 
 	return S_OK;
 }

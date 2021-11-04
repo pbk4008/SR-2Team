@@ -16,7 +16,7 @@ class CMeleeMon : public CGameObject
 {
 private:
 	explicit CMeleeMon();
-	explicit CMeleeMon(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID);
+	explicit CMeleeMon(LPDIRECT3DDEVICE9 pDevice);
 	explicit CMeleeMon(const CMeleeMon& rhs);
 	virtual ~CMeleeMon();
 
@@ -27,18 +27,16 @@ public:
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 
+private:
+	void	Follow_Mouse();
+	void	Key_Input();
 public:
-	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID);
-
+	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual HRESULT Add_Component();
-	virtual void	Follow_Mouse();
-	virtual void	Key_Input();
 	virtual void	Free();
 
 private:
-	GAMEOBJECTID	m_eGameObjectID;
-
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
 
