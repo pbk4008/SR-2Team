@@ -32,6 +32,9 @@
     <Filter Include="01.Scene\02.Stage">
       <UniqueIdentifier>{b22ca2e7-9455-4be3-a709-e23536c0e765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\02. MeleeMon">
+      <UniqueIdentifier>{79e5e83d-2ae5-4624-9d66-dd85bb7ca562}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -73,6 +76,9 @@
     <ClInclude Include="..\Code\Stage.h">
       <Filter>01.Scene\02.Stage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\MeleeMon.h">
+      <Filter>02.GameObject\02. MeleeMon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -93,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Stage.cpp">
       <Filter>01.Scene\02.Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MeleeMon.cpp">
+      <Filter>02.GameObject\02. MeleeMon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
