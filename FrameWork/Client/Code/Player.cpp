@@ -1,15 +1,17 @@
 #include "pch.h"
 #include "Player.h"
 
-CPlayer::CPlayer() : m_pBufferCom(nullptr), m_pTexture(nullptr)
+CPlayer::CPlayer() : m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr)
+, m_fSpeed(0.f)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture)
+,m_fSpeed(rhs.m_fSpeed)
 {
 }
 
@@ -21,12 +23,14 @@ HRESULT CPlayer::Init_Player()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	m_fSpeed = 1.f;
 	return S_OK;
 }
 
 _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
+	KeyInput(fDeltaTime);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
@@ -59,6 +63,21 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pDevice)
 	if (FAILED(pInstance->Init_Player()))
 		Safe_Release(pInstance);
 	return pInstance;
+}
+
+void CPlayer::KeyInput(const float& fDelatTime)
+{
+	_vec3 vPos = m_pTransform->getPos();
+
+	if (Key_Pressing(VIR_W))
+		vPos += _vec3(0.f,0.f,1.f) * fDelatTime * m_fSpeed;
+	if (Key_Pressing(VIR_A))
+		vPos += _vec3(-1.f, 0.f, 0.f) * fDelatTime * m_fSpeed;
+	if (Key_Pressing(VIR_S))
+		vPos += _vec3(0.f, 0.f, -1.f) * fDelatTime * m_fSpeed;
+	if (Key_Pressing(VIR_D))
+		vPos += _vec3(1.f, 0.f, 0.f) * fDelatTime * m_fSpeed;
+	m_pTransform->setPos(vPos);
 }
 
 HRESULT CPlayer::Add_Component()
