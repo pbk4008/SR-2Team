@@ -19,10 +19,13 @@ public:
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
+	void KeyInput(const float& fDelatTime);
+private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
 private:
 	CRcTex* m_pBufferCom;
 	CTexture* m_pTexture;
+	_float m_fSpeed;
 };
 #endif

@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 ﻿  Client.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Client\Bin\Client.exe
+=======
+﻿  Stage.cpp
+     ../Bin\Client.lib 라이브러리 및 ../Bin\Client.exp 개체를 생성하고 있습니다.
+  Client.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Client\Bin\Client.exe
+>>>>>>> main
