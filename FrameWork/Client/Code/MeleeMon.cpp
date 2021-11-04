@@ -71,10 +71,13 @@ void CMeleeMon::Render_GameObject()
 
 void CMeleeMon::Follow_Mouse()
 {
-	/*LPPOINT pCursor;
-	GetCursorPos(&pCursor[0]);
-	ScreenToClient(g_hWnd, &pCursor[0]);*/
+	POINT pCursor{};
 
+	GetCursorPos(&pCursor);
+	ScreenToClient(g_hWnd, &pCursor);
+
+	_vec3 vMousePos;
+	
 
 }
 
