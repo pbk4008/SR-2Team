@@ -13,8 +13,11 @@
 #include "TriCol.h"
 #include "RcCol.h"
 #include "RcTex.h"
+#include "CubeTex.h"
 #include "TerrainTex.h"
 #include "Texture.h"
+#include "Transform.h"
+#include "Camera.h"
 #include "Renderer.h"
 
 //Management

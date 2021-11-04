@@ -15,6 +15,7 @@ HRESULT CTextureMgr::Insert_Texture(LPDIRECT3DDEVICE9 pDevice,TEXTURETYPE eType,
 		return E_FAIL;
 	
 	vector<LPDIRECT3DBASETEXTURE9> pVecTexture;
+	pVecTexture.reserve(iCnt);
 
 	LPDIRECT3DBASETEXTURE9 pTexture = nullptr;
 	for (_uint i = 0; i < iCnt; i++)

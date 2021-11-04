@@ -75,7 +75,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CStage::Init_UI_Layer()
@@ -86,7 +86,7 @@ HRESULT CStage::Init_UI_Layer()
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 CStage* CStage::Create(LPDIRECT3DDEVICE9 pDevice)

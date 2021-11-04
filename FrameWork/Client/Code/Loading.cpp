@@ -53,6 +53,7 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
+	m_bFinish = true;
 	return 0;
 }
 
