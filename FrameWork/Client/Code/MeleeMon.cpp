@@ -8,8 +8,9 @@ CMeleeMon::CMeleeMon()
 	
 }
 
-CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
-	:CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), m_pTransform(nullptr), m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
+CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
+	:CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), m_pTransform(nullptr), 
+	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_eGameObjectID(eID)
 {
 
 }
@@ -26,13 +27,12 @@ CMeleeMon::~CMeleeMon()
 
 }
 
-HRESULT CMeleeMon::Init_MeleeMon(SCENEID eID)
+HRESULT CMeleeMon::Init_MeleeMon()
 {
 	m_fXPos = 2.f;
 	m_fYPos = 2.f;
 	m_fZPos = 2.f;
 
-	m_eSceneID = eID;
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransform->setScale(2.f, 2.f, 0.f);
@@ -45,6 +45,9 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
+
+	//Follow_Mouse();
+	Key_Input();
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 
@@ -67,6 +70,10 @@ void CMeleeMon::Render_GameObject()
 
 void CMeleeMon::Follow_Mouse()
 {
+	LPPOINT pCursor;
+	GetCursorPos(&pCursor[0]);
+	ScreenToClient(g_hWnd, &pCursor[0]);
+
 
 }
 
@@ -86,11 +93,11 @@ Engine::CGameObject* CMeleeMon::Clone_GameObject()
 	return new CMeleeMon(*this);
 }
 
-CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID)
+CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
 {
-	CMeleeMon* pInstance = new CMeleeMon(pDevice);
+	CMeleeMon* pInstance = new CMeleeMon(pDevice, eID);
 
-	if (FAILED(pInstance->Init_MeleeMon(eID)))
+	if (FAILED(pInstance->Init_MeleeMon()))
 		Safe_Release(pInstance);
 
 	return pInstance;
@@ -107,10 +114,10 @@ HRESULT CMeleeMon::Add_Component()
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
 
-	////transform
-	//pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent->emplace(COMPONENTID::TRANSFORM, pComponent);
+	//transform
+	pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
+	NULL_CHECK_RETURN(pComponent, E_FAIL);
+	m_mapComponent->emplace(COMPONENTID::TRANSFORM, pComponent);
 
 	return S_OK;
 }
@@ -120,9 +127,4 @@ HRESULT CMeleeMon::Add_Component()
 void CMeleeMon::Free()
 {
 	CGameObject::Free();
-}
-
-void CMeleeMon::setTextureCom(SCENEID eID)
-{
-
 }
