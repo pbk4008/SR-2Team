@@ -5,7 +5,6 @@
 BEGIN(Engine)
 class CComponent;
 class CTransform;
-class CProtoMgr;
 class ENGINE_DLL CGameObject abstract : public CBase
 {
 protected:
@@ -33,7 +32,6 @@ protected:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	map<COMPONENTID, CComponent*> m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_END];
 	_bool m_bActive;//게임 오브젝트 활성화 및 비활성화 상태 판단
-	CProtoMgr* m_pProtoMgr;
 	CTransform* m_pTransform;
 };
 END

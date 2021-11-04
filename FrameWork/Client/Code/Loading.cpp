@@ -47,6 +47,7 @@ _uint CLoading::Loading_ForStage()
 	//GameObject원본 생성
 	CGameObject* pObj = nullptr;
 	
+	m_bFinish = true;
 	return 0;
 }
 

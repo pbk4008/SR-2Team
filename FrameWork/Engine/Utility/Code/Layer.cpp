@@ -51,7 +51,6 @@ HRESULT CLayer::Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj)
 		pGameObjectVec.push_back(pObj);
 		m_mapObject.emplace(eObjID, pGameObjectVec);
 	}
-	pObj->AddRef();
 	return S_OK;
 }
 
@@ -76,7 +75,7 @@ void CLayer::Free()
 {
 	for (auto& objVector : m_mapObject)//Vector
 	{
-		for_each(objVector.second.begin(), objVector.second.end(), DeleteObj);//Obj
+		for_each((objVector.second).begin(), (objVector.second).end(), DeleteObj);//Obj
 		objVector.second.clear();
 		objVector.second.shrink_to_fit();
 	}

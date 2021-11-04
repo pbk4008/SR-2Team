@@ -69,7 +69,7 @@ void CRenderer::Clear_RenderList()
 {
 	for (_int i = 0; i < (_int)RENDERGROUP::MAX; i++)
 	{
-		for_each(m_RenderList[i].begin(), m_RenderList[i].end(), DeleteObject);
+		for_each(m_RenderList[i].begin(), m_RenderList[i].end(), DeleteObj);
 		m_RenderList[i].clear();
 	}
 }

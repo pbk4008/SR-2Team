@@ -10,8 +10,7 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pB
 {
 }
 
-CBackGround::CBackGround(const CBackGround& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom)
-, m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX)), m_eSceneID(rhs.m_eSceneID)
+CBackGround::CBackGround(const CBackGround& rhs) : CGameObject(rhs), m_eSceneID(rhs.m_eSceneID),m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture)
 {
 }
 

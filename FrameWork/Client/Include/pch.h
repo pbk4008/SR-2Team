@@ -19,7 +19,7 @@
 using namespace std;
 
 #ifdef _DEBUG
-#define __CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 

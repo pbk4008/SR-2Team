@@ -55,8 +55,8 @@ CGameObject* CProtoMgr::Find_ObjProto(GAMEOBJECTID eID)
 
 void CProtoMgr::Free()
 {
-	for_each(m_mapComProto.begin(), m_mapComProto.end(), DeleteMap);
-	m_mapComProto.clear();
 	for_each(m_mapObjProto.begin(), m_mapObjProto.end(), DeleteMap);
 	m_mapObjProto.clear();
+	for_each(m_mapComProto.begin(), m_mapComProto.end(), DeleteMap);
+	m_mapComProto.clear();
 }

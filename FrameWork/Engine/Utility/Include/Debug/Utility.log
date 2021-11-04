@@ -1,6 +1,4 @@
-﻿  Management.cpp
-  TextureMgr.cpp
-  코드를 생성하고 있습니다...
+﻿  Renderer.cpp
   Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h

@@ -36,8 +36,8 @@ void CManagement::LateUpdate_Management()
 void CManagement::Render_Manangement(LPDIRECT3DDEVICE9& pDevice)
 {
 	Render_GameObject(pDevice);
-	NULL_CHECK(m_pScene);
 
+	NULL_CHECK(m_pScene);
 	m_pScene->Render_Scene();
 }
 
