@@ -64,7 +64,7 @@ _uint CLoading::Loading_ForStage()
 	// ±ÝÁ¢¸ó
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::MELEEMON_TEX, pObj);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
 	m_bFinish = true;
 	return 0;
