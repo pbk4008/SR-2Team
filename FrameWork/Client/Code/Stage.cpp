@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include "Loading.h"
 #include "MeleeMon.h"
+#include "Player.h"
 
 CStage::CStage() : m_pLoading(nullptr)
 {
@@ -60,8 +61,9 @@ HRESULT CStage::Init_Environment_Layer()
 	//TODO : Environment게임오브젝트 추가
 	CGameObject* pGameObject = nullptr;
 
-	pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);
+	//몬스터 생성
+	/*pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);*/
 
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
 	return S_OK;
@@ -73,6 +75,9 @@ HRESULT CStage::Init_GameLogic_Layer()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	//TODO : GameLogic 게임오브젝트 추가
 	CGameObject* pGameObject = nullptr;
+
+	pGameObject = pGameObject = Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
