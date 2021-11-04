@@ -29,7 +29,7 @@ CMeleeMon::~CMeleeMon()
 
 HRESULT CMeleeMon::Init_MeleeMon()
 {
-	m_fXPos = 1.f;
+	/*m_fXPos = 1.f;
 	m_fYPos = 1.f;
 	m_fZPos = 1.f;
 
@@ -37,6 +37,10 @@ HRESULT CMeleeMon::Init_MeleeMon()
 
 	m_pTransform->setScale(1.f, 1.f, 0.f);
 	m_pTransform->setPos(m_fXPos, m_fYPos, m_fZPos);
+
+	return S_OK;*/
+
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	return S_OK;
 }
@@ -119,10 +123,6 @@ HRESULT CMeleeMon::Add_Component()
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX);
 	m_pTexture->AddRef();
 	m_mapComponent->emplace(COMPONENTID::MELEEMON_TEX, pComponent);
-
-	/*pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	m_pBufferCom->AddRef();
-	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);*/
 
 	return S_OK;
 }

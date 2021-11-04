@@ -55,14 +55,14 @@ _uint CLoading::Loading_ForStage()
 	//GameObject원본 생성
 	CGameObject* pObj = nullptr;
 
-	pObj = CPlayer::Create(m_pDevice);
+	/*pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);*/
 
 	// 금접몬
-	//pObj = CMeleeMon::Create(m_pDevice, GAMEOBJECTID::MONSTER);
-	//NULL_CHECK_RETURN(pObj, E_FAIL);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	pObj = CMeleeMon::Create(m_pDevice, GAMEOBJECTID::MONSTER);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
 	m_bFinish = true;
 	return 0;
