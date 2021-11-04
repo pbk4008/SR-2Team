@@ -1,6 +1,10 @@
-﻿  Form.cpp
+﻿  pch.cpp
+  Form.cpp
+  MainFrm.cpp
   MAPTOOL.cpp
+  MAPTOOLDoc.cpp
+  MAPTOOLView.cpp
   코드를 생성하고 있습니다...
   LINK : ..\Bin\MAPTOOL.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
      ../Bin\MAPTOOL.lib 라이브러리 및 ../Bin\MAPTOOL.exp 개체를 생성하고 있습니다.
-  MAPTOOL.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\MAPTOOL\Bin\MAPTOOL.exe
+  MAPTOOL.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Bin\MAPTOOL.exe

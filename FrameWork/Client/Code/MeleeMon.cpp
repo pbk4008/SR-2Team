@@ -16,7 +16,7 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice, GAMEOBJECTID eID)
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
-	: CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::RCTEX)),
+	: CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
 	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
 {
 
@@ -48,10 +48,9 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
-	iExit = CGameObject::Update_GameObject(fDeltaTime);
-
-	//Follow_Mouse();
 	Key_Input();
+	//Follow_Mouse();
+	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 
@@ -67,7 +66,7 @@ void CMeleeMon::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
-	m_pTexture->Render_Texture(1);
+	m_pTexture->Render_Texture();
 
 	m_pBufferCom->Render_Buffer();
 
