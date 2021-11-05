@@ -48,6 +48,14 @@ HRESULT CCamera::Init_Camera(const _vec3& pEye, const _vec3& pAt, const _vec3& p
 	return S_OK;
 }
 
+HRESULT CCamera::Init_Camera()
+{
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
+
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
+	return S_OK;
+}
+
 _int CCamera::Update_Component(const _float& fDeltaTime)
 {
 	if (!m_bProjection)

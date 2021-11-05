@@ -13,6 +13,7 @@ private:
 public:
 	HRESULT Init_Camera(const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
 		, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
+	HRESULT Init_Camera();
 	virtual _int Update_Component(const _float& fDeltaTime)override ;
 	virtual CComponent* Clone_Component()override;
 public:
