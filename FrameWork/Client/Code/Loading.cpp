@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Loading.h"
 #include "BackGround.h"
+#include "MeleeMon.h"
+#include "Player.h"
+
+
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
 	ZeroMemory(m_szLoading, sizeof(_tchar) * 256);
@@ -37,16 +41,41 @@ _uint CLoading::Loading_ForStage()
 
 	//Texture불러오기
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/Player.png", L"Player", 1);
-	
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
+
 	//Component원본 생성
 	CComponent* pCom = nullptr;
+
 	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Player", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
 
-	//GameObject원본 생성
+	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
+
+
+	_vec3 vEye = _vec3(0.f, 0.f, -1.f);
+	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
+	_vec3 vUp = _vec3(0.f, 1.f, 0.f);
+
+	pCom = CCamera::Create(m_pDevice, vEye, vAt, vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::CAMERA, pCom);
+
 	CGameObject* pObj = nullptr;
+
+	//Player
+	pObj = CPlayer::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 	
+	// 금접몬
+	//pObj = CMeleeMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, E_FAIL);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	
+	m_bFinish = true;
 	return 0;
 }
 
@@ -80,8 +109,8 @@ unsigned CLoading::Thread_Main(void* pArg)
 
 void CLoading::Free()
 {
-	Safe_Release(m_pDevice);
-	Safe_Release(m_pTextureMgr);
+ 	Safe_Release(m_pDevice);
+	m_pTextureMgr->DestroyInstance();
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
 	DeleteCriticalSection(&m_Crt);

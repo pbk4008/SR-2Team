@@ -33,6 +33,9 @@ _bool IsPermit(const _float& fDeltaTime)
 	return CFrameMgr::GetInstance()->IsPermit(fDeltaTime);
 }
 
+_float GetOutDeltaTime()
+{ return CFrameMgr::GetInstance()->getOutDeltaTime(); }
+
 void Update_InputDev()
 {
 	CInputDev::GetInstance()->Update_InputDev();

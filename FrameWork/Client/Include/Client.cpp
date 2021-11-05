@@ -24,6 +24,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
+
 {
 
     UNREFERENCED_PARAMETER(hPrevInstance);
@@ -50,6 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     FAILED_CHECK_RETURN(Init_TimeMgr(), false);
     FAILED_CHECK_RETURN(Init_FrameMgr(60.f), false);
 
+    _float realDelta = 0;
     CMainApp* pMainApp = CMainApp::Create();
     NULL_CHECK_RETURN(pMainApp, false);
     // 기본 메시지 루프입니다:
@@ -62,15 +64,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
             }
+        }  
+        else
+        {
             Update_TimeMgr();
             _float fDeltaTime = GetDeltaTime();
-            if (IsPermit(fDeltaTime))
+            /*realDelta += fDeltaTime;
+            if (realDelta >= 1 / 60.f)*/
+            if(IsPermit(fDeltaTime))
             {
-                pMainApp->Update_MainApp(fDeltaTime);
+                pMainApp->Update_MainApp(GetOutDeltaTime());
                 pMainApp->LateUpdate_MainApp();
                 pMainApp->Render_MainApp();
+               /* cout << (1 / realDelta) << endl;
+                realDelta = 0.f;*/
             }
-        }   
+
+           
+        }
     }
     _ulong dwRefCnt = 0;
     if (dwRefCnt = pMainApp->Release())

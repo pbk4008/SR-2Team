@@ -26,7 +26,6 @@ public:
 private:
 	virtual void Free();
 private:
-	CBackGround* m_pBackGround;
 	CLoading* m_pLoading;
 };
 #endif

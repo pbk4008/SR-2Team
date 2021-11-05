@@ -2,6 +2,8 @@
 #include "Stage.h"
 #include "Layer.h"
 #include "Loading.h"
+#include "MeleeMon.h"
+#include "Player.h"
 
 CStage::CStage() : m_pLoading(nullptr)
 {
@@ -40,6 +42,7 @@ void CStage::LateUpdate_Scene()
 
 void CStage::Render_Scene()
 {
+	
 }
 
 HRESULT CStage::Init_Layer()
@@ -68,10 +71,19 @@ HRESULT CStage::Init_GameLogic_Layer()
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	//TODO : GameLogic 게임오브젝트 추가
+
 	CGameObject* pGameObject = nullptr;
 
+	//Player생성
+	pGameObject = Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
+
+	//몬스터 생성
+	//pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);
+
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CStage::Init_UI_Layer()
@@ -82,7 +94,7 @@ HRESULT CStage::Init_UI_Layer()
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 CStage* CStage::Create(LPDIRECT3DDEVICE9 pDevice)
@@ -95,6 +107,7 @@ CStage* CStage::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CStage::Free()
 {
+	CRenderer::GetInstance()->Clear_RenderList();
 	Safe_Release(m_pLoading);
 	CScene::Free();
 }

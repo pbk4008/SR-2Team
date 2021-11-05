@@ -13,15 +13,23 @@ CTransform::CTransform() : m_pParent(nullptr)
 
 CTransform::CTransform(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_pParent(nullptr)
 {
+	ZeroMemory(&m_vPos, sizeof(_vec3));
+	ZeroMemory(&m_vScale, sizeof(_vec3));
+	ZeroMemory(&m_vAngle, sizeof(_vec3));
+	ZeroMemory(&m_vRevolve, sizeof(_vec3));
+	ZeroMemory(&m_matWorld, sizeof(_matrix));
+	ZeroMemory(&m_matRotate, sizeof(_matrix));
 }
 
-CTransform::CTransform(const CTransform& rhs) : CComponent(rhs)
+CTransform::CTransform(const CTransform& rhs) : CComponent(rhs),m_vPos(rhs.m_vPos), m_vScale(rhs.m_vScale)
+, m_vAngle(rhs.m_vAngle), m_vRevolve(rhs.m_vRevolve), m_matWorld(rhs.m_matWorld), m_matRotate(rhs.m_matRotate)
 {
 	if (rhs.m_pParent)
 	{
 		m_pParent = rhs.m_pParent;
 		m_pParent->AddRef();
 	}
+	
 }
 
 CTransform::~CTransform()
@@ -39,7 +47,6 @@ HRESULT CTransform::Init_Transform()
 _int CTransform::Update_Component(const _float& fDeltaTime)
 {
 	D3DXMatrixIdentity(&m_matWorld);
-	ReSetVector();
 
 	//스케일 값 조정
 	for (_int i = 0; i < _int(MATRIXINFO::MAT_POS); i++)
@@ -110,6 +117,12 @@ void CTransform::Free()
 {
 	Safe_Release(m_pParent);
 	CComponent::Free();
+}
+
+const _vec3& CTransform::getAxis(VECAXIS eAxis)
+{
+	return _vec3(m_matWorld.m[(_ulong)eAxis][0], m_matWorld.m[(_ulong)eAxis][1], m_matWorld.m[(_ulong)eAxis][2]);
+	// TODO: 여기에 return 문을 삽입합니다.
 }
 
 void CTransform::setScale(const _float& fX, const _float& fY, const _float& fZ)

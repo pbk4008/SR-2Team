@@ -10,9 +10,10 @@ CBackGround::CBackGround(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pB
 {
 }
 
-CBackGround::CBackGround(const CBackGround& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom)
-, m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX)), m_eSceneID(rhs.m_eSceneID)
+CBackGround::CBackGround(const CBackGround& rhs) : CGameObject(rhs), m_eSceneID(rhs.m_eSceneID),m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture)
 {
+	m_pBufferCom->AddRef();
+	m_pTexture->AddRef();
 }
 
 CBackGround::~CBackGround()
@@ -43,6 +44,7 @@ void CBackGround::LateUpdate_GameObject()
 void CBackGround::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+
 	m_pTexture->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 	CGameObject::Render_GameObject();
@@ -51,6 +53,7 @@ void CBackGround::Render_GameObject()
 CGameObject* CBackGround::Clone_GameObject()
 {
 	return new CBackGround(*this);
+
 }
 
 CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pDevice,SCENEID eID)
@@ -79,9 +82,9 @@ HRESULT CBackGround::Add_Component()
 
 void CBackGround::Free()
 {
+	CGameObject::Free();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 }
 
 void CBackGround::setTextureCom(SCENEID eID)

@@ -8,11 +8,11 @@
 #include "BackGround.h"
 
 
-CLogo::CLogo():m_pLoading(nullptr), m_pBackGround(nullptr)
+CLogo::CLogo():m_pLoading(nullptr)
 {
 }
 
-CLogo::CLogo(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_pBackGround(nullptr)
+CLogo::CLogo(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr)
 {
 }
 
@@ -81,9 +81,10 @@ HRESULT CLogo::Init_Environment_Layer()
 
 	//TODO : Environment게임오브젝트 추가
 	CGameObject* pGameObject = nullptr;
-	pGameObject= m_pBackGround = Clone_ObjProto<CBackGround>(GAMEOBJECTID::BACKGROUND);
+	pGameObject = Clone_ObjProto<CBackGround>(GAMEOBJECTID::BACKGROUND);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BACKGROUND, pGameObject), E_FAIL);
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
+
 	return S_OK;
 }
 
@@ -120,9 +121,11 @@ HRESULT CLogo::Init_LogoScene()
 	pCom = CTexture::Create(m_pDevice, pTexutreMgr->getTexture(L"BackGround", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::BACKGROUND_TEX, pCom);
+
 	pCom = CRcTex::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::RCTEX, pCom);
+
 	pCom = CTransform::Create();
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::TRANSFORM, pCom);
@@ -146,7 +149,7 @@ CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CLogo::Free()
 {
-	Safe_Release(m_pBackGround);
+	CRenderer::GetInstance()->Clear_RenderList();
 	Safe_Release(m_pLoading);
 	CScene::Free();
 }

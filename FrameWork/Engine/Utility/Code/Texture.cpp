@@ -26,12 +26,14 @@ CTexture::~CTexture()
 HRESULT CTexture::Init_Texture(vector<LPDIRECT3DBASETEXTURE9>* pTexture)
 {
 	NULL_CHECK_RETURN(pTexture, E_FAIL);
-	m_vecTexture = *pTexture;
-
 	_int iSize = pTexture->size();
 	m_vecTexture.reserve(iSize);
+
 	for (auto iter : *pTexture)
+	{
+		m_vecTexture.emplace_back(iter);
 		iter->AddRef();
+	}
 	return S_OK;
 }
 

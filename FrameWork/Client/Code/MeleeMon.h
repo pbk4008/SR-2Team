@@ -12,7 +12,7 @@ class CTransform;
 
 END
 
-class CMeleeMon final : public CGameObject
+class CMeleeMon : public CGameObject
 {
 private:
 	explicit CMeleeMon();
@@ -21,29 +21,24 @@ private:
 	virtual ~CMeleeMon();
 
 public:
-	HRESULT Init_MeleeMon(SCENEID eID);
+	HRESULT Init_MeleeMon();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
 	virtual void LateUpdate_GameObject() override;
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 
+private:
+	void	Follow_Mouse();
+	void	Key_Input();
 public:
-	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID);
-
+	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual HRESULT Add_Component();
-	virtual void	Follow_Mouse();
-	virtual void	Key_Input();
 	virtual void	Free();
 
-public:
-	void setTextureCom(SCENEID eID);
-
 private:
-	SCENEID			m_eSceneID;
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
-	CTransform*		m_pTransform;
 
 	_float			m_fXPos;
 	_float			m_fYPos;

@@ -3,7 +3,6 @@
 IMPLEMENT_SINGLETON(CTimeMgr)
 CTimeMgr::CTimeMgr() : m_tStatTime(chrono::steady_clock::duration::zero()), m_tEndTime(chrono::steady_clock::duration::zero()), m_fDeltaTime(0.f)
 {
-	
 }
 CTimeMgr::~CTimeMgr()
 {
@@ -11,6 +10,7 @@ CTimeMgr::~CTimeMgr()
 
 HRESULT CTimeMgr::Init_TimeMgr()
 {
+
 	m_tStatTime = chrono::steady_clock::now();
 	m_tEndTime = chrono::steady_clock::now();
 	return S_OK;

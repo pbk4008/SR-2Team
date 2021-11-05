@@ -30,6 +30,7 @@ public:
 	inline const _vec3& getScale() const { return m_vScale; }
 	inline const _vec3& getAngle() const { return m_vAngle; }
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
+	const _vec3& getAxis(VECAXIS eAxis);
 public:
 	inline void setParent(CTransform& pParent) { m_pParent = &pParent;  m_pParent->AddRef(); }
 	inline void setScale(const _vec3 vScale) { m_vScale = vScale; }
