@@ -157,6 +157,7 @@
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
     <ClInclude Include="..\Code\MeleeMon.h" />
+    <ClInclude Include="..\Code\Monster.h" />
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MeleeMon.cpp" />
+    <ClCompile Include="..\Code\Monster.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="Client.cpp" />

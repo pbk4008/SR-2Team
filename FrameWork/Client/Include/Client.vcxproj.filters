@@ -88,6 +88,9 @@
     <ClInclude Include="..\Code\Player.h">
       <Filter>02.GameObject\01.Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Monster.h">
+      <Filter>02.GameObject\02.Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -114,6 +117,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02.GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>02.GameObject\02.Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #ifndef __CMELEEMON_H__
 #define __CMELEEMON_H__
 
-#include "GameObject.h"
+#include "Monster.h"
 
 BEGIN(Engine)
 
@@ -12,7 +12,7 @@ class CTransform;
 
 END
 
-class CMeleeMon : public CGameObject
+class CMeleeMon : public CMonster
 {
 private:
 	explicit CMeleeMon();
@@ -30,6 +30,7 @@ public:
 private:
 	void	Follow_Mouse();
 	void	Key_Input();
+	
 public:
 	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
