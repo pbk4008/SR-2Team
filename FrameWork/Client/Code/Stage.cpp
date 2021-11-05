@@ -5,6 +5,7 @@
 #include "Monster.h"
 #include "MeleeMon.h"
 #include "Player.h"
+#include "MainCamera.h"
 
 CStage::CStage() : m_pLoading(nullptr)
 {
@@ -76,8 +77,12 @@ HRESULT CStage::Init_GameLogic_Layer()
 	CGameObject* pGameObject = nullptr;
 
 	//Player积己
-	pGameObject = Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
+	CPlayer* pPlayer = nullptr;
+
+	pGameObject = pPlayer=Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
+	CMainCamera* pCam = Clone_ObjProto<CMainCamera>(GAMEOBJECTID::CAMERA);
+	pPlayer->setCamera(pCam);
+ 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
 	//阁胶磐 积己
 	pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);

@@ -3,7 +3,7 @@
 #include "BackGround.h"
 #include "MeleeMon.h"
 #include "Player.h"
-
+#include "MainCamera.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -55,7 +55,7 @@ _uint CLoading::Loading_ForStage()
 	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
 
 
-	_vec3 vEye = _vec3(0.f, 0.f, -1.f);
+	_vec3 vEye = _vec3(0.f, 0.f, -10.f);
 	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
 	_vec3 vUp = _vec3(0.f, 1.f, 0.f);
 
@@ -66,6 +66,10 @@ _uint CLoading::Loading_ForStage()
 	CGameObject* pObj = nullptr;
 
 	//Player
+	pObj = CMainCamera::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
+
 	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);

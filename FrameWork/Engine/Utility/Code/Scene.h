@@ -5,6 +5,7 @@
 BEGIN(Engine)
 class CLayer;
 class CComponent;
+class CGameObject;
 class ENGINE_DLL CScene abstract : public CBase
 {
 protected:
@@ -22,6 +23,8 @@ protected:
 	virtual void Free();
 public:
 	CComponent* getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
+	CGameObject* getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
+	CGameObject* getGameObject(GAMEOBJECTID eObjID);
 protected:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	map<LAYERID, CLayer*> m_mapLayer;

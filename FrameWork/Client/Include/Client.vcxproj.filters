@@ -41,6 +41,9 @@
     <Filter Include="02.GameObject\02.Monster\00. MeleeMon">
       <UniqueIdentifier>{79e5e83d-2ae5-4624-9d66-dd85bb7ca562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\03.MainCamera">
+      <UniqueIdentifier>{4af11669-284c-4768-be39-92a629893b3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -91,6 +94,9 @@
     <ClInclude Include="..\Code\Monster.h">
       <Filter>02.GameObject\02.Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\MainCamera.h">
+      <Filter>02.GameObject\03.MainCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -120,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02.GameObject\02.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MainCamera.cpp">
+      <Filter>02.GameObject\03.MainCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

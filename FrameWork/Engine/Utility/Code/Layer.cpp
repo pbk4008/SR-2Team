@@ -90,3 +90,11 @@ CComponent* CLayer::getComponent(GAMEOBJECTID eObjID, COMPONENTID eComponentID, 
 
 	return pObj->front()->getComponent(eComponentID, eType);
 }
+
+CGameObject* CLayer::getGameObject(GAMEOBJECTID eObj)
+{
+	auto ObjArr = Find_GameObject(eObj);
+	NULL_CHECK_RETURN(ObjArr, nullptr);
+
+	return ObjArr->front();
+}
