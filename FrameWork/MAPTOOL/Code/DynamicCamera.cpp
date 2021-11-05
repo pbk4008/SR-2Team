@@ -106,7 +106,7 @@ void CDynamicCamera::Mouse_Move(void)
 	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
 
 	_vec3 vRotation = MousePos(g_hWnd);
-	_ulong ulValue = D3DXVec3Length(&vRotation);
+	_float ulValue = D3DXVec3Length(&vRotation);
 }
 
 void CDynamicCamera::Mouse_Fix(void)

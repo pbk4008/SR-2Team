@@ -1,15 +1,14 @@
 ﻿  pch.cpp
   BackGround.cpp
   Loading.cpp
+C:\Users\kko\Desktop\SR_2Team\FrameWork\Client\Code\Loading.cpp(62,18): error C2039: 'Create': 'Engine::CCamera'의 멤버가 아닙니다.
+C:\Users\kko\Desktop\SR_2Team\FrameWork\Client\Code\Player.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\kko\Desktop\SR_2Team\FrameWork\Client\Code\Loading.cpp(62,107): error C2660: 'CLoading::Create': 함수는 8개의 인수를 사용하지 않습니다.
+C:\Users\kko\Desktop\SR_2Team\FrameWork\Client\Code\Loading.h(15,19): message : 'CLoading::Create' 선언을 참조하십시오.
   Logo.cpp
   MainApp.cpp
-<<<<<<< HEAD
-=======
   MeleeMon.cpp
   Player.cpp
->>>>>>> main
   Stage.cpp
   Client.cpp
   코드를 생성하고 있습니다...
-     ../Bin\Client.lib 라이브러리 및 ../Bin\Client.exp 개체를 생성하고 있습니다.
-  Client.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Client\Bin\Client.exe

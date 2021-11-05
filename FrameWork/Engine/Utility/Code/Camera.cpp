@@ -35,14 +35,6 @@ CCamera::~CCamera()
 
 HRESULT CCamera::Init_Camera()
 {
-	m_vEye = pEye;
-	m_vAt = pAt;
-	m_vUp = pUp;
-	m_fFov = fFov;
-	m_fAspect = fAspect;
-	m_fNear = fNear;
-	m_fFar = fFar;
-
 	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
 
 	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);

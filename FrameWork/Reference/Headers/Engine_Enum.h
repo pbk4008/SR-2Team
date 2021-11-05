@@ -13,11 +13,7 @@ namespace Engine
 		CAMERA,
 		PLAYER_TEX,
 		BACKGROUND_TEX,
-<<<<<<< HEAD
-		CAMERA
-=======
 		MELEEMON_TEX
->>>>>>> main
 	};
 	enum class COMPONENTTYPE {TYPE_DYNAMIC, TYPE_STATIC, TYPE_END};
 	enum class LAYERID {ENVIRONMENT, GAME_LOGIC,UI};
