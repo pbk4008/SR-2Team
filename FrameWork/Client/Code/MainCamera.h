@@ -26,9 +26,9 @@ private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
 public:
-	void setTarget(CGameObject* pTarget);
+	void setTarget(CTransform* pTarget);
 private:
-	CGameObject* m_pTarget;
+	CTransform* m_pTarget;
 	CCamera* m_pCamera;
 };
 #endif

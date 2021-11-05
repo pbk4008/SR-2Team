@@ -1,18 +1,18 @@
 #include "Export_Utility.h"
 
-CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr),m_bMove(false)
+CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr)
 {
    
 }
 
-CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false),m_bMove(false),
+CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false),
 m_pTransform(nullptr)
 {
     m_pDevice->AddRef();
 }
 
 CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice),m_bActive(rhs.m_bActive), 
-m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM)), m_bMove(rhs.m_bMove)
+m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM))
 {
     if (rhs.m_pDevice)
         m_pDevice->AddRef();

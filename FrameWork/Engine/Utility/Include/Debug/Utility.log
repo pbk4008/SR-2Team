@@ -1,5 +1,5 @@
 ﻿  Transform.cpp
-C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Transform.cpp(132): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Transform.cpp(189): warning C4172: 지역 변수 또는 임시: vRes의 주소를 반환하고 있습니다.
   Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h

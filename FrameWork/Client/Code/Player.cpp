@@ -39,8 +39,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	KeyInput(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-	if(m_bMove)
-		m_pMainCamera->Update_GameObject(fDeltaTime);
+	m_pMainCamera->Update_GameObject(fDeltaTime);
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 
@@ -76,7 +75,6 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CPlayer::KeyInput(const float& fDeltaTime)
 {
-	m_bMove = false;
 	_vec3 vLook = m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
 	D3DXVec3Normalize(&vLook, &vLook);
 	_vec3 vRight = m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
@@ -84,25 +82,14 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	_vec3 vPos = m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	if (Key_Pressing(VIR_W))
-	{
 		vPos += vLook * m_fSpeed * fDeltaTime;
-		m_bMove = true;
-	}
 	if (Key_Pressing(VIR_A))
-	{
 		vPos += vRight * -m_fSpeed * fDeltaTime;
-		m_bMove = true;
-	}
 	if (Key_Pressing(VIR_S))
-	{
 		vPos += vLook * -m_fSpeed * fDeltaTime;
-		m_bMove = true;
-	}
 	if (Key_Pressing(VIR_D))
-	{
 		vPos += vRight * m_fSpeed * fDeltaTime;
-		m_bMove = true;
-	}
+
 	m_pTransform->setPos(vPos);
 }
 
@@ -133,5 +120,5 @@ void CPlayer::Free()
 void CPlayer::setCamera(CMainCamera* pCamera)
 {
 	m_pMainCamera = pCamera;
-	m_pMainCamera->setTarget(this);
+	m_pMainCamera->setTarget(this->getTransform());
 }

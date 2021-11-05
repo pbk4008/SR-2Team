@@ -6,6 +6,13 @@ BEGIN(Engine)
 class ENGINE_DLL CTransform final : public CComponent
 {
 private:
+	const _ulong FLAG_SCALE;
+	const _ulong FLAG_POS;
+	const _ulong FLAG_ANGLE;
+	const _ulong FLAG_REVOLVE;
+	const _ulong FLAG_AXISROTATE;
+	const _ulong FLAG_PARENT;
+private:
 	explicit CTransform();
 	explicit CTransform(LPDIRECT3DDEVICE9 pDevice);
 	explicit CTransform(const CTransform& rhs);
@@ -21,6 +28,7 @@ private:
 	//벡터 초기화
 	void ReSetVector();
 	void MatrixToVector();
+	void ChangeParentMatrix();
 public:
 	static CTransform* Create();
 private:
@@ -34,13 +42,13 @@ public:
 	const _vec3& getAxis(VECAXIS eAxis);
 public:
 	inline void setParent(CTransform* pParent) { m_pParent = pParent;  m_pParent->AddRef(); }
-	inline void setScale(const _vec3 vScale) { m_vScale = vScale; }
+	inline void setScale(const _vec3 vScale) { m_vScale = vScale;  m_dwFlag |= FLAG_SCALE; }
 	void setScale(const _float& fX, const _float& fY, const _float& fZ);
-	inline void setPos(const _vec3 vPos) { m_vPos = vPos; }
+	inline void setPos(const _vec3 vPos) { m_vPos = vPos; m_dwFlag |= FLAG_POS;}
 	void setPos(const _float& fX, const _float& fY, const _float& fZ);
 	void setAngle(MATRIXINFO eInfo, _float fAngle);
 	void setRevolve(MATRIXINFO eInfo, _float fAngle);
-	inline void setRotate(const _matrix& matRotate) { m_matRotate = matRotate; }
+	inline void setRotate(const _matrix& matRotate) { m_matRotate = matRotate; m_dwFlag |= FLAG_AXISROTATE; }
 private:
 	//부모 오브젝트의 트랜스폼을 적용시키기 위한 트랜스폼
 	//ex)건물이라는 오브젝트의 트랜스폼이 있다면 그것을 이루고있는 창문, 문, 계단 등
@@ -54,6 +62,8 @@ private:
 	_vec3 m_vRevolve;//공전
 	_matrix m_matRotate;//임의의 축 회전 용 변수
 	_matrix m_matWorld;//월드메트릭스
+	_matrix m_matOldParent;//부모 이전 메트릭스
+	_ulong m_dwFlag;
 };
 END
 #endif
