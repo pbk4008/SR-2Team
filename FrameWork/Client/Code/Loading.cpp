@@ -71,9 +71,9 @@ _uint CLoading::Loading_ForStage()
 	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 	
 	// ±ÝÁ¢¸ó
-	//pObj = CMeleeMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, E_FAIL);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	pObj = CMeleeMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
 	m_bFinish = true;
 	return 0;

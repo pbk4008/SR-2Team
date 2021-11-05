@@ -3,7 +3,6 @@
 #define Monster_h__
 
 #include "GameObject.h"
-BEGIN(Engine)
 
 class CMonster abstract: public CGameObject
 {
@@ -12,16 +11,16 @@ protected:
 	explicit CMonster(LPDIRECT3DDEVICE9 pDevice);
 	virtual ~CMonster();
 
-private:
-	void	Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
-	void	ComputeLookAtTarget(const _vec3* pTargetPos);
+	void	Set_Target(const _vec3* pTargetPos);
+	_vec3*	Get_Target() { return pTarget; }
 
 public:
-
+	void		Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
+	_matrix*	ComputeLookAtTarget(const _vec3* pTargetPos);
 
 private:
+	_vec3*		pTarget;
 
 };
-END
 
 #endif // Monster_h__

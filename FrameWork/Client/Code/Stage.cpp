@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "Layer.h"
 #include "Loading.h"
+#include "Monster.h"
 #include "MeleeMon.h"
 #include "Player.h"
 
