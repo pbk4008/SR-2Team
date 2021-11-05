@@ -11,6 +11,7 @@ CTerrainTex::CTerrainTex(LPDIRECT3DDEVICE9 pDevice) : CVIBuffer(pDevice), m_pHei
 
 CTerrainTex::CTerrainTex(const CTerrainTex& rhs) : CVIBuffer(rhs), m_pHeightMap(rhs.m_pHeightMap)
 {
+	if(m_pHeightMap)
 	m_pHeightMap->AddRef();
 }
 
@@ -116,6 +117,7 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DTEXTURE9 p
 
 void CTerrainTex::Free()
 {
+
 	Safe_Release(m_pHeightMap);
 	CVIBuffer::Free();
 }
@@ -130,8 +132,8 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 	m_dwVtxCnt = m_dwCntX * m_dwCntZ;
 	m_dwVtxSize = sizeof(VTXTEX);
 
-	m_IdxFmt = D3DFMT_INDEX16;
-	m_dwIdxSize = sizeof(INDEX16);
+	m_IdxFmt = D3DFMT_INDEX32;
+	m_dwIdxSize = sizeof(INDEX32);
 
 	FAILED_CHECK_RETURN(CVIBuffer::Init_Buffer(), E_FAIL);
 
@@ -153,28 +155,26 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 
 	_ulong dwTriCnt = 0;
 
-	INDEX16* pIndex = nullptr;
+	INDEX32* pIndex = nullptr;
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 
-	_ulong dwRow = m_dwCntX - 1;
-	_ulong dwCol = m_dwCntZ - 1;
 
-	for (_ulong i = 0; i < dwRow; i++)
+	for (_ulong i = 0; i < m_dwCntZ - 1; i++)
 	{
-		for (_ulong j = 0; i < dwCol; j++)
+		for (_ulong j = 0; j < m_dwCntX - 1; j++)
 		{
-			dwIndex = i * dwCol + j;
+			dwIndex = i * m_dwCntX + j;
 
 			//¿À¸¥ÂÊ À§ »ï°¢Çü
-			pIndex[dwTriCnt]._0 = _ushort(dwIndex + dwCol);
-			pIndex[dwTriCnt]._1 = _ushort(dwIndex + dwCol + 1);
-			pIndex[dwTriCnt]._2 = _ushort(dwIndex + 1);
+			pIndex[dwTriCnt]._0 = (dwIndex + m_dwCntX);
+			pIndex[dwTriCnt]._1 = (dwIndex + m_dwCntX + 1);
+			pIndex[dwTriCnt]._2 = (dwIndex + 1);
 			dwTriCnt++;
 
 			//¿ÞÂÊ ¾Æ·¡ »ï°¢Çü
-			pIndex[dwTriCnt]._0 = _ushort(dwIndex + dwCol);
-			pIndex[dwTriCnt]._1 = _ushort(dwIndex + 1);
-			pIndex[dwTriCnt]._2 = _ushort(dwIndex);
+			pIndex[dwTriCnt]._0 = (dwIndex + m_dwCntX);
+			pIndex[dwTriCnt]._1 = (dwIndex + 1);
+			pIndex[dwTriCnt]._2 = (dwIndex);
 			dwTriCnt++;
 		}
 	}

@@ -20,7 +20,6 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Renderer.h"
-#include "Camera.h"
 
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);

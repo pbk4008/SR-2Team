@@ -69,6 +69,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// ==================================== 도구 모음 삭제 =========================================================
 
+
 	
 	return 0;
 }
@@ -79,7 +80,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	m_tMainSplitter.CreateStatic(this, 1, 2);
 
 	m_tMainSplitter.CreateView(0, 0, RUNTIME_CLASS(CForm), CSize(500, WINCY), pContext);
-	m_tMainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMAPTOOLView), CSize(VIEW_WINCX, VIEW_WINCY), pContext);
+	m_tMainSplitter.CreateView(0, 1, RUNTIME_CLASS(CMAPTOOLView), CSize(WINCX, WINCY), pContext);
 
 	m_pFormView = (CForm*)m_tMainSplitter.GetPane(0, 0);
 	m_pMainView = (CMAPTOOLView*)m_tMainSplitter.GetPane(0, 1);

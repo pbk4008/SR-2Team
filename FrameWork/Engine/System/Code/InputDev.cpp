@@ -25,6 +25,10 @@ void CInputDev::Update_InputDev()
 		m_dwKey |= VIR_D;
 	if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		m_dwKey |= VIR_ENTER;
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+		m_dwKey |= VIR_LBUTTON;
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+		m_dwKey |= VIR_RBUTTON;
 }
 
 _bool CInputDev::Key_Up(_ulong dwKey)
@@ -34,10 +38,10 @@ _bool CInputDev::Key_Up(_ulong dwKey)
 		m_dwKeyUp |= dwKey;
 		return false;
 	}
-	else if (!(m_dwKey & dwKey) && (m_dwKeyUp & dwKey))
+	else if (m_dwKeyUp & dwKey)
 	{
-		return true;
 		m_dwKeyUp ^= dwKey;
+		return true;
 	}
 	return false;
 }
@@ -69,14 +73,18 @@ _vec3 CInputDev::MousePos(HWND _hWnd)
 {
 	POINT pt = {};
 	GetCursorPos(&pt);
-	ScreenToClient(_hWnd, &pt);
 
 	_vec3 vDir = _vec3(_float(pt.x - m_tMousPos.x) ,_float(pt.y-m_tMousPos.y),0.f);
-	D3DXVec3Normalize(&vDir,&vDir);
+	//D3DXVec3Normalize(&vDir,&vDir);
 
 	m_tMousPos = pt;
 
 	return vDir;
+}
+
+void CInputDev::SetFirstMousePos(HWND _hWnd)
+{
+	GetCursorPos(&m_tMousPos);
 }
 
 void CInputDev::Free()

@@ -11,11 +11,14 @@ protected:
 	explicit CCamera(const CCamera& rhs);
 	virtual ~CCamera();
 public:
+	HRESULT Init_Camera(const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
+		, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
 	HRESULT Init_Camera();
 	virtual _int Update_Component(const _float& fDeltaTime)override ;
 	virtual CComponent* Clone_Component()override;
 public:
-
+	static CCamera* Create(LPDIRECT3DDEVICE9 pDevice, const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
+		, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
 public:
 	virtual void Free();
 protected:

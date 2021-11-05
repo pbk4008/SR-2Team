@@ -7,13 +7,14 @@ class CDynamicCamera : public CCamera
 {
 private:
 	explicit CDynamicCamera(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CDynamicCamera(const CDynamicCamera& rhs);
 	virtual ~CDynamicCamera();
 
 public:
 public:
 	HRESULT		Ready_Object(const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
 	_int		Update_Object(const _float& fTimeDelta);
-
+	virtual CComponent* Clone_Component();
 private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		Mouse_Move(void);
@@ -21,7 +22,6 @@ private:
 
 private:
 	_bool	m_bFix = false;
-	_bool	m_bCheck = true;
 public:
 	static CDynamicCamera* Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
 

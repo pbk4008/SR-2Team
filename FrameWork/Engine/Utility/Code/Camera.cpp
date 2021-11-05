@@ -33,8 +33,17 @@ CCamera::~CCamera()
 {
 }
 
-HRESULT CCamera::Init_Camera()
+HRESULT CCamera::Init_Camera(const _vec3& pEye, const _vec3& pAt, const _vec3& pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
 {
+	m_vEye = pEye;
+	m_vAt = pAt;
+	m_vUp = pUp;
+	m_fFov = fFov;
+	m_fAspect = fAspect;
+	m_fNear = fNear;
+	m_fFar = fFar;
+
+
 	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
 
 	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
@@ -43,9 +52,9 @@ HRESULT CCamera::Init_Camera()
 
 HRESULT CCamera::Init_Camera()
 {
-	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
-
 	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
+
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);
 	return S_OK;
 }
 
@@ -70,5 +79,15 @@ CComponent* CCamera::Clone_Component()
 void CCamera::Free()
 {
 	CComponent::Free();
+}
+
+CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pDevice, const _vec3& pEye, const _vec3& pAt, const _vec3& pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
+{
+	
+		CCamera* pInstance = new CCamera(pDevice);
+		if (FAILED(pInstance->Init_Camera(pEye, pAt, pUp, fFov, fAspect, fNear, fFar)))
+			Safe_Release(pInstance);
+		return pInstance;
+	
 }
 
