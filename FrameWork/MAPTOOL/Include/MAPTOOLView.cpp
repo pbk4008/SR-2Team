@@ -39,6 +39,7 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 	, m_pForm(nullptr)
 	, m_pGraphicDev(nullptr)
 	, m_pMainFrame(nullptr)
+	, m_pProtoMgr(nullptr)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 
@@ -47,7 +48,8 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 CMAPTOOLView::~CMAPTOOLView()
 {
 	m_pGraphicDev->DestroyInstance();
-	m_pInputDev->DestroyInstance();
+	Utility_Release();
+	System_Release();
 }
 
 BOOL CMAPTOOLView::PreCreateWindow(CREATESTRUCT& cs)
@@ -71,6 +73,8 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 
 	// Input 설치
 	m_pInputDev = CInputDev::GetInstance();
+	// ProtoMgr 설치
+	m_pProtoMgr = CProtoMgr::GetInstance();
 
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -78,6 +82,17 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력
 		clamp : 0~1을 넘는 경우 그냥 잘라냄
 		mirror : 0~1을 넘는 경우 반전하여 출력 */
+
+	// ==================== 메인 카메라 설정 ====================
+	
+
+
+
+
+
+
+	// ==================== 메인 카메라 설정 ====================
+
 
 }
 
@@ -92,7 +107,16 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 		return;
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 
+	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
 
+
+
+
+
+
+
+
+	m_pGraphicDev->Render_End();
 
 
 }

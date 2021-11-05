@@ -75,6 +75,9 @@
     <ClInclude Include="..\Code\StaticCamera.h">
       <Filter>03. Camera\00. StaticCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\DynamicCamera.h">
+      <Filter>03. Camera\01. DynamicCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MAPTOOL.cpp">
@@ -97,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\StaticCamera.cpp">
       <Filter>03. Camera\00. StaticCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DynamicCamera.cpp">
+      <Filter>03. Camera\01. DynamicCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

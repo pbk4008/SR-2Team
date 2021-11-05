@@ -22,14 +22,14 @@ protected:
 	_ulong m_dwCntX;//가로 버텍스 갯수
 	_ulong m_dwCntZ;//새로 버텍스 갯수
 	_ulong m_dwVtxCnt;//총 버텍스 갯수
-	_ulong m_dwVtxSize;
-	_ulong m_dwTriCnt;
-	_ulong m_dwInterval;
+	_ulong m_dwVtxSize; // 버텍스 사이즈 
+	_ulong m_dwTriCnt; // 삼각형 개수
+	_ulong m_dwInterval; // 간격
 
-	_ulong m_dwFVF;
+	_ulong m_dwFVF; // flexible vertex formal
 
-	D3DFORMAT m_IdxFmt;
-	_ulong m_dwIdxSize;
+	D3DFORMAT m_IdxFmt; // 인덱스 버퍼 포맷
+	_ulong m_dwIdxSize; // 인덱스 버퍼 사이즈
 };
 END
 #endif

@@ -7,6 +7,7 @@ CStaticCamera::CStaticCamera()
 
 }
 CStaticCamera::CStaticCamera(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CCamera(pGraphicDev)
 {
 
 }
@@ -68,7 +69,7 @@ void CStaticCamera::Key_Input(const _float& fTimeDelta)
 void CStaticCamera::Target_Renewal(void)
 {
 	
-	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Get_Component(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER, COMPONENTID::TRANSFORM, COMPONENTTYPE::TYPE_DYNAMIC););
+	CTransform* pPlayerTransform = dynamic_cast<CTransform*>(Get_Component(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER, COMPONENTID::TRANSFORM, COMPONENTTYPE::TYPE_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 
 	_vec3	vLook;
@@ -87,11 +88,11 @@ void CStaticCamera::Target_Renewal(void)
 	D3DXMatrixRotationAxis(&matRot, &vRight, m_fAngle);
 	D3DXVec3TransformNormal(&m_vEye, &m_vEye, &matRot);// 위치? 방향? 방향
 
-	_vec3
-
-
-	m_vEye += pPlayerTransform->getWorldMatrix().m[2][0] // 위치
-	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
+	_vec3 vEye;
+	memcpy(&vEye, &pPlayerTransform->getWorldMatrix().m[2][0], sizeof(_vec3));
+	
+	m_vEye += vEye; // 위치
+	m_vAt = vEye ;
 }
 
 CStaticCamera* CStaticCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar)
