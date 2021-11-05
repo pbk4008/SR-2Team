@@ -1,5 +1,6 @@
 ﻿  pch.cpp
   Form.cpp
+<<<<<<< HEAD
   MainFrm.cpp
   MAPTOOL.cpp
   MAPTOOLDoc.cpp
@@ -7,3 +8,11 @@
   코드를 생성하고 있습니다...
      ../Bin\MAPTOOL.lib 라이브러리 및 ../Bin\MAPTOOL.exp 개체를 생성하고 있습니다.
   MAPTOOL.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Bin\MAPTOOL.exe
+=======
+  MAPTOOL.cpp
+  MAPTOOLDoc.cpp
+  MAPTOOLView.cpp
+  MainFrm.cpp
+  코드를 생성하고 있습니다...
+  MAPTOOL.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\MAPTOOL\Bin\MAPTOOL.exe
+>>>>>>> main

@@ -2,7 +2,9 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 #include "GameObject.h"
-
+BEGIN(Engine)
+class CCamera;
+END
 class CPlayer final : public CGameObject
 {
 private:
@@ -27,5 +29,6 @@ private:
 	CRcTex* m_pBufferCom;
 	CTexture* m_pTexture;
 	_float m_fSpeed;
+	CCamera* m_pCamera;
 };
 #endif

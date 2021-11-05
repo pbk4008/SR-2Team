@@ -89,9 +89,8 @@ void Clear_RenderList()
 }
 void Utility_Release()
 {
+	CManagement::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
 	CTextureMgr::DestroyInstance();
-	CManagement::DestroyInstance();
-	
 }

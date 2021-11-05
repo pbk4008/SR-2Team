@@ -30,6 +30,7 @@ private:
 	_float m_fFar;
 	_matrix m_matView;
 	_matrix m_matProjection;
+	_bool m_bProjection;
 };
 END
 #endif

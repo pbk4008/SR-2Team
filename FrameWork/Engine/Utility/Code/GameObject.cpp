@@ -32,6 +32,7 @@ m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM))
             }
         }
     }
+
 }
 
 CGameObject::~CGameObject()
