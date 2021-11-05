@@ -52,3 +52,17 @@ CComponent* CManagement::getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COM
 
 	return m_pScene->getComponent(eLayerID, eObjID, eComID, eType);
 }
+
+CGameObject* CManagement::getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID)
+{
+	NULL_CHECK_RETURN(m_pScene, nullptr);
+
+	return m_pScene->getGameObject(eLayerID,eObjID);
+}
+
+CGameObject* CManagement::getGameObject(GAMEOBJECTID eObjID)
+{
+	NULL_CHECK_RETURN(m_pScene, nullptr);
+
+	return m_pScene->getGameObject(eObjID);
+}

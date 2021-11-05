@@ -23,13 +23,10 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_pPare
 
 CTransform::CTransform(const CTransform& rhs) : CComponent(rhs),m_vPos(rhs.m_vPos), m_vScale(rhs.m_vScale)
 , m_vAngle(rhs.m_vAngle), m_vRevolve(rhs.m_vRevolve), m_matWorld(rhs.m_matWorld), m_matRotate(rhs.m_matRotate)
+,m_pParent(rhs.m_pParent)
 {
 	if (rhs.m_pParent)
-	{
-		m_pParent = rhs.m_pParent;
 		m_pParent->AddRef();
-	}
-	
 }
 
 CTransform::~CTransform()
@@ -47,6 +44,7 @@ HRESULT CTransform::Init_Transform()
 _int CTransform::Update_Component(const _float& fDeltaTime)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	ReSetVector();
 
 	//스케일 값 조정
 	for (_int i = 0; i < _int(MATRIXINFO::MAT_POS); i++)
@@ -84,6 +82,8 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	if (m_pParent)
 		m_matWorld *= m_pParent->getWorldMatrix();
 
+	MatrixToVector();
+	
 	return 0;
 }
 
@@ -102,7 +102,15 @@ void CTransform::ReSetVector()
 	m_vScale = _vec3(1.f, 1.f, 1.f);
 	m_vAngle = _vec3(0.f, 0.f, 0.f);
 	m_vRevolve = _vec3(0.f, 0.f, 0.f);
-	m_vPos = _vec3(0.f, 0.f, 0.f);
+}
+
+void CTransform::MatrixToVector()
+{
+	for (_int i = 0; i < _int(MATRIXINFO::MAT_POS); i++)
+		*(((_float*)&m_vScale) + i) = m_matWorld.m[i][i];
+
+	for (_int i = 0; i < (_int)MATRIXINFO::MAT_POS; i++)
+		*(((_float*)&m_vPos) + i) = m_matWorld.m[3][i];
 }
 
 CTransform* CTransform::Create()

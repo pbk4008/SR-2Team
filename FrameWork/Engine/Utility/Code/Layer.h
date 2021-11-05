@@ -23,6 +23,7 @@ private:
 	virtual void Free();
 public:
 	CComponent* getComponent(GAMEOBJECTID eObjID,COMPONENTID eComponentID, COMPONENTTYPE eType);
+	CGameObject* getGameObject(GAMEOBJECTID eObj);
 private:
 	map<GAMEOBJECTID, vector<CGameObject*>> m_mapObject;
 };

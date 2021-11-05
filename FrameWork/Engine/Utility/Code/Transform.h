@@ -20,6 +20,7 @@ public:
 private:
 	//º¤ÅÍ ÃÊ±âÈ­
 	void ReSetVector();
+	void MatrixToVector();
 public:
 	static CTransform* Create();
 private:
@@ -32,7 +33,7 @@ public:
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
 	const _vec3& getAxis(VECAXIS eAxis);
 public:
-	inline void setParent(CTransform& pParent) { m_pParent = &pParent;  m_pParent->AddRef(); }
+	inline void setParent(CTransform* pParent) { m_pParent = pParent;  m_pParent->AddRef(); }
 	inline void setScale(const _vec3 vScale) { m_vScale = vScale; }
 	void setScale(const _float& fX, const _float& fY, const _float& fZ);
 	inline void setPos(const _vec3 vPos) { m_vPos = vPos; }

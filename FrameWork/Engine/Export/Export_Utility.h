@@ -27,6 +27,8 @@ inline _int Update_Management(const _float& fDeltaTime);
 inline void LateUpdate_Management();
 inline void Render_Manangement(LPDIRECT3DDEVICE9& pDevice);
 inline CComponent* Get_Component(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
+inline CGameObject* GetGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
+inline CGameObject* GetGameObject(GAMEOBJECTID eObjID);
 
 //ProtoMgr
 inline HRESULT Init_ProtoMgr();

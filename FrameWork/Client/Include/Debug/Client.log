@@ -3,6 +3,7 @@
   Loading.cpp
   Logo.cpp
   MainApp.cpp
+  MainCamera.cpp
   MeleeMon.cpp
   Player.cpp
   Stage.cpp

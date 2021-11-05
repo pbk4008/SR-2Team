@@ -1,21 +1,22 @@
 #include "Export_Utility.h"
 
-CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr)
+CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr),m_bMove(false)
 {
    
 }
 
-CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false), 
+CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false),m_bMove(false),
 m_pTransform(nullptr)
 {
     m_pDevice->AddRef();
 }
 
 CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice),m_bActive(rhs.m_bActive), 
-m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM))
+m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM)), m_bMove(rhs.m_bMove)
 {
+    if (rhs.m_pDevice)
+        m_pDevice->AddRef();
     m_bActive = true;//클론함수 호출하면 오브젝트 활성화 상태로 바꿈
-    m_pDevice->AddRef();
     for (_int i = 0; i < (_int)COMPONENTTYPE::TYPE_END; i++)
     {
         for (auto iter : rhs.m_mapComponent[i])
