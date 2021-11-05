@@ -1,2 +1,8 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppClean.targets(77,5): warning : 'c:\users\pbk40\desktop\sr팀폴\framework\maptool\include\debug\maptool.pch' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(493,5): error MSB3061: "Debug\MAPTOOL.pch" 파일을 삭제할 수 없습니다. 'C:\Users\pbk40\Desktop\SR팀폴\FrameWork\MAPTOOL\Include\Debug\MAPTOOL.pch' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
+﻿  pch.cpp
+  Form.cpp
+  MAPTOOL.cpp
+  MAPTOOLDoc.cpp
+  MAPTOOLView.cpp
+  MainFrm.cpp
+  코드를 생성하고 있습니다...
+  MAPTOOL.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\MAPTOOL\Bin\MAPTOOL.exe

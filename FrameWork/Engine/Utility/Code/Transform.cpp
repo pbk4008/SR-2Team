@@ -119,6 +119,12 @@ void CTransform::Free()
 	CComponent::Free();
 }
 
+const _vec3& CTransform::getAxis(VECAXIS eAxis)
+{
+	return _vec3(m_matWorld.m[(_ulong)eAxis][0], m_matWorld.m[(_ulong)eAxis][1], m_matWorld.m[(_ulong)eAxis][2]);
+	// TODO: 여기에 return 문을 삽입합니다.
+}
+
 void CTransform::setScale(const _float& fX, const _float& fY, const _float& fZ)
 {
 	m_vScale.x = fX;

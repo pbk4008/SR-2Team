@@ -84,6 +84,7 @@ HRESULT CLogo::Init_Environment_Layer()
 	pGameObject = Clone_ObjProto<CBackGround>(GAMEOBJECTID::BACKGROUND);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BACKGROUND, pGameObject), E_FAIL);
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
+
 	return S_OK;
 }
 
@@ -148,6 +149,7 @@ CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CLogo::Free()
 {
+	CRenderer::GetInstance()->Clear_RenderList();
 	Safe_Release(m_pLoading);
 	CScene::Free();
 }

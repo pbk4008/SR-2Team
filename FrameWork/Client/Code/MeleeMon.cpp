@@ -113,11 +113,11 @@ HRESULT CMeleeMon::Add_Component()
 	//texture
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
-	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 	//texture
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX);
 	m_pTexture->AddRef();
-	m_mapComponent->emplace(COMPONENTID::MELEEMON_TEX, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_TEX, pComponent);
 
 	////transform
 	//pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);

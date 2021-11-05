@@ -1,4 +1,9 @@
-﻿     ../Bin\System.lib 라이브러리 및 ../Bin\System.exp 개체를 생성하고 있습니다.
+﻿  FrameMgr.cpp
+  GraphicDev.cpp
+  InputDev.cpp
+  TimeMgr.cpp
+  코드를 생성하고 있습니다...
+     ../Bin\System.lib 라이브러리 및 ../Bin\System.exp 개체를 생성하고 있습니다.
   System.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\System\Bin\System.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h

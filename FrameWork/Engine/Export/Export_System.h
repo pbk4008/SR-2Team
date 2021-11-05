@@ -19,6 +19,7 @@ inline _float GetDeltaTime();
 //FrameMgr
 inline HRESULT Init_FrameMgr(const _float& fLimitFrame);
 inline _bool IsPermit(const _float& fDeltaTime);
+inline _float GetOutDeltaTime();
 //InputDev
 inline void Update_InputDev();
 inline _bool Key_Up(_ulong dwKey);

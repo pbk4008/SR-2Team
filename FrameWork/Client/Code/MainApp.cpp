@@ -24,7 +24,6 @@ _int CMainApp::Update_MainApp(const float& fDeltaTime)
 		return -1;
 	Update_InputDev();
 	m_pManagement->Update_Management(fDeltaTime);
-
 	return 0;
 }
 
@@ -86,6 +85,7 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pGraphicDev);
 	m_pManagement->DestroyInstance();
+
 	Utility_Release();
 	System_Release();
 }
