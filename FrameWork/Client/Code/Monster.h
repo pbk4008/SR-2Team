@@ -20,7 +20,9 @@ public:
 
 private:
 	_vec3*		pTarget;
-
+	_vec3		m_vInfo;
+	_matrix		m_matWorld;
+	_vec3		m_vScale;
 };
 
 #endif // Monster_h__

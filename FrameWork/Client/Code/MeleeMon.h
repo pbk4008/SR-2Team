@@ -19,13 +19,10 @@ public:
 	virtual void LateUpdate_GameObject() override;
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
-
-private:
-	void	Key_Input(const float& fDeltaTime);
-	void	Chase(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	
 public:
 	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
+	virtual void	Attack();
 
 private:
 	virtual HRESULT Add_Component();

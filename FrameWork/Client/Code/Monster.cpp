@@ -10,6 +10,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
 	:CGameObject(pDevice)
 {
 	ZeroMemory(&pTarget, sizeof(_vec3*));
+
 }
 
 CMonster::~CMonster()
@@ -31,13 +32,11 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 
 	m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
 
-	_matrix matScale, matTrans;
-	//	_matrix matScale, matRot, matTrans;
-
 	m_pTransform->setPos(m_vInfo);
-	//matRot = *ComputeLookAtTarget(pTargetPos);
-	// 
-	//	m_matWorld = matScale, matRot, matTrans;
+	_matrix matRot;
+
+	matRot = *ComputeLookAtTarget(pTargetPos);
+	m_matWorld *= matRot;
 
 }
 
@@ -45,7 +44,7 @@ _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
 	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
-	_vec3	 m_vScale = m_pTransform->getScale();
+	_vec3	m_vScale = m_pTransform->getScale();
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
