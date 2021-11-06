@@ -45,6 +45,7 @@ void CMainCamera::LateUpdate_GameObject()
 
 void CMainCamera::Render_GameObject()
 {
+	//m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	CGameObject::Render_GameObject();
 }
 
@@ -55,38 +56,12 @@ CMainCamera* CMainCamera::Clone_GameObject()
 
 void CMainCamera::FollowTarget()
 {
-	//_matrix matWorld = m_pTransform->getWorldMatrix();
-	_matrix matWorld = m_pTarget->getTransform()->getWorldMatrix();
+	m_pTransform->setPos(-0.7f, 0.5f, -1.75f);
+	_vec3 vEye = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3 vAt = vEye+_vec3(0.f,0.f,1.f);
 
-	_vec3 vEye;
-	memcpy(&vEye, &matWorld.m[2][0], sizeof(_vec3));
-
-	vEye *= -1.f;
-	D3DXVec3Normalize(&vEye, &vEye);
-
-	vEye *= 10.f;
-
-	_vec3 vRight;
-	memcpy(&vRight, &matWorld.m[0][0], sizeof(_vec3));
-
-	_matrix matRot;
-	D3DXMatrixRotationAxis(&matRot, &vRight, 0.f);
-	D3DXVec3TransformNormal(&vEye, &vEye, &matRot);
-
-	_vec3 TargetPos;
-	memcpy(&TargetPos, &matWorld.m[3][0], sizeof(_vec3));
-	m_pCamera->setEye(vEye + TargetPos);
-	m_pCamera->setAt(TargetPos);
-
-	/*_vec3 vAt = m_pCamera->getAt();
-	if (m_pTarget->getMove())
-	{
-		D3DXVec3TransformCoord(&vEye, &vEye, &matWorld);
-		D3DXVec3TransformCoord(&vAt, &vAt, &matWorld);
-
-		m_pCamera->setEye(vEye);
-		m_pCamera->setAt(vAt);
-	}*/
+	m_pCamera->setEye(vEye);
+	m_pCamera->setAt(vAt);
 }
 
 CMainCamera* CMainCamera::Create(LPDIRECT3DDEVICE9 pDevice)
@@ -117,8 +92,9 @@ void CMainCamera::Free()
 	CGameObject::Free();
 }
 
-void CMainCamera::setTarget(CGameObject* pTarget)
+void CMainCamera::setTarget(CTransform* pTarget)
 {
 	m_pTarget = pTarget;
-	m_pTransform->setParent(pTarget->getTransform());
+	m_pTarget->AddRef();
+	m_pTransform->setParent(pTarget);
 }

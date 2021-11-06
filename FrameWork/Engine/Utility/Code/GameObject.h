@@ -28,13 +28,11 @@ public:
 	inline CTransform* getTransform() { return m_pTransform; }
 public:
 	inline void setActive(const _bool& bActive) { m_bActive = bActive; }
-	inline _bool getMove() { return m_bMove; }
 protected:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	map<COMPONENTID, CComponent*> m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_END];
 	_bool m_bActive;//게임 오브젝트 활성화 및 비활성화 상태 판단
 	CTransform* m_pTransform;
-	_bool m_bMove;
 };
 END
 #endif

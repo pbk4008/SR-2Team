@@ -2,10 +2,8 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 #include "GameObject.h"
-BEGIN(Engine)
-class CCamera;
-END
 class CMainCamera;
+class CPlayerModel;
 class CPlayer final : public CGameObject
 {
 private:
@@ -28,11 +26,10 @@ private:
 	virtual void Free();
 public:
 	void setCamera(CMainCamera* pCamera);
+	void setModel(CPlayerModel* pModel);
 private:
-	CRcTex* m_pBufferCom;
-	CTexture* m_pTexture;
 	_float m_fSpeed;
 	CMainCamera* m_pMainCamera;
-	
+	CPlayerModel* m_pModel;
 };
 #endif

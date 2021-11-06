@@ -22,6 +22,7 @@ private:
 	virtual void Free();
 public:
 	LPDIRECT3DTEXTURE9 getTexture(const _uint& iCnt);
+	inline _int getTextureCount() { return m_vecTexture.size(); }
 private:
 	vector<LPDIRECT3DBASETEXTURE9>	m_vecTexture;
 };

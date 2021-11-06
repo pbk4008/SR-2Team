@@ -158,8 +158,13 @@
     <ClInclude Include="..\Code\MainApp.h" />
     <ClInclude Include="..\Code\MainCamera.h" />
     <ClInclude Include="..\Code\MeleeMon.h" />
+<<<<<<< HEAD
     <ClInclude Include="..\Code\Monster.h" />
+=======
+    <ClInclude Include="..\Code\PlayerModel.h" />
+>>>>>>> main
     <ClInclude Include="..\Code\Player.h" />
+    <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Headers\Enum.h" />
     <ClInclude Include="..\Headers\Include.h" />
@@ -177,8 +182,13 @@
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MainCamera.cpp" />
     <ClCompile Include="..\Code\MeleeMon.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\Code\Monster.cpp" />
+=======
+    <ClCompile Include="..\Code\PlayerModel.cpp" />
+>>>>>>> main
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">

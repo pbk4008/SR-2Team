@@ -19,6 +19,7 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Renderer.h"
+#include "Animation.h"
 
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);
