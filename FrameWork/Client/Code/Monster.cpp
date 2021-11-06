@@ -28,20 +28,21 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
+	_matrix matRot;
+	matRot = *ComputeLookAtTarget(pTargetPos);
+
+	m_pTransform->setRotate(matRot); 
+
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
 	m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
 
 	m_pTransform->setPos(m_vInfo);
-	_matrix matRot;
-
-	matRot = *ComputeLookAtTarget(pTargetPos);
-	m_matWorld *= matRot;
-
 }
 
 _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
+
 	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();

@@ -90,6 +90,7 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CMeleeMon::Attack()
 {
+
 }
 
 HRESULT CMeleeMon::Add_Component()

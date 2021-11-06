@@ -23,6 +23,7 @@ private:
 	_vec3		m_vInfo;
 	_matrix		m_matWorld;
 	_vec3		m_vScale;
+	_float		m_fAngle;
 };
 
 #endif // Monster_h__

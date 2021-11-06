@@ -56,9 +56,13 @@ CMainCamera* CMainCamera::Clone_GameObject()
 
 void CMainCamera::FollowTarget()
 {
-	m_pTransform->setPos(-0.7f, 0.5f, -1.75f);
+	//m_pTransform->setPos(-0.7f, 0.5f, -1.75f);
+	m_pTransform->setPos(-0.7f, 3.f, -1.f);
 	_vec3 vEye = m_pTransform->getAxis(VECAXIS::AXIS_POS);
-	_vec3 vAt = vEye+_vec3(0.f,0.f,1.f);
+	//_vec3 vAt = vEye+_vec3(0.f,0.f,1.f);
+	_vec3 vAt;
+	vAt = m_pTarget->getAxis(VECAXIS::AXIS_POS);
+
 
 	m_pCamera->setEye(vEye);
 	m_pCamera->setAt(vAt);

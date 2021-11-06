@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-﻿  Camera.cpp
-=======
 ﻿  Animation.cpp
   Camera.cpp
->>>>>>> main
   Component.cpp
   CubeTex.cpp
   GameObject.cpp
@@ -21,16 +17,10 @@
   TriCol.cpp
   VIBuffer.cpp
   코드를 생성하고 있습니다...
-<<<<<<< HEAD
-C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\Utility\Code\Transform.cpp(132): warning C4172: 지역 변수 또는 임시의 주소를 반환하고 있습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\Utility\Code\Transform.cpp(197): warning C4172: 지역 변수 또는 임시: vRes의 주소를 반환하고 있습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\Utility\Code\Transform.cpp(177): warning C4172: 지역 변수 또는 임시: matParent의 주소를 반환하고 있습니다.
      ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\Utility\Bin\Utility.dll
-=======
-C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Transform.cpp(197): warning C4172: 지역 변수 또는 임시: vRes의 주소를 반환하고 있습니다.
-C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Transform.cpp(177): warning C4172: 지역 변수 또는 임시: matParent의 주소를 반환하고 있습니다.
-     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
-  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
->>>>>>> main
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
