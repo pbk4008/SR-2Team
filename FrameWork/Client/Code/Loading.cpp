@@ -4,6 +4,8 @@
 #include "MeleeMon.h"
 #include "Player.h"
 #include "MainCamera.h"
+#include "PlayerModel.h"
+#include "Player_AttackAnim.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -40,7 +42,7 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(m_pTextureMgr,99);
 
 	//Texture불러오기
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/Player.png", L"Player", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Player_Attack%d.png", L"Player", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
 
 	//Component원본 생성
@@ -50,10 +52,13 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
 
+	pCom = CPlayer_AttackAnim::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::PLAYER_ATTACKANIM, pCom);
+	
 	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
-
 
 	_vec3 vEye = _vec3(0.f, 0.f, -10.f);
 	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
@@ -65,11 +70,17 @@ _uint CLoading::Loading_ForStage()
 
 	CGameObject* pObj = nullptr;
 
-	//Player
+	//Camera
 	pObj = CMainCamera::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
 
+	//PlayerModel
+	pObj = CPlayerModel::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
+
+	//Player
 	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);

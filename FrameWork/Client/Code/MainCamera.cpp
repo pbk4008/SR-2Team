@@ -45,6 +45,7 @@ void CMainCamera::LateUpdate_GameObject()
 
 void CMainCamera::Render_GameObject()
 {
+	//m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	CGameObject::Render_GameObject();
 }
 
@@ -55,9 +56,9 @@ CMainCamera* CMainCamera::Clone_GameObject()
 
 void CMainCamera::FollowTarget()
 {
-	m_pTransform->setPos(0.f, 5.f, -10.f);
+	m_pTransform->setPos(-0.7f, 0.5f, -1.75f);
 	_vec3 vEye = m_pTransform->getAxis(VECAXIS::AXIS_POS);
-	_vec3 vAt = m_pTarget->getAxis(VECAXIS::AXIS_POS);
+	_vec3 vAt = vEye+_vec3(0.f,0.f,1.f);
 
 	m_pCamera->setEye(vEye);
 	m_pCamera->setAt(vAt);

@@ -29,6 +29,7 @@ private:
 	void ReSetVector();
 	void MatrixToVector();
 	void ChangeParentMatrix();
+	_matrix& matParentReMoveScale();
 public:
 	static CTransform* Create();
 private:

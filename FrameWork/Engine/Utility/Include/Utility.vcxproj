@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;UTILITY_EXPORTS;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Code;../../Headers;../../../Base;../../Export</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Code;../../Headers;../../../Base;../../Export; ../../../Reference/Headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +153,7 @@ call "Update_Utility.bat"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h" />
+    <ClInclude Include="..\Code\Animation.h" />
     <ClInclude Include="..\Code\Camera.h" />
     <ClInclude Include="..\Code\Component.h" />
     <ClInclude Include="..\Code\CubeTex.h" />
@@ -175,6 +176,7 @@ call "Update_Utility.bat"</Command>
     <None Include="..\..\Export\Export_Utility.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Animation.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />

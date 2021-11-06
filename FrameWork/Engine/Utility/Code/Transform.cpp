@@ -115,10 +115,8 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	//부모 오브젝트가 있으면 적용한다
 	//스자이공(부모)
 	ChangeParentMatrix();
-	if (m_dwFlag & FLAG_PARENT)
-	{
-		m_matWorld *= m_pParent->getWorldMatrix();
-	}
+	if (m_pParent)
+		m_matWorld *= m_matOldParent;
 
 	return 0;
 }
@@ -135,7 +133,6 @@ _bool CTransform::IsZero(const _vec3& vVector)
 
 void CTransform::ReSetVector()
 {
-	m_vScale = _vec3(1.f, 1.f, 1.f);
 	m_vAngle = _vec3(0.f, 0.f, 0.f);
 	m_vRevolve = _vec3(0.f, 0.f, 0.f);
 }
@@ -155,18 +152,29 @@ void CTransform::ChangeParentMatrix()
 	{
 		if (m_pParent)
 		{
-			m_matOldParent = m_pParent->getWorldMatrix();
+			_matrix ChangedParent = matParentReMoveScale();
+			m_matOldParent = ChangedParent;
 			m_dwFlag |= FLAG_PARENT;
 		}
 	}
 	else
 	{
-		if (m_matOldParent != m_pParent->getWorldMatrix())
+		_matrix ChangedParent = matParentReMoveScale();
+		if (m_matOldParent != ChangedParent)
 		{
 			m_dwFlag |= FLAG_PARENT;
-			m_matOldParent = m_pParent->getWorldMatrix();
+			m_matOldParent = ChangedParent;
 		}
 	}
+}
+
+_matrix& CTransform::matParentReMoveScale()
+{
+	_matrix matParent = m_pParent->getWorldMatrix();
+	for (_int i = 0; i < (_int)VECAXIS::AXIS_POS; i++)
+		matParent.m[i][i] = 1;
+
+	return matParent;
 }
 
 CTransform* CTransform::Create()
