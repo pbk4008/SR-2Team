@@ -2,6 +2,8 @@
 #ifndef __PLAYERMODLE_H__
 #define __PLAYERMODLE_H__
 #include "GameObject.h"
+#include "Player.h"
+
 BEGIN(Engine)
 class CAnimator;
 END
@@ -19,6 +21,7 @@ public:
 	virtual void Render_GameObject();
 	virtual CGameObject* Clone_GameObject();
 	HRESULT SettingAnimator();
+	CPlayer::STATE Act();
 public:
 	static CPlayerModel* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -26,11 +29,11 @@ private:
 	virtual void Free();
 public:
 	void setTarget(CTransform* pTarget);
-public:
-	inline void setAttack(_bool bAttack) { m_bAttack = bAttack; }
+	void setState(CPlayer::STATE eState);
 private:
+	CPlayer::STATE m_eState;
+
 	CRcTex* m_pBufferCom;
 	CAnimator* m_pAnimator;
-	_bool m_bAttack;
 };
 #endif

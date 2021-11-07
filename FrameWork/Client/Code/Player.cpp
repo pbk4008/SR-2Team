@@ -2,19 +2,20 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "PlayerModel.h"
+#include "Animator.h"
 
-CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr)
-,m_fSpeed(0.f)
+CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
+m_ePreState(STATE::MAX),m_fSpeed(0.f)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
-m_fSpeed(0.f)
+m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMainCamera), m_pModel(rhs.m_pModel),
-m_fSpeed(rhs.m_fSpeed)
+m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
@@ -40,8 +41,10 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	KeyInput(fDeltaTime);
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
+	ChangeState();
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
+	m_eCulState=m_pModel->Act();
 	return iExit;
 }
 
@@ -88,9 +91,26 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	if (Key_Pressing(VIR_D))
 		vPos += vRight * m_fSpeed * fDeltaTime;
 	if (Key_Down(VIR_SPACE))
-		m_pModel->setAttack(true);
+		m_eCulState = STATE::ATTACK;
 
 	m_pTransform->setPos(vPos);
+}
+
+void CPlayer::ChangeState()
+{
+	if (m_eCulState != m_ePreState)
+	{
+		switch (m_eCulState)
+		{
+		case STATE::IDLE:
+			m_pModel->setState(m_eCulState);
+			break;
+		case STATE::ATTACK:
+			m_pModel->setState(m_eCulState);
+			break;
+		}
+		m_ePreState = m_eCulState;
+	}
 }
 
 HRESULT CPlayer::Add_Component()
@@ -118,4 +138,5 @@ void CPlayer::setModel(CPlayerModel* pModel)
 {
 	m_pModel = pModel;
 	m_pModel->setTarget(this->getTransform());
+	m_pModel->SettingAnimator();
 }

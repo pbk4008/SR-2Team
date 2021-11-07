@@ -22,13 +22,13 @@ private:
 	void UpMove(const _float& fDeltaTime);
 	void DownMove(const _float& fDeltaTime);
 	void SettingAnimation(const _float& fDeltaTime);
+	void ResetTimer();
 public:
 	static CPlayer_AttackAnim* Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture);
 private:
 	virtual void Free();
 public:
 	void setTransform(CTransform* pTransform);
-	void ResetTimer();
 private:
 	CTransform* m_pTransform;
 	_float m_fSpeed;

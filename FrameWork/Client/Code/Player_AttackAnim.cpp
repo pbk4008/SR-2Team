@@ -39,7 +39,9 @@ _int CPlayer_AttackAnim::Update_Component(const _float& fDeltaTime)
 	iExit = CAnimation::Update_Component(fDeltaTime);
 	if (iExit & 0x80000000)
 		return -1;
-	//SettingAnimation(fDeltaTime);
+	SettingAnimation(fDeltaTime);
+	if (!m_bPlay)
+		ResetTimer();
 	return iExit;
 }
 

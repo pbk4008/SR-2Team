@@ -29,6 +29,8 @@ _int CAnimator::Update_Component(const _float& fDeltaTime)
 	_int iExit = 0;
 	iExit = CComponent::Update_Component(fDeltaTime);
 
+	m_pCulAnimNode->pData->Update_Component(fDeltaTime);
+
 	return iExit;
 }
 
@@ -45,14 +47,20 @@ CComponent* CAnimator::Clone_Component()
 HRESULT CAnimator::Insert_Animation(const _tchar* pName, const _tchar* pConnetName, CAnimation* pAnim, _bool bDouble)
 {
 	ANIMNODE* pNode = new ANIMNODE(pAnim, pName);
-
-	ANIMNODE* pFindNode = Find_Node(pConnetName, m_pAnimHead);
-	NULL_CHECK_RETURN(pFindNode,E_FAIL);
-
+	ANIMNODE* pFindNode = nullptr;
+	if (!lstrcmp(pConnetName, L"Head"))
+	{
+		pFindNode = m_pAnimHead;
+	}
+	else
+	{
+		pFindNode = Find_Node(pConnetName, m_pAnimHead);
+		NULL_CHECK_RETURN(pFindNode, E_FAIL);
+	}
 	if (bDouble)
 		pNode->pLink.emplace_back(pFindNode);
-	pFindNode->pLink.emplace_back(pNode);
 
+	pFindNode->pLink.emplace_back(pNode);
 	return S_OK;
 }
 
@@ -63,6 +71,7 @@ HRESULT CAnimator::Change_Animation(const _tchar* pName)
 		if (!lstrcmp(pName, pAnimNode->pName))
 		{
 			m_pCulAnimNode = pAnimNode;
+			setAnimPlay(true);
 			return S_OK;
 		}
 	}
@@ -122,6 +131,24 @@ void CAnimator::Free()
 	Delete_Animator(m_pAnimHead);
 	m_mapAnimGroup.clear();
 	CComponent::Free();
+}
+
+_bool CAnimator::getAnimPlay()
+{
+	NULL_CHECK_RETURN(m_pCulAnimNode->pData,false);
+	return m_pCulAnimNode->pData->getPlay();
+}
+
+const _tchar* CAnimator::getCurrentAnim()
+{
+	NULL_CHECK_RETURN(m_pCulAnimNode->pData,L"");
+	return m_pCulAnimNode->pName;
+}
+
+void CAnimator::setAnimPlay(_bool bPlay)
+{
+	NULL_CHECK(m_pCulAnimNode->pData);
+	m_pCulAnimNode->pData->setPlay(bPlay);
 }
 
 

@@ -6,6 +6,8 @@ class CMainCamera;
 class CPlayerModel;
 class CPlayer final : public CGameObject
 {
+public:
+	enum class STATE {IDLE, ATTACK, MAX};
 private:
 	explicit CPlayer();
 	explicit CPlayer(LPDIRECT3DDEVICE9 pDevice);
@@ -19,6 +21,7 @@ public:
 	virtual CGameObject* Clone_GameObject() override;
 private:
 	void KeyInput(const float& fDelatTime);
+	void ChangeState();
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -28,6 +31,9 @@ public:
 	void setCamera(CMainCamera* pCamera);
 	void setModel(CPlayerModel* pModel);
 private:
+	STATE m_eCulState;
+	STATE m_ePreState;
+
 	_float m_fSpeed;
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;

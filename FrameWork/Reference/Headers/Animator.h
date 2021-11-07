@@ -40,6 +40,11 @@ public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
+public:
+	_bool getAnimPlay();
+	const _tchar* getCurrentAnim();
+public:
+	void setAnimPlay(_bool bPlay);
 private:
 	map<const _tchar*,_bool> m_mapAnimGroup;
 	ANIMNODE* m_pCulAnimNode;

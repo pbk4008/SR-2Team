@@ -2,11 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-<<<<<<< HEAD
       <FullPath>C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\System\Bin\System.dll</FullPath>
-=======
-      <FullPath>C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\System\Bin\System.dll</FullPath>
->>>>>>> LJH
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
