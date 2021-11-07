@@ -161,6 +161,7 @@
     <ClInclude Include="..\Code\PlayerModel.h" />
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
+    <ClInclude Include="..\Code\Player_IdleAnim.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Headers\Enum.h" />
     <ClInclude Include="..\Headers\Include.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="..\Code\PlayerModel.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
+    <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">

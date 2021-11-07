@@ -2,20 +2,18 @@
 #include "MainCamera.h"
 #include "Camera.h"
 
-CMainCamera::CMainCamera() : m_pCamera(nullptr), m_pTarget(nullptr)
+CMainCamera::CMainCamera() : m_pCamera(nullptr)
 {
 }
 
-CMainCamera::CMainCamera(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCamera(nullptr), m_pTarget(nullptr)
+CMainCamera::CMainCamera(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCamera(nullptr)
 {
 
 }
 
-CMainCamera::CMainCamera(const CMainCamera& rhs) : CGameObject(rhs), m_pCamera(rhs.m_pCamera), m_pTarget(rhs.m_pTarget)
+CMainCamera::CMainCamera(const CMainCamera& rhs) : CGameObject(rhs), m_pCamera(rhs.m_pCamera)
 {
 	m_pCamera->AddRef();
-	if(rhs.m_pTarget)
-		m_pTarget->AddRef();
 }
 
 CMainCamera::~CMainCamera()
@@ -57,8 +55,9 @@ CMainCamera* CMainCamera::Clone_GameObject()
 void CMainCamera::FollowTarget()
 {
 	m_pTransform->setPos(-0.7f, 0.5f, -1.75f);
-	_vec3 vEye = m_pTransform->getAxis(VECAXIS::AXIS_POS);
-	_vec3 vAt = vEye+_vec3(0.f,0.f,1.f);
+	//m_pTransform->setPos(0.f, 0.f, -3.f);
+	_vec3 vEye = *(m_pTransform->getAxis(VECAXIS::AXIS_POS));
+	_vec3 vAt = vEye + _vec3(0.f,0.f,1.f);
 
 	m_pCamera->setEye(vEye);
 	m_pCamera->setAt(vAt);
@@ -80,6 +79,7 @@ HRESULT CMainCamera::Add_Component()
 
 	pCom = m_pCamera = Clone_ComProto<CCamera>(COMPONENTID::CAMERA);
 	NULL_CHECK_RETURN(pCom, E_FAIL);
+	m_pCamera->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CAMERA, pCom);
 
 	return S_OK;
@@ -87,14 +87,11 @@ HRESULT CMainCamera::Add_Component()
 
 void CMainCamera::Free()
 {
-	Safe_Release(m_pTarget);
 	Safe_Release(m_pCamera);
 	CGameObject::Free();
 }
 
 void CMainCamera::setTarget(CTransform* pTarget)
 {
-	m_pTarget = pTarget;
-	m_pTarget->AddRef();
 	m_pTransform->setParent(pTarget);
 }
