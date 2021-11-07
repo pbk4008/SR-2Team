@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 
-
+#include "CTerrainTexture.h"
+#include "CTerrainPicture.h"
 // CForm 폼 보기
+
 
 class CForm : public CFormView
 {
@@ -30,16 +32,24 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnBnClickedCreatebutton(); //터레인생성 함수
+	// 다이얼로그
+	CTerrainTexture m_tTerrainTexture;
+	CTerrainPicture m_tTerrainPickture;
 
+
+	//변수
 	int m_dwTerrainX;
 	int m_dwTerrainZ;
 	int m_dwInterval;
+	int m_iTerrain_Detail;
+
 
 private:
 	CMAPTOOLView* m_pMapToolView;
 public:
 	CButton m_bWireFrame;
 	afx_msg void OnBnClickedTexture();
+	afx_msg void OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 

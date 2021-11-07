@@ -19,9 +19,11 @@ private:
 	virtual void Free();
 public:
 	inline LPDIRECT3DDEVICE9 getDevice() { return m_pDevice; }
+	inline LPD3DXLINE		getLine() { return m_pLine; }
 private:
 	LPDIRECT3D9 m_pSDK;
 	LPDIRECT3DDEVICE9 m_pDevice;
+	LPD3DXLINE m_pLine;
 };
 END
 #endif

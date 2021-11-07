@@ -18,6 +18,7 @@ CForm::CForm()
 	, m_dwTerrainX(0)
 	, m_dwTerrainZ(0)
 	, m_dwInterval(0)
+	, m_iTerrain_Detail(0)
 {
 	//m_pMapToolView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd())->m_tMainSplitter.GetPane(0, 1));
 }
@@ -33,11 +34,13 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, Terrain_dwCntZ, m_dwTerrainZ);
 	DDX_Text(pDX, Terrain_DwInterval, m_dwInterval);
 	DDX_Control(pDX, Terrain_WireFrame, m_bWireFrame);
+	DDX_Text(pDX, Terrain_DeTail, m_iTerrain_Detail);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(Terrain_CreateButton, &CForm::OnBnClickedCreatebutton)
 	ON_BN_CLICKED(Terrain_Texture, &CForm::OnBnClickedTexture)
+	ON_NOTIFY(UDN_DELTAPOS, Terrain_DetailSpin, &CForm::OnDeltaposDetailspin)
 END_MESSAGE_MAP()
 
 
@@ -73,6 +76,8 @@ void CForm::OnInitialUpdate()
 	//m_pMapToolView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->GetActiveView());
 	m_pMapToolView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 1));
 
+	m_iTerrain_Detail = 0;
+
 
 }
 
@@ -90,5 +95,35 @@ void CForm::OnBnClickedCreatebutton()
 void CForm::OnBnClickedTexture()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	/*if (!m_tTerrainTexture.GetSafeHwnd())
+		m_tTerrainTexture.Create(IDD_CTerrainTexture);
+	m_tTerrainTexture.ShowWindow(SW_SHOW);*/
 
+	if (!m_tTerrainPickture.GetSafeHwnd())
+		m_tTerrainPickture.Create(IDD_CTerrainPicture);
+	m_tTerrainPickture.ShowWindow(SW_SHOW);
+}
+
+
+
+
+void CForm::OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	if (pNMUpDown->iDelta < 0)
+	{
+		++m_iTerrain_Detail;
+	}
+	else
+	{
+		--m_iTerrain_Detail;
+	}
+	// false = 우리가눈으로 보여지는 리소스로 코드안에있는 변수들을내보냄
+	// true = 리소스에있는 데이터들을 코드안에있는 변수들에게 집어넣음
+	UpdateData(false);
+
+
+	*pResult = 0;
 }

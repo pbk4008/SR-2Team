@@ -1,14 +1,5 @@
-﻿  FrameMgr.cpp
-  GraphicDev.cpp
-  InputDev.cpp
-  TimeMgr.cpp
-  코드를 생성하고 있습니다...
-     ../Bin\System.lib 라이브러리 및 ../Bin\System.exp 개체를 생성하고 있습니다.
-<<<<<<< HEAD
+﻿  GraphicDev.cpp
   System.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\System\Bin\System.dll
-=======
-  System.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\System\Bin\System.dll
->>>>>>> main
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
