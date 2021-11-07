@@ -123,6 +123,9 @@
     <ClInclude Include="..\Code\Animation.h">
       <Filter>04.Component\05.Animator\00.Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Animator.h">
+      <Filter>04.Component\05.Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Export\Export_Utility.inl">
@@ -183,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animation.cpp">
       <Filter>04.Component\05.Animator\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Animator.cpp">
+      <Filter>04.Component\05.Animator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

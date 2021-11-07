@@ -39,7 +39,7 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
-		_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	m_fSpeed = 2.f;
 

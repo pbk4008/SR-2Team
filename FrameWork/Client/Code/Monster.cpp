@@ -24,7 +24,7 @@ void CMonster::Set_Target(const _vec3* pTargetPos)
 
 void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta)
 {
-	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
@@ -43,7 +43,7 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
 
-	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 

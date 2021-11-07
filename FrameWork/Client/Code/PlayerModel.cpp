@@ -1,18 +1,20 @@
 #include "pch.h"
 #include "PlayerModel.h"
+#include "Animator.h"
 #include "Player_AttackAnim.h"
-CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_pAtkAnim(nullptr), m_bAttack(false)
+#include "Player_IdleAnim.h"
+CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_bAttack(false), m_pAnimator(nullptr)
 {
 }
 
-CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAtkAnim(nullptr), m_bAttack(false)
+CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAnimator(nullptr), m_bAttack(false)
 {
 }
 
-CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAtkAnim(rhs.m_pAtkAnim), m_bAttack(rhs.m_bAttack)
+CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAnimator(rhs.m_pAnimator), m_bAttack(rhs.m_bAttack)
 {
 	m_pBufferCom->AddRef();
-	m_pAtkAnim->AddRef();
+	m_pAnimator->AddRef();
 }
 
 CPlayerModel::~CPlayerModel()
@@ -34,8 +36,8 @@ _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 	//m_pTransform->setPos(-0.1f, 0.f, 0.f);
 	if (m_bAttack)
 	{
-		m_pAtkAnim->Update_Component(fDeltaTime);
-		m_pAtkAnim->setPlay(true);
+		//m_pAtkAnim->Update_Component(fDeltaTime);
+		//m_pAtkAnim->setPlay(true);
 	}
 
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -51,12 +53,12 @@ void CPlayerModel::LateUpdate_GameObject()
 void CPlayerModel::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-	m_pAtkAnim->Render_Animation();
-	if (!m_pAtkAnim->getPlay())
-	{
-		m_bAttack = false;
-		m_pAtkAnim->ResetTimer();
-	}
+	////m_pAtkAnim->Render_Animation();
+	//if (!m_pAtkAnim->getPlay())
+	//{
+	//	m_bAttack = false;
+	//	m_pAtkAnim->ResetTimer();
+	//}
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -70,16 +72,16 @@ HRESULT CPlayerModel::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
 
-	pCom = m_pAtkAnim = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
+	/*pCom = m_pAtkAnim = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
 	m_pAtkAnim->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_ATTACKANIM, pCom);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_ATTACKANIM, pCom);*/
 
 	return S_OK;
 }
 
 void CPlayerModel::Free()
 {
-	Safe_Release(m_pAtkAnim);
+	//Safe_Release(m_pAtkAnim);
 	CGameObject::Free();
 	Safe_Release(m_pBufferCom);
 }
@@ -88,12 +90,27 @@ void CPlayerModel::setTarget(CTransform* pTarget)
 {
 	m_pTransform->setParent(pTarget);
 	m_pTransform->setPos(-0.15f, 0.f, 0.f);
-	m_pAtkAnim->setTransform(m_pTransform);
+	//m_pAtkAnim->setTransform(m_pTransform);
 }
 
 CGameObject* CPlayerModel::Clone_GameObject()
 {
 	return new CPlayerModel(*this);
+}
+
+HRESULT CPlayerModel::SettingAnimator()
+{
+	m_pAnimator = Clone_ComProto<CAnimator>(COMPONENTID::ANIMATOR);
+
+	CAnimation* pAnim = Clone_ComProto<CPlayerIdleAnim>(COMPONENTID::PLAYER_IDLEANIM);
+	m_pAnimator->Insert_Animation(L"Player_Idle", L"Head", pAnim);
+
+	CPlayer_AttackAnim* pAtk = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
+	pAtk->setTransform(m_pTransform);
+	pAnim = pAtk;
+	m_pAnimator->Insert_Animation(L"Player_Attack", L"Player_Idle", pAnim, true);
+
+	FAILED_CHECK(m_pAnimator->Change_Animation(L"Player_Idle"));
 }
 
 CPlayerModel* CPlayerModel::Create(LPDIRECT3DDEVICE9 pDevice)

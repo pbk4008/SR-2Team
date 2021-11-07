@@ -36,11 +36,10 @@ HRESULT CPlayer_AttackAnim::Init_PlayerAttackAnim(CTexture* pTexture)
 _int CPlayer_AttackAnim::Update_Component(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	m_pTransform;
 	iExit = CAnimation::Update_Component(fDeltaTime);
 	if (iExit & 0x80000000)
 		return -1;
-	SettingAnimation(fDeltaTime);
+	//SettingAnimation(fDeltaTime);
 	return iExit;
 }
 

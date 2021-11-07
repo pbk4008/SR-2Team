@@ -2,7 +2,9 @@
 #ifndef __PLAYERMODLE_H__
 #define __PLAYERMODLE_H__
 #include "GameObject.h"
-class CPlayer_AttackAnim;
+BEGIN(Engine)
+class CAnimator;
+END
 class CPlayerModel final : public CGameObject
 {
 private:
@@ -16,6 +18,7 @@ public:
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
 	virtual CGameObject* Clone_GameObject();
+	HRESULT SettingAnimator();
 public:
 	static CPlayerModel* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -27,7 +30,7 @@ public:
 	inline void setAttack(_bool bAttack) { m_bAttack = bAttack; }
 private:
 	CRcTex* m_pBufferCom;
-	CPlayer_AttackAnim* m_pAtkAnim;
+	CAnimator* m_pAnimator;
 	_bool m_bAttack;
 };
 #endif

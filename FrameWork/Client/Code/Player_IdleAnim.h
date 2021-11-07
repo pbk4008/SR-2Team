@@ -10,7 +10,7 @@ private:
 	explicit CPlayerIdleAnim(const CAnimation& rhs);
 	virtual ~CPlayerIdleAnim();
 public:
-	HRESULT Init_PlayerIdleAnim();
+	HRESULT Init_PlayerIdleAnim(CTexture* pTexture);
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 public:

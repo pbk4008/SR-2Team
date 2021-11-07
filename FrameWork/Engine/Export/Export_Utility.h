@@ -21,6 +21,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "Animation.h"
+#include "Animator.h"
 
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);
