@@ -23,10 +23,11 @@ private:
 	virtual void Free();
 public:
 	void setTarget(CTransform* pTarget);
+public:
+	inline void setAttack(_bool bAttack) { m_bAttack = bAttack; }
 private:
-	CTransform* m_pTarget;
-
 	CRcTex* m_pBufferCom;
 	CPlayer_AttackAnim* m_pAtkAnim;
+	_bool m_bAttack;
 };
 #endif

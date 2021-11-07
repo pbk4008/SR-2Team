@@ -73,11 +73,11 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CPlayer::KeyInput(const float& fDeltaTime)
 {
-	_vec3 vLook = m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
+	_vec3 vLook = *m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
 	D3DXVec3Normalize(&vLook, &vLook);
-	_vec3 vRight = m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
+	_vec3 vRight = *m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
 	D3DXVec3Normalize(&vRight, &vRight);
-	_vec3 vPos = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3 vPos = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	if (Key_Pressing(VIR_W))
 		vPos += vLook * m_fSpeed * fDeltaTime;
@@ -87,10 +87,8 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 		vPos += vLook * -m_fSpeed * fDeltaTime;
 	if (Key_Pressing(VIR_D))
 		vPos += vRight * m_fSpeed * fDeltaTime;
-	//if (Key_Down(VIR_SPACE))
-	//{
-	//	m_pAttackAnim->setPlay(true);
-	//}
+	if (Key_Down(VIR_SPACE))
+		m_pModel->setAttack(true);
 
 	m_pTransform->setPos(vPos);
 }
@@ -99,14 +97,6 @@ HRESULT CPlayer::Add_Component()
 {
 	CGameObject::Add_Component();
 	CComponent* pCom = nullptr;
-
-	//pCom = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	//m_pBufferCom->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
-
-	//pCom = m_pAttackAnim = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
-	//m_pAttackAnim->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_ATTACKANIM, pCom);
 
 	return S_OK;
 }
