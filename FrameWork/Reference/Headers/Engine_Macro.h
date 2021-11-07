@@ -11,8 +11,12 @@ namespace Engine
 #else
 #define ENGINE_DLL __declspec(dllimport)
 #endif
-
+#ifdef _AFX
+#define MSG_BOX(_msg) AfxMessageBox(_msg);
+#else
 #define MSG_BOX(_msg) MessageBox(nullptr,_msg,L"System Message",MB_OK);
+#endif
+
 #define NULL_CHECK(_ptr)	if(!_ptr)	{__asm{int 3}; return;}
 #define NULL_CHECK_RETURN(_ptr,_return) if(!_ptr){__asm{int 3}; return _return;}
 #define NULL_CHECK_MSG(_ptr,_msg) if(!_ptr){__asm{int 3}; MSG_BOX(_msg); return;}

@@ -57,6 +57,11 @@ _vec3 MousePos(HWND _hWnd)
 	return CInputDev::GetInstance()->MousePos(_hWnd);
 }
 
+void  SetFirstMousePos(HWND _hWnd)
+{
+	return CInputDev::GetInstance()->SetFirstMousePos(_hWnd);
+}
+
 void System_Release()
 {
 	CInputDev::DestroyInstance();

@@ -69,21 +69,20 @@ _uint CLoading::Loading_ForStage()
 	Init_ComProto(COMPONENTID::CAMERA, pCom);*/
 
 	CGameObject* pObj = nullptr;
-
-	////Camera
-	//pObj = CMainCamera::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, E_FAIL);
-	//Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
-
-	////PlayerModel
-	//pObj = CPlayerModel::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, E_FAIL);
-	//Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
-
 	//Player
-	/*pObj = CPlayer::Create(m_pDevice);
+	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);*/
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+
+	//Camera
+	pObj = CMainCamera::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
+
+	//PlayerModel
+	pObj = CPlayerModel::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
 	// ±ÝÁ¢¸ó
 	/*pObj = CMeleeMon::Create(m_pDevice);

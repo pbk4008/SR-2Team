@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Management.h"
+#include "Transform.h"
 
 #include "ProtoMgr.h"
 #include "TextureMgr.h"

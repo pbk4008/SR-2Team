@@ -28,7 +28,6 @@ private:
 public:
 	void setTarget(CTransform* pTarget);
 private:
-	CTransform* m_pTarget;
 	CCamera* m_pCamera;
 };
 #endif

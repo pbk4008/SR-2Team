@@ -17,6 +17,8 @@ public:
 protected:
 	virtual void Free();
 public:
+	_bool getPlay() { return m_bPlay; }
+public:
 	void setTexture(CTexture* pTexutre);
 	void setPlay(_bool bPlay) { m_bPlay = bPlay; }
 protected:
@@ -26,6 +28,7 @@ protected:
 	_float m_fPlaySpeed;
 	_bool m_bPlay;
 	_bool m_bLoop;
+	_bool m_bDelay;
 	_int m_iIndex;
 };
 END

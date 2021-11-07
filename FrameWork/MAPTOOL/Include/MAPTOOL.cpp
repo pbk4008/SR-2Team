@@ -11,6 +11,8 @@
 
 #include "MAPTOOLDoc.h"
 #include "MAPTOOLView.h"
+#include "Form.h"
+#include "DynamicCamera.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -183,13 +185,13 @@ void CMAPTOOLApp::OnAppAbout()
 
 
 
-
 // ================================ WINAPI 메세지 루프와 동일하게 사용하면됨 ========================
 BOOL CMAPTOOLApp::OnIdle(LONG lCount)
 {
 	if (!m_pToolView)
 		m_pToolView = dynamic_cast<CMAPTOOLView*>( dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 1) );
-
+	if(!m_pForm)
+		m_pForm = dynamic_cast<CForm*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 0));
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	if (this->m_pMainWnd->IsIconic())
@@ -200,13 +202,42 @@ BOOL CMAPTOOLApp::OnIdle(LONG lCount)
 	{
 		//루프 처리
 
-		m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+	//	m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+		CInputDev::GetInstance()->Update_InputDev();
+
+		if (m_pToolView)
+		{
+			m_pToolView->Get_DynamicCamera()->Update_Object(0.016f);
 
 
-		m_pToolView->m_pGraphicDev->Render_End();
+			m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+
+			if(m_pForm->m_bWireFrame.GetCheck())
+			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+
+			dynamic_cast<CTerrainTex*>(m_pToolView->Get_TerrainBuffer())->Render_Buffer();
+
+			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+			if(m_pForm->m_bWireFrame.GetCheck())
+			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+			m_pToolView->m_pGraphicDev->Render_End();
+		}
+
+
+
+
+
+
+		//m_pToolView->m_pGraphicDev->Render_End();
 	}
 
 
-	return CWinApp::OnIdle(lCount);
+	//return CWinApp::OnIdle(lCount);
+	return TRUE;
 }
 // ================================ WINAPI 메세지 루프와 동일하게 사용하면됨 ========================

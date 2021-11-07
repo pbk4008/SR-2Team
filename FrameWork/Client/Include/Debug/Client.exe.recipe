@@ -2,6 +2,15 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< HEAD
+      <FullPath>C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\System\Bin\System.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\Utility\Bin\Utility.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\kko\Desktop\SR_2Team\FrameWork\Client\Bin\Client.exe</FullPath>
+=======
       <FullPath>C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\System\Bin\System.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
@@ -9,6 +18,7 @@
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Client\Bin\Client.exe</FullPath>
+>>>>>>> main
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

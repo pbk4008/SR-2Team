@@ -11,6 +11,7 @@ CTerrainTex::CTerrainTex(LPDIRECT3DDEVICE9 pDevice) : CVIBuffer(pDevice), m_pHei
 
 CTerrainTex::CTerrainTex(const CTerrainTex& rhs) : CVIBuffer(rhs), m_pHeightMap(rhs.m_pHeightMap)
 {
+	if(m_pHeightMap)
 	m_pHeightMap->AddRef();
 }
 
@@ -18,7 +19,7 @@ CTerrainTex::~CTerrainTex()
 {
 }
 
-HRESULT CTerrainTex::Init_Buffer(LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv)
+HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv)
 {
 	m_pHeightMap = pTexture;
 	m_pHeightMap->AddRef();
@@ -109,13 +110,82 @@ CComponent* CTerrainTex::Clone_Component()
 CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv)
 {
 	CTerrainTex* pInstance = new CTerrainTex(pDevice);
-	if (FAILED(pInstance->Init_Buffer(pTexture,dwVtxInv)))
+	if (FAILED(pInstance->Init_BufferTexture(pTexture,dwVtxInv)))
 		Safe_Release(pInstance);
 	return pInstance;
 }
 
 void CTerrainTex::Free()
 {
+
 	Safe_Release(m_pHeightMap);
 	CVIBuffer::Free();
+}
+
+HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv /*= 1*/)
+{
+	m_dwCntX = dwCntX;
+	m_dwCntZ = dwCntZ;
+	m_dwFVF = FVF_TEX;
+	m_dwInterval = dwVtxInv;
+	m_dwTriCnt = (m_dwCntX - 1) * (m_dwCntZ - 1) * 2;
+	m_dwVtxCnt = m_dwCntX * m_dwCntZ;
+	m_dwVtxSize = sizeof(VTXTEX);
+
+	m_IdxFmt = D3DFMT_INDEX32;
+	m_dwIdxSize = sizeof(INDEX32);
+
+	FAILED_CHECK_RETURN(CVIBuffer::Init_Buffer(), E_FAIL);
+
+	
+	VTXTEX* pVertex = nullptr;
+	_ulong dwIndex = 0;
+	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+
+	for (_ulong i = 0; i < m_dwCntZ; i++)
+	{
+		for (_ulong j = 0; j < m_dwCntX; j++)
+		{
+			dwIndex = i * m_dwCntX + j;
+			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), 0, _float(i * m_dwInterval));
+			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1), _float(i) / (m_dwCntZ - 1));
+		}
+	}
+	m_pVB->Unlock();
+
+	_ulong dwTriCnt = 0;
+
+	INDEX32* pIndex = nullptr;
+	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
+
+
+	for (_ulong i = 0; i < m_dwCntZ - 1; i++)
+	{
+		for (_ulong j = 0; j < m_dwCntX - 1; j++)
+		{
+			dwIndex = i * m_dwCntX + j;
+
+			//¿À¸¥ÂÊ À§ »ï°¢Çü
+			pIndex[dwTriCnt]._0 = (dwIndex + m_dwCntX);
+			pIndex[dwTriCnt]._1 = (dwIndex + m_dwCntX + 1);
+			pIndex[dwTriCnt]._2 = (dwIndex + 1);
+			dwTriCnt++;
+
+			//¿ÞÂÊ ¾Æ·¡ »ï°¢Çü
+			pIndex[dwTriCnt]._0 = (dwIndex + m_dwCntX);
+			pIndex[dwTriCnt]._1 = (dwIndex + 1);
+			pIndex[dwTriCnt]._2 = (dwIndex);
+			dwTriCnt++;
+		}
+	}
+	m_pIB->Unlock();
+	return S_OK;
+}
+
+Engine::CTerrainTex* Engine::CTerrainTex::Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv /*= 1*/)
+{
+	CTerrainTex* pInstance = new CTerrainTex(pDevice);
+	if (FAILED(pInstance->Init_BufferNoTexture(dwCntX, dwCntZ, dwVtxInv)))
+		Safe_Release(pInstance);
+	return pInstance;
 }

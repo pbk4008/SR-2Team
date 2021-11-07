@@ -1,15 +1,15 @@
 #include "pch.h"
 #include "PlayerModel.h"
 #include "Player_AttackAnim.h"
-CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_pAtkAnim(nullptr)
+CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_pAtkAnim(nullptr), m_bAttack(false)
 {
 }
 
-CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAtkAnim(nullptr)
+CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAtkAnim(nullptr), m_bAttack(false)
 {
 }
 
-CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAtkAnim(rhs.m_pAtkAnim)
+CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAtkAnim(rhs.m_pAtkAnim), m_bAttack(rhs.m_bAttack)
 {
 	m_pBufferCom->AddRef();
 	m_pAtkAnim->AddRef();
@@ -30,7 +30,14 @@ _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
-	//m_pTransform->
+	m_pTransform->setScale(0.8f, 0.8f, 0.5f);
+	//m_pTransform->setPos(-0.1f, 0.f, 0.f);
+	if (m_bAttack)
+	{
+		m_pAtkAnim->Update_Component(fDeltaTime);
+		m_pAtkAnim->setPlay(true);
+	}
+
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
@@ -45,6 +52,11 @@ void CPlayerModel::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pAtkAnim->Render_Animation();
+	if (!m_pAtkAnim->getPlay())
+	{
+		m_bAttack = false;
+		m_pAtkAnim->ResetTimer();
+	}
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -67,16 +79,16 @@ HRESULT CPlayerModel::Add_Component()
 
 void CPlayerModel::Free()
 {
-	CGameObject::Free();
 	Safe_Release(m_pAtkAnim);
+	CGameObject::Free();
 	Safe_Release(m_pBufferCom);
 }
 
 void CPlayerModel::setTarget(CTransform* pTarget)
 {
-	m_pTarget = pTarget;
 	m_pTransform->setParent(pTarget);
-	m_pTarget->AddRef();
+	m_pTransform->setPos(-0.15f, 0.f, 0.f);
+	m_pAtkAnim->setTransform(m_pTransform);
 }
 
 CGameObject* CPlayerModel::Clone_GameObject()

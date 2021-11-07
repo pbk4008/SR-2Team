@@ -7,7 +7,7 @@
 class CMAPTOOLDoc;
 class CForm;
 class CMainFrame;
-
+class CDynamicCamera;
 
 class CMAPTOOLView : public CView
 {
@@ -22,9 +22,17 @@ public:
 	CForm* m_pForm;
 	CGraphicDev* m_pGraphicDev;
 	LPDIRECT3DDEVICE9 m_pDevice;
+	CInputDev* m_pInputDev;
+	CProtoMgr* m_pProtoMgr;
+	CDynamicCamera* m_pDynamicCamera;
+	CComponent* m_pBufferCom;
+	
 // 작업입니다.
 public:
-
+	void SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
+	CDynamicCamera* Get_DynamicCamera() { return m_pDynamicCamera; }
+	CComponent* Get_TerrainBuffer() { return m_pBufferCom; }
+	LPDIRECT3DDEVICE9 View_Get_Deivce() { return m_pDevice; }
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.

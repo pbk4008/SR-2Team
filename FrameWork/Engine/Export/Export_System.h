@@ -26,6 +26,7 @@ inline _bool Key_Up(_ulong dwKey);
 inline _bool Key_Down(_ulong dwKey);
 inline _bool Key_Pressing(_ulong dwKey);
 inline _vec3 MousePos(HWND _hWnd);
+inline void  SetFirstMousePos(HWND _hWnd);
 
 inline void System_Release();
 #include "Export_System.inl"

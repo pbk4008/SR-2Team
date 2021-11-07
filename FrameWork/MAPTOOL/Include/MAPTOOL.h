@@ -10,6 +10,7 @@
 #include "resource.h"       // 주 기호입니다.
 
 class CMAPTOOLView;
+class CForm;
 
 // CMAPTOOLApp:
 // 이 클래스의 구현에 대해서는 MAPTOOL.cpp을(를) 참조하세요.
@@ -33,6 +34,7 @@ public:
 
 private:
 	CMAPTOOLView* m_pToolView;
+	CForm* m_pForm;
 };
 
 extern CMAPTOOLApp theApp;

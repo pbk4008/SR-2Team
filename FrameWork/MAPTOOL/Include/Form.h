@@ -29,6 +29,17 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
+	afx_msg void OnBnClickedCreatebutton(); //터레인생성 함수
+
+	int m_dwTerrainX;
+	int m_dwTerrainZ;
+	int m_dwInterval;
+
+private:
+	CMAPTOOLView* m_pMapToolView;
+public:
+	CButton m_bWireFrame;
+	afx_msg void OnBnClickedTexture();
 };
 
 

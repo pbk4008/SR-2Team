@@ -3,9 +3,9 @@
 #define __CAMERA_H__
 #include "Component.h"
 BEGIN(Engine)
-class ENGINE_DLL CCamera final : public CComponent
+class ENGINE_DLL CCamera : public CComponent
 {
-private:
+protected:
 	explicit CCamera();
 	explicit CCamera(LPDIRECT3DDEVICE9 pDevice);
 	explicit CCamera(const CCamera& rhs);
@@ -19,7 +19,7 @@ public:
 public:
 	static CCamera* Create(LPDIRECT3DDEVICE9 pDevice, const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
 		, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
-private:
+public:
 	virtual void Free();
 public:
 	inline _vec3& getEye() { return m_vEye; }
