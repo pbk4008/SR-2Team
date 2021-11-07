@@ -41,6 +41,15 @@
     <Filter Include="02.GameObject\02.Monster\00. MeleeMon">
       <UniqueIdentifier>{79e5e83d-2ae5-4624-9d66-dd85bb7ca562}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\03.MainCamera">
+      <UniqueIdentifier>{4af11669-284c-4768-be39-92a629893b3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\00.Animation">
+      <UniqueIdentifier>{dca1522b-0470-4c32-b920-1555f2f0131a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\00.Model">
+      <UniqueIdentifier>{964d02d3-da7a-4503-8405-825681f454d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -88,6 +97,18 @@
     <ClInclude Include="..\Code\Player.h">
       <Filter>02.GameObject\01.Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Monster.h">
+      <Filter>02.GameObject\02.Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\MainCamera.h">
+      <Filter>02.GameObject\03.MainCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Player_AttackAnim.h">
+      <Filter>02.GameObject\01.Player\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\PlayerModel.h">
+      <Filter>02.GameObject\01.Player\00.Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -114,6 +135,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02.GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>02.GameObject\02.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MainCamera.cpp">
+      <Filter>02.GameObject\03.MainCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player_AttackAnim.cpp">
+      <Filter>02.GameObject\01.Player\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PlayerModel.cpp">
+      <Filter>02.GameObject\01.Player\00.Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -29,6 +29,9 @@ void CInputDev::Update_InputDev()
 		m_dwKey |= VIR_LBUTTON;
 	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 		m_dwKey |= VIR_RBUTTON;
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		m_dwKey |= VIR_SPACE;
+
 }
 
 _bool CInputDev::Key_Up(_ulong dwKey)

@@ -1,6 +1,8 @@
 #include "Engine_Include.h"
 #include "Scene.h"
 #include "Layer.h"
+#include "GameObject.h"
+
 CScene::CScene() : m_pDevice(nullptr)
 {
 }
@@ -60,4 +62,24 @@ CComponent* CScene::getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONEN
 	NULL_CHECK_RETURN(pLayer, nullptr);
 
 	return pLayer->getComponent(eObjID, eComID, eType);
+}
+
+CGameObject* CScene::getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID)
+{
+	CGameObject* pGameObject = nullptr;
+	auto iter = Find_Layer(eLayerID);
+	NULL_CHECK_RETURN(iter, nullptr);
+
+	return iter->getGameObject(eObjID);
+}
+
+CGameObject* CScene::getGameObject(GAMEOBJECTID eObjID)
+{
+	CGameObject* pGameObject = nullptr;
+	for (auto& iter : m_mapLayer)
+	{
+		if (pGameObject = (iter.second)->getGameObject(eObjID))
+			return pGameObject;
+	}
+	return nullptr;
 }

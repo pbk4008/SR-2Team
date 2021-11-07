@@ -1,20 +1,25 @@
 #include "pch.h"
 #include "Player.h"
-#include "Camera.h"
+#include "MainCamera.h"
+#include "PlayerModel.h"
 
-CPlayer::CPlayer() : m_pBufferCom(nullptr), m_pTexture(nullptr),m_pCamera(nullptr)
+CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr)
 ,m_fSpeed(0.f)
 {
 }
 
-CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), m_pCamera(nullptr)
-, m_fSpeed(0.f)
+CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
+m_fSpeed(0.f)
 {
 }
 
-CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture), m_pCamera(rhs.m_pCamera)
-,m_fSpeed(rhs.m_fSpeed)
+CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMainCamera), m_pModel(rhs.m_pModel),
+m_fSpeed(rhs.m_fSpeed)
 {
+	if (rhs.m_pModel)
+		m_pModel->AddRef();
+	if(rhs.m_pMainCamera)
+		m_pMainCamera->AddRef();
 }
 
 CPlayer::~CPlayer()
@@ -33,10 +38,10 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
 	KeyInput(fDeltaTime);
+	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-
-	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
-
+	m_pMainCamera->Update_GameObject(fDeltaTime);
+	m_pModel->Update_GameObject(fDeltaTime);
 	return iExit;
 }
 
@@ -48,9 +53,8 @@ void CPlayer::LateUpdate_GameObject()
 void CPlayer::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	m_pModel->Render_GameObject();
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pTexture->Render_Texture();
-	m_pBufferCom->Render_Buffer();
 	CGameObject::Render_GameObject();
 }
 
@@ -74,18 +78,19 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	_vec3 vRight = m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
 	D3DXVec3Normalize(&vRight, &vRight);
 	_vec3 vPos = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+
 	if (Key_Pressing(VIR_W))
-	{
-		/*cout << (vLook * m_fSpeed * fDeltaTime).x << " " << (vLook * m_fSpeed * fDeltaTime).y
-			<<" " << (vLook * m_fSpeed * fDeltaTime).z << endl;;*/
 		vPos += vLook * m_fSpeed * fDeltaTime;
-	}
 	if (Key_Pressing(VIR_A))
 		vPos += vRight * -m_fSpeed * fDeltaTime;
 	if (Key_Pressing(VIR_S))
 		vPos += vLook * -m_fSpeed * fDeltaTime;
 	if (Key_Pressing(VIR_D))
 		vPos += vRight * m_fSpeed * fDeltaTime;
+	//if (Key_Down(VIR_SPACE))
+	//{
+	//	m_pAttackAnim->setPlay(true);
+	//}
 
 	m_pTransform->setPos(vPos);
 }
@@ -95,25 +100,32 @@ HRESULT CPlayer::Add_Component()
 	CGameObject::Add_Component();
 	CComponent* pCom = nullptr;
 
-	pCom = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	m_pBufferCom->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
+	//pCom = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
+	//m_pBufferCom->AddRef();
+	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
 
-	pCom = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX);
-	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_TEX, pCom);
-
-	pCom = m_pCamera = Clone_ComProto<CCamera>(COMPONENTID::CAMERA);
-	m_pCamera->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CAMERA, pCom);
+	//pCom = m_pAttackAnim = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
+	//m_pAttackAnim->AddRef();
+	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_ATTACKANIM, pCom);
 
 	return S_OK;
 }
 
 void CPlayer::Free()
 {
-	Safe_Release(m_pCamera);
-	Safe_Release(m_pBufferCom);
-	Safe_Release(m_pTexture);
+	Safe_Release(m_pMainCamera);
+	Safe_Release(m_pModel);
 	CGameObject::Free();
+}
+
+void CPlayer::setCamera(CMainCamera* pCamera)
+{
+	m_pMainCamera = pCamera;
+	m_pMainCamera->setTarget(this->getTransform());
+}
+
+void CPlayer::setModel(CPlayerModel* pModel)
+{
+	m_pModel = pModel;
+	m_pModel->setTarget(this->getTransform());
 }

@@ -58,6 +58,12 @@
     <Filter Include="05.Manager\01.TextureMgr">
       <UniqueIdentifier>{20f9bf51-80e1-45f2-a735-d935a21ccfd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\05.Animator">
+      <UniqueIdentifier>{1fb9f0b5-53f1-4a47-b338-529014b86ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\05.Animator\00.Animation">
+      <UniqueIdentifier>{e3bc1296-31e8-4d4e-9418-889d5cfa9a57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -113,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\TextureMgr.h">
       <Filter>05.Manager\01.TextureMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Animation.h">
+      <Filter>04.Component\05.Animator\00.Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\TextureMgr.cpp">
       <Filter>05.Manager\01.TextureMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Animation.cpp">
+      <Filter>04.Component\05.Animator\00.Animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

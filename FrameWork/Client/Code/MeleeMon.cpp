@@ -1,23 +1,24 @@
 #include "pch.h"
 #include "MeleeMon.h"
 #include "Transform.h"
+#include "Player.h"
 
 CMeleeMon::CMeleeMon()
-	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
+	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
 {
 	
 }
 
 CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
-	:CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), 
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
+	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
+	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
 {
 
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
-	: CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f)
+	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
+	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
 {
 
 }
@@ -29,14 +30,8 @@ CMeleeMon::~CMeleeMon()
 
 HRESULT CMeleeMon::Init_MeleeMon()
 {
-	m_fXPos = 1.f;
-	m_fYPos = 1.f;
-	m_fZPos = 1.f;
-
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	m_pTransform->setScale(1.f, 1.f, 0.f);
-	m_pTransform->setPos(m_fXPos, m_fYPos, m_fZPos);
+	m_fSpeed = 2.f;
 
 	return S_OK;
 }
@@ -44,8 +39,17 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
-	Key_Input();
-	//Follow_Mouse();
+		_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+
+	m_fSpeed = 2.f;
+
+	m_pTransform->setScale(0.1f, 0.1f, 0.1f);
+
+	CGameObject* pObject =  GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 Position = pObject->getTransform()->getPos();
+
+	Chase_Target(&Position, m_fSpeed, fDeltaTime);
+
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
@@ -69,26 +73,6 @@ void CMeleeMon::Render_GameObject()
 	CGameObject::Render_GameObject();
 }
 
-void CMeleeMon::Follow_Mouse()
-{
-	/*LPPOINT pCursor;
-	GetCursorPos(&pCursor[0]);
-	ScreenToClient(g_hWnd, &pCursor[0]);*/
-
-
-}
-
-void CMeleeMon::Key_Input()
-{
-	m_pTransform->getPos();
-
-	if (GetAsyncKeyState(VK_UP) & 0x80000)
-		m_pTransform->setPos(m_fXPos, --m_fYPos, m_fZPos);
-
-	if (GetAsyncKeyState(VK_DOWN) & 0x80000)
-		m_pTransform->setPos(m_fXPos, ++m_fYPos, m_fZPos);
-}
-
 Engine::CGameObject* CMeleeMon::Clone_GameObject()
 {
 	return new CMeleeMon(*this);
@@ -104,31 +88,37 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 	return pInstance;
 }
 
+void CMeleeMon::Attack()
+{
+
+}
+
 HRESULT CMeleeMon::Add_Component()
 {
 	CGameObject::Add_Component();
 	CComponent* pComponent = nullptr;
 
-	//¹ö¼hÄÞ
-	//texture
+	// rctex ¹ö¼hÄÞ
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
+
 	//texture
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX);
 	m_pTexture->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_TEX, pComponent);
 
-	////transform
-	//pComponent = m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
-	//NULL_CHECK_RETURN(pComponent, E_FAIL);
-	//m_mapComponent->emplace(COMPONENTID::TRANSFORM, pComponent);
+	//camera
+	pComponent = m_pCamera = Clone_ComProto<CCamera>(COMPONENTID::CAMERA);
+	m_pCamera->AddRef();
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CAMERA, m_pBufferCom);
 
 	return S_OK;
 }
 
 void CMeleeMon::Free()
 {
+	//Safe_Release(m_pCamera);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
