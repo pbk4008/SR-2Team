@@ -79,7 +79,6 @@ _uint CLoading::Loading_ForStage()
 	Init_ComProto(COMPONENTID::CAMERA, pCom);
 
 	CGameObject* pObj = nullptr;
-
 	//Player
 	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
