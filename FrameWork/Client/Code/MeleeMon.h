@@ -31,12 +31,9 @@ private:
 private:
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
-	CCamera*		m_pCamera;
-	CPlayer*		m_pPlayer;
 
-	_float			m_fXPos;
-	_float			m_fYPos;
-	_float			m_fZPos;
+	_bool			m_bAttack;
+
 	_float			m_fSpeed;
 };
 #endif

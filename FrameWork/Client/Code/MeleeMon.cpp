@@ -4,21 +4,22 @@
 #include "Player.h"
 
 CMeleeMon::CMeleeMon()
-	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
+	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
+	m_bAttack(false)
 {
 	
 }
 
 CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
+	m_fSpeed(0.f), m_bAttack(false)
 {
 
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
+	 m_fSpeed(0.f), m_bAttack(false)
 {
 
 }
@@ -39,16 +40,17 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
-		_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	
+	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	m_fSpeed = 2.f;
 
-	m_pTransform->setScale(0.1f, 0.1f, 0.1f);
+	//m_pTransform->setScale(0.1f, 0.1f, 0.1f);
 
-	CGameObject* pObject =  GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	/*CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 Position = pObject->getTransform()->getPos();
 
-	Chase_Target(&Position, m_fSpeed, fDeltaTime);
+	Chase_Target(&Position, m_fSpeed, fDeltaTime);*/
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
@@ -90,6 +92,11 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CMeleeMon::Attack()
 {
+	if (m_bAttack == true)
+	{
+
+		m_bAttack = false;
+	}
 
 }
 
@@ -108,17 +115,11 @@ HRESULT CMeleeMon::Add_Component()
 	m_pTexture->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_TEX, pComponent);
 
-	//camera
-	pComponent = m_pCamera = Clone_ComProto<CCamera>(COMPONENTID::CAMERA);
-	m_pCamera->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CAMERA, m_pBufferCom);
-
 	return S_OK;
 }
 
 void CMeleeMon::Free()
 {
-	//Safe_Release(m_pCamera);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();

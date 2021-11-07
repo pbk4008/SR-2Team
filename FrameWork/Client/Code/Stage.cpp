@@ -76,26 +76,28 @@ HRESULT CStage::Init_GameLogic_Layer()
 	//TODO : GameLogic 게임오브젝트 추가
 
 	CGameObject* pGameObject = nullptr;
-
 	//Player생성
-	CPlayer* pPlayer = nullptr;
 
-	pGameObject = pPlayer=Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
+	//CPlayer* pPlayer = nullptr;
 
-	CMainCamera* pCam = Clone_ObjProto<CMainCamera>(GAMEOBJECTID::CAMERA);
-	CPlayerModel* pModel = Clone_ObjProto<CPlayerModel>(GAMEOBJECTID::PLAYERMODEL);
+	//pGameObject = pPlayer = Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
 
-	pPlayer->setModel(pModel);
-	pPlayer->setCamera(pCam);
- 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
+	//CMainCamera* pCam = Clone_ObjProto<CMainCamera>(GAMEOBJECTID::CAMERA);
+	//CPlayerModel* pModel = Clone_ObjProto<CPlayerModel>(GAMEOBJECTID::PLAYERMODEL);
+
+	//pPlayer->setModel(pModel);
+	//pPlayer->setCamera(pCam);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
 	//몬스터 생성
-	pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);
+	//pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
 }
+
+
 
 HRESULT CStage::Init_UI_Layer()
 {

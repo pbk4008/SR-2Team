@@ -56,39 +56,39 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_ATTACKANIM, pCom);
 	
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
+	/*pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
+	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);*/
 
 	_vec3 vEye = _vec3(0.f, 0.f, -10.f);
 	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
 	_vec3 vUp = _vec3(0.f, 1.f, 0.f);
 
-	pCom = CCamera::Create(m_pDevice, vEye, vAt, vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
+	/*pCom = CCamera::Create(m_pDevice, vEye, vAt, vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
 	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::CAMERA, pCom);
+	Init_ComProto(COMPONENTID::CAMERA, pCom);*/
 
 	CGameObject* pObj = nullptr;
 
-	//Camera
-	pObj = CMainCamera::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
+	////Camera
+	//pObj = CMainCamera::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, E_FAIL);
+	//Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
 
-	//PlayerModel
-	pObj = CPlayerModel::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
+	////PlayerModel
+	//pObj = CPlayerModel::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, E_FAIL);
+	//Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 
 	//Player
-	pObj = CPlayer::Create(m_pDevice);
+	/*pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);*/
 	
 	// ±ÝÁ¢¸ó
-	pObj = CMeleeMon::Create(m_pDevice);
+	/*pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);*/
 	
 	m_bFinish = true;
 	return 0;
