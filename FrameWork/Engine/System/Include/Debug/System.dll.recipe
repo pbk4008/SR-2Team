@@ -2,11 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-<<<<<<< HEAD
-      <FullPath>C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\System\Bin\System.dll</FullPath>
-=======
       <FullPath>C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\System\Bin\System.dll</FullPath>
->>>>>>> main
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

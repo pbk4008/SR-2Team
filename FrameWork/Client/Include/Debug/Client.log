@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-﻿  Loading.cpp
-=======
-<<<<<<< HEAD
-﻿  Monster.cpp
-=======
-﻿  Loading.cpp
-  MainCamera.cpp
-  Player.cpp
-  PlayerModel.cpp
-  Stage.cpp
-  코드를 생성하고 있습니다...
->>>>>>> bk
->>>>>>> main
+﻿  MeleeMon.cpp
      ../Bin\Client.lib 라이브러리 및 ../Bin\Client.exp 개체를 생성하고 있습니다.
-<<<<<<< HEAD
-  Client.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Client\Bin\Client.exe
-=======
   Client.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Client\Bin\Client.exe
->>>>>>> main

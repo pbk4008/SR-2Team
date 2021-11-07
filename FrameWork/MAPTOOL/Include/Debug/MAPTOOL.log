@@ -1,1 +1,129 @@
-﻿  MAPTOOL.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Bin\MAPTOOL.exe
+﻿  pch.cpp
+  DynamicCamera.cpp
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(22,2): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(23,2): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(24,2): error C2248: 'Engine::CCamera::m_vUp': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(33): message : 'Engine::CCamera::m_vUp' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(26,2): error C2248: 'Engine::CCamera::m_fFov': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(35): message : 'Engine::CCamera::m_fFov' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(27,2): error C2248: 'Engine::CCamera::m_fAspect': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(34): message : 'Engine::CCamera::m_fAspect' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(28,2): error C2248: 'Engine::CCamera::m_fNear': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(36): message : 'Engine::CCamera::m_fNear' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(29,2): error C2248: 'Engine::CCamera::m_fFar': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(37): message : 'Engine::CCamera::m_fFar' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(60,44): error C2248: 'Engine::CCamera::m_matView': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(38): message : 'Engine::CCamera::m_matView' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(72,3): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(73,3): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(85,3): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(86,3): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(98,3): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(99,3): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(111,3): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(112,3): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(119,42): error C2248: 'Engine::CCamera::m_matView': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(38): message : 'Engine::CCamera::m_matView' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(130,17): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(130,25): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(136,3): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(136,11): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(145,17): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(145,25): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(151,3): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\DynamicCamera.cpp(151,11): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+  StaticCamera.cpp
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(23,2): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(24,2): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(25,2): error C2248: 'Engine::CCamera::m_vUp': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(33): message : 'Engine::CCamera::m_vUp' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(27,2): error C2248: 'Engine::CCamera::m_fFov': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(35): message : 'Engine::CCamera::m_fFov' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(28,2): error C2248: 'Engine::CCamera::m_fAspect': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(34): message : 'Engine::CCamera::m_fAspect' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(29,2): error C2248: 'Engine::CCamera::m_fNear': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(36): message : 'Engine::CCamera::m_fNear' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(30,2): error C2248: 'Engine::CCamera::m_fFar': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(37): message : 'Engine::CCamera::m_fFar' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(79,2): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(80,21): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(80,30): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(82,2): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(89,27): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(89,36): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(94,2): error C2248: 'Engine::CCamera::m_vEye': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(31): message : 'Engine::CCamera::m_vEye' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\MAPTOOL\Code\StaticCamera.cpp(95,2): error C2248: 'Engine::CCamera::m_vAt': private 멤버('Engine::CCamera' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(32): message : 'Engine::CCamera::m_vAt' 선언을 참조하십시오.
+C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Reference\Headers\Camera.h(6): message : 'Engine::CCamera' 선언을 참조하십시오.
+  Form.cpp
+  MainFrm.cpp
+  MAPTOOL.cpp
+  MAPTOOLDoc.cpp
+  MAPTOOLView.cpp
+  코드를 생성하고 있습니다...
