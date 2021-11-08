@@ -13,7 +13,7 @@ protected:
 	virtual ~CAnimation();
 public:
 	virtual _int Update_Component(const _float& fDeltaTime);
-	void Render_Animation();
+	virtual void Render_Animation();
 protected:
 	virtual void Free();
 public:

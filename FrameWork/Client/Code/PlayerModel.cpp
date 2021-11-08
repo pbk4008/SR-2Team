@@ -3,6 +3,7 @@
 #include "Animator.h"
 #include "Player_AttackAnim.h"
 #include "Player_IdleAnim.h"
+#include "Player_Walk.h"
 CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_eState(CPlayer::STATE::MAX), m_pAnimator(nullptr)
 {
 }
@@ -33,8 +34,7 @@ _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
-	m_pTransform->setScale(0.8f, 0.8f, 0.5f);
-
+	m_pTransform->setScale(1.f, 0.8f, 0.5f);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
@@ -100,6 +100,11 @@ HRESULT CPlayerModel::SettingAnimator()
 	pAnim = pAtk;
 	m_pAnimator->Insert_Animation(L"Player_Attack", L"Player_Idle", pAnim, true);
 
+	CPlayerWalk* pWalk = Clone_ComProto<CPlayerWalk>(COMPONENTID::PLAYER_WALKANIM);
+	pWalk->setTransform(m_pTransform);
+	pAnim = pWalk;
+	m_pAnimator->Insert_Animation(L"Player_Walk", L"Player_Idle", pAnim, true);
+	
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"Player_Idle"));
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);
@@ -122,6 +127,9 @@ CPlayer::STATE CPlayerModel::Act()
 		}
 		else
 			m_pAnimator->Change_Animation(L"Player_Attack");
+		break;
+	case CPlayer::STATE::WALK:
+		m_pAnimator->Change_Animation(L"Player_Walk");
 		break;
 	}
 	return m_eState;

@@ -8,6 +8,7 @@
 #include "Animator.h"
 #include "Player_AttackAnim.h"
 #include "Player_IdleAnim.h"
+#include "Player_Walk.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -61,6 +62,10 @@ _uint CLoading::Loading_ForStage()
 	pCom = CPlayerIdleAnim::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_IDLEANIM, pCom);
+
+	pCom = CPlayerWalk::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::PLAYER_WALKANIM, pCom);
 
 	pCom = CAnimator::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, E_FAIL);

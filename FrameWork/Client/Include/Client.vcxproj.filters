@@ -56,6 +56,9 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\00.Idle">
       <UniqueIdentifier>{5de2de06-9e3e-4956-aed9-61d8e7752203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
+      <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -118,6 +121,9 @@
     <ClInclude Include="..\Code\Player_IdleAnim.h">
       <Filter>02.GameObject\01.Player\01.Animation\00.Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Player_Walk.h">
+      <Filter>02.GameObject\01.Player\01.Animation\01.Walk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -159,6 +165,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Player_IdleAnim.cpp">
       <Filter>02.GameObject\01.Player\01.Animation\00.Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player_Walk.cpp">
+      <Filter>02.GameObject\01.Player\01.Animation\01.Walk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -65,7 +65,7 @@ HRESULT CTransform::Init_Transform()
 _int CTransform::Update_Component(const _float& fDeltaTime)
 {
 	D3DXMatrixIdentity(&m_matWorld);
-	ReSetVector();
+	//ReSetVector();
 
 	//스케일 값 조정
 	if (m_dwFlag & FLAG_SCALE)
@@ -76,24 +76,23 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	}
 
 	//회전 값 조정
-	if (m_dwFlag & FLAG_ANGLE || m_dwFlag & FLAG_AXISROTATE)
+	_matrix matRot;
+	D3DXMatrixIdentity(&matRot);
+	if (m_dwFlag & FLAG_ANGLE )
 	{
-		_matrix matRot;
-		if (D3DXMatrixIsIdentity(&m_matRotate))//임의의 축 회전 안했을때
-		{
-			D3DXMatrixRotationX(&matRot, D3DXToRadian(m_vAngle.x));
-			D3DXMatrixRotationY(&matRot, D3DXToRadian(m_vAngle.y));
-			D3DXMatrixRotationZ(&matRot, D3DXToRadian(m_vAngle.z));
-			m_dwFlag ^= FLAG_ANGLE;
-		}
-		else//임의의 축 회전 했을때
-		{
-			matRot = m_matRotate;
-			D3DXMatrixIdentity(&m_matRotate);
-			m_dwFlag ^= FLAG_AXISROTATE;
-		}
-		m_matWorld *= matRot;
+		D3DXMatrixRotationX(&matRot, D3DXToRadian(m_vAngle.x));
+		D3DXMatrixRotationY(&matRot, D3DXToRadian(m_vAngle.y));
+		D3DXMatrixRotationZ(&matRot, D3DXToRadian(m_vAngle.z));
+		m_vAngle = _vec3(0.f, 0.f, 0.f);
+		m_dwFlag ^= FLAG_ANGLE;
 	}
+	else if(m_dwFlag & FLAG_AXISROTATE)//임의의 축 회전 했을때
+	{
+		matRot = m_matRotate;
+		D3DXMatrixIdentity(&m_matRotate);
+		m_dwFlag ^= FLAG_AXISROTATE;
+	}
+	m_matWorld *= matRot;
 	//위치 값 조정
 	if (m_dwFlag & FLAG_POS)
 	{
