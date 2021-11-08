@@ -27,7 +27,7 @@ public:
 public:
 	inline void setEye(const _vec3& vEye) { m_vEye = vEye; }
 	inline void setAt(const _vec3& vAt) { m_vAt = vAt; }
-private:
+protected:
 	_vec3 m_vEye;
 	_vec3 m_vAt;
 	_vec3 m_vUp;

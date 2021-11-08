@@ -61,7 +61,7 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 			//간단히 보면 2차원 배열을 1차원으로 표시한다는 식으로 이해하면 빠를 듯
 			_float fY = ((_float)(*((LPWORD)d3drc.pBits + i * (d3drc.Pitch / 4) + j) & 0x000000ff)) / 10.f;
 			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), fY, _float(i * m_dwInterval));
-			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1),_float(i)/(m_dwCntZ-1));
+			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1) ,_float(i)/(m_dwCntZ-1));
 		}
 	}
 	m_pVB->Unlock();

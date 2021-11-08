@@ -32,6 +32,12 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnBnClickedCreatebutton(); //터레인생성 함수
+	afx_msg void OnBnClickedTexture();
+	afx_msg void OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBnClickedTerrainSave();
+	void Save_Terrain(CString strFilePath);
+	void Load_Terrain(CString strFilePath);
+	void ReSize_Detail();
 	// 다이얼로그
 	CTerrainTexture m_tTerrainTexture;
 	CTerrainPicture m_tTerrainPickture;
@@ -48,8 +54,7 @@ private:
 	CMAPTOOLView* m_pMapToolView;
 public:
 	CButton m_bWireFrame;
-	afx_msg void OnBnClickedTexture();
-	afx_msg void OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBnClickedTerrainLoad();
 };
 
 

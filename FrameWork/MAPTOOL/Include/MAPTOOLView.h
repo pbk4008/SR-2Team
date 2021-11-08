@@ -29,6 +29,9 @@ public:
 
 	CTextureMgr* m_pTextureMgr;
 
+	//폴더이름
+	CString m_tTextureFolder;
+	//파일이름
 	CString m_tTexturePath;
 	
 // 작업입니다.

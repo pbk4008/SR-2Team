@@ -85,7 +85,10 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력
+
+
+
+	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력 //기본옵션
 		clamp : 0~1을 넘는 경우 그냥 잘라냄
 		mirror : 0~1을 넘는 경우 반전하여 출력 */
 
