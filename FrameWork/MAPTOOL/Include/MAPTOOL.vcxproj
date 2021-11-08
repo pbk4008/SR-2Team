@@ -194,7 +194,6 @@
     <ClInclude Include="..\Headers\ToolExtern.h" />
     <ClInclude Include="..\Headers\ToolInclude.h" />
     <ClInclude Include="..\Headers\ToolStruct.h" />
-    <ClInclude Include="CTerrainPicture.h" />
     <ClInclude Include="CTerrainTexture.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="framework.h" />
@@ -209,7 +208,6 @@
   <ItemGroup>
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
-    <ClCompile Include="CTerrainPicture.cpp" />
     <ClCompile Include="CTerrainTexture.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="MainFrm.cpp" />

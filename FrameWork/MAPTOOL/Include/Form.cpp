@@ -36,6 +36,7 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, Terrain_DwInterval, m_dwInterval);
 	DDX_Control(pDX, Terrain_WireFrame, m_bWireFrame);
 	DDX_Text(pDX, Terrain_DeTail, m_iTerrain_Detail);
+	DDX_Control(pDX, List_Terrain, m_List_Terrain);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -76,9 +77,9 @@ void CForm::OnInitialUpdate()
 	SetScrollSizes(MM_TEXT, CSize(0, 0));
 
 	// View창 연결하기
-	//m_pMapToolView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->GetActiveView());
 	m_pMapToolView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 1));
 
+	// 기본 Detail값
 	m_iTerrain_Detail = 1;
 
 
@@ -91,6 +92,11 @@ void CForm::OnBnClickedCreatebutton()
 	UpdateData(TRUE);
 	m_pMapToolView->m_pBufferCom->Release();
 	m_pMapToolView->m_pBufferCom = CTerrainTex::Create(m_pMapToolView->View_Get_Deivce(),m_dwTerrainX, m_dwTerrainZ, m_dwInterval);
+	CString Indextemp;
+	Indextemp.Format(L"%d", m_listIndex);
+	m_List_Terrain.AddString(Indextemp);
+	++m_listIndex;
+	ReSize_Detail();
 
 }
 
@@ -101,10 +107,6 @@ void CForm::OnBnClickedTexture()
 	if (!m_tTerrainTexture.GetSafeHwnd())
 		m_tTerrainTexture.Create(IDD_CTerrainTexture);
 	m_tTerrainTexture.ShowWindow(SW_SHOW);
-
-	/*if (!m_tTerrainPickture.GetSafeHwnd())
-		m_tTerrainPickture.Create(IDD_CTerrainPicture);
-	m_tTerrainPickture.ShowWindow(SW_SHOW);*/
 }
 
 
@@ -123,14 +125,11 @@ void CForm::OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		--m_iTerrain_Detail;
 	}
+
 	// false = 우리가눈으로 보여지는 리소스로 코드안에있는 변수들을내보냄
 	// true = 리소스에있는 데이터들을 코드안에있는 변수들에게 집어넣음
 	UpdateData(false);
-
-	
 	ReSize_Detail();
-
-
 
 	*pResult = 0;
 }

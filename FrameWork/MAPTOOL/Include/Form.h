@@ -2,7 +2,6 @@
 
 
 #include "CTerrainTexture.h"
-#include "CTerrainPicture.h"
 // CForm 폼 보기
 
 
@@ -40,21 +39,26 @@ public:
 	void ReSize_Detail();
 	// 다이얼로그
 	CTerrainTexture m_tTerrainTexture;
-	CTerrainPicture m_tTerrainPickture;
 
 
-	//변수
+	//Terrain변수
 	int m_dwTerrainX;
 	int m_dwTerrainZ;
 	int m_dwInterval;
 	int m_iTerrain_Detail;
 
+	//List변수
+	int m_listIndex;
+
 
 private:
 	CMAPTOOLView* m_pMapToolView;
+
+	std::list<
 public:
 	CButton m_bWireFrame;
 	afx_msg void OnBnClickedTerrainLoad();
+	CListBox m_List_Terrain;
 };
 
 

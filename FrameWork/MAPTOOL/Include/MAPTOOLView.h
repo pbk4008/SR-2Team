@@ -18,17 +18,21 @@ protected: // serialization에서만 만들어집니다.
 // 특성입니다.
 public:
 	CMAPTOOLDoc* GetDocument() const;
+	//=============
 	CMainFrame* m_pMainFrame;
 	CForm* m_pForm;
+	//=============
 	CGraphicDev* m_pGraphicDev;
 	LPDIRECT3DDEVICE9 m_pDevice;
 	CInputDev* m_pInputDev;
 	CProtoMgr* m_pProtoMgr;
+	CTextureMgr* m_pTextureMgr;
+	//=============
 	CDynamicCamera* m_pDynamicCamera;
 	CComponent* m_pBufferCom;
 
-	CTextureMgr* m_pTextureMgr;
-
+	//=============
+	_vec3 LineXYZ[3][2];
 	//폴더이름
 	CString m_tTextureFolder;
 	//파일이름
@@ -40,6 +44,9 @@ public:
 	CDynamicCamera* Get_DynamicCamera() { return m_pDynamicCamera; }
 	CComponent* Get_TerrainBuffer() { return m_pBufferCom; }
 	LPDIRECT3DDEVICE9 View_Get_Deivce() { return m_pDevice; }
+	void Update_View(const float& fTimeDelta);
+	void Init_LineXYZ();
+	void Render_LineXYZ();
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.

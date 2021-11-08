@@ -95,6 +95,40 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 
 }
 
+void CMAPTOOLView::Update_View(const float& fTimeDelta)
+{
+	CInputDev::GetInstance()->Update_InputDev();
+	m_pDynamicCamera->Update_Object(fTimeDelta);
+}
+
+void CMAPTOOLView::Init_LineXYZ()
+{
+
+	LineXYZ[0][0].x = 0; LineXYZ[0][0].y = 0; LineXYZ[0][0].z = 0;
+	LineXYZ[0][1].x = 0; LineXYZ[0][1].y = 0; LineXYZ[0][1].z = 5;
+	
+	LineXYZ[1][0].x = 0; LineXYZ[1][0].y = 0; LineXYZ[1][0].z = 0;
+	LineXYZ[1][1].x = 0; LineXYZ[1][1].y = 5; LineXYZ[1][1].z = 0;
+
+	LineXYZ[2][0].x = 0; LineXYZ[2][0].y = 0; LineXYZ[2][0].z = 0;
+	LineXYZ[2][1].x = 5; LineXYZ[2][1].y = 0; LineXYZ[2][1].z = 0;
+}
+
+void CMAPTOOLView::Render_LineXYZ()
+{
+	_matrix matWorld, matView, matProj;
+
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphicDev->getLine()->Begin();
+	m_pGraphicDev->getLine()->DrawTransform(LineXYZ[0], 2, &(matView * matProj), D3DCOLOR_XRGB(255, 0, 0));
+	m_pGraphicDev->getLine()->DrawTransform(LineXYZ[1], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 255, 0));
+	m_pGraphicDev->getLine()->DrawTransform(LineXYZ[2], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 0, 255));
+	m_pGraphicDev->getLine()->End();
+
+}
+
 // CMAPTOOLView 그리기
 
 
@@ -105,6 +139,43 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 	if (!pDoc)
 		return;
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+			//루프 처리
+
+	//	m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+	
+
+
+	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+
+	{
+		if (m_pForm->m_bWireFrame.GetCheck())
+			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	}
+
+
+		if (!m_tTexturePath.IsEmpty())
+		{
+			const auto& pTexture = GetTexture(m_tTexturePath, TEXTURETYPE::TEX_NORMAL);
+			m_pGraphicDev->getDevice()->SetTexture(0, *(pTexture->begin()));
+		}
+
+
+		dynamic_cast<CTerrainTex*>(m_pBufferCom)->Render_Buffer();
+
+
+		{
+			m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			if (m_pForm->m_bWireFrame.GetCheck())
+				m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		}
+
+	
+		Render_LineXYZ();
+
+		m_pGraphicDev->Render_End();
+
 
 
 
@@ -183,6 +254,8 @@ void CMAPTOOLView::OnInitialUpdate()
 
 	SetUp_DefaultGraphicDevSetting(&m_pDevice);
 
+	// XYZ색선 점 설정
+	Init_LineXYZ();
 
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 	Init_ProtoMgr();
