@@ -59,6 +59,9 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
       <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\00.BackGround\00.Terrain">
+      <UniqueIdentifier>{f30b00ce-61da-4cd0-a9cd-5d0640873819}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -124,6 +127,9 @@
     <ClInclude Include="..\Code\Player_Walk.h">
       <Filter>02.GameObject\01.Player\01.Animation\01.Walk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Terrain.h">
+      <Filter>02.GameObject\00.BackGround\00.Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -168,6 +174,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Player_Walk.cpp">
       <Filter>02.GameObject\01.Player\01.Animation\01.Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Terrain.cpp">
+      <Filter>02.GameObject\00.BackGround\00.Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
