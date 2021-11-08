@@ -56,6 +56,24 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\00.Idle">
       <UniqueIdentifier>{5de2de06-9e3e-4956-aed9-61d8e7752203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation">
+      <UniqueIdentifier>{c70a1818-a8e2-4db4-9923-d40852681517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation\00. Idle">
+      <UniqueIdentifier>{49a2e0c1-b013-49fa-99d6-e937e5291ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation\01. Walk Forward">
+      <UniqueIdentifier>{44ef679f-d50b-4ada-860e-a78d1a79e8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\01. ShootMon">
+      <UniqueIdentifier>{17d21a74-f71d-450e-aff7-9ec53d108797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\01. ShootMon\00. Animation">
+      <UniqueIdentifier>{85fec44e-18ff-4b9f-b636-9be43a928118}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\02. FlyMon">
+      <UniqueIdentifier>{686255df-e0f8-4b14-9f25-b8aa9e75e77b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -118,6 +136,18 @@
     <ClInclude Include="..\Code\Player_IdleAnim.h">
       <Filter>02.GameObject\01.Player\01.Animation\00.Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\MeleeMon_Idle.h">
+      <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\MeleeMon_WalkF.h">
+      <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\01. Walk Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShootMon.h">
+      <Filter>02.GameObject\02.Monster\01. ShootMon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\FlyMon.h">
+      <Filter>02.GameObject\02.Monster\02. FlyMon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -159,6 +189,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\Player_IdleAnim.cpp">
       <Filter>02.GameObject\01.Player\01.Animation\00.Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MeleeMon_Idle.cpp">
+      <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MeleeMon_WalkF.cpp">
+      <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\01. Walk Forward</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShootMon.cpp">
+      <Filter>02.GameObject\02.Monster\01. ShootMon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FlyMon.cpp">
+      <Filter>02.GameObject\02.Monster\02. FlyMon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
