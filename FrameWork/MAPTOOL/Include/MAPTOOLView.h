@@ -26,6 +26,13 @@ public:
 	CProtoMgr* m_pProtoMgr;
 	CDynamicCamera* m_pDynamicCamera;
 	CComponent* m_pBufferCom;
+
+	CTextureMgr* m_pTextureMgr;
+
+	//폴더이름
+	CString m_tTextureFolder;
+	//파일이름
+	CString m_tTexturePath;
 	
 // 작업입니다.
 public:
@@ -57,6 +64,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnInitialUpdate();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // MAPTOOLView.cpp의 디버그 버전
