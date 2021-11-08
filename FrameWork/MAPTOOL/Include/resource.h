@@ -20,10 +20,8 @@
 #define Terrain_Texture_Tree            1021
 #define Terrain_Texture_Picture         1022
 #define IDC_BUTTON1                     1023
-#define BUTTON_Terrain_Load             1024
 #define Terrain_Picture                 1025
 #define Picture_Scroll                  1026
-#define BUTTON_Terrain_Save             1028
 
 // Next default values for new objects
 // 
@@ -31,7 +29,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1029
+#define _APS_NEXT_CONTROL_VALUE         1027
 #define _APS_NEXT_SYMED_VALUE           313
 #endif
 #endif

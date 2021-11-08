@@ -4,12 +4,8 @@ c:\users\kko\desktop\sr_2team\framework\client\include\debug\vc142.idb
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\pch.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\client.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\stage.obj
-c:\users\kko\desktop\sr_2team\framework\client\include\debug\player_attackanim.obj
-c:\users\kko\desktop\sr_2team\framework\client\include\debug\playermodel.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\player.obj
-c:\users\kko\desktop\sr_2team\framework\client\include\debug\monster.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\meleemon.obj
-c:\users\kko\desktop\sr_2team\framework\client\include\debug\maincamera.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\mainapp.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\logo.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\loading.obj
@@ -20,6 +16,10 @@ c:\users\kko\desktop\sr_2team\framework\client\bin\client.exe
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\client.ilk
 c:\users\kko\desktop\sr_2team\framework\client\bin\client.pdb
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\client.res
+c:\users\kko\desktop\sr_2team\framework\client\include\debug\maincamera.obj
+c:\users\kko\desktop\sr_2team\framework\client\include\debug\monster.obj
+c:\users\kko\desktop\sr_2team\framework\client\include\debug\playermodel.obj
+c:\users\kko\desktop\sr_2team\framework\client\include\debug\player_attackanim.obj
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\client.tlog\cl.command.1.tlog
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\client.tlog\cl.read.1.tlog
 c:\users\kko\desktop\sr_2team\framework\client\include\debug\client.tlog\cl.write.1.tlog

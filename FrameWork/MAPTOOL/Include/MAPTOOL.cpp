@@ -235,8 +235,9 @@ BOOL CMAPTOOLApp::OnIdle(LONG lCount)
 
 			if (!m_pToolView->m_tTexturePath.IsEmpty())
 			{
-				const auto& pTexture = GetTexture(m_pToolView->m_tTexturePath, TEXTURETYPE::TEX_NORMAL);
-				m_pToolView->m_pGraphicDev->getDevice()->SetTexture(0,*(pTexture->begin()));
+				const auto& pTexture = GetTexture(L"Terrain", TEXTURETYPE::TEX_NORMAL);
+				int temp = m_pForm->m_tTerrainTexture.m_iTreeIndex;
+				m_pToolView->m_pGraphicDev->getDevice()->SetTexture(0,(*pTexture)[temp]);
 			}
 
 

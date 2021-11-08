@@ -38,9 +38,7 @@ HRESULT CTextureMgr::Insert_Texture(LPDIRECT3DDEVICE9 pDevice,TEXTURETYPE eType,
 		}
 		pVecTexture.emplace_back(pTexture);
 	}
-	_tchar* pNewState = new _tchar[32];
-	lstrcpy(pNewState, pState);
-	m_mapTexture[(_ulong)eType].emplace(pNewState, pVecTexture);
+	m_mapTexture[(_ulong)eType].emplace(pState, pVecTexture);
 
 	return S_OK;
 }
@@ -56,8 +54,7 @@ vector<LPDIRECT3DBASETEXTURE9>* CTextureMgr::Find_Texture(TEXTURETYPE eType, con
 vector<LPDIRECT3DBASETEXTURE9>* CTextureMgr::getTexture(const _tchar* pTag, TEXTURETYPE eType)
 {
 	vector<LPDIRECT3DBASETEXTURE9>* vecTexture = Find_Texture(eType, pTag);
-	if (!vecTexture)
-		return nullptr;
+	NULL_CHECK_RETURN(vecTexture, nullptr);
 
 	return vecTexture;
 }
@@ -71,7 +68,6 @@ void CTextureMgr::Free()
 			for_each(vecTexture.second.begin(), vecTexture.second.end(), DeleteObj);
 			vecTexture.second.clear();
 			vecTexture.second.shrink_to_fit();
-			delete[] vecTexture.first;
 		}
 		m_mapTexture[i].clear();
 	}
