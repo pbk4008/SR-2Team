@@ -23,7 +23,7 @@ _bool CFrameMgr::IsPermit(const _float& fDeltaTime)
 	m_fFPSTime += fDeltaTime;
 	if(m_fFPSTime > 1.f)//1초동안하는
 	{
-		cout << m_iFPS << endl;
+		//cout << m_iFPS << endl;
 		m_fFPSTime = 0.f;
 		m_iFPS = 0;
 	}

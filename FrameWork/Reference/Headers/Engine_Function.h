@@ -1,7 +1,7 @@
 #ifndef __ENGINE_FUNCTION_H__
 #define __ENGINE_FUNCTION_H__
 template<typename T>
-void Safe_Delate(T& point)
+void Safe_Delete(T& point)
 {
 	if (point)
 	{
@@ -11,7 +11,7 @@ void Safe_Delate(T& point)
 }
 
 template<typename T>
-void Safe_Delate_Arr(T& point)
+void Safe_DeleteArr(T& point)
 {
 	if (point)
 	{

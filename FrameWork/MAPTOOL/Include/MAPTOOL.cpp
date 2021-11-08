@@ -128,6 +128,10 @@ BOOL CMAPTOOLApp::InitInstance()
 	// 창 하나만 초기화되었으므로 이를 표시하고 업데이트합니다.
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
+
+	FAILED_CHECK_RETURN(Init_TimeMgr(), false);
+	FAILED_CHECK_RETURN(Init_FrameMgr(60.f), false);
+
 	return TRUE;
 }
 
@@ -200,43 +204,14 @@ BOOL CMAPTOOLApp::OnIdle(LONG lCount)
 	}
 	else
 	{
-		//루프 처리
-
-	//	m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
-		CInputDev::GetInstance()->Update_InputDev();
-
-		if (m_pToolView)
+		Update_TimeMgr();
+		_float fDeltaTime = GetDeltaTime();
+		if (IsPermit(fDeltaTime))
 		{
-			m_pToolView->Get_DynamicCamera()->Update_Object(0.016f);
-
-
-			m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
-
-			if(m_pForm->m_bWireFrame.GetCheck())
-			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-
-			dynamic_cast<CTerrainTex*>(m_pToolView->Get_TerrainBuffer())->Render_Buffer();
-
-			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-			if(m_pForm->m_bWireFrame.GetCheck())
-			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
-			m_pToolView->m_pGraphicDev->Render_End();
+			m_pToolView->Update_View(GetOutDeltaTime());
+			m_pToolView->Invalidate(false);
 		}
-
-
-
-
-
-
-		//m_pToolView->m_pGraphicDev->Render_End();
 	}
-
-
 	//return CWinApp::OnIdle(lCount);
 	return TRUE;
 }

@@ -79,8 +79,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                /* cout << (1 / realDelta) << endl;
                 realDelta = 0.f;*/
             }
-
-           
         }
     }
     _ulong dwRefCnt = 0;

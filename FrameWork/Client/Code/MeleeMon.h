@@ -2,17 +2,10 @@
 #ifndef __CMELEEMON_H__
 #define __CMELEEMON_H__
 
-#include "GameObject.h"
+#include "Monster.h"
+#include "Player.h"
 
-BEGIN(Engine)
-
-class CRcTex;
-class CTexture;
-class CTransform;
-
-END
-
-class CMeleeMon : public CGameObject
+class CMeleeMon : public CMonster
 {
 private:
 	explicit CMeleeMon();
@@ -26,22 +19,24 @@ public:
 	virtual void LateUpdate_GameObject() override;
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
-
-private:
-	void	Follow_Mouse();
-	void	Key_Input();
+	
 public:
 	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
+
 private:
 	virtual HRESULT Add_Component();
+	virtual void	Follow(const _float& fDeltaTime);
+	virtual void	Attack(const _float& fDeltaTime);
 	virtual void	Free();
 
 private:
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
 
-	_float			m_fXPos;
-	_float			m_fYPos;
-	_float			m_fZPos;
+	_bool			m_bAttack;
+
+	_float			m_iTimer;
+
+	_float			m_fSpeed;
 };
 #endif

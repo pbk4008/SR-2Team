@@ -2,11 +2,12 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 #include "GameObject.h"
-BEGIN(Engine)
-class CCamera;
-END
+class CMainCamera;
+class CPlayerModel;
 class CPlayer final : public CGameObject
 {
+public:
+	enum class STATE {IDLE, ATTACK, MAX};
 private:
 	explicit CPlayer();
 	explicit CPlayer(LPDIRECT3DDEVICE9 pDevice);
@@ -18,17 +19,23 @@ public:
 	virtual void LateUpdate_GameObject() override;
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
+private:
+	void KeyInput(const float& fDelatTime);
+	void ChangeState();
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
-	void KeyInput(const float& fDelatTime);
-private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
+public:
+	void setCamera(CMainCamera* pCamera);
+	void setModel(CPlayerModel* pModel);
 private:
-	CRcTex* m_pBufferCom;
-	CTexture* m_pTexture;
+	STATE m_eCulState;
+	STATE m_ePreState;
+
 	_float m_fSpeed;
-	CCamera* m_pCamera;
+	CMainCamera* m_pMainCamera;
+	CPlayerModel* m_pModel;
 };
 #endif

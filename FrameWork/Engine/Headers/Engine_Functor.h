@@ -6,7 +6,7 @@ BEGIN(Engine)
         _ulong dwRefCnt = 0;
         dwRefCnt = MapIter.second->Release();
 
-        if (0 == dwRefCnt)
+        if (0 == dwRefCnt)            
             MapIter.second = nullptr;
     };
 

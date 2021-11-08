@@ -20,6 +20,8 @@ private:
 	virtual void Free();
 public:
 	CComponent* getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
+	CGameObject* getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
+	CGameObject* getGameObject(GAMEOBJECTID eObjID);
 private:
 	CScene* m_pScene;
 };

@@ -30,9 +30,14 @@ HRESULT CGraphicDev::Init_GraphicDev(WINDOW eMode, const _long& dwCntX, const _l
 
 	SetParameter(d3pp, eMode, dwCntX, dwCntY, hWnd);
 
-	FAILED_CHECK_MSG(m_pSDK->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, vp, &d3pp, &m_pDevice), L"Create Device Faile");
+	FAILED_CHECK_MSG(m_pSDK->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, vp, &d3pp, &m_pDevice), L"Create Device Failed");
 
 	*pDevice = this;
+
+	FAILED_CHECK_MSG(D3DXCreateLine(m_pDevice, &m_pLine), L"Create Line Failed");
+	m_pLine->SetWidth(5.f);
+	//m_pLine->SetAntialias(true);
+
 	return S_OK;
 }
 

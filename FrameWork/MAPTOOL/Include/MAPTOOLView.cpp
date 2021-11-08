@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CMAPTOOLView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CMAPTOOLView 생성/소멸
@@ -84,10 +85,47 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력
+
+
+
+	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력 //기본옵션
 		clamp : 0~1을 넘는 경우 그냥 잘라냄
 		mirror : 0~1을 넘는 경우 반전하여 출력 */
 
+
+}
+
+void CMAPTOOLView::Update_View(const float& fTimeDelta)
+{
+	CInputDev::GetInstance()->Update_InputDev();
+	m_pDynamicCamera->Update_Object(fTimeDelta);
+}
+
+void CMAPTOOLView::Init_LineXYZ()
+{
+
+	LineXYZ[0][0].x = 0; LineXYZ[0][0].y = 0; LineXYZ[0][0].z = 0;
+	LineXYZ[0][1].x = 0; LineXYZ[0][1].y = 0; LineXYZ[0][1].z = 5;
+	
+	LineXYZ[1][0].x = 0; LineXYZ[1][0].y = 0; LineXYZ[1][0].z = 0;
+	LineXYZ[1][1].x = 0; LineXYZ[1][1].y = 5; LineXYZ[1][1].z = 0;
+
+	LineXYZ[2][0].x = 0; LineXYZ[2][0].y = 0; LineXYZ[2][0].z = 0;
+	LineXYZ[2][1].x = 5; LineXYZ[2][1].y = 0; LineXYZ[2][1].z = 0;
+}
+
+void CMAPTOOLView::Render_LineXYZ()
+{
+	_matrix matWorld, matView, matProj;
+
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphicDev->getLine()->Begin();
+	m_pGraphicDev->getLine()->DrawTransform(LineXYZ[0], 2, &(matView * matProj), D3DCOLOR_XRGB(255, 0, 0));
+	m_pGraphicDev->getLine()->DrawTransform(LineXYZ[1], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 255, 0));
+	m_pGraphicDev->getLine()->DrawTransform(LineXYZ[2], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 0, 255));
+	m_pGraphicDev->getLine()->End();
 
 }
 
@@ -101,6 +139,43 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 	if (!pDoc)
 		return;
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+			//루프 처리
+
+	//	m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+	
+
+
+	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+
+	{
+		if (m_pForm->m_bWireFrame.GetCheck())
+			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	}
+
+
+		if (!m_tTexturePath.IsEmpty())
+		{
+			const auto& pTexture = GetTexture(m_tTexturePath, TEXTURETYPE::TEX_NORMAL);
+			m_pGraphicDev->getDevice()->SetTexture(0, *(pTexture->begin()));
+		}
+
+
+		dynamic_cast<CTerrainTex*>(m_pBufferCom)->Render_Buffer();
+
+
+		{
+			m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			if (m_pForm->m_bWireFrame.GetCheck())
+				m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		}
+
+	
+		Render_LineXYZ();
+
+		m_pGraphicDev->Render_End();
+
 
 
 
@@ -179,8 +254,12 @@ void CMAPTOOLView::OnInitialUpdate()
 
 	SetUp_DefaultGraphicDevSetting(&m_pDevice);
 
+	// XYZ색선 점 설정
+	Init_LineXYZ();
+
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 	Init_ProtoMgr();
+	m_pTextureMgr = Init_TextureMgr();
 	const _vec3 vLook = { 0.f,10.f,-10.f };
 	const _vec3 vAt = { 0.f,0.f,10.f };
 	const _vec3 vUp = { 0.f,1.f,0.f };
@@ -194,9 +273,23 @@ void CMAPTOOLView::OnInitialUpdate()
 	////// == 버퍼 붙이기 == 
 	//m_pBufferCom = Clone_ComProto<CTerrainTex>(COMPONENTID::TERRAINTEX);
 
-	// 생으로 만들기
+	// 생으로 만들기 //바닥만들기
 	m_pBufferCom = CTerrainTex::Create(m_pDevice, 129, 129, 1);
 	// ===  === 
+	m_pForm->m_dwTerrainX = 129;
+	m_pForm->m_dwTerrainZ = 129;
+	m_pForm->m_dwInterval = 1;
+	m_pForm->UpdateData(false);
 
 
+
+}
+
+
+BOOL CMAPTOOLView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	// WM_PAINT 메세지가 날아오기전 날아오는메세지 이것으로 인해 directx clear 함수가 지워주는데도 그전에 한번더 지워주어서 깜빡임이 발생할수있다 0을 반환 해주자
+	//return CView::OnEraseBkgnd(pDC);
+	return 0;
 }

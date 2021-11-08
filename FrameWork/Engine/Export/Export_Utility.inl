@@ -24,7 +24,14 @@ CComponent* Get_Component(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eCo
 {
 	return CManagement::GetInstance()->getComponent(eLayerID, eObjID, eComID, eType);
 }
-
+CGameObject* GetGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID)
+{
+	return CManagement::GetInstance()->getGameObject(eLayerID, eObjID);
+}
+CGameObject* GetGameObject(GAMEOBJECTID eObjID)
+{
+	return CManagement::GetInstance()->getGameObject(eObjID);
+}
 
 HRESULT Init_ProtoMgr()
 {
