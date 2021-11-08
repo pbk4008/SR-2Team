@@ -64,7 +64,7 @@ private:
 		PLAYERMODEL,
 		GAMEOBJECT_END
 	*/
-};
+
 
 public:
 	CButton m_bWireFrame;
