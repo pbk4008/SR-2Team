@@ -5,6 +5,7 @@
 // CForm 폼 보기
 
 
+
 class CForm : public CFormView
 {
 	DECLARE_DYNCREATE(CForm)
@@ -53,8 +54,18 @@ public:
 
 private:
 	CMAPTOOLView* m_pMapToolView;
+	std::list<CGameObject*> m_listObject[(_ulong)GAMEOBJECTID::GAMEOBJECT_END];
+	/*enum class GAMEOBJECTID { PLAYER,
+	MONSTER,
+		BOSS,
+		TERRAIN,
+		BACKGROUND,
+		CAMERA,
+		PLAYERMODEL,
+		GAMEOBJECT_END
+	*/
+};
 
-	std::list<
 public:
 	CButton m_bWireFrame;
 	afx_msg void OnBnClickedTerrainLoad();
