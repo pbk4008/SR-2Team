@@ -154,6 +154,7 @@ call "Update_Utility.bat"</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h" />
     <ClInclude Include="..\Code\Animation.h" />
+    <ClInclude Include="..\Code\Animator.h" />
     <ClInclude Include="..\Code\Camera.h" />
     <ClInclude Include="..\Code\Component.h" />
     <ClInclude Include="..\Code\CubeTex.h" />
@@ -177,6 +178,7 @@ call "Update_Utility.bat"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animation.cpp" />
+    <ClCompile Include="..\Code\Animator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />

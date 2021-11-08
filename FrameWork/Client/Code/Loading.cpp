@@ -5,7 +5,9 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "PlayerModel.h"
+#include "Animator.h"
 #include "Player_AttackAnim.h"
+#include "Player_IdleAnim.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -56,6 +58,14 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_ATTACKANIM, pCom);
 	
+	pCom = CPlayerIdleAnim::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::PLAYER_IDLEANIM, pCom);
+
+	pCom = CAnimator::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::ANIMATOR, pCom);
+
 	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
@@ -69,6 +79,10 @@ _uint CLoading::Loading_ForStage()
 	Init_ComProto(COMPONENTID::CAMERA, pCom);
 
 	CGameObject* pObj = nullptr;
+	//Player
+	pObj = CPlayer::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, E_FAIL);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 
 	//Camera
 	pObj = CMainCamera::Create(m_pDevice);
@@ -79,11 +93,6 @@ _uint CLoading::Loading_ForStage()
 	pObj = CPlayerModel::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
-
-	//Player
-	pObj = CPlayer::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
-	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 	
 	// ±ÝÁ¢¸ó
 	pObj = CMeleeMon::Create(m_pDevice);

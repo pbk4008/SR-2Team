@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 ﻿  TextureMgr.cpp
   Utility.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\Utility\Bin\Utility.dll
+=======
+﻿  Animator.cpp
+C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Code\Animator.cpp(103): warning C4715: 'Engine::CAnimator::Find_Node': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
+>>>>>>> main
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
@@ -15,6 +21,7 @@
   .\Engine\Export\Export_Utility.inl
   5개 파일이 복사되었습니다.
   .\Engine\Utility\Code\Animation.h
+  .\Engine\Utility\Code\Animator.h
   .\Engine\Utility\Code\Camera.h
   .\Engine\Utility\Code\Component.h
   .\Engine\Utility\Code\CubeTex.h
@@ -32,7 +39,7 @@
   .\Engine\Utility\Code\Transform.h
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
-  18개 파일이 복사되었습니다.
+  19개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll

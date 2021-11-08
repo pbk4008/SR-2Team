@@ -152,14 +152,14 @@ void CTransform::ChangeParentMatrix()
 	{
 		if (m_pParent)
 		{
-			_matrix ChangedParent = matParentReMoveScale();
+			_matrix ChangedParent = *matParentReMoveScale();
 			m_matOldParent = ChangedParent;
 			m_dwFlag |= FLAG_PARENT;
 		}
 	}
 	else
 	{
-		_matrix ChangedParent = matParentReMoveScale();
+		_matrix ChangedParent = *matParentReMoveScale();
 		if (m_matOldParent != ChangedParent)
 		{
 			m_dwFlag |= FLAG_PARENT;
@@ -168,13 +168,13 @@ void CTransform::ChangeParentMatrix()
 	}
 }
 
-_matrix& CTransform::matParentReMoveScale()
+_matrix* CTransform::matParentReMoveScale()
 {
 	_matrix matParent = m_pParent->getWorldMatrix();
 	for (_int i = 0; i < (_int)VECAXIS::AXIS_POS; i++)
 		matParent.m[i][i] = 1;
 
-	return matParent;
+	return &matParent;
 }
 
 CTransform* CTransform::Create()
@@ -191,10 +191,10 @@ void CTransform::Free()
 	CComponent::Free();
 }
 
-const _vec3& CTransform::getAxis(VECAXIS eAxis)
+_vec3* CTransform::getAxis(VECAXIS eAxis)
 {
 	_vec3 vRes =_vec3(m_matWorld.m[(_ulong)eAxis][0], m_matWorld.m[(_ulong)eAxis][1], m_matWorld.m[(_ulong)eAxis][2]);
-	return vRes;
+	return &vRes;
 }
 
 void CTransform::setScale(const _float& fX, const _float& fY, const _float& fZ)

@@ -22,21 +22,21 @@ public:
 	
 public:
 	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
-	virtual void	Attack();
 
 private:
 	virtual HRESULT Add_Component();
+	virtual void	Follow(const _float& fDeltaTime);
+	virtual void	Attack(const _float& fDeltaTime);
 	virtual void	Free();
 
 private:
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
-	CCamera*		m_pCamera;
-	CPlayer*		m_pPlayer;
 
-	_float			m_fXPos;
-	_float			m_fYPos;
-	_float			m_fZPos;
+	_bool			m_bAttack;
+
+	_float			m_iTimer;
+
 	_float			m_fSpeed;
 };
 #endif

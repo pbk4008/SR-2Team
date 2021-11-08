@@ -1,18 +1,21 @@
 #include "pch.h"
 #include "PlayerModel.h"
+#include "Animator.h"
 #include "Player_AttackAnim.h"
-CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_pAtkAnim(nullptr)
+#include "Player_IdleAnim.h"
+CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_eState(CPlayer::STATE::MAX), m_pAnimator(nullptr)
 {
 }
 
-CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAtkAnim(nullptr)
+CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAnimator(nullptr), m_eState(CPlayer::STATE::MAX)
 {
 }
 
-CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAtkAnim(rhs.m_pAtkAnim)
+CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAnimator(rhs.m_pAnimator), m_eState(rhs.m_eState)
 {
 	m_pBufferCom->AddRef();
-	m_pAtkAnim->AddRef();
+	if(rhs.m_pAnimator)
+		m_pAnimator->AddRef();
 }
 
 CPlayerModel::~CPlayerModel()
@@ -30,7 +33,8 @@ _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
-	//m_pTransform->
+	m_pTransform->setScale(0.8f, 0.8f, 0.5f);
+
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
@@ -44,7 +48,7 @@ void CPlayerModel::LateUpdate_GameObject()
 void CPlayerModel::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-	m_pAtkAnim->Render_Animation();
+	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -58,31 +62,71 @@ HRESULT CPlayerModel::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
 
-	pCom = m_pAtkAnim = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
-	m_pAtkAnim->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_ATTACKANIM, pCom);
-
 	return S_OK;
 }
 
 void CPlayerModel::Free()
 {
+	Safe_Release(m_pAnimator);
 	CGameObject::Free();
-	Safe_Release(m_pAtkAnim);
 	Safe_Release(m_pBufferCom);
 }
 
 void CPlayerModel::setTarget(CTransform* pTarget)
 {
-	m_pTarget = pTarget;
 	m_pTransform->setParent(pTarget);
-	m_pTarget->AddRef();
+	m_pTransform->setPos(-0.15f, 0.f, 0.f);
+}
+
+void CPlayerModel::setState(CPlayer::STATE eState)
+{
+	m_eState = eState;
 }
 
 CGameObject* CPlayerModel::Clone_GameObject()
 {
 	return new CPlayerModel(*this);
 }
+
+HRESULT CPlayerModel::SettingAnimator()
+{
+	m_pAnimator = Clone_ComProto<CAnimator>(COMPONENTID::ANIMATOR);
+
+	CAnimation* pAnim = Clone_ComProto<CPlayerIdleAnim>(COMPONENTID::PLAYER_IDLEANIM);
+	m_pAnimator->Insert_Animation(L"Player_Idle", L"Head", pAnim);
+
+	CPlayer_AttackAnim* pAtk = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
+	pAtk->setTransform(m_pTransform);
+	pAnim = pAtk;
+	m_pAnimator->Insert_Animation(L"Player_Attack", L"Player_Idle", pAnim, true);
+
+	FAILED_CHECK(m_pAnimator->Change_Animation(L"Player_Idle"));
+
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);
+
+	return S_OK;
+}
+
+CPlayer::STATE CPlayerModel::Act()
+{
+	switch (m_eState)
+	{
+	case CPlayer::STATE::IDLE:
+		m_pAnimator->Change_Animation(L"Player_Idle");
+		break;
+	case CPlayer::STATE::ATTACK:
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"Player_Attack"))
+		{
+			if (!m_pAnimator->getAnimPlay())
+				m_eState = CPlayer::STATE::IDLE;
+		}
+		else
+			m_pAnimator->Change_Animation(L"Player_Attack");
+		break;
+	}
+	return m_eState;
+}
+
 
 CPlayerModel* CPlayerModel::Create(LPDIRECT3DDEVICE9 pDevice)
 {

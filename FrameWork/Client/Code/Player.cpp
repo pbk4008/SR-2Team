@@ -2,19 +2,20 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "PlayerModel.h"
+#include "Animator.h"
 
-CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr)
-,m_fSpeed(0.f)
+CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
+m_ePreState(STATE::MAX),m_fSpeed(0.f)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
-m_fSpeed(0.f)
+m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMainCamera), m_pModel(rhs.m_pModel),
-m_fSpeed(rhs.m_fSpeed)
+m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
@@ -40,8 +41,10 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	KeyInput(fDeltaTime);
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
+	ChangeState();
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
+	m_eCulState=m_pModel->Act();
 	return iExit;
 }
 
@@ -73,11 +76,11 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CPlayer::KeyInput(const float& fDeltaTime)
 {
-	_vec3 vLook = m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
+	_vec3 vLook = *m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
 	D3DXVec3Normalize(&vLook, &vLook);
-	_vec3 vRight = m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
+	_vec3 vRight = *m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
 	D3DXVec3Normalize(&vRight, &vRight);
-	_vec3 vPos = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3 vPos = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	if (Key_Pressing(VIR_W))
 		vPos += vLook * m_fSpeed * fDeltaTime;
@@ -87,26 +90,33 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 		vPos += vLook * -m_fSpeed * fDeltaTime;
 	if (Key_Pressing(VIR_D))
 		vPos += vRight * m_fSpeed * fDeltaTime;
-	//if (Key_Down(VIR_SPACE))
-	//{
-	//	m_pAttackAnim->setPlay(true);
-	//}
+	if (Key_Down(VIR_SPACE))
+		m_eCulState = STATE::ATTACK;
 
 	m_pTransform->setPos(vPos);
+}
+
+void CPlayer::ChangeState()
+{
+	if (m_eCulState != m_ePreState)
+	{
+		switch (m_eCulState)
+		{
+		case STATE::IDLE:
+			m_pModel->setState(m_eCulState);
+			break;
+		case STATE::ATTACK:
+			m_pModel->setState(m_eCulState);
+			break;
+		}
+		m_ePreState = m_eCulState;
+	}
 }
 
 HRESULT CPlayer::Add_Component()
 {
 	CGameObject::Add_Component();
 	CComponent* pCom = nullptr;
-
-	//pCom = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	//m_pBufferCom->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
-
-	//pCom = m_pAttackAnim = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
-	//m_pAttackAnim->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::PLAYER_ATTACKANIM, pCom);
 
 	return S_OK;
 }
@@ -128,4 +138,5 @@ void CPlayer::setModel(CPlayerModel* pModel)
 {
 	m_pModel = pModel;
 	m_pModel->setTarget(this->getTransform());
+	m_pModel->SettingAnimator();
 }

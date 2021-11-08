@@ -19,7 +19,6 @@ private:
 	HRESULT Init_Environment_Layer();
 	HRESULT Init_GameLogic_Layer();
 	HRESULT Init_UI_Layer();
-	HRESULT Init_LogoScene();
 public:
 	static CStage* Create(LPDIRECT3DDEVICE9 pDevice);
 private:

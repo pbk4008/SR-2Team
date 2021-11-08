@@ -4,21 +4,22 @@
 #include "Player.h"
 
 CMeleeMon::CMeleeMon()
-	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
+	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
+	m_bAttack(false), m_iTimer(1)
 {
 	
 }
 
 CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
+	m_fSpeed(0.f), m_bAttack(false), m_iTimer(1)
 {
 
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
-	m_fXPos(0.f), m_fYPos(0.f), m_fZPos(0.f), m_fSpeed(0.f)
+	 m_fSpeed(0.f), m_bAttack(false), m_iTimer(1)
 {
 
 }
@@ -39,19 +40,27 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
-		_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	m_fSpeed = 2.f;
+	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
-	m_pTransform->setScale(0.1f, 0.1f, 0.1f);
+	Follow(fDeltaTime);
 
-	CGameObject* pObject =  GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
-	_vec3 Position = pObject->getTransform()->getPos();
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 vPos = pObject->getTransform()->getPos();
 
-	Chase_Target(&Position, m_fSpeed, fDeltaTime);
+	_vec3  vDis = m_vInfo - vPos;
+
+	_float fDis = D3DXVec3Length(&vDis);
+
+	if (fDis <= 1.0f)
+	{
+		//m_bAttack = true;
+		Attack(fDeltaTime);
+
+	}
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 
 	return iExit;
@@ -88,9 +97,23 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 	return pInstance;
 }
 
-void CMeleeMon::Attack()
+void CMeleeMon::Follow(const _float& fDeltaTime)
 {
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 playerPos = pObject->getTransform()->getPos();
 
+	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
+}
+
+void CMeleeMon::Attack(const _float& fDeltaTime)
+{
+	m_iTimer += fDeltaTime;
+	if (m_iTimer >= 1.0f)
+	{
+		cout << "Atack" << endl;
+		m_bAttack = false;
+		m_iTimer = 0.f;
+	}
 }
 
 HRESULT CMeleeMon::Add_Component()
@@ -108,17 +131,11 @@ HRESULT CMeleeMon::Add_Component()
 	m_pTexture->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_TEX, pComponent);
 
-	//camera
-	pComponent = m_pCamera = Clone_ComProto<CCamera>(COMPONENTID::CAMERA);
-	m_pCamera->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CAMERA, m_pBufferCom);
-
 	return S_OK;
 }
 
 void CMeleeMon::Free()
 {
-	//Safe_Release(m_pCamera);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();

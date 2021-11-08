@@ -9,41 +9,40 @@ CMonster::CMonster()
 CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
 	:CGameObject(pDevice)
 {
-	ZeroMemory(&pTarget, sizeof(_vec3*));
-
 }
 
 CMonster::~CMonster()
 {
 
 }
-void CMonster::Set_Target(const _vec3* pTargetPos)
-{
-	pTargetPos = pTarget;
-}
 
 void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta)
 {
-	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
 	_matrix matRot;
 	matRot = *ComputeLookAtTarget(pTargetPos);
 
-	m_pTransform->setRotate(matRot); 
+	m_pTransform->setRotate(matRot);
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
-	m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
+	_vec3 vDis = m_vInfo - *pTargetPos;
+	_float fDis = D3DXVec3Length(&vDis);
 
+	if (fDis >= 1.0)
+	{
+	m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
+	}
 	m_pTransform->setPos(m_vInfo);
 }
 
 _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
 
-	_vec3	m_vInfo = m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
@@ -58,4 +57,3 @@ _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 	return D3DXMatrixRotationAxis(&matRot, &vAxis, fDot);
 
 }
-
