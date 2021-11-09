@@ -203,40 +203,60 @@ BOOL CMAPTOOLApp::OnIdle(LONG lCount)
 		//루프 처리
 
 	//	m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+		_matrix matWorld, matView, matProj;
+
+		m_pToolView->m_pGraphicDev->getDevice()->GetTransform(D3DTS_VIEW, &matView);
+		m_pToolView->m_pGraphicDev->getDevice()->GetTransform(D3DTS_PROJECTION, &matProj);
 		CInputDev::GetInstance()->Update_InputDev();
+
+		_vec3 p[3][2];
+		p[0][0].x = 0; p[0][0].y = 0; p[0][0].z = 0;
+		p[0][1].x = 0; p[0][1].y = 0; p[0][1].z = 5;
+
+		p[1][0].x = 0; p[1][0].y = 0; p[1][0].z = 0;
+		p[1][1].x = 0; p[1][1].y = 5; p[1][1].z = 0;
+
+		p[2][0].x = 0; p[2][0].y = 0; p[2][0].z = 0;
+		p[2][1].x = 5; p[2][1].y = 0; p[2][1].z = 0;
 
 		if (m_pToolView)
 		{
 			m_pToolView->Get_DynamicCamera()->Update_Object(0.016f);
 
 
+
 			m_pToolView->m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
 
-			if(m_pForm->m_bWireFrame.GetCheck())
-			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+			if (m_pForm->m_bWireFrame.GetCheck())
+				m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+			if (!m_pToolView->m_tTexturePath.IsEmpty())
+			{
+				const auto& pTexture = GetTexture(m_pToolView->m_tTexturePath, TEXTURETYPE::TEX_NORMAL);
+				m_pToolView->m_pGraphicDev->getDevice()->SetTexture(0,*(pTexture->begin()));
+			}
 
 
 			dynamic_cast<CTerrainTex*>(m_pToolView->Get_TerrainBuffer())->Render_Buffer();
 
 			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-			if(m_pForm->m_bWireFrame.GetCheck())
-			m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			if (m_pForm->m_bWireFrame.GetCheck())
+				m_pToolView->m_pGraphicDev->getDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+
+			m_pToolView->m_pGraphicDev->getLine()->Begin();
+			m_pToolView->m_pGraphicDev->getLine()->DrawTransform(p[0], 2, &(matView * matProj), D3DCOLOR_XRGB(255, 0, 0));
+			m_pToolView->m_pGraphicDev->getLine()->DrawTransform(p[1], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 255, 0));
+			m_pToolView->m_pGraphicDev->getLine()->DrawTransform(p[2], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 0, 255));
+			m_pToolView->m_pGraphicDev->getLine()->End();
 
 			m_pToolView->m_pGraphicDev->Render_End();
 		}
-
-
-
-
-
-
-		//m_pToolView->m_pGraphicDev->Render_End();
 	}
-
-
 	//return CWinApp::OnIdle(lCount);
 	return TRUE;
 }

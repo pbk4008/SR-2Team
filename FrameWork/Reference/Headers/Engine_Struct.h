@@ -34,5 +34,11 @@ namespace Engine
 		_ulong _1;
 		_ulong _2;
 	}INDEX32;
+
+	typedef struct tagUnsignedPoint
+	{
+		_ulong x;
+		_ulong z;
+	}UPOINT;
 }
 #endif
