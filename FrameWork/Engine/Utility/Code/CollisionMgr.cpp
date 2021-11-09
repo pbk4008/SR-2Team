@@ -49,7 +49,6 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 		if (CollisionCheck(pCollision, pCol))
 		{
 			pCol->setHit(true);
-			pCollision->setHit(true);
 		}
 	}
 }

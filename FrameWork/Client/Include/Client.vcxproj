@@ -159,6 +159,7 @@
     <ClInclude Include="..\Code\MainApp.h" />
     <ClInclude Include="..\Code\MainCamera.h" />
     <ClInclude Include="..\Code\MeleeMon.h" />
+    <ClInclude Include="..\Code\MeleeMon_Attack.h" />
     <ClInclude Include="..\Code\MeleeMon_Idle.h" />
     <ClInclude Include="..\Code\MeleeMon_WalkF.h" />
     <ClInclude Include="..\Code\Monster.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MainCamera.cpp" />
     <ClCompile Include="..\Code\MeleeMon.cpp" />
+    <ClCompile Include="..\Code\MeleeMon_Attack.cpp" />
     <ClCompile Include="..\Code\MeleeMon_Idle.cpp" />
     <ClCompile Include="..\Code\MeleeMon_WalkF.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />

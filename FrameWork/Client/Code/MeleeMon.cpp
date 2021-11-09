@@ -8,8 +8,8 @@
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(1), m_eState(STATE::MAX), m_pAnimator(nullptr),
-	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_bMoving(false)
-	m_bAttack(false), m_iTimer(1), m_pCollision(nullptr)
+	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_bMoving(false),
+	m_pCollision(nullptr), m_pAttackColl(nullptr)
 {
 	
 }
@@ -18,20 +18,22 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
 	m_fSpeed(0.f), m_bAttack(false), m_iTimer(1), m_eState(STATE::MAX), 
 	m_pAnimator(nullptr), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), 
-	m_bMoving(false), m_pCollision(nullptr)
+	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr)
 {
 
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
-	 m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1), m_eState(STATE::MAX), 
+	 m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1), m_eState(rhs.m_eState), 
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
-	m_ePreState(rhs.m_ePreState), m_bMoving(false), m_pCollision(rhs.m_pCollision)
+	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(rhs.m_pCollision), m_pAttackColl(rhs.m_pAttackColl)
 {
-	//SettingAnimator();
-	//m_eCurState = STATE::IDLE;	 
+	SettingAnimator();
+	m_eCurState = STATE::IDLE;
+
 	m_pCollision->setTransform(m_pTransform);
+	m_pAttackColl->setTransform(m_pTransform);
 }
 
 CMeleeMon::~CMeleeMon()
@@ -53,26 +55,28 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 
 	m_pTransform->TerrainOverMove();
 	Follow(fDeltaTime);
-	/*CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
-	_vec3 playerPos = pObject->getTransform()->getPos();
-	Chase_Target(&playerPos, m_fSpeed, fDeltaTime)*/;
-	///////
 
 	Attack_Dis(fDeltaTime);
-	//Change_State();
+	Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
+	if(m_pAttackColl->getActive())
+		m_pAttackColl->Update_Component(fDeltaTime);
+
+	m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
+
 	return iExit;
 }
 
-void CMeleeMon::LateUpdate_GameObject()
+void CMeleeMon::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 	CGameObject::LateUpdate_GameObject();
+
 	if (m_pCollision->getHit())
 	{
-		cout << "몬스터 충돌!!!" << endl;
+		//cout << "몬스터 충돌!!!" << endl;
 		m_pCollision->setHit(false);
 	}
 }
@@ -82,8 +86,8 @@ void CMeleeMon::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pCollision->Render_Collision();
 
-	m_pTexture->Render_Texture();
-	//m_pAnimator->Render_Animator();
+	//m_pTexture->Render_Texture();
+	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
@@ -96,7 +100,7 @@ Engine::CGameObject* CMeleeMon::Clone_GameObject()
 
 HRESULT CMeleeMon::SettingAnimator()
 {
-	/*m_pAnimator = Clone_ComProto < CAnimator>(COMPONENTID::ANIMATOR);
+	m_pAnimator = Clone_ComProto < CAnimator>(COMPONENTID::ANIMATOR);
 
 	CAnimation* pAnimation = Clone_ComProto<CMeleeMon_Idle>(COMPONENTID::MELEEMON_IDLEANIM);
 	m_pAnimator->Insert_Animation(L"Monster_Idle", L"Head", pAnimation);
@@ -106,7 +110,7 @@ HRESULT CMeleeMon::SettingAnimator()
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"Monster_Idle"));
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);*/
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);
 
 	return S_OK;
 }
@@ -123,7 +127,7 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CMeleeMon::Change_State()
 {
-	/*if (m_ePreState != m_eCurState)
+	if (m_ePreState != m_eCurState)
 	{
 		switch (m_eCurState)
 		{
@@ -137,7 +141,7 @@ void CMeleeMon::Change_State()
 			break;
 		}
 		m_ePreState = m_eCurState;
-	}*/
+	}
 }
 
 
@@ -145,6 +149,7 @@ void CMeleeMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 playerPos = pObject->getTransform()->getPos();
+	m_eCurState = STATE::WALKING;
 
 	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
 }
@@ -156,6 +161,7 @@ void CMeleeMon::Attack(const _float& fDeltaTime)
 	{
 		cout << "Attack!" << endl;
 		m_bAttack = false;
+		m_pAttackColl->setActive(false);
 		m_iTimer = 0.f;
 	}
 }
@@ -174,7 +180,9 @@ void CMeleeMon::Attack_Dis(const _float& fDeltaTime)
 	if (fDis <= 1.0f)
 	{
 		Attack(fDeltaTime);
+		m_pAttackColl->setActive(true);
 	}
+
 }
 
 HRESULT CMeleeMon::Add_Component()
@@ -192,6 +200,7 @@ HRESULT CMeleeMon::Add_Component()
 	m_pTexture->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_TEX, pComponent);
 
+	// collision
 	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
@@ -200,6 +209,13 @@ HRESULT CMeleeMon::Add_Component()
 	Insert_Collision(m_pCollision);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
 
+	// collision
+	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl->setRadius(1.f);
+	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
+	m_pAttackColl->setActive(false);
+	pComponent = m_pAttackColl;
+	Insert_Collision(m_pAttackColl);
 
 	return S_OK;
 }
@@ -207,6 +223,7 @@ HRESULT CMeleeMon::Add_Component()
 void CMeleeMon::Free()
 {
 	Safe_Release(m_pCollision);
+	Safe_Release(m_pAttackColl);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
