@@ -29,7 +29,8 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
-	_vec3 vDis = m_vInfo - *pTargetPos;
+	//_vec3 vDis = m_vInfo - *pTargetPos;
+	_vec3 vDis = *pTargetPos - m_vInfo;
 	_float fDis = D3DXVec3Length(&vDis);
 
 	if (fDis >= 1.0)
@@ -42,16 +43,16 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
 
-	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo = m_pTransform->getPos();
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
+	_matrix matRot;
+	_vec3 vUp;
 
 	_vec3 vAxis = *D3DXVec3Cross(&vAxis, &m_vInfo, &vDir);
 
-	_matrix matRot;
-	_vec3 vUp;
 	_float fDot = acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir), D3DXVec3Normalize(&vUp, &m_vInfo)));
 
 	return D3DXMatrixRotationAxis(&matRot, &vAxis, fDot);

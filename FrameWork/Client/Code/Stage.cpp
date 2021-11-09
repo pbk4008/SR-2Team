@@ -68,6 +68,7 @@ HRESULT CStage::Init_Environment_Layer()
 
 	pGameObject = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
 	pLayer->Add_Object(GAMEOBJECTID::TERRAIN, pGameObject);
+
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
 
 	return S_OK;

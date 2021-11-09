@@ -85,10 +85,6 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
 
-	pCom = CMeleeMon::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
-
 	/*pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster_Idle", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);

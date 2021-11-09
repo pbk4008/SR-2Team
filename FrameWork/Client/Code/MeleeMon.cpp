@@ -24,7 +24,7 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
-	 m_fSpeed(0.f), m_bAttack(false), m_iTimer(1), m_eState(STATE::MAX), 
+	 m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1), m_eState(STATE::MAX), 
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
 	m_ePreState(rhs.m_ePreState), m_bMoving(false)
 {
@@ -48,14 +48,19 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
+	m_pTransform->TerrainOverMove();
 	Follow(fDeltaTime);
+	/*CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 playerPos = pObject->getTransform()->getPos();
+	Chase_Target(&playerPos, m_fSpeed, fDeltaTime)*/;
+	///////
+
 	Attack_Dis(fDeltaTime);
 	//Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
+	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
 }
@@ -132,8 +137,6 @@ void CMeleeMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 playerPos = pObject->getTransform()->getPos();
-
-	//m_eCurState = STATE::WALKING;
 
 	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
 }
