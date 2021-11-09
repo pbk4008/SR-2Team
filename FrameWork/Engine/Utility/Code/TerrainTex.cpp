@@ -1,18 +1,18 @@
 #include "Engine_Include.h"
 #include "TerrainTex.h"
 
-CTerrainTex::CTerrainTex():m_pHeightMap(nullptr)
+CTerrainTex::CTerrainTex():m_pHeightMap(nullptr), m_pVtxPos(nullptr)
 {
 }
 
-CTerrainTex::CTerrainTex(LPDIRECT3DDEVICE9 pDevice) : CVIBuffer(pDevice), m_pHeightMap(nullptr)
+CTerrainTex::CTerrainTex(LPDIRECT3DDEVICE9 pDevice) : CVIBuffer(pDevice), m_pHeightMap(nullptr), m_pVtxPos(nullptr)
 {
 }
 
-CTerrainTex::CTerrainTex(const CTerrainTex& rhs) : CVIBuffer(rhs), m_pHeightMap(rhs.m_pHeightMap)
+CTerrainTex::CTerrainTex(const CTerrainTex& rhs) : CVIBuffer(rhs), m_pHeightMap(rhs.m_pHeightMap), m_pVtxPos(rhs.m_pVtxPos)
 {
 	if(m_pHeightMap)
-	m_pHeightMap->AddRef();
+		m_pHeightMap->AddRef();
 }
 
 CTerrainTex::~CTerrainTex()
@@ -39,6 +39,7 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 	m_IdxFmt = D3DFMT_INDEX16;
 	m_dwIdxSize = sizeof(INDEX16);
 
+	m_pVtxPos = new _vec3[m_dwVtxCnt];
 	FAILED_CHECK_RETURN(CVIBuffer::Init_Buffer(), E_FAIL);
 
 	//TODO:³ôÀÌ¸Ê »ý¼º
@@ -62,6 +63,8 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 			_float fY = ((_float)(*((LPWORD)d3drc.pBits + i * (d3drc.Pitch / 4) + j) & 0x000000ff)) / 10.f;
 			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), fY, _float(i * m_dwInterval));
 			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1) ,_float(i)/(m_dwCntZ-1));
+			m_pVtxPos[dwIndex] = pVertex[dwIndex].vPos;
+		
 		}
 	}
 	m_pVB->Unlock();
@@ -117,7 +120,8 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DTEXTURE9 p
 
 void CTerrainTex::Free()
 {
-
+	if(m_bClone)
+		Safe_DeleteArr(m_pVtxPos);
 	Safe_Release(m_pHeightMap);
 	CVIBuffer::Free();
 }
@@ -138,6 +142,7 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 	FAILED_CHECK_RETURN(CVIBuffer::Init_Buffer(), E_FAIL);
 
 	
+	m_pVtxPos = new _vec3[m_dwVtxCnt];
 	VTXTEX* pVertex = nullptr;
 	_ulong dwIndex = 0;
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
@@ -149,6 +154,7 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 			dwIndex = i * m_dwCntX + j;
 			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), 0, _float(i * m_dwInterval));
 			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1)*iDetail, _float(i) / (m_dwCntZ - 1)* iDetail);
+			m_pVtxPos[dwIndex] = pVertex[dwIndex].vPos;
 		}
 	}
 	m_pVB->Unlock();

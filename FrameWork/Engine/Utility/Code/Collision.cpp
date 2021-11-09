@@ -12,7 +12,7 @@ CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTrans
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
-CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(rhs.m_pTransform)
+CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr), m_fRadius(rhs.m_fRadius)
 {
 	if (rhs.m_pTransform)
 		m_pTransform->AddRef();

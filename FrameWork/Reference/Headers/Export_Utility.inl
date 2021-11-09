@@ -94,8 +94,17 @@ void Clear_RenderList()
 {
 	CRenderer::GetInstance()->Clear_RenderList();
 }
+
+CCollisionMgr* Init_CollisionMgr()
+{
+	CCollisionMgr* pInstance = CCollisionMgr::GetInstance();
+	NULL_CHECK_RETURN(pInstance, nullptr);
+
+	return pInstance;
+}
 void Utility_Release()
 {
+	CCollisionMgr::DestroyInstance();
 	CManagement::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();

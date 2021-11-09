@@ -23,6 +23,7 @@ public:
 protected:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	_bool m_bActive;//Component 활성화 및 비활성화
+	_bool m_bClone;
 };
 END
 #endif
