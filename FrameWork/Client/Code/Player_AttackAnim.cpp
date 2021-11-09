@@ -83,7 +83,7 @@ void CPlayer_AttackAnim::SettingAnimation(const _float& fDeltaTime)
 {
 	if (m_iIndex < 2)
 	{
-		m_fSpeed = 2.5f;
+		m_fSpeed = 3.f;
 		UpMove(fDeltaTime);
 	}
 	else

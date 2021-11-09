@@ -22,6 +22,7 @@
 #include "Renderer.h"
 #include "Animation.h"
 #include "Animator.h"
+#include "Collision.h"
 
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);

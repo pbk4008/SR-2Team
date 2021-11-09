@@ -4,19 +4,28 @@
 #include "Player_AttackAnim.h"
 #include "Player_IdleAnim.h"
 #include "Player_Walk.h"
+#include "Collision.h"
+
 CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_eState(CPlayer::STATE::MAX), m_pAnimator(nullptr)
+, m_pCollision(nullptr)
 {
 }
 
 CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAnimator(nullptr), m_eState(CPlayer::STATE::MAX)
+, m_pCollision(nullptr)
 {
 }
 
 CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAnimator(rhs.m_pAnimator), m_eState(rhs.m_eState)
+,m_pCollision(rhs.m_pCollision)
 {
 	m_pBufferCom->AddRef();
 	if(rhs.m_pAnimator)
 		m_pAnimator->AddRef();
+	if (rhs.m_pCollision)
+		m_pCollision->AddRef();
+	m_pCollision->setTransform(m_pTransform);
+	m_pCollision->setRadius(1.f);
 }
 
 CPlayerModel::~CPlayerModel()
@@ -35,7 +44,6 @@ _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
 	m_pTransform->setScale(1.f, 0.8f, 0.5f);
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
 }
@@ -50,6 +58,7 @@ void CPlayerModel::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
+	m_pCollision->Render_Collision();
 }
 
 HRESULT CPlayerModel::Add_Component()
@@ -62,11 +71,16 @@ HRESULT CPlayerModel::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pCom);
 
+	pCom = m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision->AddRef();
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pCom);
+
 	return S_OK;
 }
 
 void CPlayerModel::Free()
 {
+	Safe_Release(m_pCollision);
 	Safe_Release(m_pAnimator);
 	CGameObject::Free();
 	Safe_Release(m_pBufferCom);

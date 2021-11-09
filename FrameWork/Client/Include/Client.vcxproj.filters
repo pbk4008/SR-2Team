@@ -20,29 +20,20 @@
     <Filter Include="01.Scene\00.Loding">
       <UniqueIdentifier>{632051fc-a52c-407f-a52e-705b5b67e3ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\01.Logo">
+      <UniqueIdentifier>{36a6d84b-6cce-4420-8588-42bc70bbe681}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObject">
       <UniqueIdentifier>{5fa285b2-e861-4bb9-8bb5-0572ba98eebc}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\00.BackGround">
       <UniqueIdentifier>{b4057ca6-b6cd-4041-af9d-af854a1b0b74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Scene\01.Logo">
-      <UniqueIdentifier>{36a6d84b-6cce-4420-8588-42bc70bbe681}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Scene\02.Stage">
-      <UniqueIdentifier>{b22ca2e7-9455-4be3-a709-e23536c0e765}</UniqueIdentifier>
+    <Filter Include="02.GameObject\00.BackGround\00.Terrain">
+      <UniqueIdentifier>{f30b00ce-61da-4cd0-a9cd-5d0640873819}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\01.Player">
       <UniqueIdentifier>{2655cc0d-fdfb-4aa5-ba27-a387ae559359}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Monster">
-      <UniqueIdentifier>{c7484bf7-5d03-4029-bea9-778e89beb127}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\02.Monster\00. MeleeMon">
-      <UniqueIdentifier>{79e5e83d-2ae5-4624-9d66-dd85bb7ca562}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\03.MainCamera">
-      <UniqueIdentifier>{4af11669-284c-4768-be39-92a629893b3c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\01.Player\00.Model">
       <UniqueIdentifier>{964d02d3-da7a-4503-8405-825681f454d4}</UniqueIdentifier>
@@ -59,8 +50,17 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
       <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\00.BackGround\00.Terrain">
-      <UniqueIdentifier>{f30b00ce-61da-4cd0-a9cd-5d0640873819}</UniqueIdentifier>
+    <Filter Include="02.GameObject\02.Monster">
+      <UniqueIdentifier>{c7484bf7-5d03-4029-bea9-778e89beb127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\00. MeleeMon">
+      <UniqueIdentifier>{79e5e83d-2ae5-4624-9d66-dd85bb7ca562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03.MainCamera">
+      <UniqueIdentifier>{4af11669-284c-4768-be39-92a629893b3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\02.Stage">
+      <UniqueIdentifier>{b22ca2e7-9455-4be3-a709-e23536c0e765}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

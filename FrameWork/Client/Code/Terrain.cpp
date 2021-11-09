@@ -1,17 +1,18 @@
 #include "pch.h"
 #include "Terrain.h"
 
-CTerrain::CTerrain():m_pBufferCom(nullptr)
+CTerrain::CTerrain():m_pBufferCom(nullptr),m_pTexture(nullptr)
 {
 }
 
-CTerrain::CTerrain(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr)
+CTerrain::CTerrain(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr)
 {
 }
 
-CTerrain::CTerrain(const CTerrain& rhs):CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom)
+CTerrain::CTerrain(const CTerrain& rhs):CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture)
 {
 	m_pBufferCom->AddRef();
+	m_pTexture->AddRef();
 }
 
 CTerrain::~CTerrain()
@@ -41,8 +42,10 @@ void CTerrain::LateUpdate_GameObject()
 
 void CTerrain::Render_GameObject()
 {
-	CGameObject::Render_GameObject();
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	m_pTexture->Render_Texture();
 	m_pBufferCom->Render_Buffer();
+	CGameObject::Render_GameObject();
 }
 
 CGameObject* CTerrain::Clone_GameObject()
@@ -65,16 +68,20 @@ HRESULT CTerrain::Add_Component()
 
 	pCom = m_pBufferCom = Clone_ComProto<CTerrainTex>(COMPONENTID::TERRAINTEX);
 	NULL_CHECK_RETURN(m_pBufferCom,E_FAIL);
+	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TERRAINTEX, pCom);
 	
-	//pCom = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TERRAIN_TEX1,pCom);
+	pCom = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TERRAIN_TEX1);
+	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
+	m_pTexture->AddRef();
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TERRAIN_TEX1, pCom);
 
-	
 	return S_OK;
 }
 
 void CTerrain::Free()
 {
+	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }

@@ -45,6 +45,9 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
 	m_eCulState=m_pModel->Act();
+
+	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+
 	return iExit;
 }
 
