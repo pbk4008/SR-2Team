@@ -28,7 +28,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
 	m_ePreState(rhs.m_ePreState), m_bMoving(false)
 {
-
+	SettingAnimator();
 }
 
 CMeleeMon::~CMeleeMon()
@@ -68,7 +68,7 @@ void CMeleeMon::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
 	m_pTexture->Render_Texture();
-	//m_pAnimator->Render_Animator();
+	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
@@ -87,7 +87,7 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"Monster_Idle", L"Head", pAnimation);
 
 	CMeleeMon_WalkF* pWalkF = Clone_ComProto<CMeleeMon_WalkF>(COMPONENTID::MELEEMON_WALKANIM);
-	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"MeleeMon_Idle", pAnimation, true);
+	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"Monster_Idle", pWalkF, true);
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 
