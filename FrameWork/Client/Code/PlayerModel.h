@@ -35,7 +35,6 @@ private:
 
 	CRcTex* m_pBufferCom;
 	CAnimator* m_pAnimator;
-	CCollision* m_pCollision;
 	
 };
 #endif

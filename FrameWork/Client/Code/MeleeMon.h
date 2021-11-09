@@ -32,7 +32,7 @@ private:
 private:
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
-
+	CCollision*		m_pCollision;
 	_bool			m_bAttack;
 
 	_float			m_iTimer;

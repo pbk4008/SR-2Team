@@ -94,6 +94,7 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::COLLISION, pCom);
 
+	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
 	//Player
 	pObj = CPlayer::Create(m_pDevice);

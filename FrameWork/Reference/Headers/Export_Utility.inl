@@ -102,6 +102,11 @@ CCollisionMgr* Init_CollisionMgr()
 
 	return pInstance;
 }
+
+HRESULT Insert_Collision(CCollision* pCollision)
+{
+	return CCollisionMgr::GetInstance()->Insert_Collision(pCollision);
+}
 void Utility_Release()
 {
 	CCollisionMgr::DestroyInstance();

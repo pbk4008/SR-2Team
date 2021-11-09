@@ -37,5 +37,6 @@ private:
 	_float m_fSpeed;
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;
+	CCollision* m_pCollision;
 };
 #endif

@@ -16,18 +16,6 @@ HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 	return S_OK;
 }
 
-_int CCollisionMgr::Update_Collision(const _float& fDeltaTime)
-{
-	_int iExit = 0;
-	for (auto& pCol : m_vecCollision)
-		iExit=pCol->Update_Component(fDeltaTime);
-	return iExit;
-}
-
-void CCollisionMgr::Collision()
-{
-	
-}
 
 void CCollisionMgr::TerrainCollision(_vec3* pPos, const _vec3* pTerrainVtxPos, 
 	const _ulong& dwCntX, 
@@ -50,6 +38,46 @@ void CCollisionMgr::TerrainCollision(_vec3* pPos, const _vec3* pTerrainVtxPos,
 	pPos->y = ((-Plane.a * pPos->x) + (-Plane.c * pPos->z) + (-Plane.d)) / Plane.b;
 }
 
+void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
+{
+	for (auto& pCol : m_vecCollision)
+	{
+		if (pCol->getTag() != eTag)
+			continue;
+		if (!pCol->getActive())
+			continue;
+		if (CollisionCheck(pCollision, pCol))
+		{
+			pCol->setHit(true);
+			pCollision->setHit(true);
+		}
+	}
+}
+
+_bool CCollisionMgr::CollisionCheck(CCollision* pCol, CCollision* pCollider)
+{
+	_vec3 pColPos = pCol->getCenter();
+	_vec3 pColliderPos = pCollider->getCenter();
+
+	_vec3 vDir = pColliderPos - pColPos;
+	_float fLen = D3DXVec3Length(&vDir);
+
+	_float fColRadius = pCol->getRadius();
+	_float fColliderRadius = pCollider->getRadius();
+
+	_float fRadiusSum = fColRadius + fColliderRadius;
+
+	if (fRadiusSum > fLen)
+		return true;
+	
+	return false;
+}
+
+
+
+
 void CCollisionMgr::Free()
 {
+	for_each(m_vecCollision.begin(), m_vecCollision.end(), DeleteObj);
+	m_vecCollision.clear();
 }
