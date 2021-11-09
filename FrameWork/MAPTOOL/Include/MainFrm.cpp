@@ -33,6 +33,8 @@ static UINT indicators[] =
 // CMainFrame 생성/소멸
 
 CMainFrame::CMainFrame() noexcept
+	: m_pFormView(nullptr)
+	, m_pMainView(nullptr)
 {
 	// TODO: 여기에 멤버 초기화 코드를 추가합니다.
 }

@@ -8,6 +8,8 @@
 
 #include "MainFrm.h"
 #include "MAPTOOLView.h"
+#include "Form.h"
+#include "TerrainObject.h"
 
 // CTerrainTexture 대화 상자
 
@@ -15,6 +17,7 @@ IMPLEMENT_DYNAMIC(CTerrainTexture, CDialogEx)
 
 CTerrainTexture::CTerrainTexture(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTerrainTexture, pParent) ,m_iTreeIndex(0)
+	, m_iTreeParentIndex(0)
 {
 
 }
@@ -87,10 +90,6 @@ void CTerrainTexture::Get_FileList(CString strFolder, HTREEITEM* ppItem)
 			m_Tree_Terrain_Texture.SetItemData(*ppItem, (DWORD)*ppItem);
 
 			m_tFilePath = finder.GetFilePath();
-
-			
-		/*	CMAPTOOLView* pView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 1));
-			Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tFilePath, L"Terrain", 1);*/
 
 		}
 	}
@@ -196,6 +195,7 @@ void CTerrainTexture::OnTvnSelchangedTextureTree(NMHDR* pNMHDR, LRESULT* pResult
 void CTerrainTexture::OnBnClickedButton1()
 {
 	CMAPTOOLView* pView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0,1));
+	CForm* pForm = dynamic_cast<CForm*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0,0));
 
 	int index = 0;
 
@@ -218,11 +218,24 @@ void CTerrainTexture::OnBnClickedButton1()
 	m_iTreeIndex = index;
 
 	//파일이름
-	pView->m_tTexturePath = m_tCurTextureState;
+	pView->m_tTexturePath = pForm->m_strFileName = m_tCurTextureState;
 	//폴더이름
-	pView->m_tTextureFolder = m_tCurTexture;
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	pView->m_tTextureFolder = pForm->m_strFolderName = m_tCurTexture;
 
-	Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState,1);
+
+	int listCursel = pForm->m_List_Terrain.GetCurSel();
+
+	CGameObject* pObj =  *(pView->m_vectorTerrain.begin() + listCursel);
+
+	static_cast<CTerrainObject*>(pObj)->Set_Path((TCHAR*)(LPCTSTR)m_tCurTexture, (TCHAR*)(LPCTSTR)m_tCurTextureState);
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	pForm->UpdateData(false);
+
+	if (!GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL))
+		Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState, 1);
+
+	static_cast<CTerrainObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice, GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL)));
+
 
 }

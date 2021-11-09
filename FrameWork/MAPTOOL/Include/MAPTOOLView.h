@@ -29,7 +29,7 @@ public:
 	CTextureMgr* m_pTextureMgr;
 	//=============
 	CDynamicCamera* m_pDynamicCamera;
-	CComponent* m_pBufferCom;
+	//CComponent* m_pBufferCom;
 
 	//=============
 	_vec3 LineXYZ[3][2];
@@ -37,16 +37,22 @@ public:
 	CString m_tTextureFolder;
 	//파일이름
 	CString m_tTexturePath;
+	//뷰활성화 여부
+	_bool m_bOnActive;
+	//==============
+	std::vector<CGameObject*> m_vectorTerrain;
+	 
 	
 // 작업입니다.
 public:
 	void SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
 	CDynamicCamera* Get_DynamicCamera() { return m_pDynamicCamera; }
-	CComponent* Get_TerrainBuffer() { return m_pBufferCom; }
 	LPDIRECT3DDEVICE9 View_Get_Deivce() { return m_pDevice; }
 	void Update_View(const float& fTimeDelta);
 	void Init_LineXYZ();
 	void Render_LineXYZ();
+	void Init_ToolWindows();
+	void Init_Component();
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
@@ -72,6 +78,7 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 };
 
 #ifndef _DEBUG  // MAPTOOLView.cpp의 디버그 버전

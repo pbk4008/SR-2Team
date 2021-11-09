@@ -25,15 +25,21 @@
 #define Picture_Scroll                  1026
 #define BUTTON_Terrain_Save             1028
 #define List_Terrain                    1029
-#define IDC_EDIT1                       1030
-#define IDC_EDIT2                       1031
-#define IDC_EDIT3                       1032
-#define IDC_EDIT4                       1033
-#define IDC_EDIT5                       1034
-#define IDC_EDIT6                       1035
-#define IDC_EDIT7                       1036
-#define IDC_EDIT8                       1037
-#define IDC_EDIT9                       1038
+#define Object_ScaleX                   1030
+#define Object_ScaleY                   1031
+#define Object_ScaleZ                   1032
+#define Object_RotX                     1033
+#define Object_RotY                     1034
+#define Object_RotZ                     1035
+#define Object_PosX                     1036
+#define Object_PosY                     1037
+#define Object_PosZ                     1038
+#define Player_PosX                     1039
+#define Player_PosY                     1040
+#define Terrain_FolderName              1041
+#define Terrain_FileName                1042
+#define Terrain_ModifyButton            1043
+#define IDC_SLIDER1                     1044
 
 // Next default values for new objects
 // 
@@ -41,7 +47,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1031
+#define _APS_NEXT_CONTROL_VALUE         1045
 #define _APS_NEXT_SYMED_VALUE           313
 #endif
 #endif

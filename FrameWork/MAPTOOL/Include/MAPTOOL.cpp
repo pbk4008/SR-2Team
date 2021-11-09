@@ -34,7 +34,8 @@ END_MESSAGE_MAP()
 // CMAPTOOLApp 생성
 
 CMAPTOOLApp::CMAPTOOLApp() noexcept
-	:  m_pToolView(nullptr)
+	: m_pToolView(nullptr)
+	, m_pForm(nullptr)
 {
 
 	// 다시 시작 관리자 지원

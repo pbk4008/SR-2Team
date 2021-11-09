@@ -32,44 +32,45 @@ protected:
 public:
 	virtual void OnInitialUpdate();
 	afx_msg void OnBnClickedCreatebutton(); //터레인생성 함수
-	afx_msg void OnBnClickedTexture();
-	afx_msg void OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnBnClickedTerrainSave();
+	afx_msg void OnBnClickedTexture(); //텍스처 설정 함수
+	afx_msg void OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult); // Deatil설정 함수
+	afx_msg void OnBnClickedTerrainSave(); //Terrain Save 함수
+	afx_msg void OnBnClickedTerrainLoad(); //Terrain Load 함수
 	void Save_Terrain(CString strFilePath);
 	void Load_Terrain(CString strFilePath);
 	void ReSize_Detail();
 	// 다이얼로그
 	CTerrainTexture m_tTerrainTexture;
+	CButton m_bWireFrame;
+	CListBox m_List_Terrain;
 
 
 	//Terrain변수
-	int m_dwTerrainX;
-	int m_dwTerrainZ;
-	int m_dwInterval;
-	int m_iTerrain_Detail;
+	TERRAININFO m_tTerrainInfo;
+	//TerrainList변수
+	
+	int m_TerrainlistIndex;
 
-	//List변수
-	int m_listIndex;
+	//Player위치
+	_float m_tPlayerPos[2];
+	//Monster위치
+	//몬스터 종류필요함 _float m_tMonsterPos[][2];
+	//Terrain위치
 
+	//Scale,Rotation,Position 을 가지는 matrix
+	_vec3 m_vecScale;
+	_vec3 m_vecRotaion;
+	_vec3 m_vecPosition;
 
 private:
 	CMAPTOOLView* m_pMapToolView;
-	std::list<CGameObject*> m_listObject[(_ulong)GAMEOBJECTID::GAMEOBJECT_END];
-	/*enum class GAMEOBJECTID { PLAYER,
-	MONSTER,
-		BOSS,
-		TERRAIN,
-		BACKGROUND,
-		CAMERA,
-		PLAYERMODEL,
-		GAMEOBJECT_END
-	*/
-
-
+	CGameObject* m_pNowObject;
 public:
-	CButton m_bWireFrame;
-	afx_msg void OnBnClickedTerrainLoad();
-	CListBox m_List_Terrain;
+	CString m_strFolderName;
+	CString m_strFileName;
+	afx_msg void OnEnChangeDetail();
+	afx_msg void OnLbnSelchangeTerrain();
+	afx_msg void OnBnClickedModifybutton();
 };
 
 
