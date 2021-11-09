@@ -44,6 +44,7 @@ private:
 	STATE			m_eCurState;
 	STATE			m_ePreState;
 
+	CCollision*		m_pCollision;
 	_bool			m_bAttack;
 	_bool			m_bMoving;
 

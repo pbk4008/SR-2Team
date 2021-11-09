@@ -5,22 +5,25 @@
 #include "Animator.h"
 
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
-m_ePreState(STATE::MAX),m_fSpeed(0.f)
+m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pCollision(nullptr)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
-m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX)
+m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pCollision(nullptr)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMainCamera), m_pModel(rhs.m_pModel),
 m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
+, m_pCollision(rhs.m_pCollision)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
 	if(rhs.m_pMainCamera)
 		m_pMainCamera->AddRef();
+	m_pCollision->AddRef();
+	m_pCollision->setTransform(m_pTransform);
 }
 
 CPlayer::~CPlayer()
@@ -47,6 +50,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	m_pModel->Update_GameObject(fDeltaTime);
 	m_eCulState=m_pModel->Act();
 
+	m_pCollision->Collison(COLLISIONTAG::MONSTER);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
@@ -55,12 +59,19 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 void CPlayer::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
+	if (m_pCollision->getHit())
+	{
+		//충돌 이후 작업
+		m_pCollision->setHit(false);
+	}
 }
 
 void CPlayer::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	m_pCollision->Render_Collision();
 	m_pModel->Render_GameObject();
+
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CGameObject::Render_GameObject();
 }
@@ -137,11 +148,20 @@ HRESULT CPlayer::Add_Component()
 	CGameObject::Add_Component();
 	CComponent* pCom = nullptr;
 
+	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision->setRadius(1.f);
+	m_pCollision->setTag(COLLISIONTAG::PLAYER);
+	m_pCollision->setActive(true);
+	m_pCollision->AddRef();
+	pCom = m_pCollision;
+	Insert_Collision(m_pCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pCom);
 	return S_OK;
 }
 
 void CPlayer::Free()
 {
+	Safe_Release(m_pCollision);
 	Safe_Release(m_pMainCamera);
 	Safe_Release(m_pModel);
 	CGameObject::Free();
