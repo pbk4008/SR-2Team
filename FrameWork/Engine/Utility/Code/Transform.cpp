@@ -1,5 +1,6 @@
 #include "Engine_Include.h"
 #include "Transform.h"
+#include "Export_Function.h"
 
 CTransform::CTransform() : m_pParent(nullptr), m_dwFlag(0x00000000),
 FLAG_SCALE(0x00000001),
@@ -128,6 +129,30 @@ CComponent* CTransform::Clone_Component()
 _bool CTransform::IsZero(const _vec3& vVector)
 {
 	return !_bool(D3DXVec3Length(&vVector));
+}
+
+void CTransform::TerrainOverMove()
+{
+	//Terrain 로컬좌표로 y값 구하기
+	CTerrainTex * pTerrainTex = static_cast<CTerrainTex*>(Get_Component(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN, COMPONENTID::TERRAINTEX, COMPONENTTYPE::TYPE_STATIC));
+	CCollisionMgr* pCollMgr = Init_CollisionMgr();
+
+	_ulong dwCntX = pTerrainTex->getCntX();
+	_ulong dwCntZ = pTerrainTex->getCntZ();
+	_ulong dwInterval= pTerrainTex->getInterval();
+
+	pCollMgr->TerrainCollision(&m_vPos, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
+	
+	//Terrain 월드 좌표 y변환 값 구하기
+	CTransform* pTransform = static_cast<CTransform*>(Get_Component(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN, COMPONENTID::TRANSFORM, COMPONENTTYPE::TYPE_DYNAMIC));
+	_vec3 vTerrainPos = *pTransform->getAxis(VECAXIS::AXIS_POS);
+
+	_float fY = vTerrainPos.y;
+
+	//Terrain월드 변환 후 로컬좌표
+	m_vPos.y += fY;
+
+	m_vPos.y += 1.0f;
 }
 
 void CTransform::ReSetVector()

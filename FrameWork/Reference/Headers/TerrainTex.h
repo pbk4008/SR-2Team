@@ -20,8 +20,14 @@ public:
 	static CTerrainTex* Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwDetail=1,const _ulong& dwVtxInv = 1);
 private:
 	virtual void Free();
+public:
+	const _vec3* getVtxPos() { return m_pVtxPos; }
+	_ulong getCntX() { return m_dwCntX; }
+	_ulong getCntZ() { return m_dwCntZ; }
+	_ulong getInterval() { return m_dwInterval; }
 private:
 	LPDIRECT3DTEXTURE9 m_pHeightMap;
+	_vec3* m_pVtxPos;
 };
 END
 #endif

@@ -40,6 +40,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	int iExit = 0;
 	KeyInput(fDeltaTime);
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
+	m_pTransform->TerrainOverMove();
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	ChangeState();
 	m_pMainCamera->Update_GameObject(fDeltaTime);

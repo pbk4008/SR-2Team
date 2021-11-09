@@ -24,6 +24,7 @@ public:
 public:
 	//해당 벡터의 크기가 0인지 아닌지 판단하는 함수
 	_bool IsZero(const _vec3& vVector);
+	void TerrainOverMove();
 private:
 	//벡터 초기화
 	void ReSetVector();
