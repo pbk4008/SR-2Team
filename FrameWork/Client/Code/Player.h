@@ -7,7 +7,7 @@ class CPlayerModel;
 class CPlayer final : public CGameObject
 {
 public:
-	enum class STATE {IDLE, ATTACK, MAX};
+	enum class STATE {IDLE, ATTACK,WALK, MAX};
 private:
 	explicit CPlayer();
 	explicit CPlayer(LPDIRECT3DDEVICE9 pDevice);

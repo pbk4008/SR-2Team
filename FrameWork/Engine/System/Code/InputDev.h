@@ -24,6 +24,7 @@ public:
 	_bool Key_Up(_ulong dwKey);
 	_bool Key_Down(_ulong dwKey);
 	_bool Key_Pressing(_ulong dwKey);
+	_bool No_Key();
 	_vec3 MousePos(HWND _hWnd);
 	void  SetFirstMousePos(HWND _hWnd);
 private:

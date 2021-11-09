@@ -9,8 +9,11 @@ CAnimator::CAnimator(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_pCulAni
 {
 }
 
-CAnimator::CAnimator(const CAnimator& rhs) : CComponent(rhs), m_pCulAnimNode(rhs.m_pCulAnimNode), m_pAnimHead(rhs.m_pAnimHead)
+CAnimator::CAnimator(const CAnimator& rhs) : CComponent(rhs), m_pCulAnimNode(nullptr), m_pAnimHead(nullptr)
 {
+	m_pAnimHead = new ANIMNODE(nullptr, L"Head");
+	m_mapAnimGroup.emplace(m_pAnimHead->pName, false);
+	m_pCulAnimNode = m_pAnimHead;
 }
 
 CAnimator::~CAnimator()
@@ -19,8 +22,6 @@ CAnimator::~CAnimator()
 
 HRESULT CAnimator::Init_Animator()
 {
-	m_pAnimHead = new ANIMNODE(nullptr,L"Head");
-	m_pCulAnimNode = m_pAnimHead;
 	return S_OK;
 }
 
@@ -47,11 +48,10 @@ CComponent* CAnimator::Clone_Component()
 HRESULT CAnimator::Insert_Animation(const _tchar* pName, const _tchar* pConnetName, CAnimation* pAnim, _bool bDouble)
 {
 	ANIMNODE* pNode = new ANIMNODE(pAnim, pName);
+	m_mapAnimGroup.emplace(pName, false);
 	ANIMNODE* pFindNode = nullptr;
 	if (!lstrcmp(pConnetName, L"Head"))
-	{
 		pFindNode = m_pAnimHead;
-	}
 	else
 	{
 		pFindNode = Find_Node(pConnetName, m_pAnimHead);
@@ -61,6 +61,8 @@ HRESULT CAnimator::Insert_Animation(const _tchar* pName, const _tchar* pConnetNa
 		pNode->pLink.emplace_back(pFindNode);
 
 	pFindNode->pLink.emplace_back(pNode);
+	for (auto pair : m_mapAnimGroup)
+		pair.second = false;
 	return S_OK;
 }
 
@@ -85,11 +87,7 @@ CAnimator::ANIMNODE* CAnimator::Find_Node(const _tchar* pName, ANIMNODE* pNode)
 	for (auto pTmp : pNode->pLink)
 	{
 		if (!lstrcmp(pName, pTmp->pName))
-		{
-			for (auto pair : m_mapAnimGroup)
-				pair.second = false;
 			return pTmp;
-		}
 		else
 		{
 			if (!m_mapAnimGroup[pTmp->pName])
@@ -104,6 +102,8 @@ CAnimator::ANIMNODE* CAnimator::Find_Node(const _tchar* pName, ANIMNODE* pNode)
 
 void CAnimator::Delete_Animator(ANIMNODE* deleteNode)
 {
+	if (!deleteNode)
+		return;
 	Safe_Release(deleteNode->pData);
 	m_mapAnimGroup[deleteNode->pName] = true;
 	if (!deleteNode->pLink.empty())

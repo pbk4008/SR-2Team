@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "PlayerModel.h"
+#include "Terrain.h"
 
 CStage::CStage() : m_pLoading(nullptr)
 {
@@ -65,7 +66,10 @@ HRESULT CStage::Init_Environment_Layer()
 	//TODO : Environment게임오브젝트 추가
 	CGameObject* pGameObject = nullptr;
 
+	pGameObject = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
+	pLayer->Add_Object(GAMEOBJECTID::TERRAIN, pGameObject);
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
+
 	return S_OK;
 }
 

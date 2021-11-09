@@ -45,6 +45,9 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
 	m_eCulState=m_pModel->Act();
+
+	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+
 	return iExit;
 }
 
@@ -83,16 +86,29 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	_vec3 vPos = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
 
 	if (Key_Pressing(VIR_W))
+	{
 		vPos += vLook * m_fSpeed * fDeltaTime;
+		m_eCulState = STATE::WALK;
+	}
 	if (Key_Pressing(VIR_A))
+	{
 		vPos += vRight * -m_fSpeed * fDeltaTime;
+		m_eCulState = STATE::WALK;
+	}
 	if (Key_Pressing(VIR_S))
+	{
 		vPos += vLook * -m_fSpeed * fDeltaTime;
+		m_eCulState = STATE::WALK;
+	}
 	if (Key_Pressing(VIR_D))
+	{
 		vPos += vRight * m_fSpeed * fDeltaTime;
+		m_eCulState = STATE::WALK;
+	}
 	if (Key_Down(VIR_SPACE))
 		m_eCulState = STATE::ATTACK;
-
+	if(Key_Up(VIR_W)|| Key_Up(VIR_A)|| Key_Up(VIR_S)|| Key_Up(VIR_D))
+		m_eCulState = STATE::IDLE;
 	m_pTransform->setPos(vPos);
 }
 
@@ -108,6 +124,8 @@ void CPlayer::ChangeState()
 		case STATE::ATTACK:
 			m_pModel->setState(m_eCulState);
 			break;
+		case STATE::WALK:
+			m_pModel->setState(m_eCulState);
 		}
 		m_ePreState = m_eCulState;
 	}

@@ -43,7 +43,7 @@ void CMainCamera::LateUpdate_GameObject()
 
 void CMainCamera::Render_GameObject()
 {
-	//m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	CGameObject::Render_GameObject();
 }
 
@@ -54,10 +54,10 @@ CMainCamera* CMainCamera::Clone_GameObject()
 
 void CMainCamera::FollowTarget()
 {
-	m_pTransform->setPos(-0.7f, 0.5f, -1.75f);
+	m_pTransform->setPos(-0.8f, 0.5f, -1.75f);
 
 	//m_pTransform->setPos(0.f, 0.f, -3.f);//플레이어 디버깅용 카메라
-	//m_pTransform->setPos(-0.7f, 3.f, -1.f);//몬스터 디버깅용 카메라
+	//m_pTransform->setPos(-0.7f, 3.f, -10.f);//몬스터 디버깅용 카메라
 	_vec3 vEye = *(m_pTransform->getAxis(VECAXIS::AXIS_POS));
 	_vec3 vAt = vEye + _vec3(0.f,0.f,1.f);
 
