@@ -166,11 +166,8 @@
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Code\ShootMon.h" />
-=======
     <ClInclude Include="..\Code\Player_Walk.h" />
->>>>>>> main
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -197,11 +194,8 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\ShootMon.cpp" />
-=======
     <ClCompile Include="..\Code\Player_Walk.cpp" />
->>>>>>> main
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />

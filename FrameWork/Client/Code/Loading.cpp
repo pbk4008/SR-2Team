@@ -12,6 +12,7 @@
 #include "MeleeMon_Idle.h"
 #include "Player_Walk.h"
 #include "Collision.h"
+#include "MeleeMon_WalkF.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -50,9 +51,11 @@ _uint CLoading::Loading_ForStage()
 	Load_Terrain(L"../Bin/Resource/Data/Terrain2.Terraindat", L"Terrain1");
 	//Texture불러오기
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Player_Attack%d.png", L"Player", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_00%d.png", L"Monster_Idle", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
+
+	/*m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_00%d.png", L"Monster_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"Monster_WalkF", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"Monster_Attack", 3);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"Monster_Attack", 3);*/
 
 	//Component원본 생성
 	CComponent* pCom = nullptr;
@@ -78,7 +81,15 @@ _uint CLoading::Loading_ForStage()
 	Init_ComProto(COMPONENTID::PLAYER_WALKANIM, pCom);
 
 	// monster ////////////////////////////////////////////////
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster_Idle", TEXTURETYPE::TEX_NORMAL));
+	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
+
+	pCom = CMeleeMon::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
+	NULL_CHECK_RETURN(pCom, E_FAIL);
+	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
+
+	/*pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster_Idle", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
 
@@ -88,9 +99,9 @@ _uint CLoading::Loading_ForStage()
 
 	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster_WalkF", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
+	Init_ComProto(COMPONENTID::MELEEMON_WALKTEX, pCom);
 
-	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
+	pCom = CMeleeMon_WalkF::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_WALKANIM, pCom);
 
@@ -100,7 +111,7 @@ _uint CLoading::Loading_ForStage()
 
 	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_WALKANIM, pCom);
+	Init_ComProto(COMPONENTID::MELEEMON_WALKANIM, pCom);*/
 	//여기까지 ////////////////////////////////////////////////
 
 	pCom = CAnimator::Create(m_pDevice);

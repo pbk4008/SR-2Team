@@ -28,7 +28,8 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
 	m_ePreState(rhs.m_ePreState), m_bMoving(false)
 {
-	SettingAnimator();
+	//SettingAnimator();
+	//m_eCurState = STATE::IDLE;
 }
 
 CMeleeMon::~CMeleeMon()
@@ -51,9 +52,10 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
+	//Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 
 	return iExit;
 }
@@ -68,7 +70,7 @@ void CMeleeMon::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
 	m_pTexture->Render_Texture();
-	m_pAnimator->Render_Animator();
+	//m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
@@ -81,7 +83,7 @@ Engine::CGameObject* CMeleeMon::Clone_GameObject()
 
 HRESULT CMeleeMon::SettingAnimator()
 {
-	m_pAnimator = Clone_ComProto < CAnimator>(COMPONENTID::ANIMATOR);
+	/*m_pAnimator = Clone_ComProto < CAnimator>(COMPONENTID::ANIMATOR);
 
 	CAnimation* pAnimation = Clone_ComProto<CMeleeMon_Idle>(COMPONENTID::MELEEMON_IDLEANIM);
 	m_pAnimator->Insert_Animation(L"Monster_Idle", L"Head", pAnimation);
@@ -89,9 +91,9 @@ HRESULT CMeleeMon::SettingAnimator()
 	CMeleeMon_WalkF* pWalkF = Clone_ComProto<CMeleeMon_WalkF>(COMPONENTID::MELEEMON_WALKANIM);
 	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"Monster_Idle", pWalkF, true);
 
-	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
+	FAILED_CHECK(m_pAnimator->Change_Animation(L"Monster_Idle"));
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);*/
 
 	return S_OK;
 }
@@ -108,12 +110,12 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CMeleeMon::Change_State()
 {
-	if (m_ePreState != m_eCurState)
+	/*if (m_ePreState != m_eCurState)
 	{
 		switch (m_eCurState)
 		{
 		case CMeleeMon::STATE::IDLE:
-			m_pAnimator->Change_Animation(L"MeleeMon_Idle");
+			m_pAnimator->Change_Animation(L"Monster_Idle");
 			break;
 		case CMeleeMon::STATE::WALKING:
 			m_pAnimator->Change_Animation(L"MeleeMon_WalkF");
@@ -122,7 +124,7 @@ void CMeleeMon::Change_State()
 			break;
 		}
 		m_ePreState = m_eCurState;
-	}
+	}*/
 }
 
 
@@ -130,6 +132,8 @@ void CMeleeMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 playerPos = pObject->getTransform()->getPos();
+
+	//m_eCurState = STATE::WALKING;
 
 	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
 }
