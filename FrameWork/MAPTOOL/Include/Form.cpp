@@ -105,7 +105,7 @@ void CForm::OnInitialUpdate()
 	m_pMapToolView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 1));
 
 	// 기본 Detail값
-	m_tTerrainInfo.Detail = 1;
+	m_iNewTerrainInterval = 1;
 
 	// 기본 vector값
 	m_vecScale = { 1.f,1.f,1.f };

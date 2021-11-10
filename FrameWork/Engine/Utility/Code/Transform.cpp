@@ -90,7 +90,6 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	{
 		matRot =m_matRotate;
 		D3DXMatrixIdentity(&m_matRotate);
-		m_vAngle = _vec3(0.f, 0.f, 0.f);
 		m_dwFlag ^= FLAG_ANGLE;
 	}
 	else if(m_dwFlag & FLAG_AXISROTATE)//임의의 축 회전 했을때
@@ -156,7 +155,7 @@ void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJ
 {
 	TerrainOverMove();
 	m_fJumpTime += fDeltaTime;
-	_float fY = fJumpPow*0.5 * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
+	_float fY = fJumpPow * 0.5f * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
 	m_vPos.y += fY;
 
 	if (m_vPos.y < m_fBottomY + 1.f)
@@ -171,7 +170,7 @@ void CTransform::UsingGravity(const _float& fDeltaTime)
 {
 	TerrainOverMove();
 	m_fGravityTime += fDeltaTime;
-	_float fY = -(0.5f * 9.8 * m_fGravityTime * m_fGravityTime);
+	_float fY = -(0.5f * 9.8f * m_fGravityTime * m_fGravityTime);
 	m_vPos.y += fY;
 	if (m_fBottomY + 1.f > m_vPos.y)
 	{
@@ -296,4 +295,9 @@ void CTransform::setRevolve(MATRIXINFO eInfo, _float fAngle)
 		break;
 	}
 	m_dwFlag |= FLAG_REVOLVE;
+}
+
+void Engine::CTransform::setToolAngle(const _vec3& vecToolAngle)
+{
+	memcpy(&m_ToolvAngle, &vecToolAngle, sizeof(_vec3));
 }

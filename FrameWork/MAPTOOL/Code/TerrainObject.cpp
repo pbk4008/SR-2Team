@@ -23,6 +23,7 @@ CTerrainObject::CTerrainObject(const CTerrainObject& rhs)
 	, strTextureFolder(rhs.strTextureFolder)
 	, strTextureName(rhs.strTextureName)
 	, m_pTexture(rhs.m_pTexture)
+	, m_pTerrainTex(rhs.m_pTerrainTex)
 {
 	strTextureFolder = new TCHAR[sizeof(lstrlen(rhs.strTextureFolder)+1)];
 	lstrcpy(strTextureFolder, rhs.strTextureFolder);
@@ -114,16 +115,24 @@ void CTerrainObject::Get_Path(CString& strFolder, CString& strFile)
 void CTerrainObject::Linking_Transform(_vec3& vScale, _vec3& vRot, _vec3& vPos)
 {
 	vScale = m_pTransform->getScale();
-	vRot = m_pTransform->getAngle();
+	vRot = m_pTransform->getToolAngle();
 	vPos = m_pTransform->getPos();
 }
 
 void CTerrainObject::Set_Transform(_vec3& vScale, _vec3& vRot, _vec3& vPos)
 {
 	m_pTransform->setScale(vScale);
-	m_pTransform->setAngle(  MATRIXINFO::MAT_RIGHT, vRot.x);
-	m_pTransform->setAngle(  MATRIXINFO::MAT_UP, vRot.y);
-	m_pTransform->setAngle(  MATRIXINFO::MAT_LOOK, vRot.z);
+
+	_matrix matSRP;
+	D3DXQUATERNION quatSRP;
+	D3DXMatrixIdentity(&matSRP);
+	D3DXQuaternionIdentity(&quatSRP);
+
+	D3DXQuaternionRotationYawPitchRoll(&quatSRP, D3DXToRadian(vRot.y), D3DXToRadian(vRot.x), D3DXToRadian(vRot.z));
+	D3DXMatrixRotationQuaternion(&matSRP, &quatSRP);
+
+	m_pTransform->setRotate(matSRP);
+	m_pTransform->setToolAngle(vRot);
 	m_pTransform->setPos(vPos);
 }
 

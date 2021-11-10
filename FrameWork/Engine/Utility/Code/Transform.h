@@ -43,6 +43,10 @@ public:
 	inline const _vec3& getAngle() const { return m_vAngle; }
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
 	_vec3* getAxis(VECAXIS eAxis);
+
+	// === 툴
+
+	inline const _vec3& getToolAngle() const { return m_ToolvAngle; }
 public:
 	inline void setParent(CTransform* pParent) { m_pParent = pParent;  m_pParent->AddRef(); }
 	inline void setScale(const _vec3 vScale) { m_vScale = vScale;  m_dwFlag |= FLAG_SCALE; }
@@ -52,6 +56,8 @@ public:
 	void setAngle(MATRIXINFO eInfo, _float fAngle);
 	void setRevolve(MATRIXINFO eInfo, _float fAngle);
 	inline void setRotate(const _matrix& matRotate) { m_matRotateAxis = matRotate; m_dwFlag |= FLAG_AXISROTATE; }//임의의 축 회전
+	// === 툴
+	void setToolAngle(const _vec3& vecToolAngle);
 private:
 	//부모 오브젝트의 트랜스폼을 적용시키기 위한 트랜스폼
 	//ex)건물이라는 오브젝트의 트랜스폼이 있다면 그것을 이루고있는 창문, 문, 계단 등
@@ -73,6 +79,9 @@ private:
 	_matrix m_matWorld;//월드메트릭스
 	_matrix m_matOldParent;//부모 이전 메트릭스
 	_ulong m_dwFlag;
+
+	// 툴전용
+	_vec3 m_ToolvAngle;
 };
 END
 #endif

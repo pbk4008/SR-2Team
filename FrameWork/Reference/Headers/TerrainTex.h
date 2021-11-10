@@ -13,7 +13,6 @@ private:
 public:
 	virtual HRESULT Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv = 1);
 	virtual HRESULT Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwDetail = 1, const _ulong& dwVtxInv = 1);
-
 	virtual void Render_Buffer();
 	virtual CComponent* Clone_Component();
 public:
