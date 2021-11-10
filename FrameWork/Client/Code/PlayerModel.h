@@ -5,7 +5,7 @@
 #include "Player.h"
 
 BEGIN(Engine)
-class CAnimator;
+class CCollision;
 END
 class CPlayerModel final : public CGameObject
 {
@@ -35,5 +35,6 @@ private:
 
 	CRcTex* m_pBufferCom;
 	CAnimator* m_pAnimator;
+	
 };
 #endif

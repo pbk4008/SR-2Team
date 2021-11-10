@@ -25,6 +25,7 @@ inline void Update_InputDev();
 inline _bool Key_Up(_ulong dwKey);
 inline _bool Key_Down(_ulong dwKey);
 inline _bool Key_Pressing(_ulong dwKey);
+inline _bool No_Key();
 inline _vec3 MousePos(HWND _hWnd);
 inline void  SetFirstMousePos(HWND _hWnd);
 

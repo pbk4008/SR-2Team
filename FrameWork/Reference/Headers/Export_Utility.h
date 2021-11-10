@@ -22,6 +22,8 @@
 #include "Renderer.h"
 #include "Animation.h"
 #include "Animator.h"
+#include "Collision.h"
+#include "CollisionMgr.h"
 
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);
@@ -52,6 +54,11 @@ inline CRenderer* Init_RenderComponent();
 inline HRESULT Insert_RenderGroup(RENDERGROUP eGroup, CGameObject* pGameObject);
 inline void Render_GameObject(LPDIRECT3DDEVICE9 pDevice);
 inline void Clear_RenderList();
+
+//CollisonMgr
+inline CCollisionMgr* Init_CollisionMgr();
+inline HRESULT Insert_Collision(CCollision* pCollision);
+inline void ClearCollisionList();
 
 inline void Utility_Release();
 #include "Export_Utility.inl"

@@ -13,7 +13,7 @@ CVIBuffer::CVIBuffer(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_pVB(nul
 {
 }
 
-CVIBuffer::CVIBuffer(const CVIBuffer& rhs) : CComponent(rhs.m_pDevice), m_pVB(rhs.m_pVB), m_pIB(rhs.m_pIB),
+CVIBuffer::CVIBuffer(const CVIBuffer& rhs) : CComponent(rhs), m_pVB(rhs.m_pVB), m_pIB(rhs.m_pIB),
 m_dwCntX(rhs.m_dwCntX), m_dwCntZ(rhs.m_dwCntZ),
 m_dwFVF(rhs.m_dwFVF), m_dwIdxSize(rhs.m_dwIdxSize), m_dwInterval(rhs.m_dwInterval),
 m_dwTriCnt(rhs.m_dwTriCnt), m_dwVtxCnt(rhs.m_dwVtxCnt), m_IdxFmt(rhs.m_IdxFmt), m_dwVtxSize(rhs.m_dwVtxSize)

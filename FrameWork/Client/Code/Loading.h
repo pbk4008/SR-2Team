@@ -21,6 +21,7 @@ public:
 	CRITICAL_SECTION* getCrt() { return &m_Crt; }
 	_bool getFinish() { return m_bFinish; }
 	const _tchar* getString() { return m_szLoading; }
+	HRESULT Load_Terrain(const _tchar* strPath, const _tchar* TerrainName);
 private:
 	HANDLE m_hThread;
 	CRITICAL_SECTION m_Crt;

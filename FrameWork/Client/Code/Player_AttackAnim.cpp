@@ -72,7 +72,7 @@ void CPlayer_AttackAnim::UpMove(const _float& fDeltaTime)
 void CPlayer_AttackAnim::DownMove(const _float& fDeltaTime)
 { 
 	_vec3 vPos = m_pTransform->getPos();
-  	_vec3 vDir = _vec3(-1.f, -1.f, 0.f);
+  	_vec3 vDir = _vec3(-1.f, -0.5f, 0.f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	vPos += vDir * m_fSpeed * fDeltaTime;
 
@@ -83,7 +83,7 @@ void CPlayer_AttackAnim::SettingAnimation(const _float& fDeltaTime)
 {
 	if (m_iIndex < 2)
 	{
-		m_fSpeed = 1.f;
+		m_fSpeed = 3.f;
 		UpMove(fDeltaTime);
 	}
 	else

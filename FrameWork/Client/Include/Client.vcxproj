@@ -163,7 +163,9 @@
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
+    <ClInclude Include="..\Code\Player_Walk.h" />
     <ClInclude Include="..\Code\Stage.h" />
+    <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Headers\Enum.h" />
     <ClInclude Include="..\Headers\Include.h" />
     <ClInclude Include="..\Headers\Value.h" />
@@ -185,7 +187,9 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
+    <ClCompile Include="..\Code\Player_Walk.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
+    <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

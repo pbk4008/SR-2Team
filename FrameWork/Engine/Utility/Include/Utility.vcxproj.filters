@@ -64,6 +64,12 @@
     <Filter Include="04.Component\05.Animator\00.Animation">
       <UniqueIdentifier>{e3bc1296-31e8-4d4e-9418-889d5cfa9a57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\06.Collision">
+      <UniqueIdentifier>{c493b583-e081-42d1-96d1-dac5da6a37ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Manager\02.CollisionMgr">
+      <UniqueIdentifier>{ddab3026-dff4-49de-924d-6c60e1204a40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -125,6 +131,12 @@
     </ClInclude>
     <ClInclude Include="..\Code\Animator.h">
       <Filter>04.Component\05.Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Collision.h">
+      <Filter>04.Component\06.Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\CollisionMgr.h">
+      <Filter>05.Manager\02.CollisionMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +201,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animator.cpp">
       <Filter>04.Component\05.Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Collision.cpp">
+      <Filter>04.Component\06.Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CollisionMgr.cpp">
+      <Filter>05.Manager\02.CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -156,6 +156,8 @@ call "Update_Utility.bat"</Command>
     <ClInclude Include="..\Code\Animation.h" />
     <ClInclude Include="..\Code\Animator.h" />
     <ClInclude Include="..\Code\Camera.h" />
+    <ClInclude Include="..\Code\Collision.h" />
+    <ClInclude Include="..\Code\CollisionMgr.h" />
     <ClInclude Include="..\Code\Component.h" />
     <ClInclude Include="..\Code\CubeTex.h" />
     <ClInclude Include="..\Code\GameObject.h" />
@@ -180,6 +182,8 @@ call "Update_Utility.bat"</Command>
     <ClCompile Include="..\Code\Animation.cpp" />
     <ClCompile Include="..\Code\Animator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\Collision.cpp" />
+    <ClCompile Include="..\Code\CollisionMgr.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />

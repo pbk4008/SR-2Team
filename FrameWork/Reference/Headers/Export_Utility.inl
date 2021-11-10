@@ -94,10 +94,28 @@ void Clear_RenderList()
 {
 	CRenderer::GetInstance()->Clear_RenderList();
 }
+
+CCollisionMgr* Init_CollisionMgr()
+{
+	CCollisionMgr* pInstance = CCollisionMgr::GetInstance();
+	NULL_CHECK_RETURN(pInstance, nullptr);
+
+	return pInstance;
+}
+HRESULT Insert_Collision(CCollision* pCollision)
+{
+	return CCollisionMgr::GetInstance()->Insert_Collision(pCollision);
+}
+void ClearCollisionList()
+{
+	CCollisionMgr::GetInstance()->ClearCollisionList();
+}
+
 void Utility_Release()
 {
 	CManagement::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
+	CCollisionMgr::DestroyInstance();
 	CTextureMgr::DestroyInstance();
 }

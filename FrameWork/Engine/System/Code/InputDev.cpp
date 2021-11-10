@@ -72,6 +72,14 @@ _bool CInputDev::Key_Pressing(_ulong dwKey)
 	return false;
 }
 
+_bool CInputDev::No_Key()
+{
+	if (!m_dwKey)
+		return true;
+	else
+		return false;
+}
+
 _vec3 CInputDev::MousePos(HWND _hWnd)
 {
 	POINT pt = {};
