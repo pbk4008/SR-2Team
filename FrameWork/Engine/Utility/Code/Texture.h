@@ -11,18 +11,20 @@ private:
 	explicit CTexture(const CTexture& rhs);
 	virtual ~CTexture();
 public:
-	HRESULT Init_Texture(vector<LPDIRECT3DBASETEXTURE9>* pTexture);
+	HRESULT Init_Texture();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	void Render_Texture(const _uint& iIndex = 0);
 public:
 	virtual CComponent* Clone_Component();
 public:
-	static CTexture* Create(LPDIRECT3DDEVICE9 pDevice, vector<LPDIRECT3DBASETEXTURE9>* pTexture);
+	static CTexture* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
 public:
 	LPDIRECT3DTEXTURE9 getTexture(const _uint& iCnt);
 	inline _int getTextureCount() { return m_vecTexture.size(); }
+public:
+	HRESULT setTexture(vector<LPDIRECT3DBASETEXTURE9>* pTexture);
 private:
 	vector<LPDIRECT3DBASETEXTURE9>	m_vecTexture;
 };

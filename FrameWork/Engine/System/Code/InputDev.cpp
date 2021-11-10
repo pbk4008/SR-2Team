@@ -98,6 +98,13 @@ void CInputDev::SetFirstMousePos(HWND _hWnd)
 	GetCursorPos(&m_tMousPos);
 }
 
+void CInputDev::MouseFix(_float fX, _float fY, HWND hWnd)
+{
+	POINT ptMouse = { _long(fX),_long(fY) };
+	ClientToScreen(hWnd, &ptMouse);
+	SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
 void CInputDev::Free()
 {
 }

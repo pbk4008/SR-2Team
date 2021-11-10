@@ -27,6 +27,7 @@ public:
 	_bool No_Key();
 	_vec3 MousePos(HWND _hWnd);
 	void  SetFirstMousePos(HWND _hWnd);
+	void MouseFix(_float fX, _float fY , HWND hWnd);
 private:
 	virtual void Free();
 private:

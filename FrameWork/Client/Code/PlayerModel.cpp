@@ -95,15 +95,15 @@ HRESULT CPlayerModel::SettingAnimator()
 {
 	m_pAnimator = Clone_ComProto<CAnimator>(COMPONENTID::ANIMATOR);
 
-	CAnimation* pAnim = Clone_ComProto<CPlayerIdleAnim>(COMPONENTID::PLAYER_IDLEANIM);
+	CAnimation* pAnim = CPlayerIdleAnim::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"Player_Idle", L"Head", pAnim);
 
-	CPlayer_AttackAnim* pAtk = Clone_ComProto<CPlayer_AttackAnim>(COMPONENTID::PLAYER_ATTACKANIM);
+	CPlayer_AttackAnim* pAtk = CPlayer_AttackAnim::Create(m_pDevice);
 	pAtk->setTransform(m_pTransform);
 	pAnim = pAtk;
 	m_pAnimator->Insert_Animation(L"Player_Attack", L"Player_Idle", pAnim, true);
 
-	CPlayerWalk* pWalk = Clone_ComProto<CPlayerWalk>(COMPONENTID::PLAYER_WALKANIM);
+	CPlayerWalk* pWalk = CPlayerWalk::Create(m_pDevice);
 	pWalk->setTransform(m_pTransform);
 	pAnim = pWalk;
 	m_pAnimator->Insert_Animation(L"Player_Walk", L"Player_Idle", pAnim, true);

@@ -14,7 +14,7 @@ private:
 	explicit CPlayer_AttackAnim(const CPlayer_AttackAnim& rhs);
 	virtual ~CPlayer_AttackAnim();
 public:
-	HRESULT Init_PlayerAttackAnim(CTexture* pTexture);
+	HRESULT Init_PlayerAttackAnim();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 private:
@@ -24,7 +24,7 @@ private:
 	void SettingAnimation(const _float& fDeltaTime);
 	void ResetTimer();
 public:
-	static CPlayer_AttackAnim* Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture);
+	static CPlayer_AttackAnim* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
 public:

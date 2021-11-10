@@ -110,11 +110,12 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CPlayer::KeyInput(const float& fDeltaTime)
 {
-	_vec3 vLook = *m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
+	_vec3 vLook, vRight, vPos;
+	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
 	D3DXVec3Normalize(&vLook, &vLook);
-	_vec3 vRight = *m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
+	m_pTransform->getAxis(VECAXIS::AXIS_RIGHT, vRight);
 	D3DXVec3Normalize(&vRight, &vRight);
-	_vec3 vPos = m_pTransform->getPos();
+	vPos = m_pTransform->getPos();
 
 	
 	if (Key_Pressing(VIR_W))

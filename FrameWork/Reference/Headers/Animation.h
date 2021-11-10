@@ -4,6 +4,7 @@
 #include "Component.h"
 BEGIN(Engine)
 class CTexture;
+class CTextureMgr;
 class ENGINE_DLL CAnimation abstract : public CComponent
 {
 protected:
@@ -15,6 +16,8 @@ public:
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual void Render_Animation();
 protected:
+	void InitTexture(const _tchar* pTextureName);
+protected:
 	virtual void Free();
 public:
 	_bool getPlay() { return m_bPlay; }
@@ -22,6 +25,7 @@ public:
 	void setTexture(CTexture* pTexutre);
 	void setPlay(_bool bPlay) { m_bPlay = bPlay; }
 protected:
+	CTextureMgr* m_pTextureMgr;
 	CTexture* m_pTexture;
 
 	_float m_fCulTime;

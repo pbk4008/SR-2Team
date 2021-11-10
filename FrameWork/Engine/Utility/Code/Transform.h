@@ -31,7 +31,7 @@ private:
 	//∫§≈Õ √ ±‚»≠
 	void ReSetVector();
 	void ChangeParentMatrix();
-	_matrix* matParentReMoveScale();
+	void matParentReMoveScale(_matrix& pMatirx);
 public:
 	static CTransform* Create();
 private:

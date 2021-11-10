@@ -24,8 +24,6 @@ public:
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
-public:
-	void setTextureCom(SCENEID eID);
 private:
 	SCENEID m_eSceneID;
 	CRcTex* m_pBufferCom;

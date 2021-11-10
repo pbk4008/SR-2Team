@@ -146,7 +146,8 @@ void CTransform::TerrainOverMove()
 	
 	//Terrain 월드 좌표 y변환 값 구하기
 	CTransform* pTransform = static_cast<CTransform*>(Get_Component(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN, COMPONENTID::TRANSFORM, COMPONENTTYPE::TYPE_DYNAMIC));
-	_vec3 vTerrainPos = *pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3 vTerrainPos;
+	pTransform->getAxis(VECAXIS::AXIS_POS, vTerrainPos);
 
 	m_fBottomY += vTerrainPos.y;
 }
@@ -155,7 +156,7 @@ void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJ
 {
 	TerrainOverMove();
 	m_fJumpTime += fDeltaTime;
-	_float fY = fJumpPow * 0.5f * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
+	_float fY = fJumpPow*0.5f * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
 	m_vPos.y += fY;
 
 	if (m_vPos.y < m_fBottomY + 1.f)
@@ -188,18 +189,22 @@ void CTransform::ReSetVector()
 
 void CTransform::ChangeParentMatrix()
 {
+	_matrix ChangedParent;
+	ZeroMemory(&ChangedParent, sizeof(_matrix));
 	if (D3DXMatrixIsIdentity(&m_matOldParent))
 	{
 		if (m_pParent)
 		{
-			_matrix ChangedParent = *matParentReMoveScale();
+			ChangedParent = m_pParent->getWorldMatrix();
+			matParentReMoveScale(ChangedParent);
 			m_matOldParent = ChangedParent;
 			m_dwFlag |= FLAG_PARENT;
 		}
 	}
 	else
 	{
-		_matrix ChangedParent = *matParentReMoveScale();
+		ChangedParent = m_pParent->getWorldMatrix();
+		matParentReMoveScale(ChangedParent);
 		if (m_matOldParent != ChangedParent)
 		{
 			m_dwFlag |= FLAG_PARENT;
@@ -208,21 +213,18 @@ void CTransform::ChangeParentMatrix()
 	}
 }
 
-_matrix* CTransform::matParentReMoveScale()
+void CTransform::matParentReMoveScale(_matrix& pMatirx)
 {
-	_matrix matParent = m_pParent->getWorldMatrix();
 	for (_int i = 0; i < (_int)VECAXIS::AXIS_POS; i++)
 	{
-		_vec3 vAxis = _vec3(matParent.m[i][0], matParent.m[i][1], matParent.m[i][2]);
+		_vec3 vAxis = _vec3(pMatirx.m[i][0], pMatirx.m[i][1], pMatirx.m[i][2]);
 
 		D3DXVec3Normalize(&vAxis, &vAxis);
 		
-		matParent.m[i][0] = vAxis.x;
-		matParent.m[i][1] = vAxis.y;
-		matParent.m[i][2] = vAxis.z;
+		pMatirx.m[i][0] = vAxis.x;
+		pMatirx.m[i][1] = vAxis.y;
+		pMatirx.m[i][2] = vAxis.z;
 	}
-
-	return &matParent;
 }
 
 CTransform* CTransform::Create()
@@ -239,10 +241,9 @@ void CTransform::Free()
 	CComponent::Free();
 }
 
-_vec3* CTransform::getAxis(VECAXIS eAxis)
+void CTransform::getAxis(VECAXIS eAxis, _vec3& pVec)
 {
-	_vec3 vRes =_vec3(m_matWorld.m[(_ulong)eAxis][0], m_matWorld.m[(_ulong)eAxis][1], m_matWorld.m[(_ulong)eAxis][2]);
-	return &vRes;
+	pVec =_vec3(m_matWorld.m[(_ulong)eAxis][0], m_matWorld.m[(_ulong)eAxis][1], m_matWorld.m[(_ulong)eAxis][2]);
 }
 
 void CTransform::setScale(const _float& fX, const _float& fY, const _float& fZ)
