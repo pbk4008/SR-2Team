@@ -42,7 +42,7 @@ public:
 	inline const _vec3& getScale() const { return m_vScale; }
 	inline const _vec3& getAngle() const { return m_vAngle; }
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
-	_vec3* getAxis(VECAXIS eAxis);
+	void getAxis(VECAXIS eAxis, _vec3& pVec);
 
 	// === Åø
 

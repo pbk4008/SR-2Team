@@ -29,7 +29,6 @@ public:
 	CTextureMgr* m_pTextureMgr;
 	//=============
 	CDynamicCamera* m_pDynamicCamera;
-	//CComponent* m_pBufferCom;
 
 	//=============
 	//라인 위치
@@ -48,14 +47,16 @@ public:
 	
 // 작업입니다.
 public:
-	void SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
 	CDynamicCamera* Get_DynamicCamera() { return m_pDynamicCamera; }
 	LPDIRECT3DDEVICE9 View_Get_Deivce() { return m_pDevice; }
+	void SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDev);
 	void Update_View(const float& fTimeDelta);
 	void Init_LineXYZ();
 	void Render_LineXYZ();
 	void Init_ToolWindows();
 	void Init_Component();
+	void Set_XYZKey();
+	void UpDown_Key(_vec3* pVector);
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.

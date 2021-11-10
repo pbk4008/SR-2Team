@@ -51,6 +51,9 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 	, m_pTextureMgr(nullptr)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
+	m_vecSRP[0] = { 1.f,1.f,1.f };
+	ZeroMemory(m_vecSRP[1], sizeof(_vec3) * 2);
+
 
 }
 
@@ -105,8 +108,8 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 	{
 		CInputDev::GetInstance()->Update_InputDev();
 		m_pDynamicCamera->Update_Object(fTimeDelta);
+		Set_XYZKey();
 	}
-
 		if (!m_vectorTerrain.empty())
 		{
 			for (const auto& Obj : m_vectorTerrain)
@@ -118,6 +121,7 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 				dynamic_cast<CTerrainObject*>(Obj)->Update_GameObject(fTimeDelta);
 			}
 		}
+		
 			
 }
 
@@ -191,6 +195,67 @@ void CMAPTOOLView::Init_Component()
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 }
 
+void CMAPTOOLView::Set_XYZKey()
+{
+	if (m_pForm->m_pNowObject)
+	{
+		m_vecSRP[0] = m_pForm->m_pNowObject->getTransform()->getScale();
+		m_vecSRP[1] = m_pForm->m_pNowObject->getTransform()->getToolAngle();
+		m_vecSRP[2] = m_pForm->m_pNowObject->getTransform()->getPos();
+	}
+	else
+	{
+		return;
+	}
+	
+	if (m_pForm->m_Button_Scale.GetCheck())
+	{
+		UpDown_Key(&m_vecSRP[0]);
+	}
+	else if (m_pForm->m_Button_Roation.GetCheck())
+	{
+		UpDown_Key(&m_vecSRP[1]);
+	}
+	else if (m_pForm->m_Button_Position.GetCheck())
+	{
+		UpDown_Key(&m_vecSRP[2]);
+	}
+
+	m_pForm->m_pNowObject->getTransform()->setScale(m_vecSRP[0]);
+	m_pForm->m_pNowObject->getTransform()->setToolAngle(m_vecSRP[1]);
+	m_pForm->m_pNowObject->getTransform()->setPos(m_vecSRP[2]);
+	m_pForm->Set_SRP(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+
+}
+
+void CMAPTOOLView::UpDown_Key(_vec3* pVector)
+{
+	if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000)
+	{
+		pVector->x -= m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000)
+	{
+		pVector->x += m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000)
+	{
+		pVector->y -= m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD5) & 0x8000)
+	{
+		pVector->y += m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000)
+	{
+		pVector->z -= m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000)
+	{
+		pVector->z += m_pForm->m_fMovePower;
+	}
+}
+
 // CMAPTOOLView 그리기
 
 
@@ -219,8 +284,17 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 
+	if (m_pForm->m_Button_Zbuffer.GetCheck())
+	{
+		m_pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	}
+
 	Render_LineXYZ();
 
+	if (m_pForm->m_Button_Zbuffer.GetCheck())
+	{
+		m_pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	}
 	m_pGraphicDev->Render_End();
 
 }
@@ -298,17 +372,8 @@ void CMAPTOOLView::OnInitialUpdate()
 	//카메라 붙이기
 	m_pDynamicCamera = Clone_ComProto<CDynamicCamera>(COMPONENTID::CAMERA);
 
-	// 기본바닥만들기
-	//m_pBufferCom = CTerrainTex::Create(m_pDevice, 129, 129, 1);
-	//// ===  === 
-	//m_pForm->m_tTerrainInfo.X = 129;
-	//m_pForm->m_tTerrainInfo.Z = 129;
-	//m_pForm->m_tTerrainInfo.Interval = 1;
-	/*m_pBufferCom = Clone_ComProto<CComponent>(COMPONENTID::TERRAINTEX);*/
+
 	m_pForm->UpdateData(false);
-
-
-
 }
 
 

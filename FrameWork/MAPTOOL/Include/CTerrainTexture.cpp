@@ -235,7 +235,9 @@ void CTerrainTexture::OnBnClickedButton1()
 	if (!GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL))
 		Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState, 1);
 
-	static_cast<CTerrainObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice, GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL)));
-
+	static_cast<CTerrainObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice));
+	CTexture* pTexture = static_cast<CTerrainObject*>(pObj)->Get_Texture();
+	pTexture->setTexture(GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL));
+	
 
 }

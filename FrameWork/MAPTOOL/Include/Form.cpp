@@ -24,6 +24,7 @@ CForm::CForm()
 	, m_iNewTerrainX(0)
 	, m_iNewTerrainZ(0)
 	, m_iNewTerrainInterval(0)
+	, m_fMovePower(0)
 {
 	ZeroMemory(&m_tPlayerPos, sizeof(_float) * 2);
 	ZeroMemory(&m_tTerrainInfo, sizeof(TERRAININFO));
@@ -58,6 +59,11 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, Terrain_NewX, m_iNewTerrainX);
 	DDX_Text(pDX, Terrain_NewZ, m_iNewTerrainZ);
 	DDX_Text(pDX, Terrain_NewInterval, m_iNewTerrainInterval);
+	DDX_Control(pDX, Radio_Scale, m_Button_Scale);
+	DDX_Control(pDX, Radio_Rotation, m_Button_Roation);
+	DDX_Control(pDX, Radio_Position, m_Button_Position);
+	DDX_Text(pDX, Object_MovePower, m_fMovePower);
+	DDX_Control(pDX, Button_ZBuffer, m_Button_Zbuffer);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -70,6 +76,7 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_LBN_SELCHANGE(List_Terrain, &CForm::OnLbnSelchangeTerrain)
 	ON_BN_CLICKED(Terrain_ModifyButton, &CForm::OnBnClickedModifybutton)
 	ON_LBN_SETFOCUS(List_Terrain, &CForm::OnLbnSetfocusTerrain)
+	ON_EN_CHANGE(Object_MovePower, &CForm::OnEnChangeMovepower)
 END_MESSAGE_MAP()
 
 
@@ -112,6 +119,8 @@ void CForm::OnInitialUpdate()
 	m_vecRotaion = { 0.f,0.f,0.f };
 	m_vecPosition = { 0.f,0.f,0.f };
 
+	m_fMovePower = 0.1f;
+	
 }
 
 
@@ -146,7 +155,7 @@ void CForm::OnBnClickedCreatebutton()
 	m_iNewTerrainInterval = 1;
 	//변수들을 리소스로 보낸다.
 	UpdateData(false);
-	m_List_Terrain.SetFocus();
+	//m_List_Terrain.SetFocus();
 
 }
 
@@ -331,6 +340,7 @@ void CForm::ReSize_TerrainInfo()
 
 	CTerrainTex* pTerrainTex = dynamic_cast<CTerrainObject*>(m_pNowObject)->Get_Tex();
 
+
 	if (dynamic_cast<CTerrainObject*>(m_pNowObject)->Compare_Info(&m_tTerrainInfo))
 		return;
 
@@ -352,6 +362,14 @@ void CForm::LinkResourceAndVariable()
 	// 현재Obj에 TerrainInfo정보
 	static_cast<CTerrainObject*>(m_pNowObject)->Linking_TerrainInfo(&m_tTerrainInfo);
 
+	UpdateData(false);
+}
+
+void CForm::Set_SRP(const _vec3& vecScale, const _vec3& vecRot, const _vec3& vecPos)
+{
+	m_vecScale = vecScale;
+	m_vecRotaion = vecRot;
+	m_vecPosition = vecPos;
 	UpdateData(false);
 }
 
@@ -398,6 +416,7 @@ void CForm::OnBnClickedModifybutton()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	// X,Z,interval,Detail값을 연동시킨다.
 	UpdateData(true);
+
 	ReSize_TerrainInfo();
 	
 	static_cast<CTerrainObject*>(m_pNowObject)->Set_Transform(m_vecScale, m_vecRotaion, m_vecPosition);
@@ -408,5 +427,18 @@ void CForm::OnBnClickedModifybutton()
 void CForm::OnLbnSetfocusTerrain()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	LinkResourceAndVariable();
+	//LinkResourceAndVariable();
 }
+
+
+void CForm::OnEnChangeMovepower()
+{
+	// TODO:  RICHEDIT 컨트롤인 경우, 이 컨트롤은
+	// CFormView::OnInitDialog() 함수를 재지정 
+	//하고 마스크에 OR 연산하여 설정된 ENM_CHANGE 플래그를 지정하여 CRichEditCtrl().SetEventMask()를 호출하지 않으면
+	// 이 알림 메시지를 보내지 않습니다.
+
+	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(true);
+}
+

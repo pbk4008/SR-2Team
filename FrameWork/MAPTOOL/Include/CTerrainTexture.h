@@ -25,17 +25,17 @@ private:
 	void Get_FileList(CString strFolder,HTREEITEM* ppItem);
 	void Set_PictureCtrl(CString strCur);
 public:
-	CTreeCtrl m_Tree_Terrain_Texture;
-	virtual BOOL OnInitDialog();
 	afx_msg void OnTvnSelchangedTextureTree(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBnClickedButton1();
+	virtual BOOL OnInitDialog();
+	CTreeCtrl m_Tree_Terrain_Texture;
 	CStatic m_picture_TerrainTexture;
 	CString m_tCurTexturePath; //총경로
 	CString m_tCurTexture; // 파일이름
 	CString m_tCurTextureState; //폴더이름
-	afx_msg void OnBnClickedButton1();
-	int m_iTreeIndex;
-	int m_iTreeParentIndex;
 	CString m_tFilePath;
+	int m_iTreeParentIndex;
+	int m_iTreeIndex;
 
 
 };
