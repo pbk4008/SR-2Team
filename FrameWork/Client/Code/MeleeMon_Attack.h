@@ -15,7 +15,7 @@ class CMeleeMon_Attack : public CAnimation
 	virtual ~CMeleeMon_Attack();
 
 public:
-	HRESULT Init_MeleeMon_WalkF(CTexture* pTexture);
+	HRESULT Init_MeleeMon_WalkF();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 
@@ -24,7 +24,7 @@ private:
 	void ResetTimer();
 
 public:
-	static CMeleeMon_Attack* Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture);
+	static CMeleeMon_Attack* Create(LPDIRECT3DDEVICE9 pDevice);
 
 private:
 	virtual void Free();

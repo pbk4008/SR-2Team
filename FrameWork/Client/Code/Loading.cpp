@@ -14,6 +14,8 @@
 #include "Collision.h"
 #include "MeleeMon_WalkF.h"
 #include "MeleeMon_Attack.h"
+#include "ShootMon.h"
+#include "FlyMon.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -54,40 +56,20 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Idle/IDLE_000.png", L"ShootMon_Idle", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Walk/WALKF_00%d.png", L"ShootMon_WalkF", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Attack/ATTACK_00%d.png", L"ShootMon_Attack", 2);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/WALKF_00%d.png", L"FlyMon_WalkF", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Attack/ATTACK_00%d.png", L"FlyMon_Attack", 3);
+
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Sword/Player_Attack_Sword00%d.png", L"PlayerSwordAttack", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Shuriken/Player_Attack_Shuriken00%d.png", L"PlayerShurikenAttack",9);
 
 	//Component원본 생성
 	CComponent* pCom = nullptr;
-
-	// monster anim////////////////////////////////////////////////
-
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"MeleeMon_Idle", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_IDLETEX, pCom);
-
-	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_IDLETEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_IDLEANIM, pCom);
-
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"MeleeMon_WalkF", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_WALKTEX, pCom);
-
-	pCom = CMeleeMon_WalkF::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_WALKTEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_WALKANIM, pCom);
-
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"MeleeMon_Attack", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_ATTACKTEX, pCom);
-
-	pCom = CMeleeMon_Attack::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_ATTACKTEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_ATTACKANIM, pCom);
-
-	//여기까지 ////////////////////////////////////////////////
-
 
 	pCom = CAnimator::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
@@ -127,6 +109,16 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
+	// Shoot Monster
+	pObj = CShootMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+	
+	// Fly Monster
+	pObj = CFlyMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
+
 	pObj = CTerrain::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj);

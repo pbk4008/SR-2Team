@@ -8,7 +8,7 @@
 
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
-	m_bAttack(false), m_iTimer(1), m_eState(STATE::MAX), m_pAnimator(nullptr),
+	m_bAttack(false), m_iTimer(1), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_bMoving(false),
 	m_pCollision(nullptr), m_pAttackColl(nullptr)
 {
@@ -17,7 +17,7 @@ CMeleeMon::CMeleeMon()
 
 CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
-	m_fSpeed(0.f), m_bAttack(false), m_iTimer(1), m_eState(STATE::MAX), 
+	m_fSpeed(0.f), m_bAttack(false), m_iTimer(1), 
 	m_pAnimator(nullptr), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), 
 	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr)
 {
@@ -25,9 +25,8 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
-<<<<<<< HEAD
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture),
-	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1), m_eState(rhs.m_eState),
+	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1),
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(rhs.m_pCollision), m_pAttackColl(rhs.m_pAttackColl)
 {
@@ -57,18 +56,16 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	Attack_Dis(fDeltaTime);
 
 	m_fSpeed = 2.f;
-	_vec3	m_vInfo;
-	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 
-	if (m_bAttack)
+	if(GetAsyncKeyState('P'))
+		m_fSpeed = 0.f;
+
+	if (m_fSpeed == 0.f)
 		m_eCurState = STATE::ATTACK;
-	else
-		m_eCurState = STATE::WALKING;
 
-	Change_State();
+	//Change_State();
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
-
 
 	return iExit;
 }
@@ -89,7 +86,6 @@ void CMeleeMon::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pCollision->Render_Collision();
 
-	//m_pTexture->Render_Texture();
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
@@ -105,13 +101,13 @@ HRESULT CMeleeMon::SettingAnimator()
 {
 	m_pAnimator = Clone_ComProto < CAnimator>(COMPONENTID::ANIMATOR);
 
-	CAnimation* pAnimation = Clone_ComProto<CMeleeMon_Idle>(COMPONENTID::MELEEMON_IDLEANIM);
+	CAnimation* pAnimation = CMeleeMon_Idle::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"MeleeMon_Idle", L"Head", pAnimation);
 
-	CMeleeMon_WalkF* pWalkF = Clone_ComProto<CMeleeMon_WalkF>(COMPONENTID::MELEEMON_WALKANIM);
+	CMeleeMon_WalkF* pWalkF = CMeleeMon_WalkF::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"MeleeMon_Idle", pWalkF, true);
 
-	CMeleeMon_Attack* pAttack = Clone_ComProto<CMeleeMon_Attack>(COMPONENTID::MELEEMON_ATTACKANIM);
+	CMeleeMon_Attack* pAttack = CMeleeMon_Attack::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"MeleeMon_Attack", L"MeleeMon_Idle", pAttack, true);
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
@@ -120,6 +116,7 @@ HRESULT CMeleeMon::SettingAnimator()
 
 	return S_OK;
 }
+
 
 CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -133,7 +130,8 @@ CMeleeMon* CMeleeMon::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CMeleeMon::Change_State()
 {
-	if (m_ePreState != m_eCurState)
+	//if (m_ePreState != m_eCurState)
+	if (m_eCurState != m_ePreState)
 	{
 		switch (m_eCurState)
 		{
@@ -151,7 +149,6 @@ void CMeleeMon::Change_State()
 	}
 }
 
-
 void CMeleeMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
@@ -166,7 +163,6 @@ void CMeleeMon::Attack(const _float& fDeltaTime)
 	if (m_iTimer >= 1.0f)
 	{
 		cout << "Attack!" << endl;
-		m_bAttack = false;
 		m_pAttackColl->setActive(false);
 
 		if (m_pAttackColl->getActive())
@@ -180,7 +176,9 @@ void CMeleeMon::Attack(const _float& fDeltaTime)
 
 void CMeleeMon::Attack_Dis(const _float& fDeltaTime)
 {
-	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
+
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 vPos = pObject->getTransform()->getPos();
 	_vec3  vDis = m_vInfo - vPos;
@@ -188,12 +186,17 @@ void CMeleeMon::Attack_Dis(const _float& fDeltaTime)
 
 	if (fDis <= 1.0f)
 	{
-		m_bAttack = true;
+		m_eCurState = STATE::ATTACK;
+		Change_State();
+		
 		Attack(fDeltaTime);
 		m_pAttackColl->setActive(true);
 	}
-	else
-		m_bAttack = false;
+	else if (fDis > 1.0f)
+	{
+		m_eCurState = STATE::WALKING;
+		Change_State();
+	}
 }
 
 HRESULT CMeleeMon::Add_Component()
@@ -205,28 +208,6 @@ HRESULT CMeleeMon::Add_Component()
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
-
-<<<<<<< HEAD
-	//texture idle
-	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_IDLETEX);
-	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_IDLETEX, pComponent);
-	
-	//texture walk
-	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_WALKTEX);
-	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_WALKTEX, pComponent);
-
-	////texture
-	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-	//m_pTexture->setTexture(GetTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
-	//m_pTexture->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, pComponent);
-
-	//texture attack
-	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_ATTACKTEX);
-	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_ATTACKTEX, pComponent);
 	
 	// collision
 	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
@@ -259,3 +240,11 @@ void CMeleeMon::Free()
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }
+
+//			m_bAttack = true;
+// 
+//			m_bMoving = false;
+//			
+//			m_bAttack = false;
+// 
+//			m_bMoving = true;

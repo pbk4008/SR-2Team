@@ -53,6 +53,5 @@ private:
 	_float			m_iTimer;
 	_float			m_fSpeed;
 
-	STATE			m_eState;
 };
 #endif

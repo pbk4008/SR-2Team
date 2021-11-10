@@ -27,12 +27,12 @@ CMeleeMon_Attack::~CMeleeMon_Attack()
 
 }
 
-HRESULT CMeleeMon_Attack::Init_MeleeMon_WalkF(CTexture* pTexture)
+HRESULT CMeleeMon_Attack::Init_MeleeMon_WalkF()
 {
 	m_bLoop = true;
 	m_fPlaySpeed = 0.28f;
 	m_fSpeed = 1.f;
-	setTexture(pTexture);
+	InitTexture(L"MeleeMon_Attack");
 
 	return S_OK;
 }
@@ -68,10 +68,10 @@ void CMeleeMon_Attack::ResetTimer()
 
 }
 
-CMeleeMon_Attack* CMeleeMon_Attack::Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture)
+CMeleeMon_Attack* CMeleeMon_Attack::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CMeleeMon_Attack* pInstance = new CMeleeMon_Attack(pDevice);
-	if (FAILED(pInstance->Init_MeleeMon_WalkF(pTexture)))
+	if (FAILED(pInstance->Init_MeleeMon_WalkF()))
 		Safe_Release(pInstance);
 
 	return pInstance;

@@ -13,12 +13,12 @@ private:
 	virtual ~CMeleeMon_Idle();
 
 public:
-	HRESULT Init_MeleeMon_Idle(CTexture* pTexture);
+	HRESULT Init_MeleeMon_Idle();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 
 public:
-	static CMeleeMon_Idle* Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture);
+	static CMeleeMon_Idle* Create(LPDIRECT3DDEVICE9 pDevice);
 
 private:
 	virtual void Free();

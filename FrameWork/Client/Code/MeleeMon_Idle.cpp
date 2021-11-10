@@ -23,11 +23,11 @@ CMeleeMon_Idle::~CMeleeMon_Idle()
 
 }
 
-HRESULT CMeleeMon_Idle::Init_MeleeMon_Idle(CTexture* pTexture)
+HRESULT CMeleeMon_Idle::Init_MeleeMon_Idle()
 {
 	m_bLoop = true;
 	m_fPlaySpeed = 0.1f;
-	setTexture(pTexture);
+	InitTexture(L"MeleeMon_Idle");
 	m_iIndex = 0;
 	m_bDelay = true;
 
@@ -50,10 +50,10 @@ CComponent* CMeleeMon_Idle::Clone_Component()
 	return new CMeleeMon_Idle(*this);
 }
 
-CMeleeMon_Idle* CMeleeMon_Idle::Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture)
+CMeleeMon_Idle* CMeleeMon_Idle::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CMeleeMon_Idle* pInstance = new CMeleeMon_Idle(pDevice);
-	if (FAILED(pInstance->Init_MeleeMon_Idle(pTexture)))
+	if (FAILED(pInstance->Init_MeleeMon_Idle()))
 		Safe_Release(pInstance);
 	
 	return pInstance;

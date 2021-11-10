@@ -24,13 +24,12 @@ CMeleeMon_WalkF::~CMeleeMon_WalkF()
 {
 }
 
-HRESULT CMeleeMon_WalkF::Init_MeleeMon_WalkF(CTexture* pTexture)
+HRESULT CMeleeMon_WalkF::Init_MeleeMon_WalkF()
 {
 	m_bLoop = true;
 	m_fPlaySpeed = 0.4f;
 	m_fSpeed = 1.f;
-	setTexture(pTexture);
-
+	InitTexture(L"MeleeMon_WalkF");
 	return S_OK;
 }
 
@@ -64,10 +63,10 @@ void CMeleeMon_WalkF::ResetTimer()
 
 }
 
-CMeleeMon_WalkF* CMeleeMon_WalkF::Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture)
+CMeleeMon_WalkF* CMeleeMon_WalkF::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CMeleeMon_WalkF* pInstance = new CMeleeMon_WalkF(pDevice);
-	if (FAILED(pInstance->Init_MeleeMon_WalkF(pTexture)))
+	if (FAILED(pInstance->Init_MeleeMon_WalkF()))
 		Safe_Release(pInstance);
 
 	return pInstance;
