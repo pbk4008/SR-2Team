@@ -23,13 +23,13 @@ CPlayer_AttackAnim::~CPlayer_AttackAnim()
 {
 }
 
-HRESULT CPlayer_AttackAnim::Init_PlayerAttackAnim(CTexture* pTexture)
+HRESULT CPlayer_AttackAnim::Init_PlayerAttackAnim()
 {
 	m_bLoop = false;
 	m_fPlaySpeed = 0.1f;
 	m_fSpeed = 1.f;
-	setTexture(pTexture);
-	
+	InitTexture(L"PlayerSwordAttack");
+
 	return S_OK;
 }
 
@@ -109,10 +109,10 @@ void CPlayer_AttackAnim::SettingAnimation(const _float& fDeltaTime)
 	
 }
 
-CPlayer_AttackAnim* CPlayer_AttackAnim::Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture)
+CPlayer_AttackAnim* CPlayer_AttackAnim::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CPlayer_AttackAnim* pInstance = new CPlayer_AttackAnim(pDevice);
-	if (FAILED(pInstance->Init_PlayerAttackAnim(pTexture)))
+	if (FAILED(pInstance->Init_PlayerAttackAnim()))
 		Safe_Release(pInstance);
 
 	return pInstance;

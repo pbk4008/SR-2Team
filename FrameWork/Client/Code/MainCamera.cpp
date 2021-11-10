@@ -58,8 +58,9 @@ void CMainCamera::FollowTarget()
 
 	//m_pTransform->setPos(0.f, 0.f, -3.f);//플레이어 디버깅용 카메라
 	//m_pTransform->setPos(-0.7f, 3.f, -10.f);//몬스터 디버깅용 카메라
-	_vec3 vEye = *(m_pTransform->getAxis(VECAXIS::AXIS_POS));
-	_vec3 vLook = *(m_pTransform->getAxis(VECAXIS::AXIS_LOOK));
+	_vec3 vEye, vLook;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, vEye);
+	m_pTransform->getAxis(VECAXIS::AXIS_LOOK,vLook);
 	D3DXVec3Normalize(&vLook, &vLook);
 	_vec3 vAt = vEye + vLook;
 

@@ -27,6 +27,7 @@ inline _bool Key_Down(_ulong dwKey);
 inline _bool Key_Pressing(_ulong dwKey);
 inline _bool No_Key();
 inline _vec3 MousePos(HWND _hWnd);
+inline void MouseFix(_float fX, _float fY, HWND hWnd);
 inline void  SetFirstMousePos(HWND _hWnd);
 
 inline void System_Release();

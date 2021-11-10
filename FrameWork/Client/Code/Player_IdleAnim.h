@@ -10,11 +10,11 @@ private:
 	explicit CPlayerIdleAnim(const CAnimation& rhs);
 	virtual ~CPlayerIdleAnim();
 public:
-	HRESULT Init_PlayerIdleAnim(CTexture* pTexture);
+	HRESULT Init_PlayerIdleAnim();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 public:
-	static CPlayerIdleAnim* Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture);
+	static CPlayerIdleAnim* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
 };

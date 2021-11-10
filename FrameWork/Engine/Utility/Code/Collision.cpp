@@ -42,7 +42,7 @@ _int CCollision::Update_Component(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 	iExit = CComponent::Update_Component(fDeltaTime);
-	m_vCenter= *m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	m_pTransform->getAxis(VECAXIS::AXIS_POS,m_vCenter);
 	return iExit;
 }
 

@@ -64,6 +64,10 @@ _bool No_Key()
 {
 	return CInputDev::GetInstance()->No_Key();
 }
+void MouseFix(_float fX, _float fY, HWND hWnd)
+{
+	return CInputDev::GetInstance()->MouseFix(fX,fY,hWnd);
+}
 void System_Release()
 {
 	CInputDev::DestroyInstance();

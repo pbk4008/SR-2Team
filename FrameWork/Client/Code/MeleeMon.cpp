@@ -25,8 +25,9 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
-	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_IDLETEX)),
-	 m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1), m_eState(rhs.m_eState), 
+<<<<<<< HEAD
+	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture),
+	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1), m_eState(rhs.m_eState),
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(rhs.m_pCollision), m_pAttackColl(rhs.m_pAttackColl)
 {
@@ -54,6 +55,10 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
+
+	m_fSpeed = 2.f;
+	_vec3	m_vInfo;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 
 	if (m_bAttack)
 		m_eCurState = STATE::ATTACK;
@@ -201,6 +206,7 @@ HRESULT CMeleeMon::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
+<<<<<<< HEAD
 	//texture idle
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_IDLETEX);
 	m_pTexture->AddRef();
@@ -210,6 +216,12 @@ HRESULT CMeleeMon::Add_Component()
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_WALKTEX);
 	m_pTexture->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_WALKTEX, pComponent);
+
+	////texture
+	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	//m_pTexture->setTexture(GetTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
+	//m_pTexture->AddRef();
+	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, pComponent);
 
 	//texture attack
 	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_ATTACKTEX);

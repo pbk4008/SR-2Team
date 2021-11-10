@@ -17,11 +17,12 @@ CPlayerIdleAnim::~CPlayerIdleAnim()
 {
 }
 
-HRESULT CPlayerIdleAnim::Init_PlayerIdleAnim(CTexture* pTexture)
+
+HRESULT CPlayerIdleAnim::Init_PlayerIdleAnim()
 {
 	m_bLoop = true;
 	m_fPlaySpeed = 0.1f;
-	setTexture(pTexture);
+	InitTexture(L"PlayerSwordAttack");
 	m_iIndex = 0;
 	m_bDelay = true;
 
@@ -42,10 +43,11 @@ CComponent* CPlayerIdleAnim::Clone_Component()
 	return new CPlayerIdleAnim(*this);
 }
 
-CPlayerIdleAnim* CPlayerIdleAnim::Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture)
+
+CPlayerIdleAnim* CPlayerIdleAnim::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CPlayerIdleAnim* pInstance = new CPlayerIdleAnim(pDevice);
-	if (FAILED(pInstance->Init_PlayerIdleAnim(pTexture)))
+	if (FAILED(pInstance->Init_PlayerIdleAnim()))
 		Safe_Release(pInstance);
 	return pInstance;
 }

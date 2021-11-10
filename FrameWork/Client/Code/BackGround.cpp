@@ -73,9 +73,10 @@ HRESULT CBackGround::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
 
-	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX);
+	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_pTexture->setTexture(GetTexture(L"BackGround", TEXTURETYPE::TEX_NORMAL));
 	m_pTexture->AddRef();
-	m_mapComponent->emplace(COMPONENTID::BACKGROUND_TEX, pComponent);
+	m_mapComponent->emplace(COMPONENTID::TEXTURE, pComponent);
 
 	return S_OK;
 }
@@ -85,20 +86,4 @@ void CBackGround::Free()
 	CGameObject::Free();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
-}
-
-void CBackGround::setTextureCom(SCENEID eID)
-{
-	//ToDo:스테이지 BackGrond 셋팅
-	m_eSceneID = eID;
-	switch (m_eSceneID)
-	{
-	case SCENEID::STAGE_ONE:
-		m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BACKGROUND_TEX);
-		break;
-	case SCENEID::STAGE_TWO:
-		break;
-	default:
-		break;
-	}
 }

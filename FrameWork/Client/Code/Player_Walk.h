@@ -10,14 +10,14 @@ private:
 	explicit CPlayerWalk(const CPlayerWalk& rhs);
 	virtual ~CPlayerWalk();
 public:
-	HRESULT Init_PlayerWalk(CTexture* pTexture);
+	HRESULT Init_PlayerWalk();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 private:
 	void SettingAnimation(const _float& fDeltaTime);
 	void Move(const float& fDeltaTime);
 public:
-	static CPlayerWalk* Create(LPDIRECT3DDEVICE9 pDevice, CTexture* pTexture);
+	static CPlayerWalk* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
 public:

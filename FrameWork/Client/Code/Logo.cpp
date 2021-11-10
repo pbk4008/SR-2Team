@@ -118,9 +118,10 @@ HRESULT CLogo::Init_LogoScene()
 
 	//Component ¿øº»
 	CComponent* pCom = nullptr;
-	pCom = CTexture::Create(m_pDevice, pTexutreMgr->getTexture(L"BackGround", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::BACKGROUND_TEX, pCom);
+
+	pCom = CTexture::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::TEXTURE, pCom);
 
 	pCom = CRcTex::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, E_FAIL);

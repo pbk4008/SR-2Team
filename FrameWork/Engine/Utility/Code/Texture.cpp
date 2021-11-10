@@ -12,28 +12,22 @@ CTexture::CTexture(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice)
 CTexture::CTexture(const CTexture& rhs) : CComponent(rhs)
 ,m_vecTexture(rhs.m_vecTexture)
 {
-	_uint iSize = m_vecTexture.size();
-	m_vecTexture.reserve(iSize);
+	if (!rhs.m_vecTexture.empty())
+	{
+		_uint iSize = m_vecTexture.size();
+		m_vecTexture.reserve(iSize);
 
-	for (auto& iter : m_vecTexture)
-		iter->AddRef();
+		for (auto& iter : m_vecTexture)
+			iter->AddRef();
+	}
 }
 
 CTexture::~CTexture()
 {
 }
 
-HRESULT CTexture::Init_Texture(vector<LPDIRECT3DBASETEXTURE9>* pTexture)
+HRESULT CTexture::Init_Texture()
 {
-	NULL_CHECK_RETURN(pTexture, E_FAIL);
-	_int iSize = pTexture->size();
-	m_vecTexture.reserve(iSize);
-
-	for (auto iter : *pTexture)
-	{
-		m_vecTexture.emplace_back(iter);
-		iter->AddRef();
-	}
 	return S_OK;
 }
 
@@ -54,10 +48,11 @@ CComponent* CTexture::Clone_Component()
 	return new CTexture(*this);
 }
 
-CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pDevice, vector<LPDIRECT3DBASETEXTURE9>* pTexture)
+
+CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CTexture* pInstance = new CTexture(pDevice);
-	if (FAILED(pInstance->Init_Texture(pTexture)))
+	if (FAILED(pInstance->Init_Texture()))
 		Safe_Release(pInstance);
 	return pInstance;
 }
@@ -77,4 +72,19 @@ LPDIRECT3DTEXTURE9 CTexture::getTexture(const _uint& iCnt)
 		return nullptr;
 
 	return static_cast<LPDIRECT3DTEXTURE9>(m_vecTexture[iCnt]);
+}
+
+HRESULT CTexture::setTexture(vector<LPDIRECT3DBASETEXTURE9>* pTexture)
+{
+	NULL_CHECK_RETURN(pTexture, E_FAIL);
+	_int iSize = pTexture->size();
+	m_vecTexture.reserve(iSize);
+
+	
+	for (auto& iter : (*pTexture))
+	{
+		m_vecTexture.emplace_back(iter);
+		iter->AddRef();
+	}
+	return S_OK;
 }

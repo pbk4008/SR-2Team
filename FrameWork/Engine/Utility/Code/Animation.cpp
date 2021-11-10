@@ -2,19 +2,25 @@
 #include "FrameMgr.h"
 #include "Animation.h"
 #include "Texture.h"
+#include "TextureMgr.h"
+#include "ProtoMgr.h"
 #pragma comment(lib,"System.lib")
+#pragma comment(lib,"Utility.lib")
 
-CAnimation::CAnimation() : m_pTexture(nullptr), m_bPlay(false), m_fPlaySpeed(0.f), m_fCulTime(0.f),m_iIndex(0), m_bLoop(false), m_bDelay(false)
+CAnimation::CAnimation() : m_pTexture(nullptr), m_bPlay(false), m_fPlaySpeed(0.f), m_fCulTime(0.f),m_iIndex(0), m_bLoop(false), m_bDelay(false), m_pTextureMgr(nullptr)
 {
 }
 
 CAnimation::CAnimation(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_pTexture(nullptr),m_bPlay(false), m_fPlaySpeed(0.f), m_fCulTime(0.f), m_iIndex(0), m_bLoop(nullptr),m_bDelay(false)
+, m_pTextureMgr(CTextureMgr::GetInstance())
 {
+	m_pTextureMgr->AddRef();
 }
 
 CAnimation::CAnimation(const CAnimation& rhs) : CComponent(rhs), m_pTexture(rhs.m_pTexture),m_bPlay(rhs.m_bPlay), m_fPlaySpeed(rhs.m_fPlaySpeed), m_fCulTime(rhs.m_fCulTime), m_iIndex(rhs.m_iIndex), m_bLoop(rhs.m_bLoop)
-,m_bDelay(rhs.m_bDelay)
+,m_bDelay(rhs.m_bDelay), m_pTextureMgr(rhs.m_pTextureMgr)
 {
+	m_pTextureMgr->AddRef();
 	m_pTexture->AddRef();
 }
 
@@ -51,8 +57,17 @@ void CAnimation::Render_Animation()
 	}
 }
 
+void CAnimation::InitTexture(const _tchar* pTextureName)
+{
+	vector<LPDIRECT3DBASETEXTURE9>* pTex = m_pTextureMgr->getTexture(pTextureName, TEXTURETYPE::TEX_NORMAL);
+
+	m_pTexture = CProtoMgr::GetInstance()->Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_pTexture->setTexture(pTex);
+}
+
 void CAnimation::Free()
 {
+	Safe_Release(m_pTextureMgr);
 	Safe_Release(m_pTexture);
 	CComponent::Free();
 }
