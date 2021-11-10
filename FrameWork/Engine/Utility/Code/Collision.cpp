@@ -4,19 +4,20 @@
 #include "CollisionMgr.h"
 
 CCollision::CCollision() : m_pTransform(nullptr), m_pSphere(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
-,m_pCollisionMgr(nullptr)
+,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTransform(nullptr), m_pSphere(nullptr)
-, m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr)
+, m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr), m_fRadius(rhs.m_fRadius)
 , m_pSphere(rhs.m_pSphere), m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag)
+, m_eTrigger(rhs.m_eTrigger)
 {
 	m_pCollisionMgr->AddRef();
 	if (rhs.m_pTransform)
@@ -52,7 +53,6 @@ CComponent* CCollision::Clone_Component()
 
 void CCollision::Render_Collision()
 {
-	D3DXCreateSphere(m_pDevice, m_fRadius, 10, 10, &m_pSphere, NULL);
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pSphere->DrawSubset(0);
@@ -93,6 +93,8 @@ void CCollision::setCenter(const _vec3& pCenter)
 void CCollision::setRadius(const _float& fRadius)
 {
 	m_fRadius = fRadius;
+	D3DXCreateSphere(m_pDevice, m_fRadius, 10, 10, &m_pSphere, NULL);
+
 }
 
 void CCollision::setTransform(CTransform* pTransform)

@@ -35,8 +35,14 @@ private:
 	STATE m_ePreState;
 
 	_float m_fSpeed;
+	_bool m_bAttack;
+	_bool m_bJump;
+	_float m_fAngle;
+
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;
-	CCollision* m_pCollision;
+
+	CCollision* m_pHitCollision;
+	CCollision* m_pAtkCollision;
 };
 #endif

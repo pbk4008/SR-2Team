@@ -8,7 +8,7 @@ FLAG_POS(0x00000002),
 FLAG_ANGLE(0x00000004),
 FLAG_REVOLVE(0x00000008),
 FLAG_AXISROTATE(0x00000010),
-FLAG_PARENT(0x00000020)
+FLAG_PARENT(0x00000020), m_fBottomY(0.f), m_fJumpTime(0.f), m_fGravityTime(0.f)
 {
 	ZeroMemory(&m_vPos, sizeof(_vec3));
 	ZeroMemory(&m_vScale, sizeof(_vec3));
@@ -16,6 +16,8 @@ FLAG_PARENT(0x00000020)
 	ZeroMemory(&m_vRevolve, sizeof(_vec3));
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
 	ZeroMemory(&m_matRotate, sizeof(_matrix));
+	ZeroMemory(&m_matRotateAxis, sizeof(_matrix));
+	ZeroMemory(&m_matRevolve, sizeof(_matrix));
 	ZeroMemory(&m_matOldParent, sizeof(_matrix));
 }
 
@@ -25,7 +27,7 @@ FLAG_POS(0x00000002),
 FLAG_ANGLE(0x00000004),
 FLAG_REVOLVE(0x00000008),
 FLAG_AXISROTATE(0x00000010),
-FLAG_PARENT(0x00000020)
+FLAG_PARENT(0x00000020), m_fBottomY(0.f), m_fJumpTime(0.f), m_fGravityTime(0.f)
 {
 	ZeroMemory(&m_vPos, sizeof(_vec3));
 	ZeroMemory(&m_vScale, sizeof(_vec3));
@@ -33,18 +35,20 @@ FLAG_PARENT(0x00000020)
 	ZeroMemory(&m_vRevolve, sizeof(_vec3));
 	ZeroMemory(&m_matWorld, sizeof(_matrix));
 	ZeroMemory(&m_matRotate, sizeof(_matrix));
+	ZeroMemory(&m_matRotateAxis, sizeof(_matrix));
+	ZeroMemory(&m_matRevolve, sizeof(_matrix));
 	ZeroMemory(&m_matOldParent, sizeof(_matrix));
 }
 
 CTransform::CTransform(const CTransform& rhs) : CComponent(rhs),m_vPos(rhs.m_vPos), m_vScale(rhs.m_vScale)
-, m_vAngle(rhs.m_vAngle), m_vRevolve(rhs.m_vRevolve), m_matWorld(rhs.m_matWorld), m_matRotate(rhs.m_matRotate)
-,m_pParent(rhs.m_pParent), m_dwFlag(rhs.m_dwFlag), m_matOldParent(rhs.m_matOldParent),
+, m_vAngle(rhs.m_vAngle), m_vRevolve(rhs.m_vRevolve), m_matWorld(rhs.m_matWorld), m_matRotate(rhs.m_matRotate), m_matRotateAxis(rhs.m_matRotateAxis), m_matRevolve(rhs.m_matRevolve)
+,m_pParent(rhs.m_pParent), m_dwFlag(rhs.m_dwFlag), m_matOldParent(rhs.m_matOldParent), m_fJumpTime(rhs.m_fJumpTime),
 FLAG_SCALE(0x00000001),
 FLAG_POS(0x00000002),
 FLAG_ANGLE(0x00000004),
 FLAG_REVOLVE(0x00000008),
 FLAG_AXISROTATE(0x00000010),
-FLAG_PARENT(0x00000020)
+FLAG_PARENT(0x00000020), m_fBottomY(rhs.m_fBottomY), m_fGravityTime(rhs.m_fGravityTime)
 {
 	if (rhs.m_pParent)
 		m_pParent->AddRef();
@@ -60,6 +64,9 @@ HRESULT CTransform::Init_Transform()
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&m_matRotate);
 	D3DXMatrixIdentity(&m_matOldParent);
+	D3DXMatrixIdentity(&m_matRotateAxis);
+	D3DXMatrixIdentity(&m_matRevolve);
+	m_fBottomY = 0.f;
 	return S_OK;
 }
 
@@ -79,18 +86,17 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	//회전 값 조정
 	_matrix matRot;
 	D3DXMatrixIdentity(&matRot);
-	if (m_dwFlag & FLAG_ANGLE )
+	if (m_dwFlag & FLAG_ANGLE)
 	{
-		D3DXMatrixRotationX(&matRot, D3DXToRadian(m_vAngle.x));
-		D3DXMatrixRotationY(&matRot, D3DXToRadian(m_vAngle.y));
-		D3DXMatrixRotationZ(&matRot, D3DXToRadian(m_vAngle.z));
+		matRot =m_matRotate;
+		D3DXMatrixIdentity(&m_matRotate);
 		m_vAngle = _vec3(0.f, 0.f, 0.f);
 		m_dwFlag ^= FLAG_ANGLE;
 	}
 	else if(m_dwFlag & FLAG_AXISROTATE)//임의의 축 회전 했을때
 	{
-		matRot = m_matRotate;
-		D3DXMatrixIdentity(&m_matRotate);
+		matRot = m_matRotateAxis;
+		D3DXMatrixIdentity(&m_matRotateAxis);
 		m_dwFlag ^= FLAG_AXISROTATE;
 	}
 	m_matWorld *= matRot;
@@ -105,11 +111,7 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	
 	if (m_dwFlag & FLAG_REVOLVE)
 	{
-		_matrix matRevolve;
-		D3DXMatrixRotationX(&matRevolve, D3DXToRadian(m_vRevolve.x));
-		D3DXMatrixRotationY(&matRevolve, D3DXToRadian(m_vRevolve.y));
-		D3DXMatrixRotationZ(&matRevolve, D3DXToRadian(m_vRevolve.z));
-		m_matWorld *= matRevolve;
+		m_matWorld *= m_matRevolve;
 		m_dwFlag ^= FLAG_REVOLVE;
 	}
 	//부모 오브젝트가 있으면 적용한다
@@ -141,18 +143,41 @@ void CTransform::TerrainOverMove()
 	_ulong dwCntZ = pTerrainTex->getCntZ();
 	_ulong dwInterval= pTerrainTex->getInterval();
 
-	pCollMgr->TerrainCollision(&m_vPos, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
+	pCollMgr->TerrainCollision(m_vPos.x,m_fBottomY,m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
 	
 	//Terrain 월드 좌표 y변환 값 구하기
 	CTransform* pTransform = static_cast<CTransform*>(Get_Component(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN, COMPONENTID::TRANSFORM, COMPONENTTYPE::TYPE_DYNAMIC));
 	_vec3 vTerrainPos = *pTransform->getAxis(VECAXIS::AXIS_POS);
 
-	_float fY = vTerrainPos.y;
+	m_fBottomY += vTerrainPos.y;
+}
 
-	//Terrain월드 변환 후 로컬좌표
+void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck)
+{
+	TerrainOverMove();
+	m_fJumpTime += fDeltaTime;
+	_float fY = fJumpPow*0.5 * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
 	m_vPos.y += fY;
 
-	m_vPos.y += 1.0f;
+	if (m_vPos.y < m_fBottomY + 1.f)
+	{
+		m_fJumpTime = 0.f;
+		m_vPos.y = m_fBottomY + 1.f;
+		bJumpCheck = false;
+	}
+}
+
+void CTransform::UsingGravity(const _float& fDeltaTime)
+{
+	TerrainOverMove();
+	m_fGravityTime += fDeltaTime;
+	_float fY = -(0.5f * 9.8 * m_fGravityTime * m_fGravityTime);
+	m_vPos.y += fY;
+	if (m_fBottomY + 1.f > m_vPos.y)
+	{
+		m_fGravityTime = 0.f;
+		m_vPos.y = m_fBottomY+1.f;
+	}
 }
 
 void CTransform::ReSetVector()
@@ -161,14 +186,6 @@ void CTransform::ReSetVector()
 	m_vRevolve = _vec3(0.f, 0.f, 0.f);
 }
 
-void CTransform::MatrixToVector()
-{
-	for (_int i = 0; i < _int(MATRIXINFO::MAT_POS); i++)
-		*(((_float*)&m_vScale) + i) = m_matWorld.m[i][i];
-
-	for (_int i = 0; i < (_int)MATRIXINFO::MAT_POS; i++)
-		*(((_float*)&m_vPos) + i) = m_matWorld.m[3][i];
-}
 
 void CTransform::ChangeParentMatrix()
 {
@@ -196,7 +213,15 @@ _matrix* CTransform::matParentReMoveScale()
 {
 	_matrix matParent = m_pParent->getWorldMatrix();
 	for (_int i = 0; i < (_int)VECAXIS::AXIS_POS; i++)
-		matParent.m[i][i] = 1;
+	{
+		_vec3 vAxis = _vec3(matParent.m[i][0], matParent.m[i][1], matParent.m[i][2]);
+
+		D3DXVec3Normalize(&vAxis, &vAxis);
+		
+		matParent.m[i][0] = vAxis.x;
+		matParent.m[i][1] = vAxis.y;
+		matParent.m[i][2] = vAxis.z;
+	}
 
 	return &matParent;
 }
@@ -240,11 +265,35 @@ void CTransform::setPos(const _float& fX, const _float& fY, const _float& fZ)
 void CTransform::setAngle(MATRIXINFO eInfo, _float fAngle)
 {
 	*(((_float*)&m_vAngle) + (_ulong)eInfo) = fAngle;
+	switch (eInfo)
+	{
+		case MATRIXINFO::MAT_RIGHT:
+			D3DXMatrixRotationX(&m_matRotate,m_vAngle.x);
+			break;
+		case MATRIXINFO::MAT_UP:
+			D3DXMatrixRotationY(&m_matRotate, m_vAngle.y);
+			break;
+		case MATRIXINFO::MAT_LOOK:
+			D3DXMatrixRotationZ(&m_matRotate, m_vAngle.z);
+			break;
+	}
 	m_dwFlag |= FLAG_ANGLE;
 }
 
 void CTransform::setRevolve(MATRIXINFO eInfo, _float fAngle)
 {
 	*(((_float*)&m_vRevolve) + (_ulong)eInfo) = fAngle;
+	switch (eInfo)
+	{
+	case MATRIXINFO::MAT_RIGHT:
+		D3DXMatrixRotationX(&m_matRevolve, m_vRevolve.x);
+		break;
+	case MATRIXINFO::MAT_UP:
+		D3DXMatrixRotationY(&m_matRevolve, m_vRevolve.y);
+		break;
+	case MATRIXINFO::MAT_LOOK:
+		D3DXMatrixRotationZ(&m_matRevolve, m_vRevolve.z);
+		break;
+	}
 	m_dwFlag |= FLAG_REVOLVE;
 }

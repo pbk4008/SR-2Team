@@ -93,7 +93,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 	pPlayer->setCamera(pCam);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
-	////몬스터 생성
+	//몬스터 생성
 	pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);
 

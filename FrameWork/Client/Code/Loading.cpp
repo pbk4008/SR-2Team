@@ -101,7 +101,7 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 
-	//Camera
+	////Camera
 	pObj = CMainCamera::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
