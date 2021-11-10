@@ -51,9 +51,9 @@ _uint CLoading::Loading_ForStage()
 	Load_Terrain(L"../Bin/Resource/Data/Terrain2.Terraindat", L"Terrain1");
 	//Texture불러오기
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Player_Attack%d.png", L"Player", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
-
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_00%d.png", L"MeleeMon_Idle", 1);
+	//m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
+																															///	MeleeMon_Idle
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
 
@@ -80,16 +80,13 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::PLAYER_WALKANIM, pCom);
 
-	// monster ////////////////////////////////////////////////
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
-	///anim
+	// monster anim////////////////////////////////////////////////
+
 	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"MeleeMon_Idle", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_IDLETEX, pCom);
 
-	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
+	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_IDLETEX));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_IDLEANIM, pCom);
 
@@ -97,17 +94,17 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_WALKTEX, pCom);
 
-	pCom = CMeleeMon_WalkF::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
+	pCom = CMeleeMon_WalkF::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_WALKTEX));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_WALKANIM, pCom);
 
-	/*pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"MeleeMon_Attack", TEXTURETYPE::TEX_NORMAL));
+	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"MeleeMon_Attack", TEXTURETYPE::TEX_NORMAL));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::MELEEMON_ATTACKTEX, pCom);
 
-	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX));
+	pCom = CMeleeMon_Idle::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_ATTACKTEX));
 	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_ATTACKANIM, pCom);*/
+	Init_ComProto(COMPONENTID::MELEEMON_ATTACKANIM, pCom);
 
 	//여기까지 ////////////////////////////////////////////////
 

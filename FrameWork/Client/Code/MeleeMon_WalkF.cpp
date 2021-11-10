@@ -27,7 +27,7 @@ CMeleeMon_WalkF::~CMeleeMon_WalkF()
 HRESULT CMeleeMon_WalkF::Init_MeleeMon_WalkF(CTexture* pTexture)
 {
 	m_bLoop = true;
-	m_fPlaySpeed = 0.8f;
+	m_fPlaySpeed = 0.4f;
 	m_fSpeed = 1.f;
 	setTexture(pTexture);
 
