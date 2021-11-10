@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "MeleeMon_Idle.h"
 #include "MeleeMon_WalkF.h"
+#include "MeleeMon_Attack.h"
 
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -51,15 +52,19 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-
-	m_pTransform->TerrainOverMove();
 	Follow(fDeltaTime);
+	Attack_Dis(fDeltaTime);
 
+	if (m_bAttack)
+		m_eCurState = STATE::ATTACK;
+	else
+		m_eCurState = STATE::WALKING;
+
+	Change_State();
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
-	
-	Attack_Dis(fDeltaTime);
-	
+
+
 	return iExit;
 }
 
@@ -100,6 +105,9 @@ HRESULT CMeleeMon::SettingAnimator()
 
 	CMeleeMon_WalkF* pWalkF = Clone_ComProto<CMeleeMon_WalkF>(COMPONENTID::MELEEMON_WALKANIM);
 	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"MeleeMon_Idle", pWalkF, true);
+
+	CMeleeMon_Attack* pAttack = Clone_ComProto<CMeleeMon_Attack>(COMPONENTID::MELEEMON_ATTACKANIM);
+	m_pAnimator->Insert_Animation(L"MeleeMon_Attack", L"MeleeMon_Idle", pAttack, true);
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 
@@ -144,9 +152,6 @@ void CMeleeMon::Follow(const _float& fDeltaTime)
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 playerPos = pObject->getTransform()->getPos();
 
-	m_eCurState = STATE::WALKING;
-	Change_State();
-
 	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
 }
 
@@ -171,21 +176,19 @@ void CMeleeMon::Attack(const _float& fDeltaTime)
 void CMeleeMon::Attack_Dis(const _float& fDeltaTime)
 {
 	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
-
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 vPos = pObject->getTransform()->getPos();
-
 	_vec3  vDis = m_vInfo - vPos;
-
 	_float fDis = D3DXVec3Length(&vDis);
 
 	if (fDis <= 1.0f)
 	{
+		m_bAttack = true;
 		Attack(fDeltaTime);
-
 		m_pAttackColl->setActive(true);
 	}
-
+	else
+		m_bAttack = false;
 }
 
 HRESULT CMeleeMon::Add_Component()

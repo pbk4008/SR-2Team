@@ -43,7 +43,7 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
 
-	_vec3	m_vInfo = m_pTransform->getPos();
+	/*_vec3	m_vInfo = m_pTransform->getPos();
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
@@ -55,6 +55,21 @@ _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 
 	_float fDot = acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir), D3DXVec3Normalize(&vUp, &m_vInfo)));
 
-	return D3DXMatrixRotationAxis(&matRot, &vAxis, fDot);
+	return D3DXMatrixRotationAxis(&matRot, &vAxis, fDot);*/
 
+	_vec3	m_vInfo = m_pTransform->getPos();
+
+	_vec3 vDir = *pTargetPos - m_vInfo;
+	_matrix matRot;
+
+	_vec3 vUp;
+	_vec3 vUp2 = *m_pTransform->getAxis(VECAXIS::AXIS_UP);
+	_vec3 vLook = *m_pTransform->getAxis(VECAXIS::AXIS_LOOK);
+	_vec3 vRight = *m_pTransform->getAxis(VECAXIS::AXIS_RIGHT);
+
+	//_vec3 vAxis = *D3DXVec3Cross(&vAxis, &vUp, &vLook);
+
+	_float fDot = acosf(D3DXVec3Dot(D3DXVec3Normalize(&vDir, &vDir), D3DXVec3Normalize(&vUp, &vUp2)));
+
+	return D3DXMatrixRotationY(&matRot, fDot);
 }

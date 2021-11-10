@@ -77,7 +77,7 @@ void CPlayer::LateUpdate_GameObject()
 	{
 		//충돌 이후 작업
 		cout << "Player 충돌!" << endl;
-		m_pCollision->setHit(false);
+		//m_pCollision->setHit(false);
 		m_pHitCollision->setHit(false);
 	}
 	if (m_pAtkCollision->getHit())
