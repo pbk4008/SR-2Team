@@ -28,17 +28,20 @@ public:
 	_bool getHit() { return m_bHit; }
 	_vec3& getCenter() { return m_vCenter; }
 	_float& getRadius() { return m_fRadius; }
+	COLLISIONTRIGGER getTrigger() { return m_eTrigger; }
 public:
 	void setCenter(const _vec3& pCenter);
 	void setRadius(const _float& fRadius);
 	void setTransform(CTransform* pTransform);
 	void setTag(COLLISIONTAG eTag);
 	void setHit(_bool bHit) { m_bHit = bHit; }
+	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
 private:
 	CTransform* m_pTransform;
 	_vec3 m_vCenter;
 	_float m_fRadius;
 	COLLISIONTAG m_eTag;
+	COLLISIONTRIGGER m_eTrigger;
 	LPD3DXMESH m_pSphere;
 	_bool m_bHit;
 

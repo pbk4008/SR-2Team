@@ -102,16 +102,20 @@ CCollisionMgr* Init_CollisionMgr()
 
 	return pInstance;
 }
-
 HRESULT Insert_Collision(CCollision* pCollision)
 {
 	return CCollisionMgr::GetInstance()->Insert_Collision(pCollision);
 }
+void ClearCollisionList()
+{
+	CCollisionMgr::GetInstance()->ClearCollisionList();
+}
+
 void Utility_Release()
 {
-	CCollisionMgr::DestroyInstance();
 	CManagement::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
+	CCollisionMgr::DestroyInstance();
 	CTextureMgr::DestroyInstance();
 }

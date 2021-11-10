@@ -120,7 +120,7 @@ CTerrainTex* CTerrainTex::Create(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DTEXTURE9 p
 
 void CTerrainTex::Free()
 {
-	if(m_bClone)
+	if(!m_bClone)
 		Safe_DeleteArr(m_pVtxPos);
 	Safe_Release(m_pHeightMap);
 	CVIBuffer::Free();

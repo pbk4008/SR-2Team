@@ -12,12 +12,13 @@ private:
 	virtual ~CCollisionMgr();
 public:
 	HRESULT Insert_Collision(CCollision* pCollision);
-	void TerrainCollision(_vec3* pPos, 
+	void TerrainCollision(const _float& fX, _float& fY, const _float& fZ, 
 		const _vec3* pTerrainVtxPos,
 		const _ulong& dwCntX,
 		const _ulong& dwCntZ,
 		const _ulong& dwVtxItv);
 	void Collision(CCollision* pCollision , COLLISIONTAG eTag);
+	void ClearCollisionList();
 private:
 	_bool CollisionCheck(CCollision* pCol, CCollision* pCollider);
 private:

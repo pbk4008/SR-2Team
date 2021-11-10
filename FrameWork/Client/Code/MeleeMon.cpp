@@ -31,7 +31,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 {
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
-
+	m_pCollision->AddRef();
 	m_pCollision->setTransform(m_pTransform);
 	m_pAttackColl->setTransform(m_pTransform);
 }
@@ -60,7 +60,6 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	
 	Attack_Dis(fDeltaTime);
 	
-
 	return iExit;
 }
 
@@ -70,7 +69,7 @@ void CMeleeMon::LateUpdate_GameObject(const _float& fDeltaTime)
 
 	if (m_pCollision->getHit())
 	{
-		//cout << "몬스터 충돌!!!" << endl;
+		cout << "몬스터 충돌" << endl;
 		m_pCollision->setHit(false);
 	}
 }
@@ -219,6 +218,7 @@ HRESULT CMeleeMon::Add_Component()
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
+	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
@@ -238,6 +238,7 @@ void CMeleeMon::Free()
 {
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
+	ClearCollisionList();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);

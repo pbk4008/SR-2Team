@@ -17,15 +17,15 @@ HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 }
 
 
-void CCollisionMgr::TerrainCollision(_vec3* pPos, const _vec3* pTerrainVtxPos, 
+void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float& fZ, const _vec3* pTerrainVtxPos,
 	const _ulong& dwCntX, 
 	const _ulong& dwCntZ, 
 	const _ulong& dwVtxItv)
 {
-	_ulong dwIndex = _ulong(pPos->x / dwVtxItv) * dwCntX + _ulong(pPos->z / dwVtxItv);
+	_ulong dwIndex = _ulong(fX / dwVtxItv) * dwCntX + _ulong(fZ/ dwVtxItv);
 
-	_float fWidth = (pPos->x - pTerrainVtxPos[dwIndex + dwCntX].x) / dwVtxItv;
-	_float fHeight = (pTerrainVtxPos[dwIndex + dwCntX].z - pPos->z) / dwVtxItv;
+	_float fWidth = (fX - pTerrainVtxPos[dwIndex + dwCntX].x) / dwVtxItv;
+	_float fHeight = (pTerrainVtxPos[dwIndex + dwCntX].z - fZ) / dwVtxItv;
 
 	D3DXPLANE Plane;
 
@@ -35,22 +35,34 @@ void CCollisionMgr::TerrainCollision(_vec3* pPos, const _vec3* pTerrainVtxPos,
 		D3DXPlaneFromPoints(&Plane, &pTerrainVtxPos[dwIndex + dwCntX], &pTerrainVtxPos[dwIndex + 1], &pTerrainVtxPos[dwIndex]);
 
 	//ax + by + cz + d = 0;
-	pPos->y = ((-Plane.a * pPos->x) + (-Plane.c * pPos->z) + (-Plane.d)) / Plane.b;
+	fY = ((-Plane.a * fX) + (-Plane.c * fZ) + (-Plane.d)) / Plane.b;
 }
 
 void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 {
 	for (auto& pCol : m_vecCollision)
 	{
+		if (!pCollision->getActive())
+			return;
 		if (pCol->getTag() != eTag)
 			continue;
 		if (!pCol->getActive())
 			continue;
+		if (pCol->getTrigger() != COLLISIONTRIGGER::HIT)
+			continue;
 		if (CollisionCheck(pCollision, pCol))
 		{
 			pCol->setHit(true);
+			pCollision->setHit(true);
+			return;
 		}
 	}
+}
+
+void CCollisionMgr::ClearCollisionList()
+{
+	for_each(m_vecCollision.begin(), m_vecCollision.end(), DeleteObj);
+	m_vecCollision.clear();
 }
 
 _bool CCollisionMgr::CollisionCheck(CCollision* pCol, CCollision* pCollider)
@@ -77,6 +89,5 @@ _bool CCollisionMgr::CollisionCheck(CCollision* pCol, CCollision* pCollider)
 
 void CCollisionMgr::Free()
 {
-	for_each(m_vecCollision.begin(), m_vecCollision.end(), DeleteObj);
-	m_vecCollision.clear();
+	ClearCollisionList();
 }
