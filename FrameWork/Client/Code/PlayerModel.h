@@ -35,6 +35,5 @@ private:
 
 	CRcTex* m_pBufferCom;
 	CAnimator* m_pAnimator;
-	
 };
 #endif

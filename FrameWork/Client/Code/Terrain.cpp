@@ -71,10 +71,11 @@ HRESULT CTerrain::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TERRAINTEX, pCom);
 	
-	pCom = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TERRAIN_TEX1);
-	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
+	pCom = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	NULL_CHECK_RETURN(m_pTexture, E_FAIL);
+	m_pTexture->setTexture(GetTexture(L"Terrain1", TEXTURETYPE::TEX_NORMAL));
 	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TERRAIN_TEX1, pCom);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, pCom);
 
 	return S_OK;
 }

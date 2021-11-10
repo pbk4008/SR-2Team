@@ -44,80 +44,57 @@ _uint CLoading::Loading_ForStage()
 {
 	//ToDo:쓰레드로 불러들일 곳
 	m_pTextureMgr = Init_TextureMgr();
-	NULL_CHECK_RETURN(m_pTextureMgr,99);
+	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
 	Load_Terrain(L"../Bin/Resource/Data/Terrain2.Terraindat", L"Terrain1");
 	//Texture불러오기
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Player_Attack%d.png", L"Player", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Sword/Player_Attack_Sword00%d.png", L"PlayerSwordAttack", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Shuriken/Player_Attack_Shuriken00%d.png", L"PlayerShurikenAttack",9);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
 
 	//Component원본 생성
 	CComponent* pCom = nullptr;
 
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Terrain1", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::TERRAIN_TEX1,pCom);
-
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Player", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::PLAYER_TEX, pCom);
-
-	pCom = CPlayer_AttackAnim::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::PLAYER_ATTACKANIM, pCom);
-	
-	pCom = CPlayerIdleAnim::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::PLAYER_IDLEANIM, pCom);
-
-	pCom = CPlayerWalk::Create(m_pDevice, Clone_ComProto<CTexture>(COMPONENTID::PLAYER_TEX));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::PLAYER_WALKANIM, pCom);
-
 	pCom = CAnimator::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, E_FAIL);
+	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::ANIMATOR, pCom);
-
-	pCom = CTexture::Create(m_pDevice, m_pTextureMgr->getTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::MELEEMON_TEX, pCom);
 
 	_vec3 vEye = _vec3(0.f, 0.f, -10.f);
 	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
 	_vec3 vUp = _vec3(0.f, 1.f, 0.f);
 
 	pCom = CCamera::Create(m_pDevice, vEye, vAt, vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
-	NULL_CHECK_RETURN(pCom, E_FAIL);
+	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::CAMERA, pCom);
 
 	pCom = CCollision::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, E_FAIL);
+	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::COLLISION, pCom);
 
 	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
 	//Player
 	pObj = CPlayer::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
+	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 
 	////Camera
 	pObj = CMainCamera::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
+	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
 
 	//PlayerModel
 	pObj = CPlayerModel::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
+	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
 	// 금접몬
 	pObj = CMeleeMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
+	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER, pObj);
 	
 	pObj = CTerrain::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, E_FAIL);
+	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj);
 
 	m_bFinish = true;

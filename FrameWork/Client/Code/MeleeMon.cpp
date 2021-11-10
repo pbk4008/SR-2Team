@@ -18,8 +18,8 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 }
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
-	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX)),
-	 m_fSpeed(0.f), m_bAttack(false), m_iTimer(1),m_pCollision(rhs.m_pCollision)
+	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture),
+	 m_fSpeed(rhs.m_fSpeed), m_bAttack(false), m_iTimer(1),m_pCollision(rhs.m_pCollision)
 {
 	m_pCollision->AddRef();
 	m_pCollision->setTransform(m_pTransform);
@@ -43,7 +43,8 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	int iExit = 0;
 
 	m_fSpeed = 2.f;
-	_vec3	m_vInfo = *m_pTransform->getAxis(VECAXIS::AXIS_POS);
+	_vec3	m_vInfo;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 
 	//Follow(fDeltaTime);
 
@@ -134,9 +135,10 @@ HRESULT CMeleeMon::Add_Component()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
 	//texture
-	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::MELEEMON_TEX);
+	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_pTexture->setTexture(GetTexture(L"Monster", TEXTURETYPE::TEX_NORMAL));
 	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::MELEEMON_TEX, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, pComponent);
 
 	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
 	m_pCollision->setRadius(1.f);
