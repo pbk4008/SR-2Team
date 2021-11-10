@@ -40,6 +40,9 @@
 #define Terrain_FileName                1042
 #define Terrain_ModifyButton            1043
 #define IDC_SLIDER1                     1044
+#define Terrain_NewX                    1045
+#define Terrain_NewZ                    1046
+#define Terrain_NewInterval             1047
 
 // Next default values for new objects
 // 

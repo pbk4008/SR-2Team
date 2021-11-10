@@ -32,6 +32,7 @@ public:
 	//CComponent* m_pBufferCom;
 
 	//=============
+	//라인 위치
 	_vec3 LineXYZ[3][2];
 	//폴더이름
 	CString m_tTextureFolder;
@@ -39,6 +40,8 @@ public:
 	CString m_tTexturePath;
 	//뷰활성화 여부
 	_bool m_bOnActive;
+	//각 Obj별 Scale,Rot,Pos
+	_vec3 m_vecSRP[3];
 	//==============
 	std::vector<CGameObject*> m_vectorTerrain;
 	 

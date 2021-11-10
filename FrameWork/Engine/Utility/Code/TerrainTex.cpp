@@ -122,8 +122,14 @@ void CTerrainTex::Free()
 	CVIBuffer::Free();
 }
 
-HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv /*= 1*/)
+HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv /*= 1*/, const _ulong& dwVtxDetail /*= 1 */)
 {
+	if (m_pVB)
+		Safe_Release(m_pVB);
+	if (m_pIB)
+		Safe_Release(m_pIB);
+
+
 	m_dwCntX = dwCntX;
 	m_dwCntZ = dwCntZ;
 	m_dwFVF = FVF_TEX;
@@ -148,7 +154,7 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 		{
 			dwIndex = i * m_dwCntX + j;
 			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), 0, _float(i * m_dwInterval));
-			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1), _float(i) / (m_dwCntZ - 1));
+			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1) * dwVtxDetail, _float(i) / (m_dwCntZ - 1) * dwVtxDetail);
 		}
 	}
 	m_pVB->Unlock();

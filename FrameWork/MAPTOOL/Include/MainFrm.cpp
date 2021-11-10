@@ -47,7 +47,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
-
 	// ==================================== 도구 모음 삭제 =========================================================
 	// 
 	//if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||

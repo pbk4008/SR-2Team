@@ -25,7 +25,9 @@ public:
 	void Set_Texture(CTexture* pTexture);
 	void Get_Detail(int* pDetail) { *pDetail = m_tTerrainInfo.Detail; }
 	void Set_Detail(int pDetail) { m_tTerrainInfo.Detail = pDetail; }
+	_bool Compare_Info(TERRAININFO* pTerrainInfo);
 	CTerrainTex* Get_Tex() { return m_pTerrainTex; }
+	CTexture* Get_Texture() { return m_pTexture; }
 public:
 	static CTerrainObject* Create(LPDIRECT3DDEVICE9 pDevice,TERRAININFO tTerrainInfo);
 private:

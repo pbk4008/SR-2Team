@@ -21,6 +21,9 @@ CForm::CForm()
 	, m_strFileName(_T(""))
 	, m_TerrainlistIndex(0)
 	, m_pMapToolView(nullptr)
+	, m_iNewTerrainX(0)
+	, m_iNewTerrainZ(0)
+	, m_iNewTerrainInterval(0)
 {
 	ZeroMemory(&m_tPlayerPos, sizeof(_float) * 2);
 	ZeroMemory(&m_tTerrainInfo, sizeof(TERRAININFO));
@@ -52,6 +55,9 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, Object_PosX, m_vecPosition.x);
 	DDX_Text(pDX, Object_PosY, m_vecPosition.y);
 	DDX_Text(pDX, Object_PosZ, m_vecPosition.z);
+	DDX_Text(pDX, Terrain_NewX, m_iNewTerrainX);
+	DDX_Text(pDX, Terrain_NewZ, m_iNewTerrainZ);
+	DDX_Text(pDX, Terrain_NewInterval, m_iNewTerrainInterval);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -63,6 +69,7 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_EN_CHANGE(Terrain_DeTail, &CForm::OnEnChangeDetail)
 	ON_LBN_SELCHANGE(List_Terrain, &CForm::OnLbnSelchangeTerrain)
 	ON_BN_CLICKED(Terrain_ModifyButton, &CForm::OnBnClickedModifybutton)
+	ON_LBN_SETFOCUS(List_Terrain, &CForm::OnLbnSetfocusTerrain)
 END_MESSAGE_MAP()
 
 
@@ -113,25 +120,33 @@ void CForm::OnBnClickedCreatebutton()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 
-	if (!m_tTerrainInfo.X || !m_tTerrainInfo.Z)
+	TERRAININFO tTerrainInfo;
+	tTerrainInfo.X = m_iNewTerrainX;
+	tTerrainInfo.Z = m_iNewTerrainZ;
+	tTerrainInfo.Interval = m_iNewTerrainInterval;
+	tTerrainInfo.Detail = 1;
+
+	if (!tTerrainInfo.X || !tTerrainInfo.Z)
 		return;
+
 	CGameObject* pObj = nullptr;
-	m_pNowObject = pObj = CTerrainObject::Create(m_pMapToolView->m_pDevice,m_tTerrainInfo);
-	//===================
-	// CString -> TCHAR
-	// (TCHAR*)(LPCTSTR)
-	//===================
+	m_pNowObject = pObj = CTerrainObject::Create(m_pMapToolView->m_pDevice,tTerrainInfo);
 	m_pMapToolView->m_vectorTerrain.emplace_back(pObj);
-	dynamic_cast<CTerrainObject*>(pObj)->Get_Detail(&m_tTerrainInfo.Detail);
 
 	CString Indextemp;
 	Indextemp.Format(L"%d", m_TerrainlistIndex);
 	m_List_Terrain.AddString(L"Terrain_" + Indextemp);
 	m_List_Terrain.SetCurSel(m_TerrainlistIndex);
 	++m_TerrainlistIndex;
-	ReSize_Detail();
+	//리소스를 변수로 보낸다.
+	UpdateData(true);
 
-
+	m_iNewTerrainX = 0;
+	m_iNewTerrainZ = 0;
+	m_iNewTerrainInterval = 1;
+	//변수들을 리소스로 보낸다.
+	UpdateData(false);
+	m_List_Terrain.SetFocus();
 
 }
 
@@ -143,9 +158,6 @@ void CForm::OnBnClickedTexture()
 		m_tTerrainTexture.Create(IDD_CTerrainTexture);
 	m_tTerrainTexture.ShowWindow(SW_SHOW);
 }
-
-
-
 
 void CForm::OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -312,6 +324,37 @@ void CForm::ReSize_Detail()
 	pTerrainTex->Get_VBuffer()->Unlock();
 }
 
+void CForm::ReSize_TerrainInfo()
+{
+	VTXTEX* pVertex = nullptr;
+	_ulong dwIndex = 0;
+
+	CTerrainTex* pTerrainTex = dynamic_cast<CTerrainObject*>(m_pNowObject)->Get_Tex();
+
+	if (dynamic_cast<CTerrainObject*>(m_pNowObject)->Compare_Info(&m_tTerrainInfo))
+		return;
+
+	pTerrainTex->Init_BufferNoTexture(m_tTerrainInfo.X, m_tTerrainInfo.Z, m_tTerrainInfo.Interval, m_tTerrainInfo.Detail);
+
+}
+
+void CForm::LinkResourceAndVariable()
+{
+	int iCursel = m_List_Terrain.GetCurSel();
+
+	//현재 선택된 Object가져옴
+	m_pNowObject = *(m_pMapToolView->m_vectorTerrain.begin() + iCursel);
+
+	// 현재Obj에 텍스처 정보
+	static_cast<CTerrainObject*>(m_pNowObject)->Get_Path(m_strFolderName, m_strFileName);
+	// 현재Obj에 Transform정보
+	static_cast<CTerrainObject*>(m_pNowObject)->Linking_Transform(m_vecScale, m_vecRotaion, m_vecPosition);
+	// 현재Obj에 TerrainInfo정보
+	static_cast<CTerrainObject*>(m_pNowObject)->Linking_TerrainInfo(&m_tTerrainInfo);
+
+	UpdateData(false);
+}
+
 void CForm::OnBnClickedTerrainLoad()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -346,23 +389,7 @@ void CForm::OnEnChangeDetail()
 void CForm::OnLbnSelchangeTerrain()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	int iCursel = m_List_Terrain.GetCurSel();
-
-	 m_pNowObject =  *(m_pMapToolView->m_vectorTerrain.begin() + iCursel);
-	
-	 
-	CTransform* pObjTransform = m_pNowObject->getTransform();
-	m_vecScale = pObjTransform->getScale();
-	m_vecPosition =  pObjTransform->getPos();
-	m_vecRotaion = pObjTransform->getAngle();
-	static_cast<CTerrainObject*>(m_pNowObject)->Get_Path(m_strFolderName, m_strFileName);
-	static_cast<CTerrainObject*>(m_pNowObject)->Linking_Transform(m_vecScale, m_vecRotaion, m_vecPosition);
-	static_cast<CTerrainObject*>(m_pNowObject)->Linking_TerrainInfo(&m_tTerrainInfo);
-
-	//static_cast<CTerrainObject*>(m_pNowObject)->Linking_TerrainInfo(&m_tTerrainInfo);
-	
-	UpdateData(false);
-
+	LinkResourceAndVariable();
 }
 
 
@@ -371,7 +398,15 @@ void CForm::OnBnClickedModifybutton()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	// X,Z,interval,Detail값을 연동시킨다.
 	UpdateData(true);
-	static_cast<CTerrainObject*>(m_pNowObject)->Set_TerrainInfo(&m_tTerrainInfo);
+	ReSize_TerrainInfo();
+	
 	static_cast<CTerrainObject*>(m_pNowObject)->Set_Transform(m_vecScale, m_vecRotaion, m_vecPosition);
 
+	UpdateData(false);
+}
+
+void CForm::OnLbnSetfocusTerrain()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	LinkResourceAndVariable();
 }

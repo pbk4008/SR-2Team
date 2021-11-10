@@ -8,6 +8,13 @@ typedef struct tagTerrainInfo
 	int Z;
 	int Interval;
 	int Detail;
+
+	bool operator==(const tagTerrainInfo& OtherInfo)
+	{
+		if (X == OtherInfo.X && Z == OtherInfo.Z && Interval == OtherInfo.Interval && Detail == OtherInfo.Detail)
+			return true;
+		return false;
+	}
 }TERRAININFO;
 
 #endif // ToolStruct_h__

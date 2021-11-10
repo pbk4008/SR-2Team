@@ -37,7 +37,7 @@ CMAPTOOLApp::CMAPTOOLApp() noexcept
 	: m_pToolView(nullptr)
 	, m_pForm(nullptr)
 {
-
+	//_crtBreakAlloc = 27836;
 	// 다시 시작 관리자 지원
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
 #ifdef _MANAGED

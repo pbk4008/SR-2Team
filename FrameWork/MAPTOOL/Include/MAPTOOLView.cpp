@@ -110,7 +110,13 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 		if (!m_vectorTerrain.empty())
 		{
 			for (const auto& Obj : m_vectorTerrain)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				m_vecSRP[1] = Obj->getTransform()->getAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CTerrainObject*>(Obj)->Set_Transform(m_vecSRP[0],m_vecSRP[1],m_vecSRP[2]);
 				dynamic_cast<CTerrainObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
 		}
 			
 }

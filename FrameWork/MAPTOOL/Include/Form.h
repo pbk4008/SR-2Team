@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+//===================
+// CString -> TCHAR
+// (TCHAR*)(LPCTSTR)
+//===================
+
 
 #include "CTerrainTexture.h"
 // CForm 폼 보기
@@ -39,6 +44,8 @@ public:
 	void Save_Terrain(CString strFilePath);
 	void Load_Terrain(CString strFilePath);
 	void ReSize_Detail();
+	void ReSize_TerrainInfo();
+	void LinkResourceAndVariable();
 	// 다이얼로그
 	CTerrainTexture m_tTerrainTexture;
 	CButton m_bWireFrame;
@@ -71,6 +78,10 @@ public:
 	afx_msg void OnEnChangeDetail();
 	afx_msg void OnLbnSelchangeTerrain();
 	afx_msg void OnBnClickedModifybutton();
+	int m_iNewTerrainX;
+	int m_iNewTerrainZ;
+	int m_iNewTerrainInterval;
+	afx_msg void OnLbnSetfocusTerrain();
 };
 
 

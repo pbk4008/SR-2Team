@@ -84,6 +84,16 @@ Engine::CGameObject* CTerrainObject::Clone_GameObject()
 
 void CTerrainObject::Set_Path(TCHAR* strFolder, TCHAR* strFile)
 {
+	//두 문자열같으면 Set안함
+	if (!lstrcmp(strFolder, strTextureFolder) && !lstrcmp(strFile,strTextureName))
+		return;
+	else //다르면 삭제해줌
+	{
+		Safe_DeleteArr(strTextureFolder);
+		Safe_DeleteArr(strTextureName);
+	}
+
+	//할당해서 넣어줌
 	if (strFolder && strFile)
 	{
 		strTextureFolder = new TCHAR[lstrlen(strFolder)+1];
@@ -129,7 +139,18 @@ void CTerrainObject::Set_TerrainInfo(TERRAININFO* pTerrainInfo)
 
 void CTerrainObject::Set_Texture(CTexture* pTexture)
 {
+
+	if (m_pTexture)
+		Safe_Release(m_pTexture);
+
 	m_pTexture = pTexture;
+}
+
+_bool CTerrainObject::Compare_Info(TERRAININFO* pTerrainInfo)
+{
+	if (*pTerrainInfo == m_tTerrainInfo)
+		return true;
+	return false;
 }
 
 CTerrainObject* CTerrainObject::Create(LPDIRECT3DDEVICE9 pDevice, TERRAININFO tTerrainInfo)
@@ -147,8 +168,6 @@ HRESULT CTerrainObject::Add_Component()
 
 	pComponent = m_pTerrainTex = CTerrainTex::Create(m_pDevice,m_tTerrainInfo.X,m_tTerrainInfo.Z,m_tTerrainInfo.Interval);
 	m_mapComponent->emplace(COMPONENTID::TERRAINTEX, pComponent);
-
-
 
 	return S_OK;
 }
