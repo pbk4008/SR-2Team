@@ -62,6 +62,12 @@
     <Filter Include="01.Scene\02.Stage">
       <UniqueIdentifier>{b22ca2e7-9455-4be3-a709-e23536c0e765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\04.bullet">
+      <UniqueIdentifier>{bcd9d0cd-311e-4348-a595-13ff2d6dd07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\00.Shuriken">
+      <UniqueIdentifier>{03d18626-d5f0-4b32-b9bd-d44f7f4af7cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

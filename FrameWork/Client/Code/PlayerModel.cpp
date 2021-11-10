@@ -7,14 +7,17 @@
 #include "Collision.h"
 
 CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_eState(CPlayer::STATE::MAX), m_pAnimator(nullptr)
+, m_eAttackType(CPlayer::ATTACKTYPE::SWORD), m_fChangeTime(0.f), m_bChange(false)
 {
 }
 
 CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAnimator(nullptr), m_eState(CPlayer::STATE::MAX)
+, m_eAttackType(CPlayer::ATTACKTYPE::SWORD), m_fChangeTime(0.f), m_bChange(false)
 {
 }
 
 CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAnimator(rhs.m_pAnimator), m_eState(rhs.m_eState)
+, m_eAttackType(rhs.m_eAttackType), m_fChangeTime(rhs.m_fChangeTime), m_bChange(rhs.m_bChange)
 {
 	m_pBufferCom->AddRef();
 	if(rhs.m_pAnimator)
@@ -35,10 +38,9 @@ HRESULT CPlayerModel::Init_PlayerModel()
 _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
+
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-
-	m_pTransform->setScale(1.f, 0.8f, 0.5f);
-
+	Changing(fDeltaTime);
 	return iExit;
 }
 
@@ -84,6 +86,12 @@ void CPlayerModel::setTarget(CTransform* pTarget)
 void CPlayerModel::setState(CPlayer::STATE eState)
 {
 	m_eState = eState;
+}
+
+void CPlayerModel::setAttackType(CPlayer::ATTACKTYPE eType)
+{
+	m_bChange = true;
+	m_eAttackType = eType;
 }
 
 CGameObject* CPlayerModel::Clone_GameObject()
@@ -136,6 +144,60 @@ CPlayer::STATE CPlayerModel::Act()
 		break;
 	}
 	return m_eState;
+}
+
+void CPlayerModel::Change_AnimTexture()
+{
+	switch (m_eAttackType)
+	{
+	case CPlayer::ATTACKTYPE::SWORD:
+		m_pAnimator->Change_AnimationTexture(L"PlayerSwordAttack");
+		break;
+	case CPlayer::ATTACKTYPE::SHURIKEN:
+		m_pAnimator->Change_AnimationTexture(L"PlayerShurikenAttack");
+		break;
+	case CPlayer::ATTACKTYPE::GUN:
+		break;
+	}
+}
+
+void CPlayerModel::Changing(const _float& fDeltaTime)
+{
+	if (m_bChange)
+	{
+		m_fChangeTime += GetOutDeltaTime();
+		_vec3 vDown;
+		m_pTransform->getAxis(VECAXIS::AXIS_UP, vDown);
+		_vec3 vPos = m_pTransform->getPos();
+		D3DXVec3Normalize(&vDown, &vDown);
+		if (m_fChangeTime < 0.6f)
+			vDown *= -1;
+		vPos += vDown * 5.5f * fDeltaTime;
+		m_pTransform->setPos(vPos);
+		if(m_fChangeTime > 1.f)
+		{
+			Change_AnimTexture();
+			m_fChangeTime = 0.f;
+			m_bChange = false;
+		}
+	}
+	else
+	{
+		if (m_eState == CPlayer::STATE::IDLE)
+		{
+			switch (m_eAttackType)
+			{
+			case CPlayer::ATTACKTYPE::SWORD:
+				m_pTransform->setPos(-0.15f, 0.f, 0.f);
+				m_pTransform->setScale(1.f, 0.8f, 0.5f);
+				break;
+			case CPlayer::ATTACKTYPE::SHURIKEN:
+				m_pTransform->setPos(-0.15f, -0.3f, 0.f);
+				m_pTransform->setScale(1.f, 0.5f, 0.5f);
+				break;
+			}
+		}
+	}
 }
 
 

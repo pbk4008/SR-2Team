@@ -22,7 +22,7 @@ protected:
 public:
 	_bool getPlay() { return m_bPlay; }
 public:
-	void setTexture(CTexture* pTexutre);
+	void setTexture(const _tchar* pTextureName);
 	void setPlay(_bool bPlay) { m_bPlay = bPlay; }
 protected:
 	CTextureMgr* m_pTextureMgr;

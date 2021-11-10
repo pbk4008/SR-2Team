@@ -14,7 +14,10 @@ public:
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
 private:
-	void SettingAnimation(const _float& fDeltaTime);
+	void TypeBySetAnimation(const _float& fDeltaTime);
+	void SwordSettingAnimation(const _float& fDeltaTime);
+	void ShurikenSettingAnimation(const _float& fDeltaTime);
+	void GunSettingAnimation(const _float& fDeltaTime);
 	void Move(const float& fDeltaTime);
 public:
 	static CPlayerWalk* Create(LPDIRECT3DDEVICE9 pDevice);

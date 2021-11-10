@@ -8,6 +8,7 @@ class CPlayer final : public CGameObject
 {
 public:
 	enum class STATE {IDLE, ATTACK,WALK, MAX};
+	enum class ATTACKTYPE { SWORD, SHURIKEN, GUN };
 private:
 	explicit CPlayer();
 	explicit CPlayer(LPDIRECT3DDEVICE9 pDevice);
@@ -22,6 +23,7 @@ public:
 private:
 	void KeyInput(const float& fDelatTime);
 	void ChangeState();
+	void ChangeAttackType();
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -30,14 +32,20 @@ private:
 public:
 	void setCamera(CMainCamera* pCamera);
 	void setModel(CPlayerModel* pModel);
+public:
+	ATTACKTYPE getAttackType() { return m_eCurType; }
 private:
 	STATE m_eCulState;
 	STATE m_ePreState;
+
+	ATTACKTYPE m_eCurType;
+	ATTACKTYPE m_ePreType;
 
 	_float m_fSpeed;
 	_bool m_bAttack;
 	_bool m_bJump;
 	_float m_fAngle;
+
 
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;

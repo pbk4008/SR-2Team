@@ -80,6 +80,13 @@ HRESULT CAnimator::Change_Animation(const _tchar* pName)
 	return E_FAIL;
 }
 
+void CAnimator::Change_AnimationTexture(const _tchar* pName)
+{
+	ChangeTexture(m_pAnimHead, pName);
+	for (auto iter = m_mapAnimGroup.begin(); iter != m_mapAnimGroup.end(); iter++)
+		(*iter).second = false;
+}
+
 CAnimator::ANIMNODE* CAnimator::Find_Node(const _tchar* pName, ANIMNODE* pNode)
 {
 	if (pNode->pLink.empty())
@@ -116,6 +123,20 @@ void CAnimator::Delete_Animator(ANIMNODE* deleteNode)
 	}
 	deleteNode->pLink.clear();
 	Safe_Delete(deleteNode);
+}
+
+void CAnimator::ChangeTexture(ANIMNODE* ChangeNode, const _tchar* pName)
+{
+	if (m_pAnimHead != ChangeNode)
+	{
+		ChangeNode->pData->setTexture(pName);
+		m_mapAnimGroup[ChangeNode->pName] = true;
+	}
+	for (auto pNode : ChangeNode->pLink)
+	{
+		if(!m_mapAnimGroup[pNode->pName])
+			ChangeTexture(pNode, pName);
+	}
 }
 
 CAnimator* CAnimator::Create(LPDIRECT3DDEVICE9 pDevice)

@@ -33,9 +33,11 @@ public:
 	virtual CComponent* Clone_Component();
 	HRESULT Insert_Animation(const _tchar* pName, const _tchar* pConnetName, CAnimation* pAnim, _bool bDouble=false);
 	HRESULT Change_Animation(const _tchar* pName);
+	void Change_AnimationTexture(const _tchar* pName);
 private:
 	ANIMNODE* Find_Node(const _tchar* pName, ANIMNODE* pNode);
 	void Delete_Animator(ANIMNODE* deleteNode);
+	void ChangeTexture(ANIMNODE* ChangeNode, const _tchar* pName);
 public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pDevice);
 private:

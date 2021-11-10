@@ -78,6 +78,11 @@ HRESULT CTexture::setTexture(vector<LPDIRECT3DBASETEXTURE9>* pTexture)
 {
 	NULL_CHECK_RETURN(pTexture, E_FAIL);
 	_int iSize = pTexture->size();
+	if (!m_vecTexture.empty())
+	{
+		for_each(m_vecTexture.begin(), m_vecTexture.end(), DeleteObj);
+		m_vecTexture.clear();
+	}
 	m_vecTexture.reserve(iSize);
 
 	
