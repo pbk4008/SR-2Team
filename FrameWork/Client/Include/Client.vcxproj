@@ -165,6 +165,8 @@
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
     <ClInclude Include="..\Code\Player_Walk.h" />
+    <ClInclude Include="..\Code\Shuriken.h" />
+    <ClInclude Include="..\Code\ShurikenAnim.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -190,6 +192,8 @@
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
     <ClCompile Include="..\Code\Player_Walk.cpp" />
+    <ClCompile Include="..\Code\Shuriken.cpp" />
+    <ClCompile Include="..\Code\ShurikenAnim.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />

@@ -1,10 +1,4 @@
-﻿  Animation.cpp
-  Animator.cpp
-  GameObject.cpp
-  Management.cpp
-  Transform.cpp
-  코드를 생성하고 있습니다...
-     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
+﻿  Layer.cpp
   Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
