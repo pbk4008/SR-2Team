@@ -50,7 +50,8 @@ public:
 	void Load_Terrain(CString strFilePath);
 	void ReSize_Detail();
 	void ReSize_TerrainInfo();
-	void LinkResourceAndVariable();
+	void LinkResourceAndVariableTerrain();
+	void LinkResourceAndVariableQuad();
 	void Set_SRP(const _vec3& vecScale,const _vec3& vecRot,const _vec3& vecPos);
 private:
 	CMAPTOOLView* m_pMapToolView;
@@ -100,10 +101,13 @@ public:
 
 	// Object Tree의 Root
 	HTREEITEM m_TreeRoot;
+	HTREEITEM m_TreeNow;
 	CString m_strTreeFilterName;
 	afx_msg void OnBnClickedMakefilter();
 	afx_msg void OnBnClickedDeletefilter();
 	afx_msg void OnBnClickedModifyfilter();
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg void OnTvnSelchangedObject(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 

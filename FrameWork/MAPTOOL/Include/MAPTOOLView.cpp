@@ -18,6 +18,8 @@
 #include "DynamicCamera.h"
 #include "TerrainTex.h"
 #include "TerrainObject.h"
+#include "QuadObject.h"
+#include "CubeObject.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -125,6 +127,17 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 				dynamic_cast<CTerrainObject*>(Obj)->Update_GameObject(fTimeDelta);
 			}
 		}
+		if (!m_vecQuad.empty())
+		{
+			for (const auto& Obj : m_vecQuad)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				m_vecSRP[1] = Obj->getTransform()->getToolAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CQuadObject*>(Obj)->Set_Transform(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+				dynamic_cast<CQuadObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
+		}
 		
 			
 }
@@ -192,7 +205,7 @@ void CMAPTOOLView::Init_Component()
 	Init_ComProto(COMPONENTID::TRANSFORM, CTransform::Create());
 
 	// RcTex
-	Init_ComProto(COMPONENTID::RCTEX, CRcTex::Create(m_pDevice));
+	//Init_ComProto(COMPONENTID::RCTEX, CRcTex::Create(m_pDevice));
 
 	// TerrainTex
 	//Init_ComProto(COMPONENTID::TERRAINTEX, CTerrainTex::Create(m_pDevice, 2, 2, 1));

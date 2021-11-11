@@ -37,7 +37,10 @@ private:
 	QUADINFO m_tQuadInfo;
 	CRcTex* m_pQuadTex;
 	CTexture* m_pTexture;
+	// ==== 툴에서 불러올때 필요한 정보들 
+	// 둘중에 하나 필요할수도있음
 	CString FilterName;
+	HTREEITEM TreeParent;
 };
 
 

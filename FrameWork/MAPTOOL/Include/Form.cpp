@@ -86,6 +86,8 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(Button_MakeFilter, &CForm::OnBnClickedMakefilter)
 	ON_BN_CLICKED(Button_DeleteFilter, &CForm::OnBnClickedDeletefilter)
 	ON_BN_CLICKED(Button_ModifyFilter, &CForm::OnBnClickedModifyfilter)
+	ON_WM_MOUSEWHEEL()
+	ON_NOTIFY(TVN_SELCHANGED, Tree_Object, &CForm::OnTvnSelchangedObject)
 END_MESSAGE_MAP()
 
 
@@ -166,8 +168,8 @@ void CForm::OnBnClickedCreatebutton()
 	m_iNewTerrainZ = 0;
 	m_iNewTerrainInterval = 1;
 	//변수들을 리소스로 보낸다.
-	UpdateData(false);
 	m_List_Terrain.SetFocus();
+	UpdateData(false);
 
 }
 
@@ -360,7 +362,7 @@ void CForm::ReSize_TerrainInfo()
 
 }
 
-void CForm::LinkResourceAndVariable()
+void CForm::LinkResourceAndVariableTerrain()
 {
 	int iCursel = m_List_Terrain.GetCurSel();
 
@@ -375,6 +377,25 @@ void CForm::LinkResourceAndVariable()
 	static_cast<CTerrainObject*>(m_pNowObject)->Linking_TerrainInfo(&m_tTerrainInfo);
 
 	UpdateData(false);
+}
+
+void CForm::LinkResourceAndVariableQuad()
+{
+	CString strNow = m_Tree_Object.GetItemText(m_TreeNow);
+
+	//21-11-12 여기부터 수정해야됨
+	// 
+	////현재 선택된 Object가져옴
+	//m_pNowObject = *(m_pMapToolView->m_vectorTerrain.begin() + iCursel);
+
+	//// 현재Obj에 텍스처 정보
+	//static_cast<CTerrainObject*>(m_pNowObject)->Get_Path(m_strFolderName, m_strFileName);
+	//// 현재Obj에 Transform정보
+	//static_cast<CTerrainObject*>(m_pNowObject)->Linking_Transform(m_vecScale, m_vecRotaion, m_vecPosition);
+	//// 현재Obj에 TerrainInfo정보
+	//static_cast<CTerrainObject*>(m_pNowObject)->Linking_TerrainInfo(&m_tTerrainInfo);
+
+	//UpdateData(false);
 }
 
 void CForm::Set_SRP(const _vec3& vecScale, const _vec3& vecRot, const _vec3& vecPos)
@@ -419,7 +440,7 @@ void CForm::OnEnChangeDetail()
 void CForm::OnLbnSelchangeTerrain()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	LinkResourceAndVariable();
+	LinkResourceAndVariableTerrain();
 }
 
 
@@ -439,7 +460,7 @@ void CForm::OnBnClickedModifybutton()
 void CForm::OnLbnSetfocusTerrain()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	//LinkResourceAndVariable();
+	LinkResourceAndVariableTerrain();
 }
 
 
@@ -458,11 +479,9 @@ void CForm::OnBnClickedQuadCreate()
 {
 	// TODO: Add your control notification handler code here
 
-	/*CGameObject* pObj = nullptr;
-	m_pNowObject = pObj = CTerrainObject::Create(m_pMapToolView->m_pDevice, tTerrainInfo);
-	m_pMapToolView->m_vectorTerrain.emplace_back(pObj);*/
-
 	m_pMapToolView->m_vecQuad.emplace_back(CQuadObject::Create(m_pMapToolView->m_pDevice));
+	HTREEITEM m_TreeChild =  m_Tree_Object.InsertItem(L"Quad", m_TreeRoot, TVI_LAST);
+	m_Tree_Object.SelectItem(m_TreeChild);
 }
 
 
@@ -496,4 +515,76 @@ void CForm::OnBnClickedModifyfilter()
 	HTREEITEM hTreeItem =  m_Tree_Object.GetSelectedItem();
 	m_Tree_Object.SetItemText(hTreeItem, m_strTreeFilterName);
 	
+}
+
+
+BOOL CForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+
+
+	if (zDelta < 0 && m_fMovePower > 0)
+		m_fMovePower *= -1;
+	else if (zDelta > 0 && m_fMovePower < 0)
+		m_fMovePower *= -1;
+
+	if (m_pNowObject)
+	{
+		if (GetDlgItem(Object_PosX) == GetFocus())
+		{
+			m_vecPosition.x += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_PosY) == GetFocus())
+		{
+			m_vecPosition.y += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_PosZ) == GetFocus())
+		{
+			m_vecPosition.z += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_ScaleX) == GetFocus())
+		{
+			m_vecScale.x += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_ScaleY) == GetFocus())
+		{
+			m_vecScale.y += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_ScaleZ) == GetFocus())
+		{
+			m_vecScale.z += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_RotX) == GetFocus())
+		{
+			m_vecRotaion.x += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_RotY) == GetFocus())
+		{
+			m_vecRotaion.y += m_fMovePower;
+		}
+		else if (GetDlgItem(Object_RotZ) == GetFocus())
+		{
+			m_vecRotaion.z += m_fMovePower;
+		}
+		
+
+		m_pNowObject->getTransform()->setScale(m_vecScale);
+		m_pNowObject->getTransform()->setToolAngle(m_vecRotaion);
+		m_pNowObject->getTransform()->setPos(m_vecPosition);
+
+		UpdateData(FALSE);
+	}
+	return CFormView::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+
+void CForm::OnTvnSelchangedObject(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: Add your control notification handler code here
+
+	m_TreeNow = pNMTreeView->itemNew.hItem;
+
+	LinkResourceAndVariableQuad();
+
+	*pResult = 0;
 }
