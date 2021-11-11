@@ -153,16 +153,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\BackGround.h" />
-<<<<<<< HEAD
     <ClInclude Include="..\Code\Boss.h" />
     <ClInclude Include="..\Code\FlyMon.h" />
     <ClInclude Include="..\Code\FlyMon_Attack.h" />
     <ClInclude Include="..\Code\FlyMon_Death.h" />
     <ClInclude Include="..\Code\FlyMon_Idle.h" />
     <ClInclude Include="..\Code\FlyMon_WalkF.h" />
-=======
     <ClInclude Include="..\Code\Bullet.h" />
->>>>>>> main
     <ClInclude Include="..\Code\Loading.h" />
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
@@ -196,16 +193,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\Code\Boss.cpp" />
     <ClCompile Include="..\Code\FlyMon.cpp" />
     <ClCompile Include="..\Code\FlyMon_Attack.cpp" />
     <ClCompile Include="..\Code\FlyMon_Death.cpp" />
     <ClCompile Include="..\Code\FlyMon_Idle.cpp" />
     <ClCompile Include="..\Code\FlyMon_WalkF.cpp" />
-=======
     <ClCompile Include="..\Code\Bullet.cpp" />
->>>>>>> main
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />

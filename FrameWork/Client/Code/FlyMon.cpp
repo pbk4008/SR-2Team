@@ -56,18 +56,21 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-	m_fSpeed = 2.f;
 
 	if (GetAsyncKeyState('P'))
 		m_fSpeed = 0.f;
 
 	if (m_fSpeed == 0.f)
 	{
-		m_eCurState = STATE::IDLE;
-		Change_State();
+
 		m_eCurState = STATE::DEATH;
 		Change_State();
-		//m_bActive = false;
+
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
+		{
+			if (!m_pAnimator->getAnimPlay())
+				m_bActive = false;
+		}
 	}
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
@@ -114,10 +117,13 @@ HRESULT CFlyMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"FlyMon_WalkF", L"FlyMon_Idle", pWalkF, true);
 
 	CFlyMon_Attack* pAttack = CFlyMon_Attack::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"FlyMon_Attack", L"FlyMon_WalkF", pAttack, true);
+	m_pAnimator->Insert_Animation(L"FlyMon_Attack", L"FlyMon_Idle", pAttack, true);
 
 	CFlyMon_Death* pDeath = CFlyMon_Death::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"FlyMon_Death", L"FlyMon_Idle", pDeath, true);
+
+	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Attack");
+	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_Death");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"FlyMon_Idle"));
 

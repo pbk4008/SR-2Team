@@ -62,8 +62,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 
 	if (m_fSpeed == 0.f)
 	{
-		m_eCurState = STATE::IDLE;
-		Change_State();
+		
 		m_eCurState = STATE::DEATH;
 		Change_State();
 
@@ -118,10 +117,13 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"MeleeMon_Idle", pWalkF, true);
 
 	CMeleeMon_Attack* pAttack = CMeleeMon_Attack::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF", pAttack, true);
+	m_pAnimator->Insert_Animation(L"MeleeMon_Attack", L"MeleeMon_Idle", pAttack, true);
 
 	CMeleeMon_Death* pDeath = CMeleeMon_Death::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"MeleeMon_Death", L"MeleeMon_Idle", pDeath, true);
+
+	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Attack");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_Death");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 

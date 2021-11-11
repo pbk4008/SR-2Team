@@ -57,17 +57,21 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-	m_fSpeed = 2.f;
 
 	if (GetAsyncKeyState('P'))
 		m_fSpeed = 0.f;
 
 	if (m_fSpeed == 0.f)
 	{
-		m_eCurState = STATE::IDLE;
-		Change_State();
+
 		m_eCurState = STATE::DEATH;
 		Change_State();
+
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"ShootMon_Death"))
+		{
+			if (!m_pAnimator->getAnimPlay())
+				m_bActive = false;
+		}
 	}
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
@@ -114,10 +118,13 @@ HRESULT CShootMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"ShootMon_WalkF", L"ShootMon_Idle", pWalkF, true);
 
 	CShootMon_Attack* pAttack = CShootMon_Attack::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"ShootMon_Attack", L"ShootMon_WalkF", pAttack, true);
+	m_pAnimator->Insert_Animation(L"ShootMon_Attack", L"ShootMon_Idle", pAttack, true);
 
 	CShootMon_Death* pDeath = CShootMon_Death::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"ShootMon_Death", L"ShootMon_Idle", pDeath, true);
+
+	m_pAnimator->Connet_Animation(L"ShootMon_WalkF", L"ShootMon_Attack");
+	m_pAnimator->Connet_Animation(L"ShootMon_Attack", L"ShootMon_Death");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"ShootMon_Idle"));
 

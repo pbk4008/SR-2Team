@@ -77,7 +77,6 @@
     <Filter Include="01.Scene\02.Stage">
       <UniqueIdentifier>{b22ca2e7-9455-4be3-a709-e23536c0e765}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation\01. Walk_Forward">
       <UniqueIdentifier>{44ef679f-d50b-4ada-860e-a78d1a79e8b2}</UniqueIdentifier>
     </Filter>
@@ -102,12 +101,6 @@
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack">
       <UniqueIdentifier>{64cc00cf-ee32-4487-8357-0c3c6553ce6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\03. Boss">
-      <UniqueIdentifier>{88b4546f-29ab-44e2-9e58-981e6eefd91b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\03. Boss\00. Animation">
-      <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death">
       <UniqueIdentifier>{8edd0edc-23e2-4a4d-9588-a72fcc399fed}</UniqueIdentifier>
     </Filter>
@@ -119,13 +112,18 @@
     </Filter>
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\02. Walk_Forward">
       <UniqueIdentifier>{b1849bea-584c-4b77-afb1-78c312fbec06}</UniqueIdentifier>
-=======
+    </Filter>
     <Filter Include="02.GameObject\04.bullet">
       <UniqueIdentifier>{bcd9d0cd-311e-4348-a595-13ff2d6dd07c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\04.bullet\00.Shuriken">
       <UniqueIdentifier>{03d18626-d5f0-4b32-b9bd-d44f7f4af7cd}</UniqueIdentifier>
->>>>>>> main
+    </Filter>
+    <Filter Include="02.GameObject\05. Boss">
+      <UniqueIdentifier>{88b4546f-29ab-44e2-9e58-981e6eefd91b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05. Boss\00. Animation">
+      <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -207,7 +205,6 @@
     <ClInclude Include="..\Code\Terrain.h">
       <Filter>02.GameObject\00.BackGround\00.Terrain</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\Code\MeleeMon_Attack.h">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\02. Attack</Filter>
     </ClInclude>
@@ -230,7 +227,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Boss.h">
-      <Filter>02.GameObject\03. Boss</Filter>
+      <Filter>02.GameObject\05. Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MeleeMon_Death.h">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death</Filter>
@@ -240,10 +237,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\FlyMon_Death.h">
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="..\Code\Bullet.h">
       <Filter>02.GameObject\04.bullet</Filter>
->>>>>>> main
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -302,7 +298,6 @@
     <ClCompile Include="..\Code\Terrain.cpp">
       <Filter>02.GameObject\00.BackGround\00.Terrain</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="..\Code\MeleeMon_Attack.cpp">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\02. Attack</Filter>
     </ClCompile>
@@ -325,7 +320,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss.cpp">
-      <Filter>02.GameObject\03. Boss</Filter>
+      <Filter>02.GameObject\05. Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MeleeMon_Death.cpp">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death</Filter>
@@ -335,13 +330,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\FlyMon_Death.cpp">
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death</Filter>
-=======
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>02.GameObject\02.Monster\00. MeleeMon</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bullet.cpp">
       <Filter>02.GameObject\04.bullet</Filter>
->>>>>>> main
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>02.GameObject\02.Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
