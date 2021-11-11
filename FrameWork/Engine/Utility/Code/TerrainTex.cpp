@@ -127,12 +127,14 @@ void CTerrainTex::Free()
 }
 
 
-HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& iDetail,const _ulong& dwVtxInv /*= 1*/)
+HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv,const _ulong& iDetail /*= 1*/)
 {
 	if (m_pVB)
 		Safe_Release(m_pVB);
 	if (m_pIB)
 		Safe_Release(m_pIB);
+	if (m_pVtxPos)
+		Safe_DeleteArr(m_pVtxPos);
 
 
 	m_dwCntX = dwCntX;

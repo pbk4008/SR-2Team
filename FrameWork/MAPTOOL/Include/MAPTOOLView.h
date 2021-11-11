@@ -33,6 +33,7 @@ public:
 	//=============
 	//라인 위치
 	_vec3 LineXYZ[3][2];
+	_vec3 ObjectLineXYZ[3][2];
 	//폴더이름
 	CString m_tTextureFolder;
 	//파일이름
@@ -43,6 +44,8 @@ public:
 	_vec3 m_vecSRP[3];
 	//==============
 	std::vector<CGameObject*> m_vectorTerrain;
+	std::vector<CGameObject*> m_vecQuad;
+	std::vector<CGameObject*> m_vecCube;
 	 
 	
 // 작업입니다.

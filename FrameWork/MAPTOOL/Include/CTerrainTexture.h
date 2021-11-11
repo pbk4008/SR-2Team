@@ -24,6 +24,7 @@ private:
 	void Init_TreeCtrl();
 	void Get_FileList(CString strFolder,HTREEITEM* ppItem);
 	void Set_PictureCtrl(CString strCur);
+	void Set_XYZRadioEnable(BOOL bEnable);
 public:
 	afx_msg void OnTvnSelchangedTextureTree(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnBnClickedButton1();
@@ -38,4 +39,16 @@ public:
 	int m_iTreeIndex;
 
 
+	CButton m_Check_Terrain;
+	CButton m_Check_Quad;
+	CButton m_Check_Cube;
+	afx_msg void OnBnClickedCheck1();
+	afx_msg void OnBnClickedCheck2();
+	afx_msg void OnBnClickedCheck3();
+	CButton m_Radio_Zminus;
+	CButton m_Radio_Zplus;
+	CButton m_Radio_Xminus;
+	CButton m_Radio_Xplus;
+	CButton m_Radio_Yminus;
+	CButton m_Radio_Yplus;
 };

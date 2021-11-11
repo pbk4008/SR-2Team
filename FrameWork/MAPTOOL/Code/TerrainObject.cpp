@@ -25,9 +25,9 @@ CTerrainObject::CTerrainObject(const CTerrainObject& rhs)
 	, m_pTexture(rhs.m_pTexture)
 	, m_pTerrainTex(rhs.m_pTerrainTex)
 {
-	strTextureFolder = new TCHAR[sizeof(lstrlen(rhs.strTextureFolder)+1)];
+	strTextureFolder = new TCHAR[lstrlen(rhs.strTextureFolder)+1];
 	lstrcpy(strTextureFolder, rhs.strTextureFolder);
-	strTextureName   = new TCHAR[sizeof(lstrlen(rhs.strTextureName)+1)];
+	strTextureName   = new TCHAR[lstrlen(rhs.strTextureName)+1];
 	lstrcpy(strTextureName, rhs.strTextureName);
 	memcpy(&m_tTerrainInfo, &rhs.m_tTerrainInfo, sizeof(TERRAININFO));
 
@@ -97,11 +97,11 @@ void CTerrainObject::Set_Path(TCHAR* strFolder, TCHAR* strFile)
 	//할당해서 넣어줌
 	if (strFolder && strFile)
 	{
-		strTextureFolder = new TCHAR[lstrlen(strFolder)+1];
+		strTextureFolder = new TCHAR[lstrlen(strFolder) + 1];
 		lstrcpy(strTextureFolder, strFolder);
 
 
-		strTextureName = new TCHAR[lstrlen(strFile)+1];
+		strTextureName = new TCHAR[lstrlen(strFile) + 1];
 		lstrcpy(strTextureName, strFile);
 	}
 }
@@ -148,7 +148,6 @@ void CTerrainObject::Set_TerrainInfo(TERRAININFO* pTerrainInfo)
 
 void CTerrainObject::Set_Texture(CTexture* pTexture)
 {
-
 	if (m_pTexture)
 		Safe_Release(m_pTexture);
 

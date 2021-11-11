@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
-// Microsoft Visual C++에서 생성한 포함 파일입니다.
-// MAPTOOL.rc에서 사용되고 있습니다.
+// Microsoft Visual C++ generated include file.
+// Used by MAPTOOL.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -47,8 +47,22 @@
 #define Radio_Position                  1055
 #define Object_MovePower                1056
 #define Button_ZBuffer                  1057
-#define IDC_TREE1                       1058
-#define IDC_LIST1                       1059
+#define Tree_Object                     1058
+#define Button_Cube_Create              1060
+#define Button_Quad_Create              1061
+#define IDC_CHECK1                      1062
+#define IDC_CHECK2                      1063
+#define IDC_CHECK3                      1065
+#define Radio_Zminus                    1066
+#define Radio_Zplus                     1067
+#define Edit_Tree_FilterName            1067
+#define Radio_Xminus                    1068
+#define Button_MakeFilter               1068
+#define Radio_Xplus                     1069
+#define Button_DeleteFilter             1069
+#define Radio_Yminus                    1070
+#define Button_ModifyFilter             1070
+#define Radio_Yplus                     1071
 
 // Next default values for new objects
 // 
@@ -56,7 +70,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1060
+#define _APS_NEXT_CONTROL_VALUE         1071
 #define _APS_NEXT_SYMED_VALUE           313
 #endif
 #endif

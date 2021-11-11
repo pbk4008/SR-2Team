@@ -1,10 +1,4 @@
-﻿  Collision.cpp
-  GameObject.cpp
-  Management.cpp
-  Transform.cpp
-  TriCol.cpp
-  코드를 생성하고 있습니다...
-     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
+﻿  TerrainTex.cpp
   Utility.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
@@ -31,6 +25,7 @@
   .\Engine\Utility\Code\Layer.h
   .\Engine\Utility\Code\Management.h
   .\Engine\Utility\Code\ProtoMgr.h
+  .\Engine\Utility\Code\QuadCubeTex.h
   .\Engine\Utility\Code\RcCol.h
   .\Engine\Utility\Code\RcTex.h
   .\Engine\Utility\Code\Renderer.h
@@ -41,7 +36,7 @@
   .\Engine\Utility\Code\Transform.h
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
-  21개 파일이 복사되었습니다.
+  22개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll

@@ -42,6 +42,7 @@
 #pragma comment(lib,"Utility.lib")
 
 #include <string>
+#include <array>
 #include <vector>
 #include <list>
 #include <map>
@@ -51,8 +52,8 @@
 
 
 
-#include "ToolInclude.h"
 #include "Export_Function.h"
+#include "ToolInclude.h"
 
 
 

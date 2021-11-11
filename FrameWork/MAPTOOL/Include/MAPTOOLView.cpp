@@ -63,6 +63,10 @@ CMAPTOOLView::~CMAPTOOLView()
 	m_vectorTerrain.clear();
 	m_vectorTerrain.shrink_to_fit();
 
+	std::for_each(m_vecQuad.begin(), m_vecQuad.end(), DeleteObj);
+	m_vecQuad.clear();
+	m_vecQuad.shrink_to_fit();
+
 	m_pGraphicDev->DestroyInstance();
 	Safe_Release(m_pDynamicCamera);
 	Utility_Release();

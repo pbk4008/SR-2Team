@@ -7,9 +7,10 @@
 #include "MAPTOOLView.h"
 #include "MainFrm.h"
 
-#include "TerrainTex.h"
 #include "VIBuffer.h"
 #include "TerrainObject.h"
+#include "QuadObject.h"
+#include "CubeObject.h"
 
 // CForm
 
@@ -25,6 +26,7 @@ CForm::CForm()
 	, m_iNewTerrainZ(0)
 	, m_iNewTerrainInterval(0)
 	, m_fMovePower(0)
+	, m_strTreeFilterName(_T(""))
 {
 	ZeroMemory(&m_tPlayerPos, sizeof(_float) * 2);
 	ZeroMemory(&m_tTerrainInfo, sizeof(TERRAININFO));
@@ -64,6 +66,8 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, Radio_Position, m_Button_Position);
 	DDX_Text(pDX, Object_MovePower, m_fMovePower);
 	DDX_Control(pDX, Button_ZBuffer, m_Button_Zbuffer);
+	DDX_Control(pDX, Tree_Object, m_Tree_Object);
+	DDX_Text(pDX, Edit_Tree_FilterName, m_strTreeFilterName);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -77,6 +81,11 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(Terrain_ModifyButton, &CForm::OnBnClickedModifybutton)
 	ON_LBN_SETFOCUS(List_Terrain, &CForm::OnLbnSetfocusTerrain)
 	ON_EN_CHANGE(Object_MovePower, &CForm::OnEnChangeMovepower)
+	ON_BN_CLICKED(Button_Quad_Create, &CForm::OnBnClickedQuadCreate)
+	ON_BN_CLICKED(Button_Cube_Create, &CForm::OnBnClickedCubeCreate)
+	ON_BN_CLICKED(Button_MakeFilter, &CForm::OnBnClickedMakefilter)
+	ON_BN_CLICKED(Button_DeleteFilter, &CForm::OnBnClickedDeletefilter)
+	ON_BN_CLICKED(Button_ModifyFilter, &CForm::OnBnClickedModifyfilter)
 END_MESSAGE_MAP()
 
 
@@ -120,6 +129,8 @@ void CForm::OnInitialUpdate()
 	m_vecPosition = { 0.f,0.f,0.f };
 
 	m_fMovePower = 0.1f;
+
+	m_TreeRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);
 	
 }
 
@@ -138,9 +149,10 @@ void CForm::OnBnClickedCreatebutton()
 	if (!tTerrainInfo.X || !tTerrainInfo.Z)
 		return;
 
-	CGameObject* pObj = nullptr;
-	m_pNowObject = pObj = CTerrainObject::Create(m_pMapToolView->m_pDevice,tTerrainInfo);
-	m_pMapToolView->m_vectorTerrain.emplace_back(pObj);
+	//CGameObject* pObj = nullptr;
+	//m_pNowObject = pObj = CTerrainObject::Create(m_pMapToolView->m_pDevice,tTerrainInfo);
+	//m_pMapToolView->m_vectorTerrain.emplace_back(pObj);
+	m_pMapToolView->m_vectorTerrain.emplace_back(CTerrainObject::Create(m_pMapToolView->m_pDevice, tTerrainInfo));
 
 	CString Indextemp;
 	Indextemp.Format(L"%d", m_TerrainlistIndex);
@@ -155,7 +167,7 @@ void CForm::OnBnClickedCreatebutton()
 	m_iNewTerrainInterval = 1;
 	//변수들을 리소스로 보낸다.
 	UpdateData(false);
-	//m_List_Terrain.SetFocus();
+	m_List_Terrain.SetFocus();
 
 }
 
@@ -442,3 +454,46 @@ void CForm::OnEnChangeMovepower()
 	UpdateData(true);
 }
 
+void CForm::OnBnClickedQuadCreate()
+{
+	// TODO: Add your control notification handler code here
+
+	/*CGameObject* pObj = nullptr;
+	m_pNowObject = pObj = CTerrainObject::Create(m_pMapToolView->m_pDevice, tTerrainInfo);
+	m_pMapToolView->m_vectorTerrain.emplace_back(pObj);*/
+
+	m_pMapToolView->m_vecQuad.emplace_back(CQuadObject::Create(m_pMapToolView->m_pDevice));
+}
+
+
+void CForm::OnBnClickedCubeCreate()
+{
+	// TODO: Add your control notification handler code here
+}
+
+
+void CForm::OnBnClickedMakefilter()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, m_TreeRoot, TVI_LAST);
+	m_Tree_Object.SetFocus();
+}
+
+
+void CForm::OnBnClickedDeletefilter()
+{
+	// TODO: Add your control notification handler code here
+	m_Tree_Object.DeleteItem(m_Tree_Object.GetSelectedItem());
+	UpdateData(FALSE);
+}
+
+
+void CForm::OnBnClickedModifyfilter()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	HTREEITEM hTreeItem =  m_Tree_Object.GetSelectedItem();
+	m_Tree_Object.SetItemText(hTreeItem, m_strTreeFilterName);
+	
+}

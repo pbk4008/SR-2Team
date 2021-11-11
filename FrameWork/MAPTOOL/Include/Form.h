@@ -93,6 +93,17 @@ public:
 	int m_iNewTerrainZ;
 	int m_iNewTerrainInterval;
 	float m_fMovePower;
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedQuadCreate();
+	afx_msg void OnBnClickedCubeCreate();
+	CTreeCtrl m_Tree_Object;
+
+	// Object Tree의 Root
+	HTREEITEM m_TreeRoot;
+	CString m_strTreeFilterName;
+	afx_msg void OnBnClickedMakefilter();
+	afx_msg void OnBnClickedDeletefilter();
+	afx_msg void OnBnClickedModifyfilter();
 };
 
 
