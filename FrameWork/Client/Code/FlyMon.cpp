@@ -2,9 +2,10 @@
 #include "FlyMon.h"
 #include "Transform.h"
 #include "Player.h"
-#include "FlyMon_Attack.h"
 #include "FlyMon_Idle.h"
 #include "FlyMon_WalkF.h"
+#include "FlyMon_Attack.h"
+#include "FlyMon_Death.h"
 
 CFlyMon::CFlyMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -39,7 +40,6 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 
 CFlyMon::~CFlyMon()
 {
-
 }
 
 HRESULT CFlyMon::Init_FlyMon()
@@ -53,22 +53,21 @@ HRESULT CFlyMon::Init_FlyMon()
 Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-
-	_vec3	m_vInfo;
-	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
-
 	Follow(fDeltaTime);
+	Attack_Dis(fDeltaTime);
 
-	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
-	_vec3 vPos = pObject->getTransform()->getPos();
+	m_fSpeed = 2.f;
 
-	_vec3  vDis = m_vInfo - vPos;
+	if (GetAsyncKeyState('P'))
+		m_fSpeed = 0.f;
 
-	_float fDis = D3DXVec3Length(&vDis);
-
-	if (fDis <= 1.0f)
+	if (m_fSpeed == 0.f)
 	{
-		Attack(fDeltaTime);
+		m_eCurState = STATE::IDLE;
+		Change_State();
+		m_eCurState = STATE::DEATH;
+		Change_State();
+		//m_bActive = false;
 	}
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
@@ -77,23 +76,29 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	return iExit;
 }
 
-void CFlyMon::LateUpdate_GameObject()
+void CFlyMon::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 	CGameObject::LateUpdate_GameObject();
 
+	if (m_pCollision->getHit())
+	{
+		cout << "몬스터 충돌" << endl;
+		m_pCollision->setHit(false);
+	}
 }
 
 void CFlyMon::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	m_pCollision->Render_Collision();
 
-	m_pTexture->Render_Texture();
+	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
 }
 
-CGameObject* CFlyMon::Clone_GameObject()
+Engine::CGameObject* CFlyMon::Clone_GameObject()
 {
 	return new CFlyMon(*this);
 }
@@ -109,7 +114,10 @@ HRESULT CFlyMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"FlyMon_WalkF", L"FlyMon_Idle", pWalkF, true);
 
 	CFlyMon_Attack* pAttack = CFlyMon_Attack::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"FlyMon_Attack", L"FlyMon_Idle", pAttack, true);
+	m_pAnimator->Insert_Animation(L"FlyMon_Attack", L"FlyMon_WalkF", pAttack, true);
+
+	CFlyMon_Death* pDeath = CFlyMon_Death::Create(m_pDevice);
+	m_pAnimator->Insert_Animation(L"FlyMon_Death", L"FlyMon_Idle", pDeath, true);
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"FlyMon_Idle"));
 
@@ -117,6 +125,7 @@ HRESULT CFlyMon::SettingAnimator()
 
 	return S_OK;
 }
+
 
 CFlyMon* CFlyMon::Create(LPDIRECT3DDEVICE9 pDevice)
 {
@@ -144,8 +153,61 @@ void CFlyMon::Change_State()
 		case CFlyMon::STATE::ATTACK:
 			m_pAnimator->Change_Animation(L"FlyMon_Attack");
 			break;
+		case CFlyMon::STATE::DEATH:
+			m_pAnimator->Change_Animation(L"FlyMon_Death");
+			break;
 		}
 		m_ePreState = m_eCurState;
+	}
+}
+
+void CFlyMon::Follow(const _float& fDeltaTime)
+{
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 playerPos = pObject->getTransform()->getPos();
+
+	Chase_Target_Fly(&playerPos, m_fSpeed, fDeltaTime);
+}
+
+void CFlyMon::Attack(const _float& fDeltaTime)
+{
+	m_iTimer += fDeltaTime;
+	if (m_iTimer >= 1.0f)
+	{
+		cout << "Attack!" << endl;
+		m_pAttackColl->setActive(false);
+
+		if (m_pAttackColl->getActive())
+			m_pAttackColl->Update_Component(fDeltaTime);
+
+		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
+
+		m_iTimer = 0.f;
+	}
+}
+
+void CFlyMon::Attack_Dis(const _float& fDeltaTime)
+{
+	_vec3	m_vInfo;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
+
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 vPos = pObject->getTransform()->getPos();
+	_vec3  vDis = m_vInfo - vPos;
+	_float fDis = D3DXVec3Length(&vDis);
+
+	if (fDis <= 2.5f)
+	{
+		m_eCurState = STATE::ATTACK;
+		Change_State();
+
+		Attack(fDeltaTime);
+		m_pAttackColl->setActive(true);
+	}
+	else if (fDis > 2.5f)
+	{
+		m_eCurState = STATE::WALKING;
+		Change_State();
 	}
 }
 
@@ -159,37 +221,42 @@ HRESULT CFlyMon::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
-	//texture
-	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::FLYMON_TEX);
-	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::FLYMON_TEX, pComponent);
+	// collision
+	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision->setRadius(1.f);
+	m_pCollision->setTag(COLLISIONTAG::MONSTER);
+	m_pCollision->setActive(true);
+	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
+	pComponent = m_pCollision;
+	Insert_Collision(m_pCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+
+	// collision
+	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl->setRadius(1.f);
+	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
+	m_pAttackColl->setActive(false);
+	pComponent = m_pAttackColl;
+	Insert_Collision(m_pAttackColl);
 
 	return S_OK;
 }
 
-void CFlyMon::Follow(const _float& fDeltaTime)
-{
-	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
-	_vec3 playerPos = pObject->getTransform()->getPos();
-
-	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
-}
-
-
-void CFlyMon::Attack(const _float& fDeltaTime)
-{
-	m_iTimer += fDeltaTime;
-	if (m_iTimer >= 1.0f)
-	{
-		cout << "Fly!" << endl;
-		m_bAttack = false;
-		m_iTimer = 0.f;
-	}
-}
-
 void CFlyMon::Free()
 {
+	Safe_Release(m_pCollision);
+	Safe_Release(m_pAttackColl);
+	ClearCollisionList();
 	Safe_Release(m_pTexture);
+	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }
+
+//			m_bAttack = true;
+// 
+//			m_bMoving = false;
+//			
+//			m_bAttack = false;
+// 
+//			m_bMoving = true;

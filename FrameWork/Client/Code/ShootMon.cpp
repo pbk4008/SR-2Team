@@ -5,6 +5,7 @@
 #include "ShootMon_Idle.h"
 #include "ShootMon_WalkF.h"
 #include "ShootMon_Attack.h"
+#include "ShootMon_Death.h"
 
 CShootMon::CShootMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -62,9 +63,13 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 		m_fSpeed = 0.f;
 
 	if (m_fSpeed == 0.f)
-		m_eCurState = STATE::ATTACK;
+	{
+		m_eCurState = STATE::IDLE;
+		Change_State();
+		m_eCurState = STATE::DEATH;
+		Change_State();
+	}
 
-	//Change_State();
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
@@ -109,7 +114,10 @@ HRESULT CShootMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"ShootMon_WalkF", L"ShootMon_Idle", pWalkF, true);
 
 	CShootMon_Attack* pAttack = CShootMon_Attack::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"ShootMon_Attack", L"ShootMon_Idle", pAttack, true);
+	m_pAnimator->Insert_Animation(L"ShootMon_Attack", L"ShootMon_WalkF", pAttack, true);
+
+	CShootMon_Death* pDeath = CShootMon_Death::Create(m_pDevice);
+	m_pAnimator->Insert_Animation(L"ShootMon_Death", L"ShootMon_Idle", pDeath, true);
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"ShootMon_Idle"));
 
@@ -143,6 +151,9 @@ void CShootMon::Change_State()
 			break;
 		case CShootMon::STATE::ATTACK:
 			m_pAnimator->Change_Animation(L"ShootMon_Attack");
+			break;
+		case CShootMon::STATE::DEATH:
+			m_pAnimator->Change_Animation(L"ShootMon_Death");
 			break;
 		}
 		m_ePreState = m_eCurState;
@@ -182,7 +193,7 @@ HRESULT CShootMon::Add_Component()
 
 void CShootMon::Follow(const _float& fDeltaTime)
 {
-	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER);
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 playerPos = pObject->getTransform()->getPos();
 
 	Chase_Target_Ranged(&playerPos, m_fSpeed, fDeltaTime);
@@ -191,7 +202,7 @@ void CShootMon::Follow(const _float& fDeltaTime)
 void CShootMon::Attack(const _float& fDeltaTime)
 {
 	m_iTimer += fDeltaTime;
-	if (m_iTimer >= 1.0f)
+	if (m_iTimer >= 1.5f)
 	{
 		cout << "Shot!" << endl;
 		m_bAttack = false;
@@ -209,7 +220,7 @@ void CShootMon::Attack_Dis(const _float& fDeltaTime)
 	_vec3  vDis = m_vInfo - vPos;
 	_float fDis = D3DXVec3Length(&vDis);
 
-	if (fDis <= 1.0f)
+	if (fDis <= 7.0f)
 	{
 		m_eCurState = STATE::ATTACK;
 		Change_State();
@@ -217,7 +228,7 @@ void CShootMon::Attack_Dis(const _float& fDeltaTime)
 		Attack(fDeltaTime);
 		m_pAttackColl->setActive(true);
 	}
-	else if (fDis > 1.0f)
+	else if (fDis > 7.0f)
 	{
 		m_eCurState = STATE::WALKING;
 		Change_State();

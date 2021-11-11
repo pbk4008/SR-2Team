@@ -8,7 +8,7 @@
 class CMeleeMon : public CMonster
 {
 public:
-	enum class STATE {IDLE, WALKING, ATTACK, MAX};
+	enum class STATE {IDLE, WALKING, ATTACK, DEATH, MAX};
 private:
 	explicit CMeleeMon();
 	explicit CMeleeMon(LPDIRECT3DDEVICE9 pDevice);

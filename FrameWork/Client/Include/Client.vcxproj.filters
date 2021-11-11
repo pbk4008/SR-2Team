@@ -98,11 +98,26 @@
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\00. Idle">
       <UniqueIdentifier>{2b2b0a29-d24e-4250-84b6-a0a7109e448f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Walk_Forward">
-      <UniqueIdentifier>{b1849bea-584c-4b77-afb1-78c312fbec06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack">
       <UniqueIdentifier>{64cc00cf-ee32-4487-8357-0c3c6553ce6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03. Boss">
+      <UniqueIdentifier>{88b4546f-29ab-44e2-9e58-981e6eefd91b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\03. Boss\00. Animation">
+      <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death">
+      <UniqueIdentifier>{8edd0edc-23e2-4a4d-9588-a72fcc399fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\01. ShootMon\00. Animation\03. Death">
+      <UniqueIdentifier>{7a684fa5-455c-452b-b94e-4762a865ee5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death">
+      <UniqueIdentifier>{192aceea-674c-4949-9046-adecb9a42f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\02. Walk_Forward">
+      <UniqueIdentifier>{b1849bea-584c-4b77-afb1-78c312fbec06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -200,10 +215,22 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\00. Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\FlyMon_WalkF.h">
-      <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Walk_Forward</Filter>
+      <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\02. Walk_Forward</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\FlyMon_Attack.h">
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss.h">
+      <Filter>02.GameObject\03. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\MeleeMon_Death.h">
+      <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShootMon_Death.h">
+      <Filter>02.GameObject\02.Monster\01. ShootMon\00. Animation\03. Death</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\FlyMon_Death.h">
+      <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,10 +308,22 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\00. Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FlyMon_WalkF.cpp">
-      <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Walk_Forward</Filter>
+      <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\02. Walk_Forward</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FlyMon_Attack.cpp">
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss.cpp">
+      <Filter>02.GameObject\03. Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MeleeMon_Death.cpp">
+      <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShootMon_Death.cpp">
+      <Filter>02.GameObject\02.Monster\01. ShootMon\00. Animation\03. Death</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FlyMon_Death.cpp">
+      <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

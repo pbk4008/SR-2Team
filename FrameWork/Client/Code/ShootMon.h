@@ -8,7 +8,7 @@
 class CShootMon : public CMonster
 {
 public:
-	enum class STATE {IDLE, WALKING, ATTACK, MAX};
+	enum class STATE {IDLE, WALKING, ATTACK, DEATH, MAX};
 private:
 	explicit CShootMon();
 	explicit CShootMon(LPDIRECT3DDEVICE9 pDevice);

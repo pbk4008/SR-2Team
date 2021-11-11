@@ -8,7 +8,7 @@
 class CFlyMon : public CMonster
 {
 public:
-	enum class STATE {IDLE, WALKING, ATTACK, MAX};
+	enum class STATE {IDLE, WALKING, ATTACK, DEATH, MAX};
 private:
 	explicit CFlyMon();
 	explicit CFlyMon(LPDIRECT3DDEVICE9 pDevice);
@@ -18,7 +18,7 @@ private:
 public:
 	HRESULT Init_FlyMon();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
-	virtual void LateUpdate_GameObject()override;
+	virtual void LateUpdate_GameObject(const _float& fDeltaTime);
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 	HRESULT SettingAnimator();
@@ -33,6 +33,7 @@ private:
 	virtual HRESULT Add_Component();
 	virtual void Follow(const _float& fDeltaTime);
 	virtual void Attack(const _float& fDeltaTime);
+	virtual void Attack_Dis(const _float& fDeltaTime);
 	virtual void Free();
 
 private:

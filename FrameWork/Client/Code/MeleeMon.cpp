@@ -5,6 +5,7 @@
 #include "MeleeMon_Idle.h"
 #include "MeleeMon_WalkF.h"
 #include "MeleeMon_Attack.h"
+#include "MeleeMon_Death.h"
 
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -55,15 +56,24 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-	m_fSpeed = 2.f;
 
 	if(GetAsyncKeyState('P'))
 		m_fSpeed = 0.f;
 
 	if (m_fSpeed == 0.f)
-		m_eCurState = STATE::ATTACK;
+	{
+		m_eCurState = STATE::IDLE;
+		Change_State();
+		m_eCurState = STATE::DEATH;
+		Change_State();
 
-	//Change_State();
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
+		{
+			if (!m_pAnimator->getAnimPlay())
+				m_bActive = false;
+		}
+	}
+
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
@@ -108,7 +118,10 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"MeleeMon_WalkF", L"MeleeMon_Idle", pWalkF, true);
 
 	CMeleeMon_Attack* pAttack = CMeleeMon_Attack::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"MeleeMon_Attack", L"MeleeMon_Idle", pAttack, true);
+	m_pAnimator->Insert_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF", pAttack, true);
+
+	CMeleeMon_Death* pDeath = CMeleeMon_Death::Create(m_pDevice);
+	m_pAnimator->Insert_Animation(L"MeleeMon_Death", L"MeleeMon_Idle", pDeath, true);
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 
@@ -143,6 +156,15 @@ void CMeleeMon::Change_State()
 			break;
 		case CMeleeMon::STATE::ATTACK:
 			m_pAnimator->Change_Animation(L"MeleeMon_Attack");
+			break;
+		case CMeleeMon::STATE::DEATH:
+			/*if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
+			{
+				if (!m_pAnimator->getAnimPlay())
+					m_bActive = false;
+			}
+			else*/
+				m_pAnimator->Change_Animation(L"MeleeMon_Death");
 			break;
 		}
 		m_ePreState = m_eCurState;
@@ -239,12 +261,4 @@ void CMeleeMon::Free()
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
-}
-
-//			m_bAttack = true;
-// 
-//			m_bMoving = false;
-//			
-//			m_bAttack = false;
-// 
-//			m_bMoving = true;
+};
