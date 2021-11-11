@@ -32,6 +32,8 @@ CPlayerModel::~CPlayerModel()
 HRESULT CPlayerModel::Init_PlayerModel()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	m_eState = CPlayer::STATE::IDLE;
+	m_eAttackType = CPlayer::ATTACKTYPE::SWORD;
 	return S_OK;
 }
 
@@ -39,8 +41,8 @@ _int CPlayerModel::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
-	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Changing(fDeltaTime);
+	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	return iExit;
 }
 
@@ -115,7 +117,9 @@ HRESULT CPlayerModel::SettingAnimator()
 	pWalk->setTransform(m_pTransform);
 	pAnim = pWalk;
 	m_pAnimator->Insert_Animation(L"Player_Walk", L"Player_Idle", pAnim, true);
-	
+
+	m_pAnimator->Connet_Animation(L"Player_Attack", L"Player_Walk"); 
+
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"Player_Idle"));
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);
@@ -128,6 +132,7 @@ CPlayer::STATE CPlayerModel::Act()
 	switch (m_eState)
 	{
 	case CPlayer::STATE::IDLE:
+		m_bAttack = false;
 		m_pAnimator->Change_Animation(L"Player_Idle");
 		break;
 	case CPlayer::STATE::ATTACK:
@@ -137,10 +142,17 @@ CPlayer::STATE CPlayerModel::Act()
 				m_eState = CPlayer::STATE::IDLE;
 		}
 		else
+		{
 			m_pAnimator->Change_Animation(L"Player_Attack");
+			m_bAttack = true;
+		}
 		break;
 	case CPlayer::STATE::WALK:
-		m_pAnimator->Change_Animation(L"Player_Walk");
+		if (!m_pAnimator->getAnimPlay())
+		{
+			m_pAnimator->Change_Animation(L"Player_Walk");
+			m_bAttack = false;
+		}
 		break;
 	}
 	return m_eState;
@@ -183,7 +195,7 @@ void CPlayerModel::Changing(const _float& fDeltaTime)
 	}
 	else
 	{
-		if (m_eState == CPlayer::STATE::IDLE)
+		if (!m_bAttack)
 		{
 			switch (m_eAttackType)
 			{

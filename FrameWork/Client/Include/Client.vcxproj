@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\BackGround.h" />
+    <ClInclude Include="..\Code\Bullet.h" />
     <ClInclude Include="..\Code\Loading.h" />
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
@@ -177,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />

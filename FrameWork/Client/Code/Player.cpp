@@ -58,18 +58,18 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		m_pTransform->Jump(fDeltaTime, 4.f,m_bJump);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	ChangeState();
+	m_eCulState=m_pModel->Act();
 	ChangeAttackType();
 	
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
-	m_eCulState=m_pModel->Act();
 
 	if (m_pAtkCollision->getActive())
 	{
 		m_pAtkCollision->Update_Component(fDeltaTime);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 
 	return iExit;
 }

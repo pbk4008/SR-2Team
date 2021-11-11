@@ -63,7 +63,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	//}
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 
 	return iExit;
 }

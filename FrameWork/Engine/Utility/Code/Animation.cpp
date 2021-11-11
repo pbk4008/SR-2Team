@@ -65,6 +65,10 @@ void CAnimation::InitTexture(const _tchar* pTextureName)
 	m_pTexture->setTexture(pTex);
 }
 
+void CAnimation::ResetTimer()
+{
+}
+
 void CAnimation::Free()
 {
 	Safe_Release(m_pTextureMgr);
@@ -75,4 +79,11 @@ void CAnimation::Free()
 void CAnimation::setTexture(const _tchar* pTextureName)
 {
 	m_pTexture->setTexture(m_pTextureMgr->getTexture(pTextureName,TEXTURETYPE::TEX_NORMAL));
+}
+
+void CAnimation::setPlay(_bool bPlay)
+{
+	if (bPlay)
+		ResetTimer();
+	m_bPlay = bPlay;
 }

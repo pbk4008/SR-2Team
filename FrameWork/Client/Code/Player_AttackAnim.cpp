@@ -40,6 +40,7 @@ _int CPlayer_AttackAnim::Update_Component(const _float& fDeltaTime)
 	if (iExit & 0x80000000)
 		return -1;
 	TypeBySetAnimation(fDeltaTime);
+
 	if (!m_bPlay)
 		ResetTimer();
 	return iExit;
@@ -48,6 +49,12 @@ _int CPlayer_AttackAnim::Update_Component(const _float& fDeltaTime)
 CComponent* CPlayer_AttackAnim::Clone_Component()
 {
 	return new CPlayer_AttackAnim(*this);
+}
+
+void CPlayer_AttackAnim::Render_Animation()
+{
+	m_pDevice->SetTransform(D3DTS_WORLD,&m_pTransform->getWorldMatrix());
+	CAnimation::Render_Animation();
 }
 
 
@@ -124,6 +131,7 @@ void CPlayer_AttackAnim::TypeBySetAnimation(const _float& fDeltaTime)
 		GunSettingAnimation(fDeltaTime);
 		break;
 	}
+	m_pTransform->Update_Component(fDeltaTime);
 }
 
 void CPlayer_AttackAnim::SwordSettingAnimation(const _float& fDeltaTime)
@@ -153,8 +161,6 @@ void CPlayer_AttackAnim::SwordSettingAnimation(const _float& fDeltaTime)
 
 void CPlayer_AttackAnim::ShurikenSettingAnimation(const _float& fDeltaTime)
 {
-	m_pTransform->setScale(1.f, 0.5f, 0.5f);
-	m_pTransform->setPos(-0.15f, -0.3f, 0.f);
 	m_fPlaySpeed = 0.03f;
 	if (m_iIndex == 4)
 	{

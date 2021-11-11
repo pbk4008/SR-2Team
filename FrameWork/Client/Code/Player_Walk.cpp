@@ -42,6 +42,12 @@ _int CPlayerWalk::Update_Component(const _float& fDeltaTime)
 	return iExit;
 }
 
+void CPlayerWalk::Render_Animation()
+{
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	CAnimation::Render_Animation();
+}
+
 
 CComponent* CPlayerWalk::Clone_Component()
 {
@@ -69,7 +75,7 @@ void CPlayerWalk::SwordSettingAnimation(const _float& fDeltaTime)
 }
 void CPlayerWalk::ShurikenSettingAnimation(const _float& fDeltaTime)
 {
-	m_pTransform->setPos(-0.15f, -0.3f, 0.f);
+	//m_pTransform->setPos(-0.15f, -0.3f, 0.f);
 	m_pTransform->setScale(1.f, 0.5f, 0.5f);
 }
 void CPlayerWalk::GunSettingAnimation(const _float& fDeltaTime)

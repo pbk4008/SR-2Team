@@ -39,6 +39,7 @@ public:
 private:
 	_float m_fChangeTime;
 	_bool m_bChange;
+	_bool m_bAttack;
 	CPlayer::STATE m_eState;
 	CPlayer::ATTACKTYPE m_eAttackType;
 

@@ -12,6 +12,7 @@ private:
 public:
 	HRESULT Init_PlayerWalk();
 	virtual _int Update_Component(const _float& fDeltaTime);
+	virtual void Render_Animation();
 	virtual CComponent* Clone_Component();
 private:
 	void TypeBySetAnimation(const _float& fDeltaTime);

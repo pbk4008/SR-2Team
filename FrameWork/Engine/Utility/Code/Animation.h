@@ -18,12 +18,13 @@ public:
 protected:
 	void InitTexture(const _tchar* pTextureName);
 protected:
+	virtual void ResetTimer();
 	virtual void Free();
 public:
 	_bool getPlay() { return m_bPlay; }
 public:
 	void setTexture(const _tchar* pTextureName);
-	void setPlay(_bool bPlay) { m_bPlay = bPlay; }
+	void setPlay(_bool bPlay);
 protected:
 	CTextureMgr* m_pTextureMgr;
 	CTexture* m_pTexture;

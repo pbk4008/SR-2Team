@@ -17,11 +17,12 @@ public:
 	HRESULT Init_PlayerAttackAnim();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	virtual CComponent* Clone_Component();
+	virtual void Render_Animation();
 private:
 	void LeftMove(const _float& fDeltaTime);
 	void UpMove(const _float& fDeltaTime);
 	void DownMove(const _float& fDeltaTime);
-	void ResetTimer();
+	virtual void ResetTimer() override;
 private:
 	void TypeBySetAnimation(const _float& fDeltaTime);
 	void SwordSettingAnimation(const _float& fDeltaTime);
