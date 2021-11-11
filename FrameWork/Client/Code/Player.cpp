@@ -6,25 +6,27 @@
 
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
-, m_bAttack(false), m_fAngle(0.f),m_bJump(false)
+, m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
-, m_bAttack(false), m_fAngle(0.f),m_bJump(false)
+, m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMainCamera), m_pModel(rhs.m_pModel),
 m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
 , m_pHitCollision(rhs.m_pHitCollision),m_pAtkCollision(rhs.m_pAtkCollision)
-, m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump)
+, m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump),
+m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
 	if(rhs.m_pMainCamera)
 		m_pMainCamera->AddRef();
+
 	m_pHitCollision->AddRef();
 	m_pHitCollision->setTransform(m_pTransform);
 	m_pAtkCollision->AddRef();
@@ -56,16 +58,18 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		m_pTransform->Jump(fDeltaTime, 4.f,m_bJump);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	ChangeState();
+	m_eCulState=m_pModel->Act();
+	ChangeAttackType();
+	
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
-	m_eCulState=m_pModel->Act();
 
 	if (m_pAtkCollision->getActive())
 	{
 		m_pAtkCollision->Update_Component(fDeltaTime);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 
 	return iExit;
 }
@@ -148,6 +152,13 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 		}
 	}
 
+	if (Key_Down(VIR_NUM1))
+		m_eCurType = ATTACKTYPE::SWORD;
+	if (Key_Down(VIR_NUM2))
+		m_eCurType = ATTACKTYPE::SHURIKEN;
+	if (Key_Down(VIR_NUM3))
+		m_eCurType = ATTACKTYPE::GUN;
+
 	if (Key_Down(VIR_LBUTTON))
 		m_eCulState = STATE::ATTACK;
 
@@ -186,6 +197,18 @@ void CPlayer::ChangeState()
 			m_pModel->setState(m_eCulState);
 		}
 		m_ePreState = m_eCulState;
+	}
+}
+
+void CPlayer::ChangeAttackType()
+{
+	if (m_eCurType != m_ePreType)
+	{
+		if (!m_pModel->getChange())
+		{
+			m_pModel->setAttackType(m_eCurType);
+			m_ePreType = m_eCurType;
+		}
 	}
 }
 

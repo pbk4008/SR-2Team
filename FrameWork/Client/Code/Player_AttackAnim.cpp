@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Player_AttackAnim.h"
-
+#include "Player.h"
 
 CPlayer_AttackAnim::CPlayer_AttackAnim() : m_pTransform(nullptr), m_fSpeed(0.f), m_fDelayTime(0.f)
 , m_fDirChangeTime(0.f)
@@ -39,7 +39,8 @@ _int CPlayer_AttackAnim::Update_Component(const _float& fDeltaTime)
 	iExit = CAnimation::Update_Component(fDeltaTime);
 	if (iExit & 0x80000000)
 		return -1;
-	SettingAnimation(fDeltaTime);
+	TypeBySetAnimation(fDeltaTime);
+
 	if (!m_bPlay)
 		ResetTimer();
 	return iExit;
@@ -49,6 +50,13 @@ CComponent* CPlayer_AttackAnim::Clone_Component()
 {
 	return new CPlayer_AttackAnim(*this);
 }
+
+void CPlayer_AttackAnim::Render_Animation()
+{
+	m_pDevice->SetTransform(D3DTS_WORLD,&m_pTransform->getWorldMatrix());
+	CAnimation::Render_Animation();
+}
+
 
 void CPlayer_AttackAnim::LeftMove(const _float& fDeltaTime)
 {
@@ -79,36 +87,6 @@ void CPlayer_AttackAnim::DownMove(const _float& fDeltaTime)
 	m_pTransform->setPos(vPos);
 }
 
-void CPlayer_AttackAnim::SettingAnimation(const _float& fDeltaTime)
-{
-	if (m_iIndex < 2)
-	{
-		m_fSpeed = 3.f;
-		UpMove(fDeltaTime);
-	}
-	else
-	{
-		//m_fDirChangeTime += fDeltaTime;
-		//if (m_fDirChangeTime > 0.45f)
-		//	DownMove(fDeltaTime);
-		//else
-		//	LeftMove(fDeltaTime);
-		DownMove(fDeltaTime);
-	}
-	if (m_iIndex == 3)
-	{
-		m_fSpeed = 7.f;
-		m_bDelay = true;
-		m_fDelayTime += fDeltaTime;
-		if (m_fDelayTime > 0.5f)
-		{
-			m_bDelay = false;
-			m_fDelayTime = 0.f;
-		}
-	}
-	
-}
-
 CPlayer_AttackAnim* CPlayer_AttackAnim::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CPlayer_AttackAnim* pInstance = new CPlayer_AttackAnim(pDevice);
@@ -128,7 +106,6 @@ void CPlayer_AttackAnim::setTransform(CTransform* pTransform)
 {
 	m_pTransform = pTransform;
 	m_pTransform->AddRef();
-	
 }
 
 void CPlayer_AttackAnim::ResetTimer()
@@ -137,5 +114,66 @@ void CPlayer_AttackAnim::ResetTimer()
 	m_fDirChangeTime = 0.f;
 	m_fSpeed = 1.f;
 	m_bDelay = false;
-	m_pTransform->setPos(-0.15f, 0.f, 0.f);
+}
+
+void CPlayer_AttackAnim::TypeBySetAnimation(const _float& fDeltaTime)
+{
+	CPlayer* pPlayer = static_cast<CPlayer*>(GetGameObject(LAYERID::GAME_LOGIC,GAMEOBJECTID::PLAYER));
+	switch (pPlayer->getAttackType())
+	{
+	case CPlayer::ATTACKTYPE::SWORD:
+		SwordSettingAnimation(fDeltaTime);
+		break;
+	case CPlayer::ATTACKTYPE::SHURIKEN:
+		ShurikenSettingAnimation(fDeltaTime);
+		break;
+	case CPlayer::ATTACKTYPE::GUN:
+		GunSettingAnimation(fDeltaTime);
+		break;
+	}
+	m_pTransform->Update_Component(fDeltaTime);
+}
+
+void CPlayer_AttackAnim::SwordSettingAnimation(const _float& fDeltaTime)
+{
+	m_fPlaySpeed = 0.05f;
+	if (m_iIndex < 2)
+	{
+		m_fSpeed = 4.f;
+		UpMove(fDeltaTime);
+	}
+	else
+	{
+		DownMove(fDeltaTime);
+	}
+	if (m_iIndex == 3)
+	{
+		m_fSpeed = 7.f;
+		m_bDelay = true;
+		m_fDelayTime += fDeltaTime;
+		if (m_fDelayTime > 0.5f)
+		{
+			m_bDelay = false;
+			m_fDelayTime = 0.f;
+		}
+	}
+}
+
+void CPlayer_AttackAnim::ShurikenSettingAnimation(const _float& fDeltaTime)
+{
+	m_fPlaySpeed = 0.03f;
+	if (m_iIndex == 4)
+	{
+		m_bDelay = true;
+		m_fDelayTime += fDeltaTime;
+		if (m_fDelayTime > 0.15)
+		{
+			m_fDelayTime = 0.f;
+			m_bDelay = false;
+		}
+	}
+}
+
+void CPlayer_AttackAnim::GunSettingAnimation(const _float& fDeltaTime)
+{
 }

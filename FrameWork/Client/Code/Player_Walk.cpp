@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Player_Walk.h"
+#include "Player.h"
 
 CPlayerWalk::CPlayerWalk() : m_pTransform(nullptr), m_fMoveTime(0.f), m_fSpeed(0.f)
 , m_bLeftRightCheck(false){
@@ -36,10 +37,15 @@ HRESULT CPlayerWalk::Init_PlayerWalk()
 _int CPlayerWalk::Update_Component(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-
+	TypeBySetAnimation(fDeltaTime);
 	iExit = CAnimation::Update_Component(fDeltaTime);
-	SettingAnimation(fDeltaTime);
 	return iExit;
+}
+
+void CPlayerWalk::Render_Animation()
+{
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	CAnimation::Render_Animation();
 }
 
 
@@ -47,10 +53,35 @@ CComponent* CPlayerWalk::Clone_Component()
 {
 	return new CPlayerWalk(*this);
 }
-void CPlayerWalk::SettingAnimation(const _float& fDeltaTime)
+void CPlayerWalk::TypeBySetAnimation(const _float& fDeltaTime)
+{
+	CPlayer* pPlayer = static_cast<CPlayer*>(GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER));
+	switch (pPlayer->getAttackType())
+	{
+	case CPlayer::ATTACKTYPE::SWORD:
+		SwordSettingAnimation(fDeltaTime);
+		break;
+	case CPlayer::ATTACKTYPE::SHURIKEN:
+		ShurikenSettingAnimation(fDeltaTime);
+		break;
+	case CPlayer::ATTACKTYPE::GUN:
+		GunSettingAnimation(fDeltaTime);
+		break;
+	}
+}
+void CPlayerWalk::SwordSettingAnimation(const _float& fDeltaTime)
 {
 	Move(fDeltaTime);
 }
+void CPlayerWalk::ShurikenSettingAnimation(const _float& fDeltaTime)
+{
+	//m_pTransform->setPos(-0.15f, -0.3f, 0.f);
+	m_pTransform->setScale(1.f, 0.5f, 0.5f);
+}
+void CPlayerWalk::GunSettingAnimation(const _float& fDeltaTime)
+{
+}
+
 void CPlayerWalk::Move(const float& fDeltaTime)
 {
 	m_fMoveTime += fDeltaTime;

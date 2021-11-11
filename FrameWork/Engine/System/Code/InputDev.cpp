@@ -31,6 +31,12 @@ void CInputDev::Update_InputDev()
 		m_dwKey |= VIR_RBUTTON;
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		m_dwKey |= VIR_SPACE;
+	if (GetAsyncKeyState('1') & 0x8000)
+		m_dwKey |= VIR_NUM1;
+	if (GetAsyncKeyState('2') & 0x8000)
+		m_dwKey |= VIR_NUM2;
+	if (GetAsyncKeyState('3') & 0x8000)
+		m_dwKey |= VIR_NUM3;
 
 }
 
