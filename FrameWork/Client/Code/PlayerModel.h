@@ -22,16 +22,26 @@ public:
 	virtual CGameObject* Clone_GameObject();
 	HRESULT SettingAnimator();
 	CPlayer::STATE Act();
+private:
+	void Change_AnimTexture();
+	void Changing(const _float& fDeltaTime);
 public:
 	static CPlayerModel* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
 public:
+	_bool getChange() { return m_bChange; }
+public:
 	void setTarget(CTransform* pTarget);
 	void setState(CPlayer::STATE eState);
+	void setAttackType(CPlayer::ATTACKTYPE eType);
 private:
+	_float m_fChangeTime;
+	_bool m_bChange;
+	_bool m_bAttack;
 	CPlayer::STATE m_eState;
+	CPlayer::ATTACKTYPE m_eAttackType;
 
 	CRcTex* m_pBufferCom;
 	CAnimator* m_pAnimator;

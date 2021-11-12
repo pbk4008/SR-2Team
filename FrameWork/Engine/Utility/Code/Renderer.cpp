@@ -39,10 +39,14 @@ void CRenderer::Render_Priority(LPDIRECT3DDEVICE9& pDevice)
 
 void CRenderer::Render_NonArpha(LPDIRECT3DDEVICE9& pDevice)
 {
-	
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 200);
+
 	for (auto& iter : m_RenderList[(_ulong)RENDERGROUP::NONALPHA])
 		iter->Render_GameObject();
-	
+
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 }
 
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pDevice)

@@ -65,6 +65,10 @@ void CAnimation::InitTexture(const _tchar* pTextureName)
 	m_pTexture->setTexture(pTex);
 }
 
+void CAnimation::ResetTimer()
+{
+}
+
 void CAnimation::Free()
 {
 	Safe_Release(m_pTextureMgr);
@@ -72,14 +76,14 @@ void CAnimation::Free()
 	CComponent::Free();
 }
 
-void CAnimation::setTexture(CTexture* pTexutre)
+void CAnimation::setTexture(const _tchar* pTextureName)
 {
-	if (m_pTexture)
-	{
-		Safe_Release(m_pTexture);
-		m_pTexture = pTexutre;
-		m_pTexture->AddRef();
-	}
-	else
-		m_pTexture = pTexutre;
+	m_pTexture->setTexture(m_pTextureMgr->getTexture(pTextureName,TEXTURETYPE::TEX_NORMAL));
+}
+
+void CAnimation::setPlay(_bool bPlay)
+{
+	if (bPlay)
+		ResetTimer();
+	m_bPlay = bPlay;
 }

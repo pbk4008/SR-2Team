@@ -153,17 +153,38 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\BackGround.h" />
+    <ClInclude Include="..\Code\Boss.h" />
+    <ClInclude Include="..\Code\FlyMon.h" />
+    <ClInclude Include="..\Code\FlyMon_Attack.h" />
+    <ClInclude Include="..\Code\FlyMon_Death.h" />
+    <ClInclude Include="..\Code\FlyMon_Idle.h" />
+    <ClInclude Include="..\Code\FlyMon_WalkF.h" />
+    <ClInclude Include="..\Code\Bullet.h" />
     <ClInclude Include="..\Code\Loading.h" />
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
     <ClInclude Include="..\Code\MainCamera.h" />
     <ClInclude Include="..\Code\MeleeMon.h" />
+    <ClInclude Include="..\Code\MeleeMon_Attack.h" />
+    <ClInclude Include="..\Code\MeleeMon_Death.h" />
+    <ClInclude Include="..\Code\MeleeMon_Idle.h" />
+    <ClInclude Include="..\Code\MeleeMon_WalkF.h" />
     <ClInclude Include="..\Code\Monster.h" />
     <ClInclude Include="..\Code\PlayerModel.h" />
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
+    <ClInclude Include="..\Code\ShootMon.h" />
     <ClInclude Include="..\Code\Player_Walk.h" />
+<<<<<<< HEAD
+    <ClInclude Include="..\Code\ShootMon_Attack.h" />
+    <ClInclude Include="..\Code\ShootMon_Death.h" />
+    <ClInclude Include="..\Code\ShootMon_Idle.h" />
+    <ClInclude Include="..\Code\ShootMon_WalkF.h" />
+=======
+    <ClInclude Include="..\Code\Shuriken.h" />
+    <ClInclude Include="..\Code\ShurikenAnim.h" />
+>>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -177,17 +198,38 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Boss.cpp" />
+    <ClCompile Include="..\Code\FlyMon.cpp" />
+    <ClCompile Include="..\Code\FlyMon_Attack.cpp" />
+    <ClCompile Include="..\Code\FlyMon_Death.cpp" />
+    <ClCompile Include="..\Code\FlyMon_Idle.cpp" />
+    <ClCompile Include="..\Code\FlyMon_WalkF.cpp" />
+    <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MainCamera.cpp" />
     <ClCompile Include="..\Code\MeleeMon.cpp" />
+    <ClCompile Include="..\Code\MeleeMon_Attack.cpp" />
+    <ClCompile Include="..\Code\MeleeMon_Death.cpp" />
+    <ClCompile Include="..\Code\MeleeMon_Idle.cpp" />
+    <ClCompile Include="..\Code\MeleeMon_WalkF.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />
     <ClCompile Include="..\Code\PlayerModel.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
+    <ClCompile Include="..\Code\ShootMon.cpp" />
     <ClCompile Include="..\Code\Player_Walk.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="..\Code\ShootMon_Attack.cpp" />
+    <ClCompile Include="..\Code\ShootMon_Death.cpp" />
+    <ClCompile Include="..\Code\ShootMon_Idle.cpp" />
+    <ClCompile Include="..\Code\ShootMon_WalkF.cpp" />
+=======
+    <ClCompile Include="..\Code\Shuriken.cpp" />
+    <ClCompile Include="..\Code\ShurikenAnim.cpp" />
+>>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />

@@ -8,6 +8,8 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Terrain.h"
+#include "ShootMon.h"
+#include "FlyMon.h"
 
 CStage::CStage() : m_pLoading(nullptr)
 {
@@ -68,6 +70,7 @@ HRESULT CStage::Init_Environment_Layer()
 
 	pGameObject = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
 	pLayer->Add_Object(GAMEOBJECTID::TERRAIN, pGameObject);
+
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
 
 	return S_OK;
@@ -93,15 +96,24 @@ HRESULT CStage::Init_GameLogic_Layer()
 	pPlayer->setCamera(pCam);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
-	//몬스터 생성
-	pGameObject = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER, pGameObject), E_FAIL);
+	//// meleemon
+	/*CMeleeMon* m_pMeleeMon = nullptr;
+	pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);*/
+	
+	//// shootmon
+	CShootMon* m_pMeleeMon = nullptr;
+	pGameObject = m_pMeleeMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
+
+	//// flymon
+	/*CFlyMon* m_pMeleeMon = nullptr;
+	pGameObject = m_pMeleeMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
 }
-
-
 
 HRESULT CStage::Init_UI_Layer()
 {

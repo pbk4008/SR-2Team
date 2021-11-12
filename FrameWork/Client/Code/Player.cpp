@@ -3,28 +3,31 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Animator.h"
+#include "Shuriken.h"
 
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
-, m_bAttack(false), m_fAngle(0.f),m_bJump(false)
+, m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
-, m_bAttack(false), m_fAngle(0.f),m_bJump(false)
+, m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMainCamera), m_pModel(rhs.m_pModel),
 m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
 , m_pHitCollision(rhs.m_pHitCollision),m_pAtkCollision(rhs.m_pAtkCollision)
-, m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump)
+, m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump),
+m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
 	if(rhs.m_pMainCamera)
 		m_pMainCamera->AddRef();
+
 	m_pHitCollision->AddRef();
 	m_pHitCollision->setTransform(m_pTransform);
 	m_pAtkCollision->AddRef();
@@ -56,16 +59,18 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		m_pTransform->Jump(fDeltaTime, 4.f,m_bJump);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	ChangeState();
+	m_eCulState=m_pModel->Act();
+	ChangeAttackType();
+	
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
-	m_eCulState=m_pModel->Act();
 
 	if (m_pAtkCollision->getActive())
 	{
 		m_pAtkCollision->Update_Component(fDeltaTime);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 
 	return iExit;
 }
@@ -76,6 +81,8 @@ void CPlayer::LateUpdate_GameObject()
 	if (m_pHitCollision->getHit())
 	{
 		//충돌 이후 작업
+		cout << "Player 충돌!" << endl;
+		//m_pCollision->setHit(false);
 		m_pHitCollision->setHit(false);
 	}
 	if (m_pAtkCollision->getHit())
@@ -145,6 +152,12 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 			m_bJump = true;
 		}
 	}
+	if (Key_Down(VIR_NUM1))
+		m_eCurType = ATTACKTYPE::SWORD;
+	if (Key_Down(VIR_NUM2))
+		m_eCurType = ATTACKTYPE::SHURIKEN;
+	if (Key_Down(VIR_NUM3))
+		m_eCurType = ATTACKTYPE::GUN;
 
 	if (Key_Down(VIR_LBUTTON))
 		m_eCulState = STATE::ATTACK;
@@ -156,7 +169,7 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	if (vMousDir.x < 0.f)
 		m_fAngle += -0.1f;
 	else if (vMousDir.x > 0.f)
-		m_fAngle += +0.1f;
+		m_fAngle += 0.1f;
 
 	m_pTransform->setAngle(MATRIXINFO::MAT_UP, m_fAngle);
 	m_pTransform->setPos(vPos);
@@ -177,13 +190,58 @@ void CPlayer::ChangeState()
 			if (!m_bAttack)
 			{
 				m_bAttack = true;
-				m_pAtkCollision->setActive(true);
+				switch (m_eCurType)
+				{
+				case ATTACKTYPE::SWORD:
+					m_pAtkCollision->setActive(true);
+					break;
+				case ATTACKTYPE::SHURIKEN:
+					Shoot();
+					break;
+				}
 			}
 			break;
 		case STATE::WALK:
 			m_pModel->setState(m_eCulState);
 		}
 		m_ePreState = m_eCulState;
+	}
+}
+
+void CPlayer::ChangeAttackType()
+{
+	if (m_eCurType != m_ePreType)
+	{
+		if (!m_pModel->getChange())
+		{
+			m_pModel->setAttackType(m_eCurType);
+			m_ePreType = m_eCurType;
+		}
+	}
+}
+
+void CPlayer::Shoot()
+{
+	_vec3 vLook,vPos;
+	_float fAngle;
+	vPos = m_pTransform->getPos();
+	fAngle = m_pTransform->getAngle().y;
+	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
+	CGameObject* pBullet = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BULLET);
+	if (!pBullet)
+	{
+		CShuriken* pShuriken = Clone_ObjProto<CShuriken>(GAMEOBJECTID::BULLET);
+		pShuriken->setPos(vPos);
+		pShuriken->setAngle(fAngle);
+		pShuriken->setLook(vLook);
+		pBullet = pShuriken;
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BULLET, pBullet);
+	}
+	else
+	{
+		static_cast<CShuriken*>(pBullet)->setPos(vPos);
+		static_cast<CShuriken*>(pBullet)->setAngle(fAngle);
+		static_cast<CShuriken*>(pBullet)->setLook(vLook);
 	}
 }
 
