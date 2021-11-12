@@ -57,13 +57,9 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-
-	if (GetAsyncKeyState('P'))
-		m_fSpeed = 0.f;
-
-	if (m_fSpeed == 0.f)
+	if (m_pCollision->getHit())
 	{
-
+		m_fSpeed = 0.f;
 		m_eCurState = STATE::DEATH;
 		Change_State();
 
@@ -73,6 +69,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 				m_bActive = false;
 		}
 	}
+	m_pTransform->UsingGravity(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -80,7 +77,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	return iExit;
 }
 
-void CShootMon::LateUpdate_GameObject()
+void CShootMon::LateUpdate_GameObject(const _float& fDeltaTime)
 {
 	CGameObject::LateUpdate_GameObject();
 
@@ -124,6 +121,9 @@ HRESULT CShootMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"ShootMon_Death", L"ShootMon_Idle", pDeath, true);
 
 	m_pAnimator->Connet_Animation(L"ShootMon_WalkF", L"ShootMon_Attack");
+	m_pAnimator->Connet_Animation(L"ShootMon_Attack", L"ShootMon_WalkF");
+
+	m_pAnimator->Connet_Animation(L"ShootMon_WalkF", L"ShootMon_Death");
 	m_pAnimator->Connet_Animation(L"ShootMon_Attack", L"ShootMon_Death");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"ShootMon_Idle"));
@@ -235,7 +235,7 @@ void CShootMon::Attack_Dis(const _float& fDeltaTime)
 		Attack(fDeltaTime);
 		m_pAttackColl->setActive(true);
 	}
-	else if (fDis > 7.0f)
+	else if (fDis >= 7.0f)
 	{
 		m_eCurState = STATE::WALKING;
 		Change_State();

@@ -184,8 +184,6 @@
     <ClInclude Include="..\Code\ShootMon_Death.h" />
     <ClInclude Include="..\Code\ShootMon_Idle.h" />
     <ClInclude Include="..\Code\ShootMon_WalkF.h" />
-    <ClInclude Include="..\Code\Shuriken.h" />
-    <ClInclude Include="..\Code\ShurikenAnim.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -230,8 +228,6 @@
     <ClCompile Include="..\Code\ShootMon_Death.cpp" />
     <ClCompile Include="..\Code\ShootMon_Idle.cpp" />
     <ClCompile Include="..\Code\ShootMon_WalkF.cpp" />
-    <ClCompile Include="..\Code\Shuriken.cpp" />
-    <ClCompile Include="..\Code\ShurikenAnim.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />

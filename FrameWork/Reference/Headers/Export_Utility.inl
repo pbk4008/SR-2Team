@@ -32,10 +32,7 @@ CGameObject* GetGameObject(GAMEOBJECTID eObjID)
 {
 	return CManagement::GetInstance()->getGameObject(eObjID);
 }
-HRESULT Add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj)
-{
-	return CManagement::GetInstance()->add_GameObject(eLayerID, eObjID, pObj);
-}
+
 HRESULT Init_ProtoMgr()
 {
 	CProtoMgr* pInstance = CProtoMgr::GetInstance();

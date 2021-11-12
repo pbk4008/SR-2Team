@@ -17,7 +17,6 @@ public:
 	HRESULT Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj);
 private:
 	vector<CGameObject*>* Find_GameObject(GAMEOBJECTID eObjID);
-	CGameObject* Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID eObjID);
 public:
 	static CLayer* Create();
 private:

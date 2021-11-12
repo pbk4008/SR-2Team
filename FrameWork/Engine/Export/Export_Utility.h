@@ -15,6 +15,7 @@
 #include "RcCol.h"
 #include "RcTex.h"
 #include "CubeTex.h"
+#include "QuadCubeTex.h"
 #include "TerrainTex.h"
 #include "Texture.h"
 #include "Transform.h"
@@ -34,7 +35,6 @@ inline void Render_Manangement(LPDIRECT3DDEVICE9& pDevice);
 inline CComponent* Get_Component(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
 inline CGameObject* GetGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
 inline CGameObject* GetGameObject(GAMEOBJECTID eObjID);
-inline HRESULT Add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj);
 
 //ProtoMgr
 inline HRESULT Init_ProtoMgr();

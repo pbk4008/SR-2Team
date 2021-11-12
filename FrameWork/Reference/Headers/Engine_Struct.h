@@ -21,6 +21,13 @@ namespace Engine
 		_vec3 vUV;
 	}VTXCUBE;
 	const _ulong FVF_CUBE = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
+
+	typedef struct tagVtxQuadCubeTex
+	{
+		_vec3 vPos;
+		_vec2 vUV[6];
+	}VTXQUADCUBE;
+	const _ulong FVF_QUADCUBE = D3DFVF_XYZ | D3DFVF_TEX6 ;
 	typedef struct tagIndex16
 	{
 		_ushort _0;

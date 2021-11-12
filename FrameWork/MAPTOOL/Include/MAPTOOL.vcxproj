@@ -188,13 +188,15 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Code\CubeObject.h" />
     <ClInclude Include="..\Code\DynamicCamera.h" />
+    <ClInclude Include="..\Code\QuadObject.h" />
     <ClInclude Include="..\Code\StaticCamera.h" />
+    <ClInclude Include="..\Code\TerrainObject.h" />
     <ClInclude Include="..\Headers\ToolDefine.h" />
     <ClInclude Include="..\Headers\ToolExtern.h" />
     <ClInclude Include="..\Headers\ToolInclude.h" />
     <ClInclude Include="..\Headers\ToolStruct.h" />
-    <ClInclude Include="CTerrainPicture.h" />
     <ClInclude Include="CTerrainTexture.h" />
     <ClInclude Include="Form.h" />
     <ClInclude Include="framework.h" />
@@ -207,9 +209,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\CubeObject.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
+    <ClCompile Include="..\Code\QuadObject.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
-    <ClCompile Include="CTerrainPicture.cpp" />
+    <ClCompile Include="..\Code\TerrainObject.cpp" />
     <ClCompile Include="CTerrainTexture.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="MainFrm.cpp" />

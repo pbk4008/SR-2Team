@@ -3,6 +3,7 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Animator.h"
+
 #include "Shuriken.h"
 #include "Bomb.h"
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
@@ -151,6 +152,7 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 			m_bJump = true;
 		}
 	}
+
 	if (Key_Down(VIR_NUM1))
 		m_eCurType = ATTACKTYPE::SWORD;
 	if (Key_Down(VIR_NUM2))
@@ -168,7 +170,7 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	if (vMousDir.x < 0.f)
 		m_fAngle += -0.1f;
 	else if (vMousDir.x > 0.f)
-		m_fAngle += 0.1f;
+		m_fAngle += +0.1f;
 
 	m_pTransform->setAngle(MATRIXINFO::MAT_UP, m_fAngle);
 	m_pTransform->setPos(vPos);
@@ -191,6 +193,7 @@ void CPlayer::ChangeState()
 			if (!m_bAttack)
 			{
 				m_bAttack = true;
+				m_pAtkCollision->setActive(true);
 				switch (m_eCurType)
 				{
 				case ATTACKTYPE::SWORD:
@@ -227,6 +230,7 @@ void CPlayer::ChangeAttackType()
 		}
 	}
 }
+
 
 CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 {

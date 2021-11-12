@@ -50,28 +50,27 @@ HRESULT CMeleeMon::Init_MeleeMon()
 	return S_OK;
 }
 
-Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
+_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-
-	if(GetAsyncKeyState('P'))
-		m_fSpeed = 0.f;
-
-	if (m_fSpeed == 0.f)
+	if (m_eCurState == STATE::DEATH)
 	{
-		
-		m_eCurState = STATE::DEATH;
+		m_fSpeed = 0.f;
 		Change_State();
 
 		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
 		{
 			if (!m_pAnimator->getAnimPlay())
-				m_bActive = false;
+			{
+				setActive(false);
+				return iExit;
+			}
 		}
 	}
+	m_pTransform->UsingGravity(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -79,12 +78,14 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	return iExit;
 }
 
-void CMeleeMon::LateUpdate_GameObject(const _float& fDeltaTime)
+void CMeleeMon::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
 
 	if (m_pCollision->getHit())
 	{
+		m_eCurState = STATE::DEATH;
+		Change_State();
 		cout << "몬스터 충돌" << endl;
 		m_pCollision->setHit(false);
 	}
@@ -123,7 +124,11 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"MeleeMon_Death", L"MeleeMon_Idle", pDeath, true);
 
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Attack");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF");
+
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_Death");
+	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Death");
+
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 
@@ -160,13 +165,7 @@ void CMeleeMon::Change_State()
 			m_pAnimator->Change_Animation(L"MeleeMon_Attack");
 			break;
 		case CMeleeMon::STATE::DEATH:
-			/*if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
-			{
-				if (!m_pAnimator->getAnimPlay())
-					m_bActive = false;
-			}
-			else*/
-				m_pAnimator->Change_Animation(L"MeleeMon_Death");
+			m_pAnimator->Change_Animation(L"MeleeMon_Death");
 			break;
 		}
 		m_ePreState = m_eCurState;

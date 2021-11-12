@@ -2,11 +2,9 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 #include "GameObject.h"
-BEGIN(Engine)
-class CRcTex;
-END
 class CBullet abstract : public CGameObject
 {
+
 protected:
 	explicit CBullet();
 	explicit CBullet(LPDIRECT3DDEVICE9 pDevice);

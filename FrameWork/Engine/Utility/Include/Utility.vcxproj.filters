@@ -70,6 +70,9 @@
     <Filter Include="05.Manager\02.CollisionMgr">
       <UniqueIdentifier>{ddab3026-dff4-49de-924d-6c60e1204a40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\05.QuadCubeTex">
+      <UniqueIdentifier>{780fa32a-8eef-412a-b3b7-8f4063963103}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\Renderer.h">
       <Filter>04.Component\04.Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\QuadCubeTex.h">
+      <Filter>04.Component\00.VIBuffer\05.QuadCubeTex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CollisionMgr.cpp">
       <Filter>05.Manager\02.CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuadCubeTex.cpp">
+      <Filter>04.Component\00.VIBuffer\05.QuadCubeTex</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -33,6 +33,8 @@ static UINT indicators[] =
 // CMainFrame 생성/소멸
 
 CMainFrame::CMainFrame() noexcept
+	: m_pFormView(nullptr)
+	, m_pMainView(nullptr)
 {
 	// TODO: 여기에 멤버 초기화 코드를 추가합니다.
 }
@@ -45,7 +47,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
-
 	// ==================================== 도구 모음 삭제 =========================================================
 	// 
 	//if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||

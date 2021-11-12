@@ -17,7 +17,9 @@
 
 #include <afxdisp.h>        // MFC 자동화 클래스입니다.
 
-
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // Internet Explorer 4 공용 컨트롤에 대한 MFC 지원입니다.
@@ -40,6 +42,7 @@
 #pragma comment(lib,"Utility.lib")
 
 #include <string>
+#include <array>
 #include <vector>
 #include <list>
 #include <map>
@@ -49,8 +52,8 @@
 
 
 
-#include "ToolInclude.h"
 #include "Export_Function.h"
+#include "ToolInclude.h"
 
 
 
