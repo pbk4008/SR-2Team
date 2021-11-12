@@ -17,6 +17,7 @@ public:
 	virtual _int Update_Scene(const _float& fDeltaTime);
 	virtual void LateUpdate_Scene();
 	virtual void Render_Scene() PURE;
+	HRESULT Add_Object(LAYERID eLayerID,GAMEOBJECTID eObjID, CGameObject* pObj);
 private:
 	CLayer* Find_Layer(LAYERID eLayerID);
 protected:
