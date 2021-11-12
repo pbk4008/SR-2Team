@@ -56,9 +56,13 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-	if (m_pCollision->getHit())
-	{
+
+	if (GetAsyncKeyState('P'))
 		m_fSpeed = 0.f;
+
+	if (m_fSpeed == 0.f)
+	{
+
 		m_eCurState = STATE::DEATH;
 		Change_State();
 
@@ -68,8 +72,6 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 				m_bActive = false;
 		}
 	}
-
-	m_pTransform->UsingGravity(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -121,9 +123,6 @@ HRESULT CFlyMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"FlyMon_Death", L"FlyMon_Idle", pDeath, true);
 
 	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Attack");
-	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_WalkF");
-
-	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Death");
 	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_Death");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"FlyMon_Idle"));

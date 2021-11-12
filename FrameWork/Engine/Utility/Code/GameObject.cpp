@@ -1,4 +1,5 @@
 #include "Export_Utility.h"
+#include "Component.h"
 
 CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr),m_bClone(false)
 {
@@ -28,7 +29,6 @@ CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice),m_bA
                 m_mapComponent[i].emplace(iter.first, m_pTransform);
                 m_pTransform->AddRef();
             }
-
             else if (iter.first == COMPONENTID::COLLISION)
             {
                 continue;
@@ -73,6 +73,10 @@ void CGameObject::Render_GameObject()
 {
 }
 
+void CGameObject::ResetObject()
+{
+}
+
 CComponent* CGameObject::Find_Component(COMPONENTID eID,COMPONENTTYPE eType)
 {
     auto iter = m_mapComponent[(_ulong)eType].find(eID);
@@ -105,4 +109,25 @@ CComponent* CGameObject::getComponent(COMPONENTID eID,COMPONENTTYPE eType)
     CComponent* pCom = Find_Component(eID, eType);
     NULL_CHECK_RETURN(pCom, nullptr);
     return pCom;
+}
+
+void CGameObject::setActive(const _bool& bActive)
+{
+    m_bActive = bActive;
+    if (bActive)
+    {
+        for (_int i = 0; i < (_int)COMPONENTTYPE::TYPE_END; i++)
+        {
+            for (auto pCom : m_mapComponent[i])
+                pCom.second->setActive(true);
+        }      
+    }
+    else
+    {
+        for (_int i = 0; i < (_int)COMPONENTTYPE::TYPE_END; i++)
+        {
+            for (auto pCom : m_mapComponent[i])
+                pCom.second->setActive(false);
+        }
+    }
 }

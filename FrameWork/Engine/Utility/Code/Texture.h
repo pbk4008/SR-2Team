@@ -14,7 +14,6 @@ public:
 	HRESULT Init_Texture();
 	virtual _int Update_Component(const _float& fDeltaTime);
 	void Render_Texture(const _uint& iIndex = 0);
-	void Render_MultiTexture(const _uint& iLimitIndex);
 public:
 	virtual CComponent* Clone_Component();
 public:

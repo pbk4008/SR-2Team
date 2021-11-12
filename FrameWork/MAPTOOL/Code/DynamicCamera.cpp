@@ -66,7 +66,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
 		// 방향벡터로 변환 * 길이
-		_vec3 vLength = *D3DXVec3Normalize(&vLook, &vLook) * 20.f * fTimeDelta;
+		_vec3 vLength = *D3DXVec3Normalize(&vLook, &vLook) * 1.f * fTimeDelta;
 
 		// 각 벡터에 더해주기
 		m_vEye += vLength;
@@ -79,7 +79,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
 		// 방향벡터로 변환 * 길이
-		_vec3 vLength = *D3DXVec3Normalize(&vLook, &vLook) * 20.f * fTimeDelta;
+		_vec3 vLength = *D3DXVec3Normalize(&vLook, &vLook) * 1.f * fTimeDelta;
 
 		// 각 벡터에 더해주기
 		m_vEye -= vLength;
@@ -92,7 +92,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
 		// 방향벡터로 변환 * 길이
-		_vec3 vLength = *D3DXVec3Normalize(&vRight, &vRight) * 20.f * fTimeDelta;
+		_vec3 vLength = *D3DXVec3Normalize(&vRight, &vRight) * 1.f * fTimeDelta;
 
 		// 각 벡터에 더해주기
 		m_vEye -= vLength;
@@ -105,7 +105,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
 		// 방향벡터로 변환 * 길이
-		_vec3 vLength = *D3DXVec3Normalize(&vRight, &vRight) * 20.f * fTimeDelta;
+		_vec3 vLength = *D3DXVec3Normalize(&vRight, &vRight) * 1.f * fTimeDelta;
 
 		// 각 벡터에 더해주기
 		m_vEye += vLength;

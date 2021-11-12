@@ -164,7 +164,6 @@ call "Update_Utility.bat"</Command>
     <ClInclude Include="..\Code\Layer.h" />
     <ClInclude Include="..\Code\Management.h" />
     <ClInclude Include="..\Code\ProtoMgr.h" />
-    <ClInclude Include="..\Code\QuadCubeTex.h" />
     <ClInclude Include="..\Code\RcCol.h" />
     <ClInclude Include="..\Code\RcTex.h" />
     <ClInclude Include="..\Code\Renderer.h" />
@@ -191,7 +190,6 @@ call "Update_Utility.bat"</Command>
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
-    <ClCompile Include="..\Code\QuadCubeTex.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />

@@ -18,7 +18,7 @@ private:
 public:
 	HRESULT Init_MeleeMon();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
-	virtual void LateUpdate_GameObject();
+	virtual void LateUpdate_GameObject(const _float& fDeltaTime);
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 	HRESULT SettingAnimator();

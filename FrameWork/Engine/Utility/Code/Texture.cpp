@@ -93,12 +93,3 @@ HRESULT CTexture::setTexture(vector<LPDIRECT3DBASETEXTURE9>* pTexture)
 	}
 	return S_OK;
 }
-
-void Engine::CTexture::Render_MultiTexture(const _uint& iLimitIndex)
-{
-	if (m_vecTexture.size() < iLimitIndex)
-		return;
-	for (_uint i = 0; i < iLimitIndex; ++i)
-		m_pDevice->SetTexture(i, m_vecTexture[i]);
-
-}

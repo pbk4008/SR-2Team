@@ -18,7 +18,7 @@ private:
 public:
 	HRESULT Init_ShootMon();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
-	virtual void LateUpdate_GameObject(const _float& fDeltaTime);
+	virtual void LateUpdate_GameObject() override;
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 	HRESULT SettingAnimator();
