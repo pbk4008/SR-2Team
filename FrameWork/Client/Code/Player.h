@@ -24,7 +24,6 @@ private:
 	void KeyInput(const float& fDelatTime);
 	void ChangeState();
 	void ChangeAttackType();
-	void Shoot();
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:

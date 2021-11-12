@@ -268,34 +268,15 @@ void CTransform::setAngle(MATRIXINFO eInfo, _float fAngle)
 	switch (eInfo)
 	{
 		case MATRIXINFO::MAT_RIGHT:
-			D3DXMatrixRotationX(&m_matRotate, (m_vAngle.x));
+			D3DXMatrixRotationX(&m_matRotate,m_vAngle.x);
 			break;
 		case MATRIXINFO::MAT_UP:
-			D3DXMatrixRotationY(&m_matRotate, (m_vAngle.y));
+			D3DXMatrixRotationY(&m_matRotate, m_vAngle.y);
 			break;
 		case MATRIXINFO::MAT_LOOK:
-			D3DXMatrixRotationZ(&m_matRotate, (m_vAngle.z));
+			D3DXMatrixRotationZ(&m_matRotate, m_vAngle.z);
 			break;
 	}
-	m_dwFlag |= FLAG_ANGLE;
-}
-
-void CTransform::setAngle(const _vec3& vAngle)
-{
-	m_vAngle = vAngle;
-	_matrix matX, matY, matZ;
-	D3DXMatrixIdentity(&matX);
-	D3DXMatrixIdentity(&matY);
-	D3DXMatrixIdentity(&matZ);
-
-	D3DXMatrixRotationX(&matX, (m_vAngle.x));
-
-	D3DXMatrixRotationY(&matY, (m_vAngle.y));
-
-	D3DXMatrixRotationZ(&matZ, (m_vAngle.z));
-
-	m_matRotate = matZ * matX * matY;
-
 	m_dwFlag |= FLAG_ANGLE;
 }
 
@@ -305,13 +286,13 @@ void CTransform::setRevolve(MATRIXINFO eInfo, _float fAngle)
 	switch (eInfo)
 	{
 	case MATRIXINFO::MAT_RIGHT:
-		D3DXMatrixRotationX(&m_matRevolve, (m_vRevolve.x));
+		D3DXMatrixRotationX(&m_matRevolve, m_vRevolve.x);
 		break;
 	case MATRIXINFO::MAT_UP:
-		D3DXMatrixRotationY(&m_matRevolve, (m_vRevolve.y));
+		D3DXMatrixRotationY(&m_matRevolve, m_vRevolve.y);
 		break;
 	case MATRIXINFO::MAT_LOOK:
-		D3DXMatrixRotationZ(&m_matRevolve, (m_vRevolve.z));
+		D3DXMatrixRotationZ(&m_matRevolve, m_vRevolve.z);
 		break;
 	}
 	m_dwFlag |= FLAG_REVOLVE;

@@ -56,16 +56,18 @@ _int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-	if (m_pCollision->getHit())
+	if (m_eCurState == STATE::DEATH)
 	{
 		m_fSpeed = 0.f;
-		m_eCurState = STATE::DEATH;
 		Change_State();
 
 		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
 		{
 			if (!m_pAnimator->getAnimPlay())
-				m_bActive = false;
+			{
+				setActive(false);
+				return iExit;
+			}
 		}
 	}
 	m_pTransform->UsingGravity(fDeltaTime);
@@ -76,12 +78,14 @@ _int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	return iExit;
 }
 
-void CMeleeMon::LateUpdate_GameObject(const _float& fDeltaTime)
+void CMeleeMon::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
 
 	if (m_pCollision->getHit())
 	{
+		m_eCurState = STATE::DEATH;
+		Change_State();
 		cout << "몬스터 충돌" << endl;
 		m_pCollision->setHit(false);
 	}
