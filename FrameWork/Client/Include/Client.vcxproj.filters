@@ -125,11 +125,34 @@
     <Filter Include="02.GameObject\05. Boss\00. Animation">
       <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="02.GameObject\02.Monster\01. ShootMon\01. Bullet">
       <UniqueIdentifier>{d254e573-781c-401b-8cb9-c9c299d192b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\01. Fire">
       <UniqueIdentifier>{418d4aff-d011-4bc5-8ac8-bab93d28d845}</UniqueIdentifier>
+=======
+    <Filter Include="02.GameObject\04.bullet\99.Animation">
+      <UniqueIdentifier>{8394a9ea-490e-41ce-b7d4-28aa37c988a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player">
+      <UniqueIdentifier>{2655cc0d-fdfb-4aa5-ba27-a387ae559359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\00.Model">
+      <UniqueIdentifier>{964d02d3-da7a-4503-8405-825681f454d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation">
+      <UniqueIdentifier>{dca1522b-0470-4c32-b920-1555f2f0131a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation\00.Attack">
+      <UniqueIdentifier>{194580dc-2126-4529-a105-6536523ca6c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation\00.Idle">
+      <UniqueIdentifier>{5de2de06-9e3e-4956-aed9-61d8e7752203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
+      <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
+>>>>>>> origin/BK
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +270,12 @@
     <ClInclude Include="..\Code\Bullet.h">
       <Filter>02.GameObject\04.bullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Shuriken.h">
+      <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShurikenAnim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -342,6 +371,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02.GameObject\02.Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Shuriken.cpp">
+      <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShurikenAnim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

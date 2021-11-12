@@ -3,6 +3,7 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Animator.h"
+#include "Shuriken.h"
 
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
@@ -151,7 +152,6 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 			m_bJump = true;
 		}
 	}
-
 	if (Key_Down(VIR_NUM1))
 		m_eCurType = ATTACKTYPE::SWORD;
 	if (Key_Down(VIR_NUM2))
@@ -169,7 +169,7 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	if (vMousDir.x < 0.f)
 		m_fAngle += -0.1f;
 	else if (vMousDir.x > 0.f)
-		m_fAngle += +0.1f;
+		m_fAngle += 0.1f;
 
 	m_pTransform->setAngle(MATRIXINFO::MAT_UP, m_fAngle);
 	m_pTransform->setPos(vPos);
@@ -190,7 +190,15 @@ void CPlayer::ChangeState()
 			if (!m_bAttack)
 			{
 				m_bAttack = true;
-				m_pAtkCollision->setActive(true);
+				switch (m_eCurType)
+				{
+				case ATTACKTYPE::SWORD:
+					m_pAtkCollision->setActive(true);
+					break;
+				case ATTACKTYPE::SHURIKEN:
+					Shoot();
+					break;
+				}
 			}
 			break;
 		case STATE::WALK:
@@ -209,6 +217,31 @@ void CPlayer::ChangeAttackType()
 			m_pModel->setAttackType(m_eCurType);
 			m_ePreType = m_eCurType;
 		}
+	}
+}
+
+void CPlayer::Shoot()
+{
+	_vec3 vLook,vPos;
+	_float fAngle;
+	vPos = m_pTransform->getPos();
+	fAngle = m_pTransform->getAngle().y;
+	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
+	CGameObject* pBullet = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BULLET);
+	if (!pBullet)
+	{
+		CShuriken* pShuriken = Clone_ObjProto<CShuriken>(GAMEOBJECTID::BULLET);
+		pShuriken->setPos(vPos);
+		pShuriken->setAngle(fAngle);
+		pShuriken->setLook(vLook);
+		pBullet = pShuriken;
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BULLET, pBullet);
+	}
+	else
+	{
+		static_cast<CShuriken*>(pBullet)->setPos(vPos);
+		static_cast<CShuriken*>(pBullet)->setAngle(fAngle);
+		static_cast<CShuriken*>(pBullet)->setLook(vLook);
 	}
 }
 

@@ -36,7 +36,11 @@ void CLayer::LateUpdate_Layer()
 	for (auto& ObjVector : m_mapObject)
 	{
 		for (auto& Obj : ObjVector.second)
+		{
+			if (!Obj->getActive())
+				continue;
 			Obj->LateUpdate_GameObject();
+		}
 	}
 }
 
@@ -61,6 +65,27 @@ vector<CGameObject*>* CLayer::Find_GameObject(GAMEOBJECTID eObjID)
 		return nullptr;
 	
 	return &((*objVec).second);
+}
+
+CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID eObjID)
+{
+	for (auto& pObj : (*pGameObejctArr))
+	{
+		if (pObj->getActive())
+		{
+			if (eObjID != GAMEOBJECTID::BULLET)
+				return pObj;
+			else
+				continue;
+		}
+		else
+		{
+			pObj->setActive(true);
+			pObj->ResetObject();
+			return pObj;
+		}
+	}
+	return nullptr;
 }
 
 CLayer* CLayer::Create()
@@ -94,7 +119,10 @@ CComponent* CLayer::getComponent(GAMEOBJECTID eObjID, COMPONENTID eComponentID, 
 CGameObject* CLayer::getGameObject(GAMEOBJECTID eObj)
 {
 	auto ObjArr = Find_GameObject(eObj);
-	NULL_CHECK_RETURN(ObjArr, nullptr);
-
-	return ObjArr->front();
+	if (!ObjArr)
+		return nullptr;
+	CGameObject* res= Pooling(ObjArr, eObj);
+	if (!res)
+		return nullptr;
+	return res;
 }

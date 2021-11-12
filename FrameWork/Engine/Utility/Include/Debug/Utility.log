@@ -1,6 +1,38 @@
+<<<<<<< HEAD
 ﻿  LINK : ..\Bin\Utility.dll을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+=======
+<<<<<<< HEAD
+﻿  Animation.cpp
+  Animator.cpp
+  Camera.cpp
+  Collision.cpp
+  CollisionMgr.cpp
+  Component.cpp
+  CubeTex.cpp
+  GameObject.cpp
+  Layer.cpp
+  Management.cpp
+  ProtoMgr.cpp
+  RcCol.cpp
+  RcTex.cpp
+  Renderer.cpp
+  Scene.cpp
+  TerrainTex.cpp
+  Texture.cpp
+  TextureMgr.cpp
+  Transform.cpp
+  TriCol.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  VIBuffer.cpp
+  코드를 생성하고 있습니다...
+>>>>>>> origin/BK
      ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\USER\Desktop\SR Team Project - Shadow Warriors\FrameWork\Engine\Utility\Bin\Utility.dll
+=======
+﻿  Layer.cpp
+  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
+>>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
