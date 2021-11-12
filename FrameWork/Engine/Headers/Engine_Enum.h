@@ -9,6 +9,7 @@ namespace Engine
 		RCCOL,
 		RCTEX,
 		TERRAINTEX,
+		QUADCUBETEX,
 		TRANSFORM,
 		CAMERA,
 		ANIMATION,

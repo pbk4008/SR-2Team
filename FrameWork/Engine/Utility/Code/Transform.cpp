@@ -320,3 +320,8 @@ void CTransform::setRevolve(MATRIXINFO eInfo, _float fAngle)
 	}
 	m_dwFlag |= FLAG_REVOLVE;
 }
+
+void Engine::CTransform::setToolAngle(const _vec3& vecToolAngle)
+{
+	memcpy(&m_ToolvAngle, &vecToolAngle, sizeof(_vec3));
+}
