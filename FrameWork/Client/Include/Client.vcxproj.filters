@@ -32,7 +32,6 @@
     <Filter Include="02.GameObject\00.BackGround\00.Terrain">
       <UniqueIdentifier>{f30b00ce-61da-4cd0-a9cd-5d0640873819}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="02.GameObject\01.Player">
       <UniqueIdentifier>{2655cc0d-fdfb-4aa5-ba27-a387ae559359}</UniqueIdentifier>
     </Filter>
@@ -66,8 +65,6 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
       <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
     </Filter>
-=======
->>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
     <Filter Include="02.GameObject\02.Monster">
       <UniqueIdentifier>{c7484bf7-5d03-4029-bea9-778e89beb127}</UniqueIdentifier>
     </Filter>
@@ -122,13 +119,12 @@
     <Filter Include="02.GameObject\04.bullet\00.Shuriken">
       <UniqueIdentifier>{03d18626-d5f0-4b32-b9bd-d44f7f4af7cd}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="02.GameObject\05. Boss">
       <UniqueIdentifier>{88b4546f-29ab-44e2-9e58-981e6eefd91b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\05. Boss\00. Animation">
       <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
-=======
+    </Filter>
     <Filter Include="02.GameObject\04.bullet\99.Animation">
       <UniqueIdentifier>{8394a9ea-490e-41ce-b7d4-28aa37c988a5}</UniqueIdentifier>
     </Filter>
@@ -149,7 +145,6 @@
     </Filter>
     <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
       <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
->>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -366,16 +361,14 @@
     <ClCompile Include="..\Code\Bullet.cpp">
       <Filter>02.GameObject\04.bullet</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02.GameObject\02.Monster</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="..\Code\Shuriken.cpp">
       <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ShurikenAnim.cpp">
       <Filter>02.GameObject\04.bullet\99.Animation</Filter>
->>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
