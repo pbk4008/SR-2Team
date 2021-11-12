@@ -39,6 +39,15 @@ void CScene::LateUpdate_Scene()
 		iter.second->LateUpdate_Layer();
 }
 
+HRESULT CScene::Add_Object(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj)
+{
+	CLayer* pLayer = Find_Layer(eLayerID);
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	pLayer->Add_Object(eObjID, pObj);
+	return S_OK;
+}
+
 CLayer* CScene::Find_Layer(LAYERID eLayerID)
 {
 	auto pLayer = m_mapLayer.find(eLayerID);

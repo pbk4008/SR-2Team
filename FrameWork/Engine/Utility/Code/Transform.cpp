@@ -284,6 +284,25 @@ void CTransform::setAngle(MATRIXINFO eInfo, _float fAngle)
 	m_dwFlag |= FLAG_ANGLE;
 }
 
+void CTransform::setAngle(const _vec3& vAngle)
+{
+	m_vAngle = vAngle;
+	_matrix matX, matY, matZ;
+	D3DXMatrixIdentity(&matX);
+	D3DXMatrixIdentity(&matY);
+	D3DXMatrixIdentity(&matZ);
+
+	D3DXMatrixRotationX(&matX, (m_vAngle.x));
+
+	D3DXMatrixRotationY(&matY, (m_vAngle.y));
+
+	D3DXMatrixRotationZ(&matZ, (m_vAngle.z));
+
+	m_matRotate = matZ * matX * matY;
+
+	m_dwFlag |= FLAG_ANGLE;
+}
+
 void CTransform::setRevolve(MATRIXINFO eInfo, _float fAngle)
 {
 	*(((_float*)&m_vRevolve) + (_ulong)eInfo) = fAngle;

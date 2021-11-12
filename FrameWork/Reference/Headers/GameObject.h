@@ -17,6 +17,7 @@ public:
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
 	virtual CGameObject* Clone_GameObject() PURE;
+	virtual void ResetObject();
 protected:
 	CComponent* Find_Component(COMPONENTID eID,COMPONENTTYPE eType);
 protected:
@@ -27,7 +28,7 @@ public:
 	inline _bool getActive() { return m_bActive; }
 	inline CTransform* getTransform() { return m_pTransform; }
 public:
-	inline void setActive(const _bool& bActive) { m_bActive = bActive; }
+	void setActive(const _bool& bActive);
 protected:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	map<COMPONENTID, CComponent*> m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_END];

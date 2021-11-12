@@ -43,9 +43,7 @@ public:
 	inline const _vec3& getAngle() const { return m_vAngle; }
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
 	void getAxis(VECAXIS eAxis, _vec3& pVec);
-
 	// === 툴
-
 	inline const _vec3& getToolAngle() const { return m_ToolvAngle; }
 public:
 	inline void setParent(CTransform* pParent) { m_pParent = pParent;  m_pParent->AddRef(); }
@@ -54,6 +52,7 @@ public:
 	inline void setPos(const _vec3 vPos) { m_vPos = vPos; m_dwFlag |= FLAG_POS;}
 	void setPos(const _float& fX, const _float& fY, const _float& fZ);
 	void setAngle(MATRIXINFO eInfo, _float fAngle);
+	void setAngle(const _vec3& vAngle);
 	void setRevolve(MATRIXINFO eInfo, _float fAngle);
 	inline void setRotate(const _matrix& matRotate) { m_matRotateAxis = matRotate; m_dwFlag |= FLAG_AXISROTATE; }//임의의 축 회전
 	// === 툴

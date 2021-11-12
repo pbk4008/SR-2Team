@@ -12,7 +12,7 @@ CManagement::~CManagement()
 HRESULT CManagement::Change_Scene(CScene* pScene)
 {
 	Safe_Release(m_pScene);
-	
+
 	m_pScene = pScene;
 	return S_OK;
 }
@@ -57,7 +57,7 @@ CGameObject* CManagement::getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID)
 {
 	NULL_CHECK_RETURN(m_pScene, nullptr);
 
-	return m_pScene->getGameObject(eLayerID,eObjID);
+	return m_pScene->getGameObject(eLayerID, eObjID);
 }
 
 CGameObject* CManagement::getGameObject(GAMEOBJECTID eObjID)
@@ -65,4 +65,13 @@ CGameObject* CManagement::getGameObject(GAMEOBJECTID eObjID)
 	NULL_CHECK_RETURN(m_pScene, nullptr);
 
 	return m_pScene->getGameObject(eObjID);
+}
+
+HRESULT CManagement::add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj)
+{
+	NULL_CHECK_RETURN(m_pScene, E_FAIL);
+
+	FAILED_CHECK_RETURN(m_pScene->Add_Object(eLayerID, eObjID, pObj), E_FAIL);
+
+	return S_OK;
 }
