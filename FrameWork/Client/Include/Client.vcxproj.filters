@@ -262,8 +262,6 @@
     <ClInclude Include="..\Code\Bullet.h">
       <Filter>02.GameObject\04.bullet</Filter>
     </ClInclude>
-<<<<<<< HEAD
-=======
     <ClInclude Include="..\Code\Shuriken.h">
       <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
     </ClInclude>
@@ -376,8 +374,6 @@
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02.GameObject\02.Monster</Filter>
     </ClCompile>
-<<<<<<< HEAD
-=======
     <ClCompile Include="..\Code\Shuriken.cpp">
       <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
     </ClCompile>

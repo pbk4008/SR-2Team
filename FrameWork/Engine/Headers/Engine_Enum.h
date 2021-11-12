@@ -13,6 +13,7 @@ namespace Engine
 		TRANSFORM,
 		CAMERA,
 		ANIMATOR,
+		ANIMATION,
 		COLLISION,
 	///////// 여기서부터 몬스터 ///////////
 		MELEEMON_TEX,

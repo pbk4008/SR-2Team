@@ -138,13 +138,11 @@
     <ClInclude Include="..\Code\CollisionMgr.h">
       <Filter>05.Manager\02.CollisionMgr</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\Code\Renderer.h">
       <Filter>04.Component\04.Renderer</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="..\Code\QuadCubeTex.h">
       <Filter>04.Component\00.VIBuffer\05.QuadCubeTex</Filter>
->>>>>>> 64ca83164867629d4d17241a1eacded01fe4f5dc
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
