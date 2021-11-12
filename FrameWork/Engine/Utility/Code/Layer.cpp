@@ -63,7 +63,7 @@ vector<CGameObject*>* CLayer::Find_GameObject(GAMEOBJECTID eObjID)
 	auto objVec = m_mapObject.find(eObjID);//objVectorArr√£±‚
 	if (objVec == m_mapObject.end())
 		return nullptr;
-	
+
 	return &((*objVec).second);
 }
 
@@ -73,7 +73,7 @@ CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID 
 	{
 		if (pObj->getActive())
 		{
-			if (eObjID != GAMEOBJECTID::SHURIKEN&& eObjID != GAMEOBJECTID::BOMB)
+			if (eObjID != GAMEOBJECTID::SHURIKEN && eObjID != GAMEOBJECTID::BOMB)
 				return pObj;
 			else
 				continue;
@@ -121,7 +121,7 @@ CGameObject* CLayer::getGameObject(GAMEOBJECTID eObj)
 	auto ObjArr = Find_GameObject(eObj);
 	if (!ObjArr)
 		return nullptr;
-	CGameObject* res= Pooling(ObjArr, eObj);
+	CGameObject* res = Pooling(ObjArr, eObj);
 	if (!res)
 		return nullptr;
 	return res;

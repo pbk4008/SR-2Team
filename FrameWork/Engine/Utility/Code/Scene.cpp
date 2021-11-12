@@ -41,7 +41,9 @@ void CScene::LateUpdate_Scene()
 
 HRESULT CScene::Add_Object(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj)
 {
-	CLayer* pLayer=Find_Layer(eLayerID);
+
+	CLayer* pLayer = Find_Layer(eLayerID);
+
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	pLayer->Add_Object(eObjID, pObj);

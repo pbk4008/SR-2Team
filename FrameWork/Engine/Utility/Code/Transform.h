@@ -43,6 +43,9 @@ public:
 	inline const _vec3& getAngle() const { return m_vAngle; }
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
 	void getAxis(VECAXIS eAxis, _vec3& pVec);
+
+	// === 툴
+	inline const _vec3& getToolAngle() const { return m_ToolvAngle; }
 public:
 	inline void setParent(CTransform* pParent) { m_pParent = pParent;  m_pParent->AddRef(); }
 	inline void setScale(const _vec3 vScale) { m_vScale = vScale;  m_dwFlag |= FLAG_SCALE; }
@@ -74,6 +77,8 @@ private:
 	_matrix m_matWorld;//월드메트릭스
 	_matrix m_matOldParent;//부모 이전 메트릭스
 	_ulong m_dwFlag;
+
+	_vec3 m_ToolvAngle;
 };
 END
 #endif

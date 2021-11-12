@@ -12,7 +12,7 @@ CManagement::~CManagement()
 HRESULT CManagement::Change_Scene(CScene* pScene)
 {
 	Safe_Release(m_pScene);
-	
+
 	m_pScene = pScene;
 	return S_OK;
 }
@@ -57,7 +57,7 @@ CGameObject* CManagement::getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID)
 {
 	NULL_CHECK_RETURN(m_pScene, nullptr);
 
-	return m_pScene->getGameObject(eLayerID,eObjID);
+	return m_pScene->getGameObject(eLayerID, eObjID);
 }
 
 CGameObject* CManagement::getGameObject(GAMEOBJECTID eObjID)

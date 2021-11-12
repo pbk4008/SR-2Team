@@ -1,20 +1,20 @@
 #include "Export_Utility.h"
 #include "Component.h"
 
-CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr),m_bClone(false)
+CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr), m_bClone(false)
 {
-   
+
 }
 
-CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false),m_bClone(false),
+CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false), m_bClone(false),
 m_pTransform(nullptr)
 {
-    
+
     m_pDevice->AddRef();
 }
 
-CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice),m_bActive(rhs.m_bActive), m_bClone(rhs.m_bClone)
-,m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM))
+CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice), m_bActive(rhs.m_bActive), m_bClone(rhs.m_bClone)
+, m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM))
 {
     m_bClone = true;
     if (rhs.m_pDevice)
@@ -58,7 +58,7 @@ _int CGameObject::Update_GameObject(const _float& fDeltaTime)
     {
         if (!iter.second->getActive())//활성화 상태가 아니라면 Update를 돌리지 않는다
             continue;
-        iExit=iter.second->Update_Component(fDeltaTime);
+        iExit = iter.second->Update_Component(fDeltaTime);
         if (iExit & 0x80000000)
             return iExit;
     }
@@ -77,7 +77,8 @@ void CGameObject::ResetObject()
 {
 }
 
-CComponent* CGameObject::Find_Component(COMPONENTID eID,COMPONENTTYPE eType)
+
+CComponent* CGameObject::Find_Component(COMPONENTID eID, COMPONENTTYPE eType)
 {
     auto iter = m_mapComponent[(_ulong)eType].find(eID);
     if (iter == m_mapComponent[(_ulong)eType].end())
@@ -104,7 +105,7 @@ void CGameObject::Free()
     Safe_Release(m_pDevice);
 }
 
-CComponent* CGameObject::getComponent(COMPONENTID eID,COMPONENTTYPE eType)
+CComponent* CGameObject::getComponent(COMPONENTID eID, COMPONENTTYPE eType)
 {
     CComponent* pCom = Find_Component(eID, eType);
     NULL_CHECK_RETURN(pCom, nullptr);
@@ -120,7 +121,7 @@ void CGameObject::setActive(const _bool& bActive)
         {
             for (auto pCom : m_mapComponent[i])
                 pCom.second->setActive(true);
-        }      
+        }
     }
     else
     {
