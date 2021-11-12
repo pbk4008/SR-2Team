@@ -120,9 +120,6 @@
     <ClInclude Include="..\Code\Camera.h">
       <Filter>04.Component\03.Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\Renderer.h">
-      <Filter>04.Component\04.Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\TextureMgr.h">
       <Filter>05.Manager\01.TextureMgr</Filter>
     </ClInclude>
@@ -137,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\CollisionMgr.h">
       <Filter>05.Manager\02.CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Renderer.h">
+      <Filter>04.Component\04.Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

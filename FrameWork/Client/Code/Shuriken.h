@@ -26,18 +26,12 @@ private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
 public:
-	void setPos(const _vec3& vPos);
-	void setAngle(const _float& fAngle);
-	void setLook(const _vec3& vLook);
+	virtual void setPos(const _vec3& vPos);
 public:
 	static CShuriken* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	CShurikenAnim* m_pAnimation;
 	CCollision* m_pCollision;
-	_vec3 m_vFirstPos;
-	_vec3 m_vLook;
-	_float m_fDestroyTime;
-	_float m_fAngle;
 	_float m_fSpeed;
 };
 #endif

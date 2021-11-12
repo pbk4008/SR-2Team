@@ -19,7 +19,15 @@ public:
 protected:
 	virtual HRESULT Add_Component();
 	virtual void Free();
+public:
+	virtual void setPos(const _vec3& vPos);
+	void setLook(const _vec3& vLook);
+	void setAngle(const _float& fAngle);
 protected:
 	CRcTex* m_pBuffer;
+	_vec3 m_vFirstPos;
+	_vec3 m_vLook;
+	_float m_fAngle;
+	_float m_fDestroyTime;
 };
 #endif

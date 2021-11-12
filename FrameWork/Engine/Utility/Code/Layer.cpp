@@ -73,7 +73,7 @@ CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID 
 	{
 		if (pObj->getActive())
 		{
-			if (eObjID != GAMEOBJECTID::BULLET)
+			if (eObjID != GAMEOBJECTID::SHURIKEN&& eObjID != GAMEOBJECTID::BOMB)
 				return pObj;
 			else
 				continue;

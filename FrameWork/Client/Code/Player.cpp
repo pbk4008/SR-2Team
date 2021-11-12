@@ -4,7 +4,7 @@
 #include "PlayerModel.h"
 #include "Animator.h"
 #include "Shuriken.h"
-
+#include "Bomb.h"
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
@@ -82,7 +82,6 @@ void CPlayer::LateUpdate_GameObject()
 	{
 		//충돌 이후 작업
 		cout << "Player 충돌!" << endl;
-		//m_pCollision->setHit(false);
 		m_pHitCollision->setHit(false);
 	}
 	if (m_pAtkCollision->getHit())
@@ -157,7 +156,7 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	if (Key_Down(VIR_NUM2))
 		m_eCurType = ATTACKTYPE::SHURIKEN;
 	if (Key_Down(VIR_NUM3))
-		m_eCurType = ATTACKTYPE::GUN;
+		m_eCurType = ATTACKTYPE::BOMB;
 
 	if (Key_Down(VIR_LBUTTON))
 		m_eCulState = STATE::ATTACK;
@@ -179,6 +178,8 @@ void CPlayer::ChangeState()
 {
 	if (m_eCulState != m_ePreState)
 	{
+		bool bCheck = false;
+		CBullet* pBullet = nullptr;
 		switch (m_eCulState)
 		{
 		case STATE::IDLE:
@@ -196,7 +197,14 @@ void CPlayer::ChangeState()
 					m_pAtkCollision->setActive(true);
 					break;
 				case ATTACKTYPE::SHURIKEN:
-					Shoot();
+					pBullet =Shoot(GAMEOBJECTID::SHURIKEN, bCheck);
+					if (bCheck)
+						Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKEN, pBullet);
+					break;
+				case ATTACKTYPE::BOMB:
+					pBullet =Shoot(GAMEOBJECTID::BOMB,bCheck);
+					if (bCheck)
+						Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOMB, pBullet);
 					break;
 				}
 			}
@@ -220,29 +228,30 @@ void CPlayer::ChangeAttackType()
 	}
 }
 
-void CPlayer::Shoot()
+CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 {
 	_vec3 vLook,vPos;
 	_float fAngle;
 	vPos = m_pTransform->getPos();
 	fAngle = m_pTransform->getAngle().y;
 	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
-	CGameObject* pBullet = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BULLET);
+	CGameObject* pBullet = GetGameObject(LAYERID::GAME_LOGIC, eID);
 	if (!pBullet)
 	{
-		CShuriken* pShuriken = Clone_ObjProto<CShuriken>(GAMEOBJECTID::BULLET);
-		pShuriken->setPos(vPos);
-		pShuriken->setAngle(fAngle);
-		pShuriken->setLook(vLook);
-		pBullet = pShuriken;
-		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BULLET, pBullet);
+		if(eID==GAMEOBJECTID::SHURIKEN)
+			pBullet = Clone_ObjProto<CShuriken>(eID);
+		if (eID == GAMEOBJECTID::BOMB)
+			pBullet = Clone_ObjProto<CBomb>(eID);
+		bCheck = true;
 	}
 	else
-	{
-		static_cast<CShuriken*>(pBullet)->setPos(vPos);
-		static_cast<CShuriken*>(pBullet)->setAngle(fAngle);
-		static_cast<CShuriken*>(pBullet)->setLook(vLook);
-	}
+		bCheck = false;
+	static_cast<CBullet*>(pBullet)->setPos(vPos);
+	static_cast<CBullet*>(pBullet)->setLook(vLook);
+	static_cast<CBullet*>(pBullet)->setAngle(m_pTransform->getAngle().y);
+	
+
+	return static_cast<CBullet*>(pBullet);
 }
 
 HRESULT CPlayer::Add_Component()

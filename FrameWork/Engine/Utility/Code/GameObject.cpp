@@ -33,6 +33,10 @@ CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice),m_bA
             {
                 continue;
             }
+            else if (iter.first == COMPONENTID::ANIMATION)
+            {
+                continue;
+            }
             else
             {
                 m_mapComponent[i].emplace(iter.first, iter.second);

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Player_IdleAnim.h"
-
+#include "Player.h"
 CPlayerIdleAnim::CPlayerIdleAnim()
 {
 }
@@ -37,6 +37,7 @@ _int CPlayerIdleAnim::Update_Component(const _float& fDeltaTime)
 		return -1;
 	return iExit;
 }
+
 
 CComponent* CPlayerIdleAnim::Clone_Component()
 {

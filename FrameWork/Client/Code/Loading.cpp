@@ -12,14 +12,12 @@
 #include "MeleeMon_Idle.h"
 #include "Player_Walk.h"
 #include "Collision.h"
-<<<<<<< HEAD
 #include "MeleeMon_WalkF.h"
 #include "MeleeMon_Attack.h"
 #include "ShootMon.h"
 #include "FlyMon.h"
-=======
 #include "Shuriken.h"
->>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
+#include "Bomb.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -74,7 +72,12 @@ _uint CLoading::Loading_ForStage()
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Sword/Player_Attack_Sword00%d.png", L"PlayerSwordAttack", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Shuriken/Player_Attack_Shuriken00%d.png", L"PlayerShurikenAttack",8);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Bomb/Player_Attack_Bomb00%d.png", L"PlayerBombAttack",3);
+
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Shuriken/Shuriken00%d.png", L"Shuriken", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
+
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
 	
 	//Component원본 생성
@@ -134,8 +137,11 @@ _uint CLoading::Loading_ForStage()
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BULLET, pObj);
+	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
 
+	pObj = CBomb::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
 	m_bFinish = true;
 	return 0;
 }

@@ -127,8 +127,8 @@ void CPlayer_AttackAnim::TypeBySetAnimation(const _float& fDeltaTime)
 	case CPlayer::ATTACKTYPE::SHURIKEN:
 		ShurikenSettingAnimation(fDeltaTime);
 		break;
-	case CPlayer::ATTACKTYPE::GUN:
-		GunSettingAnimation(fDeltaTime);
+	case CPlayer::ATTACKTYPE::BOMB:
+		BombSettingAnimation(fDeltaTime);
 		break;
 	}
 	m_pTransform->Update_Component(fDeltaTime);
@@ -174,6 +174,25 @@ void CPlayer_AttackAnim::ShurikenSettingAnimation(const _float& fDeltaTime)
 	}
 }
 
-void CPlayer_AttackAnim::GunSettingAnimation(const _float& fDeltaTime)
+void CPlayer_AttackAnim::BombSettingAnimation(const _float& fDeltaTime)
 {
+	m_fPlaySpeed = 0.05f;
+	m_pTransform->setScale(0.5f, 0.5f, 0.5f);
+	if (m_iIndex > 0)
+	{
+		m_fSpeed = 4.f;
+		m_iIndex = 1;
+		m_bDelay = true;
+		m_fDelayTime += fDeltaTime;
+		DownMove(fDeltaTime);
+
+		if (m_fDelayTime > 0.2f)
+			m_iIndex = 2;
+		if (m_fDelayTime > 0.8f)
+		{
+			m_fDelayTime = 0.f;
+			m_bDelay = false;
+		}
+	}
+	
 }

@@ -152,11 +152,15 @@ void CTransform::TerrainOverMove()
 	m_fBottomY += vTerrainPos.y;
 }
 
-void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck)
+void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck, _bool bPlayer)
 {
 	TerrainOverMove();
 	m_fJumpTime += fDeltaTime;
-	_float fY = fJumpPow*0.5f * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
+	_float fY = 0;
+	if(bPlayer)
+		fY = fJumpPow*0.5f * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
+	else
+		fY = fJumpPow*sinf(45.f) * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
 	m_vPos.y += fY;
 
 	if (m_vPos.y < m_fBottomY + 1.f)

@@ -1,15 +1,21 @@
 #include "pch.h"
 #include "Bullet.h"
 
-CBullet::CBullet() : m_pBuffer(nullptr)
+CBullet::CBullet() : m_pBuffer(nullptr), m_fDestroyTime(0.f),m_fAngle(0.f)
 {
+	ZeroMemory(&m_vFirstPos, sizeof(_vec3));
+	ZeroMemory(&m_vLook, sizeof(_vec3));
 }
 
-CBullet::CBullet(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBuffer(nullptr)
+CBullet::CBullet(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBuffer(nullptr), m_fDestroyTime(0.f)
+,m_fAngle(0.f)
 {
+	ZeroMemory(&m_vFirstPos, sizeof(_vec3));
+	ZeroMemory(&m_vLook, sizeof(_vec3));
 }
 
-CBullet::CBullet(const CBullet& rhs) : CGameObject(rhs), m_pBuffer(rhs.m_pBuffer)
+CBullet::CBullet(const CBullet& rhs) : CGameObject(rhs), m_pBuffer(rhs.m_pBuffer), m_vFirstPos(rhs.m_vFirstPos), m_vLook(rhs.m_vLook), m_fDestroyTime(rhs.m_fDestroyTime)
+,m_fAngle(rhs.m_fAngle)
 {
 	if (rhs.m_pBuffer)
 		m_pBuffer->AddRef();
@@ -55,4 +61,18 @@ void CBullet::Free()
 
 
 	CGameObject::Free();
+}
+
+void CBullet::setPos(const _vec3& vPos)
+{
+	m_vFirstPos = vPos;
+}
+void CBullet::setLook(const _vec3& vLook)
+{
+	m_vLook = vLook;
+}
+
+void CBullet::setAngle(const _float& fAngle)
+{
+	m_fAngle = fAngle;
 }
