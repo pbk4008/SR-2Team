@@ -107,9 +107,9 @@ HRESULT CStage::Init_GameLogic_Layer()
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
 
 	//// flymon
-	/*CFlyMon* m_pMeleeMon = nullptr;
-	pGameObject = m_pMeleeMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
+	//CFlyMon* m_pMeleeMon = nullptr;
+	//pGameObject = m_pMeleeMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;

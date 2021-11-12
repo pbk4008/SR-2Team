@@ -125,6 +125,12 @@
     <Filter Include="02.GameObject\05. Boss\00. Animation">
       <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\02.Monster\01. ShootMon\01. Bullet">
+      <UniqueIdentifier>{d254e573-781c-401b-8cb9-c9c299d192b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\02.Monster\02. FlyMon\01. Fire">
+      <UniqueIdentifier>{418d4aff-d011-4bc5-8ac8-bab93d28d845}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

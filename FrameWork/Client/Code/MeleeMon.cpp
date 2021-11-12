@@ -50,19 +50,15 @@ HRESULT CMeleeMon::Init_MeleeMon()
 	return S_OK;
 }
 
-Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
+_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 
-
-	if(GetAsyncKeyState('P'))
-		m_fSpeed = 0.f;
-
-	if (m_fSpeed == 0.f)
+	if (m_pCollision->getHit())
 	{
-		
+		m_fSpeed = 0.f;
 		m_eCurState = STATE::DEATH;
 		Change_State();
 
@@ -72,6 +68,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 				m_bActive = false;
 		}
 	}
+	m_pTransform->UsingGravity(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -123,7 +120,11 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"MeleeMon_Death", L"MeleeMon_Idle", pDeath, true);
 
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Attack");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF");
+
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_Death");
+	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Death");
+
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 
@@ -160,13 +161,7 @@ void CMeleeMon::Change_State()
 			m_pAnimator->Change_Animation(L"MeleeMon_Attack");
 			break;
 		case CMeleeMon::STATE::DEATH:
-			/*if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
-			{
-				if (!m_pAnimator->getAnimPlay())
-					m_bActive = false;
-			}
-			else*/
-				m_pAnimator->Change_Animation(L"MeleeMon_Death");
+			m_pAnimator->Change_Animation(L"MeleeMon_Death");
 			break;
 		}
 		m_ePreState = m_eCurState;
