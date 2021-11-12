@@ -4,11 +4,12 @@
 #include "GameObject.h"
 class CMainCamera;
 class CPlayerModel;
+class CBullet;
 class CPlayer final : public CGameObject
 {
 public:
 	enum class STATE {IDLE, ATTACK,WALK, MAX};
-	enum class ATTACKTYPE { SWORD, SHURIKEN, GUN };
+	enum class ATTACKTYPE { SWORD, SHURIKEN, BOMB };
 private:
 	explicit CPlayer();
 	explicit CPlayer(LPDIRECT3DDEVICE9 pDevice);
@@ -24,6 +25,7 @@ private:
 	void KeyInput(const float& fDelatTime);
 	void ChangeState();
 	void ChangeAttackType();
+	CBullet* Shoot(GAMEOBJECTID eID, _bool& bCheck);
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:

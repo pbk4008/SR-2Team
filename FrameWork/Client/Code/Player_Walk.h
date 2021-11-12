@@ -18,7 +18,7 @@ private:
 	void TypeBySetAnimation(const _float& fDeltaTime);
 	void SwordSettingAnimation(const _float& fDeltaTime);
 	void ShurikenSettingAnimation(const _float& fDeltaTime);
-	void GunSettingAnimation(const _float& fDeltaTime);
+	void BombSettingAnimation(const _float& fDeltaTime);
 	void Move(const float& fDeltaTime);
 public:
 	static CPlayerWalk* Create(LPDIRECT3DDEVICE9 pDevice);

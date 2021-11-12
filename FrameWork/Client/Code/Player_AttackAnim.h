@@ -27,7 +27,7 @@ private:
 	void TypeBySetAnimation(const _float& fDeltaTime);
 	void SwordSettingAnimation(const _float& fDeltaTime);
 	void ShurikenSettingAnimation(const _float& fDeltaTime);
-	void GunSettingAnimation(const _float& fDeltaTime);
+	void BombSettingAnimation(const _float& fDeltaTime);
 public:
 	static CPlayer_AttackAnim* Create(LPDIRECT3DDEVICE9 pDevice);
 private:

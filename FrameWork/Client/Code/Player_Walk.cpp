@@ -64,8 +64,8 @@ void CPlayerWalk::TypeBySetAnimation(const _float& fDeltaTime)
 	case CPlayer::ATTACKTYPE::SHURIKEN:
 		ShurikenSettingAnimation(fDeltaTime);
 		break;
-	case CPlayer::ATTACKTYPE::GUN:
-		GunSettingAnimation(fDeltaTime);
+	case CPlayer::ATTACKTYPE::BOMB:
+		BombSettingAnimation(fDeltaTime);
 		break;
 	}
 }
@@ -78,8 +78,9 @@ void CPlayerWalk::ShurikenSettingAnimation(const _float& fDeltaTime)
 	//m_pTransform->setPos(-0.15f, -0.3f, 0.f);
 	m_pTransform->setScale(1.f, 0.5f, 0.5f);
 }
-void CPlayerWalk::GunSettingAnimation(const _float& fDeltaTime)
+void CPlayerWalk::BombSettingAnimation(const _float& fDeltaTime)
 {
+	m_pTransform->setScale(0.5f, 0.5f, 0.5f);
 }
 
 void CPlayerWalk::Move(const float& fDeltaTime)

@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+﻿  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
+=======
+<<<<<<< HEAD
+>>>>>>> main
 ﻿  Animation.cpp
   Animator.cpp
   Camera.cpp
@@ -9,6 +16,7 @@
   Layer.cpp
   Management.cpp
   ProtoMgr.cpp
+  QuadCubeTex.cpp
   RcCol.cpp
   RcTex.cpp
   Renderer.cpp
@@ -17,7 +25,16 @@
   Texture.cpp
   TextureMgr.cpp
   Transform.cpp
+  Generating Code...
+C:\Users\redro\Desktop\Team SR\FrameWork\Engine\Utility\Code\Animator.cpp(101): warning C4715: 'Engine::CAnimator::Find_Node': not all control paths return a value
+  Compiling...
   TriCol.cpp
+<<<<<<< HEAD
+  VIBuffer.cpp
+  Generating Code...
+     Creating library ../Bin\Utility.lib and object ../Bin\Utility.exp
+  Utility.vcxproj -> C:\Users\redro\Desktop\Team SR\FrameWork\Engine\Utility\Bin\Utility.dll
+=======
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
   VIBuffer.cpp
@@ -25,6 +42,15 @@
   LINK : ..\Bin\Utility.dll을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
      ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\USER\Desktop\SR Team Project - Shadow Warriors\FrameWork\Engine\Utility\Bin\Utility.dll
+<<<<<<< HEAD
+=======
+=======
+﻿  Layer.cpp
+  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
+>>>>>>> 345b24c69f4875753317d4696b9c74ea0215b677
+>>>>>>> main
+>>>>>>> 64ca83164867629d4d17241a1eacded01fe4f5dc
+>>>>>>> main
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
@@ -50,6 +76,7 @@
   .\Engine\Utility\Code\Layer.h
   .\Engine\Utility\Code\Management.h
   .\Engine\Utility\Code\ProtoMgr.h
+  .\Engine\Utility\Code\QuadCubeTex.h
   .\Engine\Utility\Code\RcCol.h
   .\Engine\Utility\Code\RcTex.h
   .\Engine\Utility\Code\Renderer.h
@@ -60,7 +87,7 @@
   .\Engine\Utility\Code\Transform.h
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
-  21개 파일이 복사되었습니다.
+  22개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll

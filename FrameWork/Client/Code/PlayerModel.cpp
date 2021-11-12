@@ -168,7 +168,8 @@ void CPlayerModel::Change_AnimTexture()
 	case CPlayer::ATTACKTYPE::SHURIKEN:
 		m_pAnimator->Change_AnimationTexture(L"PlayerShurikenAttack");
 		break;
-	case CPlayer::ATTACKTYPE::GUN:
+	case CPlayer::ATTACKTYPE::BOMB:
+		m_pAnimator->Change_AnimationTexture(L"PlayerBombAttack");
 		break;
 	}
 }
@@ -207,6 +208,11 @@ void CPlayerModel::Changing(const _float& fDeltaTime)
 				m_pTransform->setPos(-0.15f, -0.3f, 0.f);
 				m_pTransform->setScale(1.f, 0.5f, 0.5f);
 				break;
+			case CPlayer::ATTACKTYPE::BOMB:
+				m_pTransform->setPos(-0.15f, -0.3f, 0.f);
+				m_pTransform->setScale(0.5f, 0.5f, 0.5f);
+				break;
+
 			}
 		}
 	}

@@ -63,6 +63,28 @@ vector<CGameObject*>* CLayer::Find_GameObject(GAMEOBJECTID eObjID)
 	return &((*objVec).second);
 }
 
+
+CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID eObjID)
+{
+	for (auto& pObj : (*pGameObejctArr))
+	{
+		if (pObj->getActive())
+		{
+			if (eObjID != GAMEOBJECTID::SHURIKEN&& eObjID != GAMEOBJECTID::BOMB)
+				return pObj;
+			else
+				continue;
+		}
+		else
+		{
+			pObj->setActive(true);
+			pObj->ResetObject();
+			return pObj;
+		}
+	}
+	return nullptr;
+}
+
 CLayer* CLayer::Create()
 {
 	CLayer* pInstance = new CLayer;

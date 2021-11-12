@@ -9,6 +9,7 @@ namespace Engine
 		RCCOL,
 		RCTEX,
 		TERRAINTEX,
+		QUADCUBETEX,
 		TRANSFORM,
 		CAMERA,
 		ANIMATOR,
@@ -36,6 +37,9 @@ namespace Engine
 		BACKGROUND,
 		CAMERA,
 		PLAYERMODEL,
+
+		SHURIKEN,
+		BOMB,
 		GAMEOBJECT_END
 	};
 	enum class COLLISIONTAG {PLAYER,MONSTER,MAX};

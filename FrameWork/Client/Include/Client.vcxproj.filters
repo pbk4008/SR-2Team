@@ -44,9 +44,6 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\00.Attack">
       <UniqueIdentifier>{194580dc-2126-4529-a105-6536523ca6c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\01.Player\01.Animation\00.Idle">
-      <UniqueIdentifier>{5de2de06-9e3e-4956-aed9-61d8e7752203}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\02.Monster\00. MeleeMon\00. Animation">
       <UniqueIdentifier>{c70a1818-a8e2-4db4-9923-d40852681517}</UniqueIdentifier>
     </Filter>
@@ -61,9 +58,6 @@
     </Filter>
     <Filter Include="02.GameObject\02.Monster\02. FlyMon">
       <UniqueIdentifier>{686255df-e0f8-4b14-9f25-b8aa9e75e77b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\01.Player\01.Animation\01.Walk">
-      <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\02.Monster">
       <UniqueIdentifier>{c7484bf7-5d03-4029-bea9-778e89beb127}</UniqueIdentifier>
@@ -131,6 +125,27 @@
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\01. Fire">
       <UniqueIdentifier>{418d4aff-d011-4bc5-8ac8-bab93d28d845}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation\01.Idle">
+      <UniqueIdentifier>{5de2de06-9e3e-4956-aed9-61d8e7752203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\01.Player\01.Animation\02.Walk">
+      <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\01.Bomb">
+      <UniqueIdentifier>{3e6f16c5-feee-410c-a8b4-4ea36c5734bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\00.Shuriken">
+      <UniqueIdentifier>{ed0f64f4-a67a-41f9-b079-d793f5e5cd53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\01.Bomb">
+      <UniqueIdentifier>{cbd01c77-b3b8-4bb2-af8a-0288fe71ba2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\01.Bomb\00.Fog">
+      <UniqueIdentifier>{cc3732dd-271d-4454-b339-725b78250b35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\02.Fog">
+      <UniqueIdentifier>{f2cf7df3-c6e9-4317-9096-ff92681ca4c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -191,7 +206,7 @@
       <Filter>02.GameObject\01.Player\01.Animation\00.Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Player_IdleAnim.h">
-      <Filter>02.GameObject\01.Player\01.Animation\00.Idle</Filter>
+      <Filter>02.GameObject\01.Player\01.Animation\01.Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MeleeMon_Idle.h">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\00. Idle</Filter>
@@ -206,7 +221,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Player_Walk.h">
-      <Filter>02.GameObject\01.Player\01.Animation\01.Walk</Filter>
+      <Filter>02.GameObject\01.Player\01.Animation\02.Walk</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Terrain.h">
       <Filter>02.GameObject\00.BackGround\00.Terrain</Filter>
@@ -247,6 +262,27 @@
     <ClInclude Include="..\Code\Bullet.h">
       <Filter>02.GameObject\04.bullet</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="..\Code\Shuriken.h">
+      <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Bomb.h">
+      <Filter>02.GameObject\04.bullet\01.Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\BombAnim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\01.Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShurikenAnim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\00.Shuriken</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Fog.h">
+      <Filter>02.GameObject\04.bullet\01.Bomb\00.Fog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\FogAnim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\02.Fog</Filter>
+    </ClInclude>
+>>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -271,9 +307,6 @@
     <ClCompile Include="..\Code\MeleeMon.cpp">
       <Filter>02.GameObject\02.Monster\00. MeleeMon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Player.cpp">
-      <Filter>02.GameObject\01.Player</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MainCamera.cpp">
       <Filter>02.GameObject\03.MainCamera</Filter>
     </ClCompile>
@@ -284,7 +317,7 @@
       <Filter>02.GameObject\01.Player\01.Animation\00.Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player_IdleAnim.cpp">
-      <Filter>02.GameObject\01.Player\01.Animation\00.Idle</Filter>
+      <Filter>02.GameObject\01.Player\01.Animation\01.Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MeleeMon_Idle.cpp">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\00. Idle</Filter>
@@ -299,7 +332,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player_Walk.cpp">
-      <Filter>02.GameObject\01.Player\01.Animation\01.Walk</Filter>
+      <Filter>02.GameObject\01.Player\01.Animation\02.Walk</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Terrain.cpp">
       <Filter>02.GameObject\00.BackGround\00.Terrain</Filter>
@@ -343,6 +376,30 @@
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02.GameObject\02.Monster</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="..\Code\Shuriken.cpp">
+      <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player.cpp">
+      <Filter>02.GameObject\01.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bomb.cpp">
+      <Filter>02.GameObject\04.bullet\01.Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BombAnim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\01.Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShurikenAnim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\00.Shuriken</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fog.cpp">
+      <Filter>02.GameObject\04.bullet\01.Bomb\00.Fog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FogAnim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\02.Fog</Filter>
+    </ClCompile>
+>>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

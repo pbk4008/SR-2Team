@@ -15,6 +15,7 @@
 #include "RcCol.h"
 #include "RcTex.h"
 #include "CubeTex.h"
+#include "QuadCubeTex.h"
 #include "TerrainTex.h"
 #include "Texture.h"
 #include "Transform.h"
