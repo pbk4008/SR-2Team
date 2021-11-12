@@ -280,7 +280,6 @@
     <ClInclude Include="..\Code\FogAnim.h">
       <Filter>02.GameObject\04.bullet\99.Animation\02.Fog</Filter>
     </ClInclude>
->>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -395,7 +394,6 @@
     <ClCompile Include="..\Code\FogAnim.cpp">
       <Filter>02.GameObject\04.bullet\99.Animation\02.Fog</Filter>
     </ClCompile>
->>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
