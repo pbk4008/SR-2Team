@@ -83,10 +83,12 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 
 	m_pMainCamera->Update_GameObject(fDeltaTime);
 	m_pModel->Update_GameObject(fDeltaTime);
-
+	if (!m_bAttack)
+		m_pAtkCollision->setActive(false);
 	if (m_pAtkCollision->getActive())
 	{
 		m_pAtkCollision->Update_Component(fDeltaTime);
+		m_pAtkCollision->Collison(COLLISIONTAG::BULLET);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
 
@@ -104,7 +106,7 @@ void CPlayer::LateUpdate_GameObject()
 	if (m_pHitCollision->getHit())
 	{
 		//충돌 이후 작업
-		cout << "Player 충돌!" << endl;		
+		//cout << "Player 충돌!" << endl;		
 		CCollision* pCollider = m_pHitCollision->getCollider();//충돌한 대상 가져오기
 		COLLISIONTAG eTag = pCollider->getTag();//충돌한 대상의 tag값
 		switch (eTag)
@@ -113,6 +115,9 @@ void CPlayer::LateUpdate_GameObject()
 			m_bHide = true;
 			break;
 		case COLLISIONTAG::MONSTER:
+			m_eCulState = STATE::HIT;
+			break;
+		case COLLISIONTAG::BULLET:
 			m_eCulState = STATE::HIT;
 			break;
 		}
@@ -125,7 +130,7 @@ void CPlayer::LateUpdate_GameObject()
 	}
 	if (m_pAtkCollision->getHit())
 	{
-		m_pAtkCollision->setHit(false);
+		m_pAtkCollision->ResetCollision();
 		m_pAtkCollision->setActive(false);
 	}
 }
@@ -133,7 +138,13 @@ void CPlayer::LateUpdate_GameObject()
 void CPlayer::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
+	if (m_pAtkCollision->getActive())
+	{
+		m_pAtkCollision->setMaterial(1.0f, 0.f, 0.f, 1.f);
+		m_pAtkCollision->Render_Collision();
+	}
 	m_pHitCollision->Render_Collision();
+	
 
 	m_pModel->Render_GameObject();
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -332,9 +343,10 @@ HRESULT CPlayer::Add_Component()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pCom);
 	
 	m_pAtkCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
-	m_pAtkCollision->setRadius(1.f);
+	m_pAtkCollision->setRadius(3.f);
 	m_pAtkCollision->setTag(COLLISIONTAG::PLAYER);
 	m_pAtkCollision->setActive(false);
+	m_pAtkCollision->setPivot(1.f);
 	m_pAtkCollision->setTrigger(COLLISIONTRIGGER::ATTACK);
 	return S_OK;
 }

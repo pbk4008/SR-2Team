@@ -43,5 +43,8 @@ private:
 	_vec3			m_vTargetPos;
 
 	_float			m_fSpeed;
+
+	//반사체크
+	_bool m_bReflect;
 };
 #endif // MonBullet_h__

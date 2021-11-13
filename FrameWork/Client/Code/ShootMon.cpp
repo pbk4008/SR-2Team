@@ -94,7 +94,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime);
 	Attack_Dis(fDeltaTime);
 	m_pTransform->UsingGravity(fDeltaTime);
-	cout << m_pTransform->getPos().y << endl;
+	//cout << m_pTransform->getPos().y << endl;
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
@@ -113,7 +113,7 @@ void CShootMon::LateUpdate_GameObject()
 
 		m_fSpeed = 0.f;
 
-		cout << "몬스터 충돌" << endl;
+		//cout << "몬스터 충돌" << endl;
 		m_pCollision->setHit(false);
 	}
 }
@@ -271,7 +271,7 @@ void CShootMon::Attack(const _float& fDeltaTime)
 	m_iTimer += fDeltaTime;
 	if (m_iTimer >= 1.5f)
 	{
-		cout << "Shot!" << endl;
+		//cout << "Shot!" << endl;
 		m_bAttack = false;
 
 		pBullet = Shoot(GAMEOBJECTID::MONBULLET);

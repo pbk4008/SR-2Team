@@ -2,7 +2,7 @@
 #include "MonBullet.h"
 #include "MonBulletAnim.h"
 
-CMonBullet::CMonBullet() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nullptr)
+CMonBullet::CMonBullet() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nullptr), m_bReflect(false)
 {
 	ZeroMemory(&m_vFirstPos, sizeof(_vec3));
 	ZeroMemory(&m_vLook, sizeof(_vec3));
@@ -11,7 +11,7 @@ CMonBullet::CMonBullet() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nu
 }
 
 CMonBullet::CMonBullet(LPDIRECT3DDEVICE9 pDevice) : CBullet(pDevice), m_pAnimation(nullptr), m_pCollision(nullptr)
-, m_fSpeed(0.f)
+, m_fSpeed(0.f), m_bReflect(false)
 {
 	ZeroMemory(&m_vFirstPos, sizeof(_vec3));
 	ZeroMemory(&m_vLook, sizeof(_vec3));
@@ -19,7 +19,7 @@ CMonBullet::CMonBullet(LPDIRECT3DDEVICE9 pDevice) : CBullet(pDevice), m_pAnimati
 }
 
 CMonBullet::CMonBullet(const CMonBullet& rhs) : CBullet(rhs), m_pAnimation(nullptr), 
-m_fSpeed(rhs.m_fSpeed), m_pCollision(nullptr)
+m_fSpeed(rhs.m_fSpeed), m_pCollision(nullptr), m_bReflect(rhs.m_bReflect)
 {
 	Add_Component();
 	m_pCollision->setTransform(m_pTransform);
@@ -35,7 +35,7 @@ HRESULT CMonBullet::Init_MonBullet()
 	CBullet::Add_Component();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fSpeed = 5.f;
+	m_fSpeed = 1.f;
 	return S_OK;
 }
 
@@ -50,14 +50,17 @@ _int CMonBullet::Update_GameObject(const _float& fDeltaTime)
 
 	Move(fDeltaTime);
 	m_fDestroyTime += fDeltaTime;
-	if (m_fDestroyTime > 3.f)
+	/*if (m_fDestroyTime > 3.f)
 	{
 		m_fDestroyTime = 0.f;
 		setActive(false);
 		return iExit;
-	}
+	}*/
 
 	m_pCollision->Collison(COLLISIONTAG::PLAYER);
+	if (m_bReflect)
+		m_pCollision->Collison(COLLISIONTAG::MONSTER);
+
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 
 	return iExit;
@@ -68,9 +71,23 @@ void CMonBullet::LateUpdate_GameObject()
 	CBullet::LateUpdate_GameObject();
 	if (m_pCollision->getHit())
 	{
-		m_pCollision->setHit(false);
-		cout << "Player 충돌" << endl;
-		setActive(false);
+		if (m_pCollision->getCollider()->getTag() == COLLISIONTAG::PLAYER)
+		{
+			if (m_pCollision->getCollider()->getTrigger() == COLLISIONTRIGGER::ATTACK)
+			{
+				cout << "반사!!" << endl;
+				m_bReflect = true;
+			}
+		}
+		else
+		{
+			if (m_bReflect)
+			{
+				m_bReflect = false;
+				setActive(false);
+			}
+		}
+		m_pCollision->ResetCollision();
 	}
 }
 
