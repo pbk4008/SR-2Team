@@ -160,6 +160,12 @@
     <Filter Include="02.GameObject\04.bullet\99.Animation\02.FogAnim">
       <UniqueIdentifier>{0f1cd9a4-186c-4aef-bad4-0b9529791f26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\04.bullet\02. MonBullet">
+      <UniqueIdentifier>{1e89a857-959d-4da0-9c9b-09c9ccbe5af9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\03. MonBulletAnim">
+      <UniqueIdentifier>{66baa5af-2876-456c-bec3-deb1a0fafb55}</UniqueIdentifier>
+    </Filter>
     <Filter Include="99.Default\리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -298,6 +304,12 @@
     <ClInclude Include="..\Code\Shuriken.h">
       <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\MonBullet.h">
+      <Filter>02.GameObject\04.bullet\02. MonBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\MonBulletAnim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\03. MonBulletAnim</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -411,6 +423,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Shuriken.cpp">
       <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonBullet.cpp">
+      <Filter>02.GameObject\04.bullet\02. MonBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonBulletAnim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\03. MonBulletAnim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,8 @@ public:
 	HRESULT Init_Camera();
 	virtual _int Update_Component(const _float& fDeltaTime)override ;
 	virtual CComponent* Clone_Component()override;
+	void ZoomInAndOut(const _float& fDeltaTime);
+	void ResetZoom();
 public:
 	static CCamera* Create(LPDIRECT3DDEVICE9 pDevice, const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
 		, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);
@@ -38,6 +40,9 @@ protected:
 	_matrix m_matView;
 	_matrix m_matProjection;
 	_bool m_bProjection;
+
+	_float m_ZoomTime;
+	_float m_fCurFov;
 };
 END
 #endif

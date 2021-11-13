@@ -2,9 +2,11 @@
 #ifndef __MAINCAMERA_H__
 #define __MAINCAMERA_H__
 #include "GameObject.h"
+#include "Player.h"
 BEGIN(Engine)
 class CCamera;
 END
+class CPlayer;
 class CMainCamera final : public CGameObject
 {
 private:
@@ -18,6 +20,9 @@ public:
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
 	virtual CMainCamera* Clone_GameObject() ;
+	CPlayer::STATE Hit();
+	void CameraZoomInAndOut(const _float& fDeltaTime);
+	void CameraZoomReset();
 private:
 	void FollowTarget();
 public:
@@ -29,5 +34,8 @@ public:
 	void setTarget(CTransform* pTarget);
 private:
 	CCamera* m_pCamera;
+	_bool m_bLRCheck;
+	_float m_fHitDelay;
+	_int m_iRoutin;
 };
 #endif

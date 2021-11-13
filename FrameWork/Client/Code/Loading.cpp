@@ -12,6 +12,7 @@
 #include "FlyMon.h"
 #include "Shuriken.h"
 #include "Bomb.h"
+#include "MonBullet.h"
 #include "Fog.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
@@ -59,6 +60,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Walk/WALKF_00%d.png", L"ShootMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Attack/ATTACK_00%d.png", L"ShootMon_Attack", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Death/DEATH_00%d.png", L"ShootMon_Death", 8);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/MOVE_00%d.png", L"FlyMon_WalkF", 4);
@@ -124,6 +126,11 @@ _uint CLoading::Loading_ForStage()
 	pObj = CShootMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+
+	// MonBullet
+	pObj = CMonBullet::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
 	
 	// Fly Monster
 	pObj = CFlyMon::Create(m_pDevice);

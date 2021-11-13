@@ -3,6 +3,7 @@
 
 
 CCamera::CCamera() : m_fAspect(0.f), m_fFar(0.f), m_fFov(0.f), m_fNear(0.f),m_bProjection(false)
+, m_ZoomTime(0.f), m_fCurFov(0.f)
 {
 	ZeroMemory(&m_vEye,sizeof(_vec3));
 	ZeroMemory(&m_vAt,sizeof(_vec3));
@@ -12,7 +13,7 @@ CCamera::CCamera() : m_fAspect(0.f), m_fFar(0.f), m_fFov(0.f), m_fNear(0.f),m_bP
 }
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_fAspect(0.f), m_fFar(0.f), m_fFov(0.f), m_fNear(0.f)
-,m_bProjection(false)
+,m_bProjection(false), m_ZoomTime(0.f), m_fCurFov(0.f)
 
 {
 	ZeroMemory(&m_vEye, sizeof(_vec3));
@@ -23,7 +24,7 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice), m_fAspect(0.f
 }
 CCamera::CCamera(const CCamera& rhs) : CComponent(rhs), m_fAspect(rhs.m_fAspect), m_fFar(rhs.m_fFar), m_fFov(rhs.m_fFov), m_fNear(rhs.m_fNear)
 , m_vEye(rhs.m_vEye), m_vAt(rhs.m_vAt), m_vUp(rhs.m_vUp), m_bProjection(rhs.m_bProjection)
-, m_matView(rhs.m_matView), m_matProjection(rhs.m_matProjection)
+, m_matView(rhs.m_matView), m_matProjection(rhs.m_matProjection), m_ZoomTime(rhs.m_ZoomTime), m_fCurFov(rhs.m_fCurFov)
 {
 
 }
@@ -42,7 +43,7 @@ HRESULT CCamera::Init_Camera(const _vec3& pEye, const _vec3& pAt, const _vec3& p
 	m_fAspect = fAspect;
 	m_fNear = fNear;
 	m_fFar = fFar;
-
+	m_fCurFov = m_fFov;
 
 	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
 
@@ -74,6 +75,27 @@ _int CCamera::Update_Component(const _float& fDeltaTime)
 CComponent* CCamera::Clone_Component()
 {
 	return new CCamera(*this);
+}
+
+void CCamera::ZoomInAndOut(const _float& fDeltaTime)
+{
+	m_ZoomTime += fDeltaTime;
+	m_fFov -= 0.02f;
+	if (m_ZoomTime > 0.3f)
+	{
+		m_fFov = m_fCurFov;
+		m_ZoomTime = 0.f;
+	}
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
+	m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProjection);
+}
+
+void CCamera::ResetZoom()
+{
+	m_fFov = m_fCurFov;
+	m_ZoomTime = 0.f;
+	D3DXMatrixPerspectiveFovLH(&m_matProjection, m_fFov, m_fAspect, m_fNear, m_fFar);
+	m_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProjection);
 }
 
 void CCamera::Free()

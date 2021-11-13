@@ -4,7 +4,9 @@
 
 #include "Monster.h"
 #include "Player.h"
+#include "MonBullet.h"
 
+class CBullet;
 class CShootMon : public CMonster
 {
 public:
@@ -25,6 +27,8 @@ public:
 
 private:
 	void Change_State();
+	CBullet* Shoot(GAMEOBJECTID eID);
+
 
 public:
 	static CShootMon* Create(LPDIRECT3DDEVICE9 pDevice);
@@ -37,15 +41,18 @@ private:
 	virtual void Free();
 
 private:
-	CRcTex* m_pBufferCom;
-	CTexture* m_pTexture;
-	CAnimator* m_pAnimator;
+	CRcTex*			m_pBufferCom;
+	CTexture*		m_pTexture;
+	CAnimator*		m_pAnimator;
+	CMonBullet*		m_pMonBullet;
 
 	STATE			m_eCurState;
 	STATE			m_ePreState;
 
 	CCollision* m_pCollision; // 몬스터가 맞는 충돌
 	CCollision* m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
+
+	_int			m_iHP;
 
 	_bool			m_bAttack;
 	_bool			m_bMoving;

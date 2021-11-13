@@ -18,7 +18,7 @@ private:
 public:
 	HRESULT Init_MeleeMon();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
-	virtual void LateUpdate_GameObject(const _float& fDeltaTime);
+	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 	HRESULT SettingAnimator();
@@ -46,6 +46,8 @@ private:
 
 	CCollision*		m_pCollision; // 몬스터가 맞는 충돌
 	CCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
+
+	_int			m_iHP;
 
 	_bool			m_bAttack;
 	_bool			m_bMoving;

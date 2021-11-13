@@ -2,16 +2,16 @@
 #include "MainCamera.h"
 #include "Camera.h"
 
-CMainCamera::CMainCamera() : m_pCamera(nullptr)
+CMainCamera::CMainCamera() : m_pCamera(nullptr) ,m_iRoutin(0), m_fHitDelay(0.f), m_bLRCheck(false)
 {
 }
 
-CMainCamera::CMainCamera(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCamera(nullptr)
+CMainCamera::CMainCamera(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCamera(nullptr), m_iRoutin(0), m_fHitDelay(0.f), m_bLRCheck(false)
 {
 
 }
 
-CMainCamera::CMainCamera(const CMainCamera& rhs) : CGameObject(rhs), m_pCamera(rhs.m_pCamera)
+CMainCamera::CMainCamera(const CMainCamera& rhs) : CGameObject(rhs), m_pCamera(rhs.m_pCamera), m_iRoutin(rhs.m_iRoutin), m_fHitDelay(rhs.m_fHitDelay), m_bLRCheck(rhs.m_bLRCheck)
 {
 	m_pCamera->AddRef();
 }
@@ -50,6 +50,62 @@ void CMainCamera::Render_GameObject()
 CMainCamera* CMainCamera::Clone_GameObject()
 {
 	return new CMainCamera(*this);
+}
+
+CPlayer::STATE CMainCamera::Hit()
+{
+	_float fDeltaTime = GetOutDeltaTime();
+	_vec3 vEye,vAt,vRight;
+	vEye=m_pCamera->getEye();
+	vAt = m_pCamera->getAt();
+	m_pTransform->getAxis(VECAXIS::AXIS_RIGHT, vRight);
+	D3DXVec3Normalize(&vRight, &vRight);
+	if (m_bLRCheck)
+	{
+		vEye += vRight * 10.f * fDeltaTime;
+		vAt += vRight * 10.f * fDeltaTime;
+	}
+	else
+	{
+		vEye -= vRight * 10.f * fDeltaTime;
+		vAt -= vRight * 10.f * fDeltaTime;
+	}
+	m_pCamera->setAt(vAt);
+	m_pCamera->setEye(vEye);
+	m_fHitDelay += fDeltaTime;
+
+	if (m_fHitDelay > 0.1f)
+	{
+		m_bLRCheck = !m_bLRCheck;
+		m_fHitDelay = 0.f;
+		m_iRoutin++;
+	}
+	if (m_iRoutin > 3)
+	{
+		vEye = m_pTransform->getPos();
+		_vec3 vLook;
+		m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
+
+		D3DXVec3Normalize(&vLook, &vLook);
+		vAt = vEye + vLook;
+		m_pCamera->setAt(vAt);
+		m_pCamera->setEye(vEye);
+		m_iRoutin = 0;
+		return CPlayer::STATE::IDLE;
+	}
+	else
+		return CPlayer::STATE::HIT;
+
+}
+
+void CMainCamera::CameraZoomInAndOut(const _float& fDeltaTime)
+{
+	m_pCamera->ZoomInAndOut(fDeltaTime);
+}
+
+void CMainCamera::CameraZoomReset()
+{
+	m_pCamera->ResetZoom();
 }
 
 void CMainCamera::FollowTarget()

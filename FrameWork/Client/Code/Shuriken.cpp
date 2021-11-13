@@ -30,7 +30,7 @@ HRESULT CShuriken::Init_Shuriken()
     CBullet::Add_Component();
     FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-    m_fSpeed = 30.f;
+    m_fSpeed = 10.f;
     return S_OK;
 }
 
@@ -71,7 +71,7 @@ void CShuriken::Render_GameObject()
     m_pDevice->SetTransform(D3DTS_WORLD,&m_pTransform->getWorldMatrix());
     m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
     CBullet::Render_GameObject();
-    //Animation
+
     m_pAnimation->Render_Animation();
     m_pBuffer->Render_Buffer();
     m_pCollision->Render_Collision();
