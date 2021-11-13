@@ -19,6 +19,7 @@ public:
 	virtual void ResetObject();
 private:
 	void Move(const _float& fDeltaTime);
+	void CreateFog();
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();

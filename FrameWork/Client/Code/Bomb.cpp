@@ -1,17 +1,18 @@
 #include "pch.h"
 #include "Bomb.h"
 #include "BombAnim.h"
+#include "Fog.h"
 CBomb::CBomb() :  m_pAnimation(nullptr), m_fSpeed(0.f), m_bJump(false)
 {
 }
 
-CBomb::CBomb(LPDIRECT3DDEVICE9 pDevice) : CBullet(pDevice), m_pAnimation(nullptr), m_fSpeed(0.f)
+CBomb::CBomb(LPDIRECT3DDEVICE9 pDevice) : CBullet(pDevice), m_pAnimation(nullptr),m_fSpeed(0.f)
 , m_bJump(false)
 {
 
 }
 
-CBomb::CBomb(const CBomb& rhs) : CBullet(rhs),  m_pAnimation(nullptr), m_fSpeed(rhs.m_fSpeed)
+CBomb::CBomb(const CBomb& rhs) : CBullet(rhs),  m_pAnimation(nullptr),m_fSpeed(rhs.m_fSpeed)
 , m_bJump(rhs.m_bJump)
 {
 	Add_Component();
@@ -49,6 +50,8 @@ void CBomb::LateUpdate_GameObject()
 	CBullet::LateUpdate_GameObject();
 	if (!m_bJump)
 	{
+		CreateFog();
+		CreateFog();
 		setActive(false);
 	}
 }
@@ -82,7 +85,23 @@ void CBomb::Move(const _float& fDeltaTime)
 	vPos += m_vLook * m_fSpeed * fDeltaTime;
 	m_pTransform->setPos(vPos);
 	
-	m_pTransform->Jump(fDeltaTime, 3.f, m_bJump,false);
+	m_pTransform->Jump(fDeltaTime, 3.f, m_bJump,1);
+}
+
+void CBomb::CreateFog()
+{
+	_vec3 vLook, vPos;
+	_float fAngle;
+	vPos = m_pTransform->getPos();
+	CGameObject* pObj = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::FOG);
+	if (!pObj)
+	{
+		CFog* pFog = Clone_ObjProto<CFog>(GAMEOBJECTID::FOG);
+		pFog->setPos(vPos);
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::FOG, pFog);
+	}
+	else
+		static_cast<CFog*>(pObj)->setPos(vPos);
 }
 
 HRESULT CBomb::Add_Component()
