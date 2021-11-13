@@ -1,9 +1,9 @@
 #ifndef QuadTex_h__
 #define QuadTex_h__
 
-#include "GameObject.h"
+#include "ToolGameObject.h"
 
-class CQuadObject final : public CGameObject
+class CQuadObject final : public CToolGameObject
 {
 private:
 	explicit CQuadObject();
@@ -17,30 +17,14 @@ public:
 	virtual void LateUpdate_GameObject() override;
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
-	void Set_Path(TCHAR* strFolder, TCHAR* strFile);
-	void Get_Path(CString& strFolder, CString& strFile);
-	void Linking_Transform(_vec3& vScale, _vec3& vRot, _vec3& vPos);
-	void Set_Transform(_vec3& vScale, _vec3& vRot, _vec3& vPos);
-	void Linking_QuadInfo(QUADINFO* pTerrainInfo);
-	void Set_QuadInfo(QUADINFO* pTerrainInfo);
-	void Set_Texture(CTexture* pTexture);
-	void Get_Detail(int* pDetail) { *pDetail = m_tQuadInfo.Detail; }
-	void Set_Detail(int pDetail) { m_tQuadInfo.Detail = pDetail; }
+	CRcTex* Get_Tex() { return m_pQuadTex; }
 public:
-	static CQuadObject* Create(LPDIRECT3DDEVICE9 pDevice/*, QUADINFO tQuadInfo*/);
+	static CQuadObject* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
 private:
-	TCHAR* strTextureFolder;
-	TCHAR* strTextureName;
-	QUADINFO m_tQuadInfo;
 	CRcTex* m_pQuadTex;
-	CTexture* m_pTexture;
-	// ==== 툴에서 불러올때 필요한 정보들 
-	// 둘중에 하나 필요할수도있음
-	CString FilterName;
-	HTREEITEM TreeParent;
 };
 
 

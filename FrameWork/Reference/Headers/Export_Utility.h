@@ -25,6 +25,8 @@
 #include "Collision.h"
 #include "CollisionMgr.h"
 
+#include "INIManager.h"
+
 //Management
 inline HRESULT Init_Manangement(CManagement** pManangement);
 inline HRESULT Change_Scene(CScene* pScene);

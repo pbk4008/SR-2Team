@@ -1,5 +1,15 @@
 ﻿  Collision.cpp
+<<<<<<< HEAD
   Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
+=======
+  GameObject.cpp
+  Management.cpp
+  Transform.cpp
+  Generating Code...
+  LINK : ..\Bin\Utility.dll not found or not built by the last incremental link; performing full link
+     Creating library ../Bin\Utility.lib and object ../Bin\Utility.exp
+  Utility.vcxproj -> C:\Users\redro\Desktop\Team SR\FrameWork\Engine\Utility\Bin\Utility.dll
+>>>>>>> 95107ab2ad9cb6f6edfb60dfcbea7d6f465661aa
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
@@ -22,6 +32,7 @@
   .\Engine\Utility\Code\Component.h
   .\Engine\Utility\Code\CubeTex.h
   .\Engine\Utility\Code\GameObject.h
+  .\Engine\Utility\Code\INIManager.h
   .\Engine\Utility\Code\Layer.h
   .\Engine\Utility\Code\Management.h
   .\Engine\Utility\Code\ProtoMgr.h
@@ -36,7 +47,7 @@
   .\Engine\Utility\Code\Transform.h
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
-  22개 파일이 복사되었습니다.
+  23개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
