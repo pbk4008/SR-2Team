@@ -8,6 +8,11 @@
 
 #include "MainFrm.h"
 #include "MAPTOOLView.h"
+#include "Form.h"
+#include "TerrainObject.h"
+#include "QuadObject.h"
+#include "CubeObject.h"
+#include "ToolGameObject.h"
 
 // CTerrainTexture 대화 상자
 
@@ -15,6 +20,7 @@ IMPLEMENT_DYNAMIC(CTerrainTexture, CDialogEx)
 
 CTerrainTexture::CTerrainTexture(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTerrainTexture, pParent) ,m_iTreeIndex(0)
+	, m_iTreeParentIndex(0)
 {
 
 }
@@ -28,12 +34,25 @@ void CTerrainTexture::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, Terrain_Texture_Tree, m_Tree_Terrain_Texture);
 	DDX_Control(pDX, Terrain_Texture_Picture, m_picture_TerrainTexture);
+	DDX_Control(pDX, IDC_CHECK1, m_Check_Terrain);
+	DDX_Control(pDX, IDC_CHECK2, m_Check_Quad);
+	DDX_Control(pDX, IDC_CHECK3, m_Check_Cube);
+	DDX_Control(pDX, Radio_Zminus, m_Radio_Zminus);
+	DDX_Control(pDX, Radio_Zplus, m_Radio_Zplus);
+	DDX_Control(pDX, Radio_Xminus, m_Radio_Xminus);
+	DDX_Control(pDX, Radio_Xplus, m_Radio_Xplus);
+	DDX_Control(pDX, Radio_Yminus, m_Radio_Yminus);
+	DDX_Control(pDX, Radio_Yplus, m_Radio_Yplus);
+	DDX_Control(pDX, Radio_ALL, m_Radio_ALL);
 }
 
 
 BEGIN_MESSAGE_MAP(CTerrainTexture, CDialogEx)
 	ON_NOTIFY(TVN_SELCHANGED, Terrain_Texture_Tree, &CTerrainTexture::OnTvnSelchangedTextureTree)
 	ON_BN_CLICKED(IDC_BUTTON1, &CTerrainTexture::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_CHECK1, &CTerrainTexture::OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK2, &CTerrainTexture::OnBnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &CTerrainTexture::OnBnClickedCheck3)
 END_MESSAGE_MAP()
 
 
@@ -54,7 +73,7 @@ void CTerrainTexture::Init_TreeCtrl()
 	m_Tree_Terrain_Texture.EnsureVisible(hResource);
 }
 
-void CTerrainTexture::Get_FileList(CString strFolder, HTREEITEM* ppItem)
+void CTerrainTexture::Get_FileList(const CString& strFolder, HTREEITEM* ppItem)
 {
 
 	CFileFind finder;
@@ -88,10 +107,6 @@ void CTerrainTexture::Get_FileList(CString strFolder, HTREEITEM* ppItem)
 
 			m_tFilePath = finder.GetFilePath();
 
-			
-		/*	CMAPTOOLView* pView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 1));
-			Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tFilePath, L"Terrain", 1);*/
-
 		}
 	}
 
@@ -100,7 +115,7 @@ void CTerrainTexture::Get_FileList(CString strFolder, HTREEITEM* ppItem)
 
 
 
-void CTerrainTexture::Set_PictureCtrl(CString strCur)
+void CTerrainTexture::Set_PictureCtrl(const CString& strCur)
 {
 	m_tCurTexturePath = strCur;
 
@@ -119,6 +134,37 @@ void CTerrainTexture::Set_PictureCtrl(CString strCur)
 
 }
 
+void CTerrainTexture::Set_XYZRadioEnable(BOOL bEnable)
+{
+	if (bEnable)
+	{
+		m_Radio_Xminus.EnableWindow(TRUE);
+		m_Radio_Xplus .EnableWindow(TRUE);
+		m_Radio_Yminus.EnableWindow(TRUE);
+		m_Radio_Yplus .EnableWindow(TRUE);
+		m_Radio_Zminus.EnableWindow(TRUE);
+		m_Radio_Zplus .EnableWindow(TRUE);
+	}
+	else
+	{
+		m_Radio_Xminus.SetCheck(FALSE);
+		m_Radio_Xplus.SetCheck(FALSE);
+		m_Radio_Yminus.SetCheck(FALSE);
+		m_Radio_Yplus.SetCheck(FALSE);
+		m_Radio_Zminus.SetCheck(FALSE);
+		m_Radio_Zplus.SetCheck(FALSE);
+		m_Radio_Xminus.EnableWindow(FALSE);
+		m_Radio_Xplus.EnableWindow(FALSE);
+		m_Radio_Yminus.EnableWindow(FALSE);
+		m_Radio_Yplus.EnableWindow(FALSE);
+		m_Radio_Zminus.EnableWindow(FALSE);
+		m_Radio_Zplus.EnableWindow(FALSE);
+		m_Radio_ALL.EnableWindow(FALSE);
+	}
+
+
+}
+
 BOOL CTerrainTexture::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -126,6 +172,26 @@ BOOL CTerrainTexture::OnInitDialog()
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
 	Init_TreeCtrl();
+
+	m_pForm = dynamic_cast<CForm*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0, 0));
+
+
+	CString ObjTypeName;
+	static_cast<CToolGameObject*>(m_pForm->m_pNowObject)->Get_TypeName(ObjTypeName);
+
+	if (ObjTypeName == L"Terrain")
+	{
+		m_Check_Terrain.SetCheck(TRUE);
+	}
+	else if (ObjTypeName == L"Quad")
+	{
+		m_Check_Quad.SetCheck(TRUE);
+
+	}
+	else if (ObjTypeName == L"Cube")
+	{
+		m_Check_Cube.SetCheck(TRUE);
+	}
 
 
 
@@ -197,6 +263,7 @@ void CTerrainTexture::OnTvnSelchangedTextureTree(NMHDR* pNMHDR, LRESULT* pResult
 void CTerrainTexture::OnBnClickedButton1()
 {
 	CMAPTOOLView* pView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0,1));
+	CForm* pForm = dynamic_cast<CForm*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0,0));
 
 	int index = 0;
 
@@ -219,11 +286,131 @@ void CTerrainTexture::OnBnClickedButton1()
 	m_iTreeIndex = index;
 
 	//파일이름
-	pView->m_tTexturePath = m_tCurTextureState;
+	pView->m_tTexturePath = pForm->m_strFileName = m_tCurTextureState;
 	//폴더이름
-	pView->m_tTextureFolder = m_tCurTexture;
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	pView->m_tTextureFolder = pForm->m_strFolderName = m_tCurTexture;
 
-	Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState,1);
+	CGameObject* pObj = nullptr;
+	pObj = m_pForm->m_pNowObject;
 
+	if (m_Check_Terrain.GetCheck())
+	{
+		static_cast<CToolGameObject*>(pObj)->Set_Path((TCHAR*)(LPCTSTR)m_tCurTexture, (TCHAR*)(LPCTSTR)m_tCurTextureState);
+
+		// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		pForm->UpdateData(false);
+
+		if (!GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL))
+			Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState, 1);
+
+		static_cast<CToolGameObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice));
+		CTexture* pTexture = static_cast<CToolGameObject*>(pObj)->Get_Texture();
+		pTexture->setTexture(GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL));
+	}
+	else if (m_Check_Quad.GetCheck())
+	{
+		static_cast<CToolGameObject*>(pObj)->Set_Path((TCHAR*)(LPCTSTR)m_tCurTexture, (TCHAR*)(LPCTSTR)m_tCurTextureState);
+		pForm->UpdateData(false);
+
+		if (!GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL))
+			Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState, 1);
+
+		static_cast<CToolGameObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice));
+		CTexture* pTexture = static_cast<CToolGameObject*>(pObj)->Get_Texture();
+		pTexture->setTexture(GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL));
+	}
+	else if (m_Check_Cube.GetCheck())
+	{
+		// 0번 : Z-
+		// 1번 : Z+
+		// 2번 : X-
+		// 3번 : X+
+		// 4번 : Y-
+		// 5번 : Y+
+		_int TextureIndex = -1;
+		if (m_Radio_Zminus.GetCheck())
+		{
+			TextureIndex = 0;
+		}
+		else if (m_Radio_Zplus.GetCheck())
+		{
+			TextureIndex = 1;
+		}
+		else if (m_Radio_Xminus.GetCheck())
+		{
+			TextureIndex = 2;
+		}
+		else if (m_Radio_Xplus.GetCheck())
+		{
+			TextureIndex = 3;
+		}
+		else if (m_Radio_Yminus.GetCheck())
+		{
+			TextureIndex = 4;
+		}
+		else if (m_Radio_Yplus.GetCheck())
+		{
+			TextureIndex = 5;
+		}
+		
+
+		if (m_Radio_ALL.GetCheck())
+		{
+			for(_uint i = 0 ; i < 6 ; ++i)
+			{
+				static_cast<CToolGameObject*>(pObj)->Set_Path((TCHAR*)(LPCTSTR)m_tCurTexture, (TCHAR*)(LPCTSTR)m_tCurTextureState, i);
+				pForm->UpdateData(false);
+
+			if (!GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL))
+				Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState, 1);
+				// 깡통텍스처 만든다.
+				static_cast<CToolGameObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice), i);
+				// 깡통텍스처 불러온다.
+				CTexture* pTexture = static_cast<CToolGameObject*>(pObj)->Get_Texture(i);
+				// 깡통에 그림을 넣어준다.
+				pTexture->setTexture(GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL));
+			}
+		}
+		else
+		{
+			static_cast<CToolGameObject*>(pObj)->Set_Path((TCHAR*)(LPCTSTR)m_tCurTexture, (TCHAR*)(LPCTSTR)m_tCurTextureState, TextureIndex);
+			pForm->UpdateData(false);
+			if (!GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL))
+				Insert_Texture(pView->m_pDevice, TEXTURETYPE::TEX_NORMAL, m_tCurTexturePath, m_tCurTextureState, 1);
+			// 깡통텍스처 만든다.
+			static_cast<CToolGameObject*>(pObj)->Set_Texture(CTexture::Create(pView->m_pDevice), TextureIndex);
+			// 깡통텍스처 불러온다.
+			CTexture* pTexture = static_cast<CToolGameObject*>(pObj)->Get_Texture(TextureIndex);
+			// 깡통에 그림을 넣어준다.
+			pTexture->setTexture(GetTexture(m_tCurTextureState, TEXTURETYPE::TEX_NORMAL));
+		}
+	}
+
+}
+
+void CTerrainTexture::OnBnClickedCheck1()
+{
+	// TODO: Add your control notification handler code here
+	m_Check_Quad.SetCheck(FALSE);
+	m_Check_Cube.SetCheck(FALSE);
+	Set_XYZRadioEnable(FALSE);
+}
+
+
+void CTerrainTexture::OnBnClickedCheck2()
+{
+	// TODO: Add your control notification handler code here
+	m_Check_Terrain.SetCheck(FALSE);
+	m_Check_Cube.SetCheck(FALSE);
+	Set_XYZRadioEnable(FALSE);
+
+}
+
+
+void CTerrainTexture::OnBnClickedCheck3()
+{
+	// TODO: Add your control notification handler code here
+	m_Check_Terrain.SetCheck(FALSE);
+	m_Check_Quad.SetCheck(FALSE);
+	Set_XYZRadioEnable(TRUE);
 }
