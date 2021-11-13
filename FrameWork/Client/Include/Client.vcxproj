@@ -173,6 +173,8 @@
     <ClInclude Include="..\Code\MeleeMon_Death.h" />
     <ClInclude Include="..\Code\MeleeMon_Idle.h" />
     <ClInclude Include="..\Code\MeleeMon_WalkF.h" />
+    <ClInclude Include="..\Code\MonBullet.h" />
+    <ClInclude Include="..\Code\MonBulletAnim.h" />
     <ClInclude Include="..\Code\Monster.h" />
     <ClInclude Include="..\Code\PlayerModel.h" />
     <ClInclude Include="..\Code\Player.h" />
@@ -219,6 +221,8 @@
     <ClCompile Include="..\Code\MeleeMon_Death.cpp" />
     <ClCompile Include="..\Code\MeleeMon_Idle.cpp" />
     <ClCompile Include="..\Code\MeleeMon_WalkF.cpp" />
+    <ClCompile Include="..\Code\MonBullet.cpp" />
+    <ClCompile Include="..\Code\MonBulletAnim.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />
     <ClCompile Include="..\Code\PlayerModel.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />

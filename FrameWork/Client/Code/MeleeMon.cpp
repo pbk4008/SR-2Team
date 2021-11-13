@@ -11,7 +11,7 @@ CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(1), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_bMoving(false),
-	m_pCollision(nullptr), m_pAttackColl(nullptr)
+	m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0)
 {
 	
 }
@@ -20,7 +20,7 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
 	m_fSpeed(0.f), m_bAttack(false), m_iTimer(1), 
 	m_pAnimator(nullptr), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), 
-	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr)
+	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0)
 {
 
 }
@@ -29,13 +29,32 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture),
 	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1),
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
-	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(rhs.m_pCollision), m_pAttackColl(rhs.m_pAttackColl)
+	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr),
+	m_iHP(rhs.m_iHP)
 {
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
-	m_pCollision->AddRef();
+
+	CComponent* pComponent = nullptr;
+
+	// collision
+	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision->setRadius(1.f);
+	m_pCollision->setTag(COLLISIONTAG::MONSTER);
+	m_pCollision->setActive(true);
+	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pCollision->setTransform(m_pTransform);
-	m_pAttackColl->setTransform(m_pTransform);
+	pComponent = m_pCollision;
+	Insert_Collision(m_pCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+
+	// collision
+	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl->setRadius(1.f);
+	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
+	m_pAttackColl->setActive(false);
+	pComponent = m_pAttackColl;
+	Insert_Collision(m_pAttackColl);
 }
 
 CMeleeMon::~CMeleeMon()
@@ -46,6 +65,7 @@ HRESULT CMeleeMon::Init_MeleeMon()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fSpeed = 2.f;
+	m_iHP = 100;
 
 	return S_OK;
 }
@@ -53,25 +73,22 @@ HRESULT CMeleeMon::Init_MeleeMon()
 Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	Follow(fDeltaTime);
-	Attack_Dis(fDeltaTime);
+	m_pTransform->UsingGravity(fDeltaTime);
 
-
-	if(GetAsyncKeyState('P'))
-		m_fSpeed = 0.f;
-
-	if (m_fSpeed == 0.f)
+	if (m_eCurState == STATE::DEATH)
 	{
-		
-		m_eCurState = STATE::DEATH;
-		Change_State();
-
 		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
 		{
 			if (!m_pAnimator->getAnimPlay())
-				m_bActive = false;
+			{
+				setActive(false);
+				return iExit;
+			}
 		}
 	}
+
+	Follow(fDeltaTime);
+	Attack_Dis(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -79,16 +96,25 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	return iExit;
 }
 
-void CMeleeMon::LateUpdate_GameObject(const _float& fDeltaTime)
+void CMeleeMon::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
 
 	if (m_pCollision->getHit())
 	{
+		m_eCurState = STATE::DEATH;
+		Change_State();
+		m_fSpeed = 0.f;
+
 		cout << "몬스터 충돌" << endl;
 		m_pCollision->setHit(false);
 	}
 }
+
+//_float fDeltaTime = GetOutDeltaTime()
+//m_iTimer += fDeltaTime;
+//if (m_iTimer >= 1.0f)
+//m_iTimer = 0.f;
 
 void CMeleeMon::Render_GameObject()
 {
@@ -123,6 +149,8 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Insert_Animation(L"MeleeMon_Death", L"MeleeMon_Idle", pDeath, true);
 
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Attack");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF");
+	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Death");
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_Death");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
@@ -160,13 +188,7 @@ void CMeleeMon::Change_State()
 			m_pAnimator->Change_Animation(L"MeleeMon_Attack");
 			break;
 		case CMeleeMon::STATE::DEATH:
-			/*if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
-			{
-				if (!m_pAnimator->getAnimPlay())
-					m_bActive = false;
-			}
-			else*/
-				m_pAnimator->Change_Animation(L"MeleeMon_Death");
+			m_pAnimator->Change_Animation(L"MeleeMon_Death");
 			break;
 		}
 		m_ePreState = m_eCurState;
@@ -239,6 +261,7 @@ HRESULT CMeleeMon::Add_Component()
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
 	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
+	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);

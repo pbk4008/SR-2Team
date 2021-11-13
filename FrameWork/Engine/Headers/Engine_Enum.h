@@ -15,6 +15,7 @@ namespace Engine
 		ANIMATOR,
 		COLLISION,
 	///////// 여기서부터 몬스터 ///////////
+		MONBULLET,
 		MELEEMON_TEX,
 		MELEEMON_IDLEANIM,
 		MELEEMON_IDLETEX,
@@ -33,6 +34,7 @@ namespace Engine
 		MONSTER2,
 		MONSTER3,
 		BOSS,
+		MONBULLET,
 		TERRAIN,
 		BACKGROUND,
 		CAMERA,
