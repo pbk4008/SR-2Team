@@ -1,14 +1,4 @@
-<<<<<<< HEAD
 ﻿  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
-=======
-﻿  Collision.cpp
-  GameObject.cpp
-  Management.cpp
-  Transform.cpp
-  코드를 생성하고 있습니다...
-     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
-  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
->>>>>>> LJH
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
@@ -34,10 +24,7 @@
   .\Engine\Utility\Code\Layer.h
   .\Engine\Utility\Code\Management.h
   .\Engine\Utility\Code\ProtoMgr.h
-<<<<<<< HEAD
-=======
   .\Engine\Utility\Code\QuadCubeTex.h
->>>>>>> LJH
   .\Engine\Utility\Code\RcCol.h
   .\Engine\Utility\Code\RcTex.h
   .\Engine\Utility\Code\Renderer.h
@@ -48,11 +35,7 @@
   .\Engine\Utility\Code\Transform.h
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
-<<<<<<< HEAD
-  21개 파일이 복사되었습니다.
-=======
   22개 파일이 복사되었습니다.
->>>>>>> LJH
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll

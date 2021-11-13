@@ -8,12 +8,14 @@
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
+, m_bHide(false)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
+, m_bHide(false)
 {
 }
 
@@ -21,7 +23,7 @@ CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMa
 m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
 , m_pHitCollision(rhs.m_pHitCollision),m_pAtkCollision(rhs.m_pAtkCollision)
 , m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump),
-m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType)
+m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
@@ -32,7 +34,10 @@ m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType)
 	m_pHitCollision->setTransform(m_pTransform);
 	m_pAtkCollision->AddRef();
 	m_pAtkCollision->setTransform(m_pTransform);
+	Insert_Collision(m_pHitCollision);
+	Insert_Collision(m_pAtkCollision);
 
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pHitCollision);
 	m_pTransform->setPos(0.f, 100.f, 0.f);
 }
 
@@ -70,7 +75,10 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		m_pAtkCollision->Update_Component(fDeltaTime);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
-	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
+	if (!m_bHide)
+		Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
+	else
+		Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
 	return iExit;
 }
@@ -82,6 +90,7 @@ void CPlayer::LateUpdate_GameObject()
 	{
 		//충돌 이후 작업
 		cout << "Player 충돌!" << endl;
+
 		m_pHitCollision->setHit(false);
 	}
 	if (m_pAtkCollision->getHit())
@@ -266,7 +275,6 @@ HRESULT CPlayer::Add_Component()
 	m_pHitCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pHitCollision->AddRef();
 	pCom = m_pHitCollision;
-	Insert_Collision(m_pHitCollision);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pCom);
 	
 	m_pAtkCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
@@ -274,7 +282,6 @@ HRESULT CPlayer::Add_Component()
 	m_pAtkCollision->setTag(COLLISIONTAG::PLAYER);
 	m_pAtkCollision->setActive(false);
 	m_pAtkCollision->setTrigger(COLLISIONTRIGGER::ATTACK);
-	Insert_Collision(m_pAtkCollision);
 	return S_OK;
 }
 

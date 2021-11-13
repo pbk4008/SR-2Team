@@ -7,17 +7,12 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Animator.h"
-#include "Player_AttackAnim.h"
-#include "Player_IdleAnim.h"
-#include "MeleeMon_Idle.h"
-#include "Player_Walk.h"
 #include "Collision.h"
-#include "MeleeMon_WalkF.h"
-#include "MeleeMon_Attack.h"
 #include "ShootMon.h"
 #include "FlyMon.h"
 #include "Shuriken.h"
 #include "Bomb.h"
+#include "Fog.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -142,6 +137,11 @@ _uint CLoading::Loading_ForStage()
 	pObj = CBomb::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
+
+	pObj = CFog::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::FOG, pObj);
+	
 	m_bFinish = true;
 	return 0;
 }

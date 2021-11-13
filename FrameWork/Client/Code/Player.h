@@ -46,6 +46,7 @@ private:
 	_float m_fSpeed;
 	_bool m_bAttack;
 	_bool m_bJump;
+	_bool m_bHide;
 	_float m_fAngle;
 
 

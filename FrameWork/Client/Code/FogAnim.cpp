@@ -21,6 +21,7 @@ HRESULT CFogAnim::Init_FogAnim()
 {
 	m_bActive = true;
 	m_bLoop = true;
+	m_bPlay = true;
 	m_fPlaySpeed = 0.05f;
 	m_iRoutin = 0;
 	InitTexture(L"BombSmoge");

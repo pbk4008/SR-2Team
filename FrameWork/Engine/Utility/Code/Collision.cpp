@@ -4,19 +4,19 @@
 #include "CollisionMgr.h"
 
 CCollision::CCollision() : m_pTransform(nullptr), m_pSphere(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
-,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX)
+,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTransform(nullptr), m_pSphere(nullptr)
-, m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX)
+, m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr), m_fRadius(rhs.m_fRadius)
-, m_pSphere(rhs.m_pSphere), m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag)
+, m_pSphere(rhs.m_pSphere), m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag), m_pCollider(rhs.m_pCollider)
 , m_eTrigger(rhs.m_eTrigger)
 {
 	m_pCollisionMgr->AddRef();
@@ -62,6 +62,12 @@ void CCollision::Render_Collision()
 void CCollision::Collison(COLLISIONTAG eTag)
 {
 	m_pCollisionMgr->Collision(this, eTag);
+}
+
+void CCollision::ResetCollision()
+{
+	m_bHit = false;
+	m_pCollider = nullptr;
 }
 
 CCollision* CCollision::Create(LPDIRECT3DDEVICE9 pDevice)
