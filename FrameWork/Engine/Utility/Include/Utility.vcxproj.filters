@@ -70,6 +70,9 @@
     <Filter Include="05.Manager\02.CollisionMgr">
       <UniqueIdentifier>{ddab3026-dff4-49de-924d-6c60e1204a40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Manager\03.INIManager">
+      <UniqueIdentifier>{b20c39b6-7cec-4905-9e57-33fcf937b054}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -137,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\Renderer.h">
       <Filter>04.Component\04.Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\INIManager.h">
+      <Filter>05.Manager\03.INIManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CollisionMgr.cpp">
       <Filter>05.Manager\02.CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\INIManager.cpp">
+      <Filter>05.Manager\03.INIManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -64,8 +64,6 @@ public:
 	void LinkResourceAndVariableTerrain();
 	void LinkResourceAndVariableQuad();
 	void Set_SRP(const _vec3& vecScale,const _vec3& vecRot,const _vec3& vecPos);
-	void Save_Object(const CString& strFilePath);
-	void Load_Object(const CString& strFilePath);
 public:	template<typename ... Args> std::string string_format(const std::string& format, Args ... args);
 
 public:

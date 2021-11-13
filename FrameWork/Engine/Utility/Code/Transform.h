@@ -55,6 +55,7 @@ public:
 	void setAngle(const _vec3& vAngle);
 	void setRevolve(MATRIXINFO eInfo, _float fAngle);
 	inline void setRotate(const _matrix& matRotate) { m_matRotateAxis = matRotate; m_dwFlag |= FLAG_AXISROTATE; }//임의의 축 회전
+	void setToolAngle(const _vec3& vecToolAngle);
 private:
 	//부모 오브젝트의 트랜스폼을 적용시키기 위한 트랜스폼
 	//ex)건물이라는 오브젝트의 트랜스폼이 있다면 그것을 이루고있는 창문, 문, 계단 등
