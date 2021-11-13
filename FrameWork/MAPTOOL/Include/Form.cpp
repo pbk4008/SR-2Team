@@ -530,6 +530,7 @@ void CForm::ReSize_ObjectInfo()
 		CTerrainTex* pTerrainTex = dynamic_cast<CTerrainObject*>(m_pNowObject)->Get_Tex();
 		if (dynamic_cast<CTerrainObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
 			return;
+	
 		pTerrainTex->Init_BufferNoTexture(m_tNowInfo.X, m_tNowInfo.Z, m_tNowInfo.Interval, m_tNowInfo.Detail);
 	}
 	else if (strTypeName == L"Quad")
@@ -537,6 +538,7 @@ void CForm::ReSize_ObjectInfo()
 		CRcTex* pRcTex = static_cast<CQuadObject*>(m_pNowObject)->Get_Tex();
 		if (static_cast<CQuadObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
 			return;
+	
 		pRcTex->Init_Buffer();
 	}
 	else if (strTypeName == L"Cube")
@@ -545,11 +547,14 @@ void CForm::ReSize_ObjectInfo()
 		static_cast<CCubeObject*>(m_pNowObject)->Get_arrTex(pCubeTex);
 		if (static_cast<CQuadObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
 			return;
+
 		for (_uint i = 0; i < pCubeTex.size(); ++i)
 			pCubeTex[i]->Init_Buffer(i);
-
 	}
 
+	static_cast<CToolGameObject*>(m_pNowObject)->Set_VTXINFO(&m_tNowInfo);
+
+	UpdateData(FALSE);
 
 
 }
@@ -572,9 +577,8 @@ void CForm::LinkResourceAndVariableTerrain()
 	static_cast<CToolGameObject*>(m_pNowObject)->Get_Path(m_strFolderName, m_strFileName);
 	// 현재Obj에 Transform정보
 	static_cast<CToolGameObject*>(m_pNowObject)->Linking_Transform(m_vecScale, m_vecRotaion, m_vecPosition);
-	// 현재Obj에 TerrainInfo정보
+	// 현재Obj에 TerrainInfo정보를 m_tNowInfo 에 연동시킴
 	static_cast<CToolGameObject*>(m_pNowObject)->Linking_VTXINFO(&m_tNowInfo);
-
 
 	UpdateData(false);
 }
@@ -647,12 +651,12 @@ void CForm::OnEnChangeDetail()
 void CForm::OnLbnSelchangeTerrain()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	LinkResourceAndVariableTerrain();
 	GetDlgItem(Terrain_dwCntX)->EnableWindow(TRUE);
 	GetDlgItem(Terrain_dwCntZ)->EnableWindow(TRUE);
 	GetDlgItem(Terrain_DwInterval)->EnableWindow(TRUE);
 	GetDlgItem(Terrain_DeTail)->EnableWindow(TRUE);
 	GetDlgItem(Terrain_DetailSpin)->EnableWindow(TRUE);
+	LinkResourceAndVariableTerrain();
 }
 
 
@@ -663,8 +667,6 @@ void CForm::OnBnClickedModifybutton()
 	UpdateData(true);
 
 	ReSize_ObjectInfo();
-	
-	UpdateData(false);
 }
 
 void CForm::OnLbnSetfocusTerrain()

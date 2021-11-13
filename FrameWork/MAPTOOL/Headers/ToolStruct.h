@@ -12,7 +12,10 @@ typedef struct tagVTXInfo
 
 	bool operator==(const tagVTXInfo& rhs)
 	{
-		if (X == rhs.X && Z == rhs.Z && Interval == rhs.Interval && Detail == rhs.Detail)
+		if (X == rhs.X && 
+			Z == rhs.Z && 
+			Interval == rhs.Interval && 
+			Detail == rhs.Detail)
 			return true;
 		return false;
 	}

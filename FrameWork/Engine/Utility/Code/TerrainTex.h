@@ -12,12 +12,12 @@ private:
 	virtual ~CTerrainTex();
 public:
 	virtual HRESULT Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulong& dwVtxInv = 1);
-	virtual HRESULT Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwDetail = 1, const _ulong& dwVtxInv = 1);
+	virtual HRESULT Init_BufferNoTexture(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv = 1, const _ulong& dwDetail = 1);
 	virtual void Render_Buffer();
 	virtual CComponent* Clone_Component();
 public:
 	static CTerrainTex* Create(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DTEXTURE9 pTexture , const _ulong& dwVtxInv = 1);
-	static CTerrainTex* Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwDetail=1,const _ulong& dwVtxInv = 1);
+	static CTerrainTex* Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxInv=1,const _ulong& dwDetail = 1);
 private:
 	virtual void Free();
 public:

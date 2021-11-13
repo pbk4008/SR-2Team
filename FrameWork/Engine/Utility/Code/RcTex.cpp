@@ -19,6 +19,11 @@ CRcTex::~CRcTex()
 
 HRESULT CRcTex::Init_Buffer()
 {
+	if (m_pVB)
+		Safe_Release(m_pVB);
+	if (m_pIB)
+		Safe_Release(m_pIB);
+
 	m_dwFVF = FVF_TEX;
 	m_dwTriCnt = 2;
 	m_dwCntX = 2;
