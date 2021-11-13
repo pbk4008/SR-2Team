@@ -7,17 +7,20 @@
 #include "Collision.h"
 
 CPlayerModel::CPlayerModel() : m_pBufferCom(nullptr), m_eState(CPlayer::STATE::MAX), m_pAnimator(nullptr)
-, m_eAttackType(CPlayer::ATTACKTYPE::SWORD), m_fChangeTime(0.f), m_bChange(false)
+, m_eAttackType(CPlayer::ATTACKTYPE::SWORD), m_fChangeTime(0.f), m_bChange(false), m_bAttack(false)
+
 {
 }
 
 CPlayerModel::CPlayerModel(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pAnimator(nullptr), m_eState(CPlayer::STATE::MAX)
-, m_eAttackType(CPlayer::ATTACKTYPE::SWORD), m_fChangeTime(0.f), m_bChange(false)
+, m_eAttackType(CPlayer::ATTACKTYPE::SWORD), m_fChangeTime(0.f), m_bChange(false), m_bAttack(false)
+
 {
 }
 
 CPlayerModel::CPlayerModel(const CPlayerModel& rhs) : CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pAnimator(rhs.m_pAnimator), m_eState(rhs.m_eState)
-, m_eAttackType(rhs.m_eAttackType), m_fChangeTime(rhs.m_fChangeTime), m_bChange(rhs.m_bChange)
+, m_eAttackType(rhs.m_eAttackType), m_fChangeTime(rhs.m_fChangeTime), m_bChange(rhs.m_bChange), m_bAttack(rhs.m_bAttack)
+
 {
 	m_pBufferCom->AddRef();
 	if(rhs.m_pAnimator)
