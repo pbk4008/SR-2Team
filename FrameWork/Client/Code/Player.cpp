@@ -8,14 +8,14 @@
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
-, m_bHide(false)
+, m_bHide(false), m_bDash(false)
 {
 }
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera(nullptr), m_pModel(nullptr),
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
-, m_bHide(false)
+, m_bHide(false), m_bDash(false)
 {
 }
 
@@ -23,7 +23,7 @@ CPlayer::CPlayer(const CPlayer& rhs) : CGameObject(rhs), m_pMainCamera(rhs.m_pMa
 m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState)
 , m_pHitCollision(rhs.m_pHitCollision),m_pAtkCollision(rhs.m_pAtkCollision)
 , m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump),
-m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide)
+m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_bDash(rhs.m_bDash)
 {
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
@@ -38,7 +38,6 @@ m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide)
 	Insert_Collision(m_pAtkCollision);
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pHitCollision);
-	m_pTransform->setPos(0.f, 100.f, 0.f);
 }
 
 CPlayer::~CPlayer()
@@ -62,6 +61,10 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		m_pTransform->UsingGravity(fDeltaTime);
 	else
 		m_pTransform->Jump(fDeltaTime, 4.f,m_bJump);
+	if (m_bDash)
+	{
+		Dash(fDeltaTime);
+	}
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	ChangeState();
 	m_eCulState=m_pModel->Act();
@@ -75,11 +78,12 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 		m_pAtkCollision->Update_Component(fDeltaTime);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
-	if (!m_bHide)
-		Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
-	else
-		Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
+	if (m_bHide)
+	{
+		//숨기
+	}
 	return iExit;
 }
 
@@ -89,9 +93,23 @@ void CPlayer::LateUpdate_GameObject()
 	if (m_pHitCollision->getHit())
 	{
 		//충돌 이후 작업
-		cout << "Player 충돌!" << endl;
-
-		m_pHitCollision->setHit(false);
+		cout << "Player 충돌!" << endl;		
+		CCollision* pCollider = m_pHitCollision->getCollider();//충돌한 대상 가져오기
+		COLLISIONTAG eTag = pCollider->getTag();//충돌한 대상의 tag값
+		switch (eTag)
+		{
+		case COLLISIONTAG::ETC:
+			m_bHide = true;
+			break;
+		case COLLISIONTAG::MONSTER:
+			break;
+		}
+		m_pHitCollision->ResetCollision();
+	}
+	else
+	{
+		if (m_bHide)
+			m_bHide = false;
 	}
 	if (m_pAtkCollision->getHit())
 	{
@@ -104,8 +122,8 @@ void CPlayer::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pHitCollision->Render_Collision();
-	m_pModel->Render_GameObject();
 
+	m_pModel->Render_GameObject();
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CGameObject::Render_GameObject();
 }
@@ -169,6 +187,8 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 
 	if (Key_Down(VIR_LBUTTON))
 		m_eCulState = STATE::ATTACK;
+	if (Key_Down(VIR_RBUTTON))
+		m_bDash = true;
 
 	if(Key_Up(VIR_W)|| Key_Up(VIR_A)|| Key_Up(VIR_S)|| Key_Up(VIR_D))
 		m_eCulState = STATE::IDLE;
@@ -235,6 +255,18 @@ void CPlayer::ChangeAttackType()
 			m_ePreType = m_eCurType;
 		}
 	}
+}
+
+void CPlayer::Dash(const _float& fDeltaTime)
+{
+	_float fDashSpeed = 30.f;
+	_vec3 vPos = m_pTransform->getPos();
+	_vec3 vLook;
+	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
+	D3DXVec3Normalize(&vLook, &vLook);
+	vPos += fDashSpeed * vLook * fDeltaTime;
+	m_pTransform->setPos(vPos);
+	m_pTransform->Jump(fDeltaTime, 1.f, m_bDash,2);
 }
 
 CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)

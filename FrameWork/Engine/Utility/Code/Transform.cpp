@@ -95,7 +95,6 @@ _int CTransform::Update_Component(const _float& fDeltaTime)
 	else if(m_dwFlag & FLAG_AXISROTATE)//임의의 축 회전 했을때
 	{
 		matRot = m_matRotateAxis;
-		D3DXMatrixIdentity(&m_matRotateAxis);
 		m_dwFlag ^= FLAG_AXISROTATE;
 	}
 	m_matWorld *= matRot;
@@ -152,15 +151,17 @@ void CTransform::TerrainOverMove()
 	m_fBottomY += vTerrainPos.y;
 }
 
-void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck, _bool bPlayer)
+void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck, _int iPlayer)
 {
 	TerrainOverMove();
 	m_fJumpTime += fDeltaTime;
 	_float fY = 0;
-	if(bPlayer)
+	if(iPlayer==0)//플레이어 점프
 		fY = fJumpPow*0.5f * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
-	else
+	else if(iPlayer ==1)// 폭탄 점프
 		fY = fJumpPow*sinf(45.f) * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
+	else if(iPlayer == 2)// 폭탄 점프
+		fY = fJumpPow * sinf(20.f) * m_fJumpTime - (0.5f * 9.8f * m_fJumpTime * m_fJumpTime);
 	m_vPos.y += fY;
 
 	if (m_vPos.y < m_fBottomY + 1.f)
@@ -183,13 +184,6 @@ void CTransform::UsingGravity(const _float& fDeltaTime)
 		m_vPos.y = m_fBottomY+1.f;
 	}
 }
-
-void CTransform::ReSetVector()
-{
-	m_vAngle = _vec3(0.f, 0.f, 0.f);
-	m_vRevolve = _vec3(0.f, 0.f, 0.f);
-}
-
 
 void CTransform::ChangeParentMatrix()
 {

@@ -52,8 +52,8 @@ void CRenderer::Render_NonArpha(LPDIRECT3DDEVICE9& pDevice)
 void CRenderer::Render_Alpha(LPDIRECT3DDEVICE9& pDevice)
 {
 	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_DESTBLEND,D3DBLEND_INVSRCALPHA);
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	for (auto& iter : m_RenderList[(_ulong)RENDERGROUP::ALPHA])
 		iter->Render_GameObject();
 	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

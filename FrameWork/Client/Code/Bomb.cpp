@@ -85,7 +85,7 @@ void CBomb::Move(const _float& fDeltaTime)
 	vPos += m_vLook * m_fSpeed * fDeltaTime;
 	m_pTransform->setPos(vPos);
 	
-	m_pTransform->Jump(fDeltaTime, 3.f, m_bJump,false);
+	m_pTransform->Jump(fDeltaTime, 3.f, m_bJump,1);
 }
 
 void CBomb::CreateFog()

@@ -25,6 +25,7 @@ private:
 	void KeyInput(const float& fDelatTime);
 	void ChangeState();
 	void ChangeAttackType();
+	void Dash(const float& fDeltaTime);
 	CBullet* Shoot(GAMEOBJECTID eID, _bool& bCheck);
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
@@ -47,8 +48,8 @@ private:
 	_bool m_bAttack;
 	_bool m_bJump;
 	_bool m_bHide;
+	_bool m_bDash;
 	_float m_fAngle;
-
 
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;

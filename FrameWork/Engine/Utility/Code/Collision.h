@@ -29,6 +29,7 @@ public:
 	_vec3& getCenter() { return m_vCenter; }
 	_float& getRadius() { return m_fRadius; }
 	COLLISIONTRIGGER getTrigger() { return m_eTrigger; }
+	CCollision* getCollider() { return m_pCollider; }
 public:
 	void setCenter(const _vec3& pCenter);
 	void setRadius(const _float& fRadius);
@@ -36,6 +37,7 @@ public:
 	void setTag(COLLISIONTAG eTag);
 	void setHit(_bool bHit) { m_bHit = bHit; }
 	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
+	void setCollider(CCollision* pCollider) { m_pCollider = pCollider; }
 private:
 	CTransform* m_pTransform;
 	_vec3 m_vCenter;

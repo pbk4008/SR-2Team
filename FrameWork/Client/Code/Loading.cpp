@@ -78,6 +78,10 @@ _uint CLoading::Loading_ForStage()
 	//Component원본 생성
 	CComponent* pCom = nullptr;
 
+	pCom = CRcCol::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::RCCOL, pCom);
+
 	pCom = CAnimator::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::ANIMATOR, pCom);

@@ -71,7 +71,7 @@ void CFog::LateUpdate_GameObject()
 	if (m_pCollision->getHit())
 	{
 		cout << "Ãæµ¹!!" << endl;
-		m_pCollision->setHit(false);
+		m_pCollision->ResetCollision();
 	}
 }
 
