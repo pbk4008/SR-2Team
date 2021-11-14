@@ -284,11 +284,3 @@ void CFlyMon::Free()
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }
-
-//			m_bAttack = true;
-// 
-//			m_bMoving = false;
-//			
-//			m_bAttack = false;
-// 
-//			m_bMoving = true;
