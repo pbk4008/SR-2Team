@@ -20,6 +20,7 @@ private:
 	HRESULT Init_Environment_Layer();
 	HRESULT Init_GameLogic_Layer();
 	HRESULT Init_UI_Layer();
+	HRESULT Init_LoadingLayer();
 	HRESULT Init_LogoScene();
 public:
 	static CLogo* Create(LPDIRECT3DDEVICE9 pDevice);

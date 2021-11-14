@@ -164,6 +164,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="02.GameObject\00.BackGround\01.Quad">
+      <UniqueIdentifier>{af28e2c7-4c94-4965-9dbb-d5fa36f75653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\00.BackGround\02.Qube">
+      <UniqueIdentifier>{b0eefbfe-7b95-4755-b353-ea295d3fd623}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -304,6 +310,12 @@
     <ClInclude Include="..\Code\MonBulletAnim.h">
       <Filter>02.GameObject\04.bullet\99.Animation\03. MonBulletAnim</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Quad.h">
+      <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Cube.h">
+      <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -423,6 +435,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\MonBulletAnim.cpp">
       <Filter>02.GameObject\04.bullet\99.Animation\03. MonBulletAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Quad.cpp">
+      <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Cube.cpp">
+      <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
