@@ -3,11 +3,6 @@
 
 #include "GameObject.h"
 
-enum class TREENAME {
-	PARENT,
-	NOW,
-	CHILD
-};
 
 class CToolGameObject : public CGameObject
 {
@@ -31,13 +26,15 @@ public:
 	inline void Get_ObjectName(CString& rhs) { rhs = m_strObjectName; }
 	inline void Get_TypeName(CString& rhs) {  rhs = m_strTypeName; };
 	inline void Set_TypeName(const CString& rhs) { m_strTypeName = rhs; };
-	inline void Set_TreeName(HTREEITEM hTree, TREENAME	eTree) { m_hTree[(_ulong)eTree] = hTree; }
-	inline void Get_TreeName(HTREEITEM* hTree, TREENAME	eTree) { *hTree = m_hTree[_ulong(eTree)]; }
+	inline void Set_TreeName(const std::string& strParent) { m_strParent = strParent; }
+	inline void Get_TreeName(std::string& strParent) { strParent = m_strParent; }
 	_bool Compare_Info(VTXINFO* pVtxInfo);
 	_bool Compare_Filter(const CString& rhs);
 	inline CTexture* Get_Texture(const _uint& _index = 0) { return m_vecTextureInfo[_index].pTexture;}
 	inline std::vector<TEXTUREINFO>& Get_vecTextureInfo() { return m_vecTextureInfo; }
 	inline void Set_vecTextureInfo(const std::vector<TEXTUREINFO>& vecTextureInfo) { std::copy(vecTextureInfo.begin(), vecTextureInfo.end(), m_vecTextureInfo.begin()); }
+	//inline std::string& Get_ParentTreeName
+
 
 protected:
 	virtual void Free();
@@ -47,7 +44,7 @@ protected:
 	CString m_strObjectName;
 	CString m_strTypeName;
 
-	std::array<HTREEITEM, 3> m_hTree;
+	std::string m_strParent;
 
 };
 

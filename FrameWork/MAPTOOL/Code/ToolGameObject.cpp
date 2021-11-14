@@ -102,6 +102,7 @@ Engine::_bool CToolGameObject::Compare_Filter(const CString& rhs)
 	return false;
 }
 
+
 void CToolGameObject::Free()
 {
 	for (auto& iter : m_vecTextureInfo)

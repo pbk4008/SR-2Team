@@ -534,34 +534,19 @@ void CForm::ReSize_ObjectInfo()
 	if (strTypeName == L"Terrain")
 	{
 		CTerrainTex* pTerrainTex = dynamic_cast<CTerrainObject*>(m_pNowObject)->Get_Tex();
-		if (dynamic_cast<CTerrainObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
-			return;
-	
-		pTerrainTex->Init_BufferNoTexture(m_tNowInfo.X, m_tNowInfo.Z, m_tNowInfo.Interval, m_tNowInfo.Detail);
-	}
-	else if (strTypeName == L"Quad")
-	{
-		CRcTex* pRcTex = static_cast<CQuadObject*>(m_pNowObject)->Get_Tex();
-		if (static_cast<CQuadObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
-			return;
-	
-		pRcTex->Init_Buffer();
-	}
-	else if (strTypeName == L"Cube")
-	{
-		std::array<CRcTex*, 6> pCubeTex;
-		static_cast<CCubeObject*>(m_pNowObject)->Get_arrTex(pCubeTex);
-		if (static_cast<CQuadObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
-			return;
+		if (!dynamic_cast<CTerrainObject*>(m_pNowObject)->Compare_Info(&m_tNowInfo))
+		{
+			pTerrainTex->Init_BufferNoTexture(m_tNowInfo.X, m_tNowInfo.Z, m_tNowInfo.Interval, m_tNowInfo.Detail);
+			static_cast<CToolGameObject*>(m_pNowObject)->Set_VTXINFO(&m_tNowInfo);
+		}
 
-		for (_uint i = 0; i < pCubeTex.size(); ++i)
-			pCubeTex[i]->Init_Buffer(i);
 	}
 
-	static_cast<CToolGameObject*>(m_pNowObject)->Set_VTXINFO(&m_tNowInfo);
+	m_pNowObject->getTransform()->setScale(m_vecScale);
+	m_pNowObject->getTransform()->setAngle(m_vecRotaion);
+	m_pNowObject->getTransform()->setPos(m_vecPosition);
 
 	UpdateData(FALSE);
-
 
 }
 
@@ -595,6 +580,7 @@ void CForm::LinkResourceAndVariableQuad()
 		return;
 
 	CString strNow = m_Tree_Object.GetItemText(m_TreeNow);
+
 
 	_bool bFindCheck = false;
 
@@ -706,13 +692,14 @@ void CForm::OnBnClickedQuadCreate()
 	static_cast<CToolGameObject*>(pObj)->Set_ObjectName(m_strObjectName);
 	static_cast<CToolGameObject*>(pObj)->Set_TypeName(L"Quad");
 
+	std::wstring wstrParent = m_Tree_Object.GetItemText(m_TreeNow).GetString();
+	std::string  strParent{ wstrParent.begin(), wstrParent.end() };
+	static_cast<CToolGameObject*>(pObj)->Set_TreeName(strParent);
 
 	m_pMapToolView->m_listQuad.emplace_back(pObj);
 
 	HTREEITEM m_TreeChild =  m_Tree_Object.InsertItem(m_strObjectName, m_TreeNow, TVI_LAST);
-
-	m_Tree_Object.SelectItem(m_TreeChild);
-
+	m_Tree_Object.SetFocus();
 
 	GetDlgItem(Terrain_dwCntX)->EnableWindow(FALSE);
 	GetDlgItem(Terrain_dwCntZ)->EnableWindow(FALSE);
@@ -736,11 +723,15 @@ void CForm::OnBnClickedCubeCreate()
 	static_cast<CToolGameObject*>(pObj)->Set_ObjectName(m_strObjectName);
 	static_cast<CToolGameObject*>(pObj)->Set_TypeName(L"Cube");
 
+	std::wstring wstrParent = m_Tree_Object.GetItemText(m_TreeNow).GetString();
+	std::string  strParent{ wstrParent.begin(), wstrParent.end() };
+	static_cast<CToolGameObject*>(pObj)->Set_TreeName(strParent);
+
 	m_pMapToolView->m_listCube.emplace_back(pObj);
 
 	HTREEITEM m_TreeChild = m_Tree_Object.InsertItem(m_strObjectName, m_TreeNow, TVI_LAST);
+	m_Tree_Object.SetFocus();
 
-	m_Tree_Object.SelectItem(m_TreeChild);
 
 
 	GetDlgItem(Terrain_dwCntX)->EnableWindow(FALSE);
@@ -755,12 +746,12 @@ void CForm::OnBnClickedCubeCreate()
 void CForm::OnBnClickedMakefilter()
 {
 	// TODO: Add your control notification handler code here
+		UpdateData(TRUE);
 	if (m_strTreeFilterName.IsEmpty())
 		return;
 	
-		UpdateData(TRUE);
-		m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, TVI_ROOT, TVI_LAST);
-		m_Tree_Object.SetFocus();
+	m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, m_TreeRoot, TVI_LAST);
+	m_Tree_Object.SetFocus();
 	
 }
 
@@ -948,13 +939,6 @@ void CForm::OnBnClickedObjectSave()
 	for (const auto& Quad : m_pMapToolView->m_listQuad)
 	{
 		section = string_format("Quad_%d", i++);
-		/*Key = "Info";
-
-		VTXINFO* NowTerrainInfo = nullptr;
-		static_cast<CToolGameObject*>(Quad)->Get_VTXINFO(&NowTerrainInfo);
-		Value = string_format("%d,%d,%d,%d", NowTerrainInfo->X, NowTerrainInfo->Z, NowTerrainInfo->Interval, NowTerrainInfo->Detail);
-
-		m_pIniManager->AddData(section, Key, Value);*/
 
 		Key = "FolderFileName";
 
@@ -998,6 +982,10 @@ void CForm::OnBnClickedObjectSave()
 		Value = string_format("%f,%f,%f", vec3Position.x, vec3Position.y, vec3Position.z);
 		m_pIniManager->AddData(section, Key, Value);
 
+		Key = "ParentName";
+		static_cast<CToolGameObject*>(Quad)->Get_TreeName(Value);
+		m_pIniManager->AddData(section, Key, Value);
+
 
 	}
 
@@ -1014,10 +1002,6 @@ void CForm::OnBnClickedObjectLoad()
 	{
 		std::for_each(m_pMapToolView->m_listQuad.begin(), m_pMapToolView->m_listQuad.end(), DeleteObj);
 		m_pMapToolView->m_listQuad.clear();
-		/*std::for_each(m_pMapToolView->m_listCube.begin(), m_pMapToolView->m_listCube.end(), DeleteObj);
-		m_pMapToolView->m_listCube.clear();
-		m_Tree_Object.DeleteAllItems();
-		m_TreeRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);*/
 	}
 
 	std::string Section;
@@ -1030,29 +1014,7 @@ void CForm::OnBnClickedObjectLoad()
 		Section = string_format("Quad_%d", i);
 		size_t dot = 0;
 		int PointerSize = 0;
-		/*Key = "Info";
-
-		std::string VtxInfoValue = m_pIniManager->LoadDataString(std::string("QuadData"), Section, Key);
-
-		VTXINFO NowTerrainInfo;
-
-		
-		while (true)
-		{
-			if (VtxInfoValue.find(',') == std::string::npos)
-			{
-				Value = VtxInfoValue.substr(0, VtxInfoValue.size());
-				*(((int*)&NowTerrainInfo) + (PointerSize)) = stoi(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = VtxInfoValue.find(',');
-			Value = VtxInfoValue.substr(0, dot);
-			*(((int*)&NowTerrainInfo) + (PointerSize++)) = stoi(Value);
-
-			VtxInfoValue.erase(0, dot + 1);
-		}*/
-
+	
 		pQuad = CQuadObject::Create(m_pMapToolView->m_pDevice);
 
 		std::wstring FolderName;
@@ -1077,22 +1039,25 @@ void CForm::OnBnClickedObjectLoad()
 			ObjectAndTypeName.erase(0, dot + 1);
 		}
 
-		dynamic_cast<CToolGameObject*>(pQuad)->Set_Path(FolderName, FileName, 0);
+		if (!FolderName.empty() && !FileName.empty())
+		{
+			dynamic_cast<CToolGameObject*>(pQuad)->Set_Path(FolderName, FileName, 0);
 
-		TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
-		lstrcat(strtemp, FolderName.c_str());
-		lstrcat(strtemp, L"\\");
-		lstrcat(strtemp, FileName.c_str());
-		lstrcat(strtemp, L".png");
-		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
-			Insert_Texture(m_pMapToolView->m_pGraphicDev->getDevice(), TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
+			TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
+			lstrcat(strtemp, FolderName.c_str());
+			lstrcat(strtemp, L"\\");
+			lstrcat(strtemp, FileName.c_str());
+			lstrcat(strtemp, L".png");
+			if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
+				Insert_Texture(m_pMapToolView->m_pGraphicDev->getDevice(), TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
 
-		std::vector<TEXTUREINFO> vecTextureInfo = static_cast<CToolGameObject*>(pQuad)->Get_vecTextureInfo();
+			std::vector<TEXTUREINFO> vecTextureInfo = static_cast<CToolGameObject*>(pQuad)->Get_vecTextureInfo();
 
-		vecTextureInfo[0].pTexture = CTexture::Create(m_pMapToolView->m_pDevice);
-		vecTextureInfo[0].pTexture->setTexture(GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL));
+			vecTextureInfo[0].pTexture = CTexture::Create(m_pMapToolView->m_pDevice);
+			vecTextureInfo[0].pTexture->setTexture(GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL));
 
-		static_cast<CToolGameObject*>(pQuad)->Set_vecTextureInfo(vecTextureInfo);
+			static_cast<CToolGameObject*>(pQuad)->Set_vecTextureInfo(vecTextureInfo);
+		}
 
 		std::wstring ObjectName;
 		std::wstring TypeName;
@@ -1184,6 +1149,20 @@ void CForm::OnBnClickedObjectLoad()
 		pQuad->getTransform()->setAngle(Roatate);
 		pQuad->getTransform()->setPos(Position);
 
+
+		Key = "ParentName";
+
+		std::string strParent = m_pIniManager->LoadDataString(std::string("QuadData"), Section, Key);
+
+		static_cast<CToolGameObject*>(pQuad)->Set_TreeName(strParent);
+
+		HTREEITEM hFindItem =FindTreeData(m_TreeRoot, CString{ strParent.c_str() });
+		if (hFindItem == nullptr)
+			 hFindItem = m_Tree_Object.InsertItem(CString{ strParent.c_str() }, m_TreeRoot);
+
+		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
+
+
 		m_pMapToolView->m_listQuad.emplace_back(pQuad);
 
 		UpdateData(TRUE);
@@ -1269,6 +1248,9 @@ void CForm::OnBnClickedCubesave()
 		Value = string_format("%f,%f,%f", vec3Position.x, vec3Position.y, vec3Position.z);
 		m_pIniManager->AddData(section, Key, Value);
 
+		Key = "ParentName";
+		static_cast<CToolGameObject*>(Cube)->Get_TreeName(Value);
+		m_pIniManager->AddData(section, Key, Value);
 
 	}
 
@@ -1282,15 +1264,11 @@ void CForm::OnBnClickedCubeLoad()
 	int QuadSize = m_pIniManager->LoadDataInteger(std::string("CubeData"), "CubeCount", "Count");
 
 	//이것은 수정이 필요함
-	/*if (!m_pMapToolView->m_listQuad.empty() || !m_pMapToolView->m_listCube.empty())
+	if ( !m_pMapToolView->m_listCube.empty())
 	{
-		std::for_each(m_pMapToolView->m_listQuad.begin(), m_pMapToolView->m_listQuad.end(), DeleteObj);
-		m_pMapToolView->m_listQuad.clear();
 		std::for_each(m_pMapToolView->m_listCube.begin(), m_pMapToolView->m_listCube.end(), DeleteObj);
 		m_pMapToolView->m_listCube.clear();
-		m_Tree_Object.DeleteAllItems();
-		m_TreeRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);
-	}*/
+	}
 
 	std::string Section;
 	std::string Key;
@@ -1302,27 +1280,7 @@ void CForm::OnBnClickedCubeLoad()
 		Section = string_format("Cube_%d", i);
 		size_t dot = 0;
 		int PointerSize = 0;
-	/*	Key = "Info";
 
-		std::string VtxInfoValue = m_pIniManager->LoadDataString(std::string("CubeData"), Section, Key);
-
-		VTXINFO NowTerrainInfo;
-
-		while (true)
-		{
-			if (VtxInfoValue.find(',') == std::string::npos)
-			{
-				Value = VtxInfoValue.substr(0, VtxInfoValue.size());
-				*(((int*)&NowTerrainInfo) + (PointerSize)) = stoi(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = VtxInfoValue.find(',');
-			Value = VtxInfoValue.substr(0, dot);
-			*(((int*)&NowTerrainInfo) + (PointerSize++)) = stoi(Value);
-
-			VtxInfoValue.erase(0, dot + 1);
-		}*/
 
 		pCube = CCubeObject::Create(m_pMapToolView->m_pDevice);
 
@@ -1477,8 +1435,51 @@ void CForm::OnBnClickedCubeLoad()
 		pCube->getTransform()->setAngle(Roatate);
 		pCube->getTransform()->setPos(Position);
 
+		Key = "ParentName";
+
+		std::string strParent = m_pIniManager->LoadDataString(std::string("CubeData"), Section, Key);
+
+		static_cast<CToolGameObject*>(pCube)->Set_TreeName(strParent);
+
+		HTREEITEM hFindItem = FindTreeData(m_TreeRoot, CString{ strParent.c_str() });
+		if (hFindItem == nullptr)
+			hFindItem = m_Tree_Object.InsertItem(CString{ strParent.c_str() }, m_TreeRoot);
+
+		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
+
 		m_pMapToolView->m_listCube.emplace_back(pCube);
 
 		UpdateData(TRUE);
 	}
+}
+
+
+HTREEITEM CForm::FindTreeData(HTREEITEM& hItem, CString& text)
+{
+	HTREEITEM hFIndItem = nullptr;
+	HTREEITEM hChildItem = nullptr;
+	HTREEITEM hSiblingItem = nullptr;
+
+	// Find Success
+	if (m_Tree_Object.GetItemText(hItem) == text)
+		hFIndItem = hItem;
+	else
+	{
+		// Find Child Node
+		if (m_Tree_Object.ItemHasChildren(hItem))
+		{
+			hChildItem = m_Tree_Object.GetChildItem(hItem);
+			if (hFIndItem == nullptr && hChildItem != nullptr)
+				hFIndItem = FindTreeData(hChildItem, text);
+		}
+
+		// Find Sibling Node
+		hSiblingItem = m_Tree_Object.GetNextSiblingItem(hItem);
+		if (hFIndItem == nullptr && hSiblingItem != nullptr)
+			hFIndItem = FindTreeData(hSiblingItem, text);
+	}
+
+	// return Find Item Handle;
+	return hFIndItem;
+
 }
