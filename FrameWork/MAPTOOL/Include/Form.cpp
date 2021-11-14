@@ -100,6 +100,7 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(BUTTON_Object_Load, &CForm::OnBnClickedObjectLoad)
 	ON_BN_CLICKED(BUTTON_Cube_save, &CForm::OnBnClickedCubesave)
 	ON_BN_CLICKED(BUTTON_Cube_Load, &CForm::OnBnClickedCubeLoad)
+	ON_BN_CLICKED(Button_Modify_Parent, &CForm::OnBnClickedModifyParent)
 END_MESSAGE_MAP()
 
 
@@ -816,6 +817,7 @@ void CForm::OnBnClickedModifyfilter()
 		HTREEITEM hTreeItem = m_Tree_Object.GetSelectedItem();
 		m_Tree_Object.SetItemText(hTreeItem, m_strTreeFilterName);
 		dynamic_cast<CToolGameObject*>(m_pNowObject)->Set_ObjectName(m_strTreeFilterName);
+		UpdateData(FALSE);
 	}
 }
 
@@ -1481,5 +1483,64 @@ HTREEITEM CForm::FindTreeData(HTREEITEM& hItem, CString& text)
 
 	// return Find Item Handle;
 	return hFIndItem;
+
+}
+
+
+
+
+void CForm::OnBnClickedModifyParent()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+
+	if (m_strTreeFilterName.IsEmpty())
+		return;
+
+	HTREEITEM hChildItem = nullptr;
+
+
+	//변경할 Parent Filter클릭하고
+	HTREEITEM selectItem =  m_Tree_Object.GetSelectedItem();
+
+	m_Tree_Object.SetItemText(selectItem, m_strTreeFilterName);
+
+	std::wstring wstrFilterName = m_strTreeFilterName.GetString();
+	std::string strFilterName(wstrFilterName.begin(), wstrFilterName.end());
+
+	// 이거면 누른게 Parent필터아래 자식이있다는말임
+	if (m_Tree_Object.ItemHasChildren(selectItem))
+	{
+		hChildItem = m_Tree_Object.GetChildItem(selectItem);
+		CString strObjectName;
+		while (1)
+		{
+			strObjectName = m_Tree_Object.GetItemText(hChildItem);
+			for (auto& Quad : m_pMapToolView->m_listQuad)
+			{
+				if (dynamic_cast<CToolGameObject*>(Quad)->Compare_Filter(strObjectName))
+				{
+					dynamic_cast<CToolGameObject*>(Quad)->Set_TreeName(strFilterName);
+					break;
+				}
+			}
+
+			for (auto& Cube : m_pMapToolView->m_listCube)
+			{
+				if(dynamic_cast<CToolGameObject*>(Cube)->Compare_Filter(strObjectName))
+				{
+					dynamic_cast<CToolGameObject*>(Cube)->Set_TreeName(strFilterName);
+					break;
+				}
+			}
+
+			hChildItem = m_Tree_Object.GetNextItem(hChildItem,TVGN_NEXT);
+
+			if (hChildItem == nullptr)
+				break;
+		}
+	}
+	
+	UpdateData(FALSE);
 
 }

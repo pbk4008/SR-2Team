@@ -115,6 +115,7 @@ public:
 	INIManager* m_pIniManager;
 	afx_msg void OnBnClickedCubesave();
 	afx_msg void OnBnClickedCubeLoad();
+	afx_msg void OnBnClickedModifyParent();
 };
 
 template<typename ... Args>
