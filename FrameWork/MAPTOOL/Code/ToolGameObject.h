@@ -29,7 +29,7 @@ public:
 	inline void Set_Detail(int pDetail) { m_tVTXINFO.Detail = pDetail; }
 	inline void Set_ObjectName(const CString& rhs) { m_strObjectName = rhs; }
 	inline void Get_ObjectName(CString& rhs) { rhs = m_strObjectName; }
-	inline void Get_TypeName(CString& rhs) { rhs = m_strTypeName; };
+	inline void Get_TypeName(CString& rhs) {  rhs = m_strTypeName; };
 	inline void Set_TypeName(const CString& rhs) { m_strTypeName = rhs; };
 	inline void Set_TreeName(HTREEITEM hTree, TREENAME	eTree) { m_hTree[(_ulong)eTree] = hTree; }
 	inline void Get_TreeName(HTREEITEM* hTree, TREENAME	eTree) { *hTree = m_hTree[_ulong(eTree)]; }
@@ -44,7 +44,6 @@ protected:
 protected:
 	VTXINFO m_tVTXINFO;
 	std::vector<TEXTUREINFO> m_vecTextureInfo;
-
 	CString m_strObjectName;
 	CString m_strTypeName;
 

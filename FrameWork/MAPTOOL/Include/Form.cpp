@@ -199,9 +199,12 @@ void CForm::OnBnClickedCreatebutton()
 void CForm::OnBnClickedTexture()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	if (!m_tTerrainTexture.GetSafeHwnd())
-		m_tTerrainTexture.Create(IDD_CTerrainTexture);
-	m_tTerrainTexture.ShowWindow(SW_SHOW);
+	if (m_pNowObject)
+	{
+		if (!m_tTerrainTexture.GetSafeHwnd())
+			m_tTerrainTexture.Create(IDD_CTerrainTexture);
+		m_tTerrainTexture.ShowWindow(SW_SHOW);
+	}
 }
 
 void CForm::OnDeltaposDetailspin(NMHDR* pNMHDR, LRESULT* pResult)
@@ -522,6 +525,9 @@ void CForm::ReSize_ObjectInfo()
 	VTXTEX* pVertex = nullptr;
 	_ulong dwIndex = 0;
 
+	if (!m_pNowObject)
+		return;
+
 	CString strTypeName;
 	static_cast<CToolGameObject*>(m_pNowObject)->Get_TypeName(strTypeName);
 
@@ -749,27 +755,54 @@ void CForm::OnBnClickedCubeCreate()
 void CForm::OnBnClickedMakefilter()
 {
 	// TODO: Add your control notification handler code here
-	UpdateData(TRUE);
-	m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, TVI_ROOT, TVI_LAST);
-	m_Tree_Object.SetFocus();
+	if (m_strTreeFilterName.IsEmpty())
+		return;
+	
+		UpdateData(TRUE);
+		m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, TVI_ROOT, TVI_LAST);
+		m_Tree_Object.SetFocus();
+	
 }
 
 
 void CForm::OnBnClickedDeletefilter()
 {
 	// TODO: Add your control notification handler code here
-	CString str = m_Tree_Object.GetItemText(m_TreeNow);
 
-	for (auto& iter = m_pMapToolView->m_listQuad.begin() ; iter != m_pMapToolView->m_listQuad.end() ; ++iter)
-	{	
-		
-		if (dynamic_cast<CQuadObject*>(*iter)->Compare_Filter(str))
+	if (m_pNowObject)
+	{
+		CString str = m_Tree_Object.GetItemText(m_TreeNow);
+		CString NowObjectTypeName;
+		dynamic_cast<CToolGameObject*>(m_pNowObject)->Get_TypeName(NowObjectTypeName);
+
+		if (!NowObjectTypeName.Compare(L"Quad"))
 		{
-			m_pMapToolView->m_listQuad.erase(iter);
-			break;
-		}
-	}
+			for (auto& iter = m_pMapToolView->m_listQuad.begin(); iter != m_pMapToolView->m_listQuad.end(); ++iter)
+			{
+				if (dynamic_cast<CToolGameObject*>(*iter)->Compare_Filter(str))
+				{
+					Safe_Release(*iter);
+					m_pMapToolView->m_listQuad.erase(iter);
+					break;
+				}
+			}
 
+		}
+		else if (!NowObjectTypeName.Compare(L"Cube"))
+		{
+			for (auto& iter = m_pMapToolView->m_listCube.begin(); iter != m_pMapToolView->m_listCube.end(); ++iter)
+			{
+				if (dynamic_cast<CToolGameObject*>(*iter)->Compare_Filter(str))
+				{
+					Safe_Release(*iter);
+					m_pMapToolView->m_listCube.erase(iter);
+					break;
+				}
+			}
+		}
+
+		m_pNowObject = nullptr;
+	}
 	m_Tree_Object.DeleteItem(m_Tree_Object.GetSelectedItem());
 	UpdateData(FALSE);
 }
@@ -778,10 +811,21 @@ void CForm::OnBnClickedDeletefilter()
 void CForm::OnBnClickedModifyfilter()
 {
 	// TODO: Add your control notification handler code here
-	UpdateData(TRUE);
-	HTREEITEM hTreeItem =  m_Tree_Object.GetSelectedItem();
-	m_Tree_Object.SetItemText(hTreeItem, m_strTreeFilterName);
-	
+	if (m_pNowObject)
+	{
+		UpdateData(TRUE);
+
+		CString TypeName;
+		dynamic_cast<CToolGameObject*>(m_pNowObject)->Get_TypeName(TypeName);
+
+		if (!TypeName.Compare(L"Terrain"))
+			return;
+
+
+		HTREEITEM hTreeItem = m_Tree_Object.GetSelectedItem();
+		m_Tree_Object.SetItemText(hTreeItem, m_strTreeFilterName);
+		dynamic_cast<CToolGameObject*>(m_pNowObject)->Set_ObjectName(m_strTreeFilterName);
+	}
 }
 
 
