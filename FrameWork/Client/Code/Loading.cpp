@@ -13,6 +13,8 @@
 #include "Shuriken.h"
 #include "Bomb.h"
 #include "MonBullet.h"
+#include "Cube.h"
+#include "Quad.h"
 #include "Fog.h"
 #include "Boss.h"
 
@@ -36,6 +38,7 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 	m_eSceneID = eLoading;
 	m_pTextureMgr = Init_TextureMgr();
 	m_pTextureMgr->AddRef();
+	m_pIniManager = INIManager::GetInstance();
 	NULL_CHECK_RETURN(m_pTextureMgr, E_FAIL);
 
 	InitializeCriticalSection(&m_Crt);
@@ -50,7 +53,6 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
-	Load_Terrain(L"../Bin/Resource/Data/Terrain2.Terraindat", L"Terrain1");
 	//Texture불러오기
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
@@ -89,9 +91,13 @@ _uint CLoading::Loading_ForStage()
 	//Component원본 생성
 	CComponent* pCom = nullptr;
 
-	pCom = CRcCol::Create(m_pDevice);
+	pCom = CRcTex::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::RCCOL, pCom);
+	Init_ComProto(COMPONENTID::RCTEX, pCom);
+
+	pCom = CTexture::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::TEXTURE, pCom);
 
 	pCom = CAnimator::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
@@ -111,6 +117,17 @@ _uint CLoading::Loading_ForStage()
 
 	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
+
+	//Quad
+	pObj = CQuad::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::QUAD, pObj);
+
+	//Cube
+	pObj = CCube::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::CUBE, pObj);
+
 	//Player
 	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -146,10 +163,6 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
-	pObj = CTerrain::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj);
-
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
@@ -166,6 +179,10 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::FOG, pObj);
 	
+	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
+
 	m_bFinish = true;
 	return 0;
 }
@@ -207,60 +224,415 @@ void CLoading::Free()
 	DeleteCriticalSection(&m_Crt);
 }
 
-HRESULT CLoading::Load_Terrain(const _tchar* strPath, const _tchar* TerrainName)
+HRESULT CLoading::Load_Terrain(const _tchar* strName)
 {
-	HANDLE hFile = CreateFile(strPath,
-		GENERIC_READ,
-		0,
-		nullptr,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		nullptr);
-	if (INVALID_HANDLE_VALUE == hFile)
+	wstring tmp = strName;
+	string strFile(tmp.begin(), tmp.end());
+	string strtmp = strFile;
+	int TerrainSize = m_pIniManager->LoadDataInteger(strtmp, "TerrainCount", "Count");
+	
+	string Section;
+	string Key;
+	string Value;
+	CTerrain* pTerrain = nullptr;
+
+	for (int i = 0; i < TerrainSize; ++i)
 	{
-		MSG_BOX(L"Terrain Load : CreateFile : 실패");
-		return E_FAIL;
+		Section = string_format("Terrain_%d", i);
+		Key = "Info";
+
+		strtmp = strFile;
+		string VtxInfoValue = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		vector<_int> iVecTerrainInfo;
+		size_t dot = 0;
+		int PointerSize = 0;
+		while (true)
+		{
+			if (VtxInfoValue.find(',') == string::npos)
+			{
+				Value = VtxInfoValue.substr(0, VtxInfoValue.size());
+				iVecTerrainInfo.emplace_back(stoi(Value));
+				PointerSize = 0;
+				break;
+			}
+			dot = VtxInfoValue.find(',');
+			Value = VtxInfoValue.substr(0, dot);
+			iVecTerrainInfo.emplace_back(stoi(Value));
+
+			VtxInfoValue.erase(0, dot + 1);
+		}
+		//지형 생성
+
+
+		CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, iVecTerrainInfo[0]
+			, iVecTerrainInfo[1], iVecTerrainInfo[2], iVecTerrainInfo[3]);
+		NULL_CHECK_RETURN(pTerrainTex, -1);
+		Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
+
+		CGameObject* pObj = CTerrain::Create(m_pDevice);
+		NULL_CHECK_RETURN(pObj);
+		Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj);
+
+		pTerrain = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
+
+		//지형 텍스쳐 불러오기
+		wstring FolderName;
+		wstring FileName;
+
+		Key = "FileFolderName";
+		strtmp = strFile;
+		string ObjectAndTypeName = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		while (true)
+		{
+			if (ObjectAndTypeName.find(',') == std::string::npos)
+			{
+				Value = ObjectAndTypeName.substr(0, ObjectAndTypeName.size());
+				FileName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = ObjectAndTypeName.find(',');
+			Value = ObjectAndTypeName.substr(0, dot);
+			FolderName.assign(Value.begin(), Value.end());
+			ObjectAndTypeName.erase(0, dot + 1);
+		}
+
+		TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
+		lstrcat(strtemp, FolderName.c_str());
+		lstrcat(strtemp, L"\\");
+		lstrcat(strtemp, FileName.c_str());
+		lstrcat(strtemp, L".png");
+		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
+			Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
+
+		//Todo:지형 텍스쳐 넣기
+		pTerrain->setTexture(FileName.c_str());
+
+		//지형 Scale값
+		Key = "Scale";
+		strtmp = strFile;
+		string strScale = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+		strtmp = strFile;
+		string strAngle = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Roatate{};
+		while (true)
+		{
+			if (strAngle.find(',') == string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&Roatate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&Roatate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+		strtmp = strFile;
+		string strPos = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+		pTerrain->LoadTransform(Scale, Roatate, Position);
+		pTerrain->setActive(false);
+		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::TERRAIN, pTerrain);
 	}
+	return S_OK;
+}
 
-	DWORD dwByte = 0;
+HRESULT CLoading::Load_Quad(const _tchar* strName)
+{
+	wstring tmp = strName;
+	string strFile(tmp.begin(), tmp.end());
+	string strtmp = strFile;
+	int QuadSize = m_pIniManager->LoadDataInteger(strtmp, "QuadCount", "Count");
 
-	_ulong dwTerrainX = 0;
-	_ulong dwTerrainZ = 0;
-	_ulong dwInterval = 0;
-	_ulong dwTerrainDetail = 0;
+	string Section;
+	string Key;
+	string Value;
+	CQuad* pQuad = nullptr;
 
-	ReadFile(hFile, &dwTerrainX, sizeof(int), &dwByte, nullptr);
-	ReadFile(hFile, &dwTerrainZ, sizeof(int), &dwByte, nullptr);
-	ReadFile(hFile, &dwInterval, sizeof(int), &dwByte, nullptr);
-	ReadFile(hFile, &dwTerrainDetail, sizeof(int), &dwByte, nullptr);
+	for (int i = 0; i < QuadSize; ++i)
+	{
+		Section = string_format("Quad_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
 
-	int TerrainTextureFolderLength = 0;
+		pQuad = Clone_ObjProto<CQuad>(GAMEOBJECTID::QUAD);
 
-	ReadFile(hFile, &TerrainTextureFolderLength, sizeof(int), &dwByte, nullptr);
-	TCHAR* strFolder = new TCHAR[TerrainTextureFolderLength];
-	ReadFile(hFile, strFolder, sizeof(TCHAR) * TerrainTextureFolderLength, &dwByte, nullptr);
+		wstring FolderName;
+		wstring FileName;
 
-	int TerrainTexturePathLength = 0;
-	ReadFile(hFile, &TerrainTexturePathLength, sizeof(int), &dwByte, nullptr);
-	TCHAR* strFile = new TCHAR[TerrainTexturePathLength];
-	ReadFile(hFile, strFile, sizeof(TCHAR) * TerrainTexturePathLength, &dwByte, nullptr);
+		Key = "FolderFileName";
+		strtmp = strFile;
+		string ObjectAndTypeName = m_pIniManager->LoadDataString(strtmp, Section, Key);
 
-	TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
-	lstrcat(strtemp, strFolder);
-	lstrcat(strtemp, L"\\");
-	lstrcat(strtemp, strFile);
-	lstrcat(strtemp, L".png");
+		while (true)
+		{
+			if (ObjectAndTypeName.find(',') == string::npos)
+			{
+				Value = ObjectAndTypeName.substr(0, ObjectAndTypeName.size());
+				FileName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = ObjectAndTypeName.find(',');
+			Value = ObjectAndTypeName.substr(0, dot);
+			FolderName.assign(Value.begin(), Value.end());
+			ObjectAndTypeName.erase(0, dot + 1);
+		}
 
-	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, TerrainName, 1);
+		TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
+		lstrcat(strtemp, FolderName.c_str());
+		lstrcat(strtemp, L"\\");
+		lstrcat(strtemp, FileName.c_str());
+		lstrcat(strtemp, L".png");
+		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
+			Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
 
-	delete[] strFolder;
-	delete[] strFile;
+		//Quad텍스쳐 넣기
+		pQuad->setTexture(FileName.c_str());
 
-	CloseHandle(hFile);
+		Key = "Scale";
+		strtmp = strFile;
+		string strScale = m_pIniManager->LoadDataString(strtmp, Section, Key);
 
-	CTerrainTex* pCom = CTerrainTex::Create(m_pDevice, dwTerrainX, dwTerrainZ, dwTerrainDetail, dwInterval);
-	NULL_CHECK_RETURN(pCom, E_FAIL);
-	Init_ComProto(COMPONENTID::TERRAINTEX, pCom);
+		_vec3 Scale{};
 
+		while (true)
+		{
+			if (strScale.find(',') == string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+		strtmp = strFile;
+		string strAngle = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Roatate{};
+		while (true)
+		{
+			if (strAngle.find(',') == string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&Roatate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&Roatate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+		strtmp = strFile;
+		string strPos = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+		//QuadTransform 설정
+		pQuad->LoadTransform(Scale, Roatate, Position);
+		pQuad->setActive(false);
+		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::QUAD, pQuad);
+	}
+	return S_OK;
+}
+
+HRESULT CLoading::Load_Cube(const _tchar* strName)
+{
+	wstring tmp = strName;
+	string strFile(tmp.begin(), tmp.end());
+	string strtmp = strFile;
+
+	int QuadSize = m_pIniManager->LoadDataInteger(strtmp, "CubeCount", "Count");
+
+	string Section;
+	string Key;
+	string Value;
+	CCube* pCube = nullptr;
+
+	for (int i = 0; i < QuadSize; ++i)
+	{
+		Section = string_format("Cube_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
+
+		pCube = Clone_ObjProto<CCube>(GAMEOBJECTID::CUBE);
+
+		wstring FolderName;
+		wstring FileName;
+
+		Key = "FolderFileName";
+		strtmp = strFile;
+		string ObjectAndTypeName = m_pIniManager->LoadDataString(strtmp, Section, Key);
+		while (true)
+		{
+			dot = ObjectAndTypeName.find(',');
+			Value = ObjectAndTypeName.substr(0, dot);
+			FolderName.assign(Value.begin(), Value.end());
+			ObjectAndTypeName.erase(0, dot + 1);
+
+			if (ObjectAndTypeName.find(',') == string::npos)
+			{
+				Value = ObjectAndTypeName.substr(0, ObjectAndTypeName.size());
+				FileName.assign(Value.begin(), Value.end());
+
+				TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
+				lstrcat(strtemp, FolderName.c_str());
+				lstrcat(strtemp, L"\\");
+				lstrcat(strtemp, FileName.c_str());
+				lstrcat(strtemp, L".png");
+				if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
+					Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
+
+				pCube->setTexture(FileName.c_str(), PointerSize);
+				
+				PointerSize = 0;
+				break;
+			}
+
+			dot = ObjectAndTypeName.find(',');
+			Value = ObjectAndTypeName.substr(0, dot);
+			FileName.assign(Value.begin(), Value.end());
+			ObjectAndTypeName.erase(0, dot + 1);
+
+			TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
+			lstrcat(strtemp, FolderName.c_str());
+			lstrcat(strtemp, L"\\");
+			lstrcat(strtemp, FileName.c_str());
+			lstrcat(strtemp, L".png");
+			if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
+				Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
+
+			pCube->setTexture(FileName.c_str(), PointerSize);
+			++PointerSize;
+		}
+
+		Key = "Scale";
+		strtmp = strFile;
+		string strScale = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+		strtmp = strFile;
+		string strAngle = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Roatate{};
+		while (true)
+		{
+			if (strAngle.find(',') == string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&Roatate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&Roatate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+		strtmp = strFile;
+		string strPos = m_pIniManager->LoadDataString(strtmp, Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+		pCube->LoadTransform(Scale, Roatate, Position);
+		pCube->setActive(false);
+		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::CUBE, pCube);
+	}
 	return S_OK;
 }

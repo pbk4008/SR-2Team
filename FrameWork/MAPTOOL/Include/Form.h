@@ -65,6 +65,7 @@ public:
 	void LinkResourceAndVariableQuad();
 	void Set_SRP(const _vec3& vecScale,const _vec3& vecRot,const _vec3& vecPos);
 public:	template<typename ... Args> std::string string_format(const std::string& format, Args ... args);
+public:	HTREEITEM FindTreeData(HTREEITEM& hItem, CString& text);
 
 public:
 	// 다이얼로그
@@ -103,8 +104,8 @@ public:
 	int m_iNewTerrainInterval;
 	
 	float m_fMovePower;
-	CTreeCtrl m_Tree_Object;
 
+	CTreeCtrl m_Tree_Object;
 	// Object Tree의 Root
 	HTREEITEM m_TreeRoot;
 	HTREEITEM m_TreeNow;
@@ -114,6 +115,7 @@ public:
 	INIManager* m_pIniManager;
 	afx_msg void OnBnClickedCubesave();
 	afx_msg void OnBnClickedCubeLoad();
+	afx_msg void OnBnClickedModifyParent();
 };
 
 template<typename ... Args>

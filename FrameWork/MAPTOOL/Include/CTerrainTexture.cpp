@@ -179,6 +179,8 @@ BOOL CTerrainTexture::OnInitDialog()
 	CString ObjTypeName;
 	static_cast<CToolGameObject*>(m_pForm->m_pNowObject)->Get_TypeName(ObjTypeName);
 
+
+
 	if (ObjTypeName == L"Terrain")
 	{
 		m_Check_Terrain.SetCheck(TRUE);

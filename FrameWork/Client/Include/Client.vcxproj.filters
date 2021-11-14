@@ -185,6 +185,12 @@
     <Filter Include="02.GameObject\05.Boss\00. Animation\06. Charge">
       <UniqueIdentifier>{4c8e8775-cd90-4816-9ec2-36548df6eca2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\00.BackGround\01.Quad">
+      <UniqueIdentifier>{af28e2c7-4c94-4965-9dbb-d5fa36f75653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\00.BackGround\02.Qube">
+      <UniqueIdentifier>{b0eefbfe-7b95-4755-b353-ea295d3fd623}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -343,6 +349,12 @@
     <ClInclude Include="..\Code\Boss_FlyAnim.h">
       <Filter>02.GameObject\05.Boss\00. Animation\05. Fly</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Quad.h">
+      <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Cube.h">
+      <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -480,6 +492,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Boss_FlyAnim.cpp">
       <Filter>02.GameObject\05.Boss\00. Animation\05. Fly</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Quad.cpp">
+      <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Cube.cpp">
+      <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

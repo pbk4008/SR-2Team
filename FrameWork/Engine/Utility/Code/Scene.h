@@ -26,6 +26,8 @@ public:
 	CComponent* getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
 	CGameObject* getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
 	CGameObject* getGameObject(GAMEOBJECTID eObjID);
+public:
+	HRESULT setLayer(LAYERID eLayerID,CLayer* pLayer);
 protected:
 	LPDIRECT3DDEVICE9 m_pDevice;
 	map<LAYERID, CLayer*> m_mapLayer;

@@ -2,6 +2,7 @@
 #define __ENGINE_STRUCT_H__
 namespace Engine
 {
+
 	typedef struct tagVtxCol
 	{
 		_vec3 vPos;

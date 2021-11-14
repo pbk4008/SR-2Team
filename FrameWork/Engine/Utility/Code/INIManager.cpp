@@ -24,11 +24,9 @@ IMPLEMENT_SINGLETON(INIManager)
 
 		fileName = str + fileName;
 
-		for (size_t i = 0; i < m_vIniData.size(); i++)
+		for (auto& vData : m_vIniData)
 		{
-			VecIniData vData = m_vIniData[i];
-			WritePrivateProfileStringA(vData[0].section.c_str(), vData[0].key.c_str(), vData[0].value.c_str(), fileName.c_str());
-			vData.clear();
+			WritePrivateProfileStringA(vData.front().section.c_str(), vData.front().key.c_str(), vData.front().value.c_str(), fileName.c_str());
 		}
 
 		m_vIniData.clear();

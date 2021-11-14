@@ -23,8 +23,15 @@ public:
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
+public:
+	void setTexture(const _tchar* pFineName);
+	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition);
 private:
 	CTerrainTex* m_pBufferCom;
 	CTexture* m_pTexture;
+
+	_vec3 m_vScale;
+	_vec3 m_vRotate;
+	_vec3 m_vPosition;
 };
 #endif

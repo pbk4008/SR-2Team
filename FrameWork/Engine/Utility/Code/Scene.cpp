@@ -94,3 +94,32 @@ CGameObject* CScene::getGameObject(GAMEOBJECTID eObjID)
 	}
 	return nullptr;
 }
+
+HRESULT CScene::setLayer(LAYERID eLayerID, CLayer* pLayer)
+{
+	auto iter = m_mapLayer.find(eLayerID);
+	if (iter == m_mapLayer.end())
+		m_mapLayer.emplace(eLayerID, pLayer);
+	pLayer->AddRef();
+	Safe_Release((*iter).second);
+	(*iter).second = pLayer;
+
+	CLayer* pEnvironmentLayer = m_mapLayer[LAYERID::ENVIRONMENT];
+	vector<GAMEOBJECTID> pIDVec;
+	vector<vector<CGameObject*>> pObjVec;
+	(*iter).second->getAllObjecID(pIDVec);
+	(*iter).second->getAllObject(pObjVec);
+
+	_int iSize = pIDVec.size();
+	for (_int i = 0; i < iSize; i++)
+	{
+		for (auto pObj : pObjVec[i])
+		{
+			pEnvironmentLayer->Add_Object(pIDVec[i], pObj);
+			pObj->AddRef();
+		}
+	}
+
+	(*iter).second->DeleteLayer();
+	return S_OK;
+}
