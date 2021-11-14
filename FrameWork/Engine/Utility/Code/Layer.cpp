@@ -58,6 +58,17 @@ HRESULT CLayer::Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj)
 	return S_OK;
 }
 
+void CLayer::DeleteLayer()
+{
+	for (auto& objVector : m_mapObject)//Vector
+	{
+		for_each((objVector.second).begin(), (objVector.second).end(), DeleteObj);//Obj
+		objVector.second.clear();
+		objVector.second.shrink_to_fit();
+	}
+	m_mapObject.clear();
+}
+
 vector<CGameObject*>* CLayer::Find_GameObject(GAMEOBJECTID eObjID)
 {
 	auto objVec = m_mapObject.find(eObjID);//objVectorArr√£±‚
@@ -98,13 +109,7 @@ CLayer* CLayer::Create()
 
 void CLayer::Free()
 {
-	for (auto& objVector : m_mapObject)//Vector
-	{
-		for_each((objVector.second).begin(), (objVector.second).end(), DeleteObj);//Obj
-		objVector.second.clear();
-		objVector.second.shrink_to_fit();
-	}
-	m_mapObject.clear();
+	DeleteLayer();
 }
 
 CComponent* CLayer::getComponent(GAMEOBJECTID eObjID, COMPONENTID eComponentID, COMPONENTTYPE eType)
@@ -125,4 +130,20 @@ CGameObject* CLayer::getGameObject(GAMEOBJECTID eObj)
 	if (!res)
 		return nullptr;
 	return res;
+}
+
+void CLayer::getAllObjecID(vector<GAMEOBJECTID>& pVector)
+{
+	pVector.reserve(m_mapObject.size());
+
+	for (auto pObj : m_mapObject)
+		pVector.emplace_back(pObj.first);
+}
+
+void CLayer::getAllObject(vector<vector<CGameObject*>>& pVector)
+{
+	pVector.reserve(m_mapObject.size());
+
+	for (auto pObj : m_mapObject)
+		pVector.emplace_back(pObj.second);
 }

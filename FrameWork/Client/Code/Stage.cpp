@@ -28,6 +28,7 @@ HRESULT CStage::Init_Scene()
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
 	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
@@ -56,6 +57,7 @@ HRESULT CStage::Init_Layer()
 	FAILED_CHECK_RETURN(Init_Environment_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_GameLogic_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_UI_Layer(), E_FAIL);
+	FAILED_CHECK_RETURN(Init_Loading_Layer(), E_FAIL);
 
 	return S_OK;
 }
@@ -66,10 +68,6 @@ HRESULT CStage::Init_Environment_Layer()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	//TODO : Environment게임오브젝트 추가
-	CGameObject* pGameObject = nullptr;
-
-	pGameObject = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
-	pLayer->Add_Object(GAMEOBJECTID::TERRAIN, pGameObject);
 
 	m_mapLayer.emplace(LAYERID::ENVIRONMENT, pLayer);
 
@@ -123,6 +121,16 @@ HRESULT CStage::Init_UI_Layer()
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
+	return S_OK;
+}
+
+HRESULT CStage::Init_Loading_Layer()
+{
+	CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	CGameObject* pGameObject = nullptr;
+
+	m_mapLayer.emplace(LAYERID::LOADING, pLayer);
 	return S_OK;
 }
 

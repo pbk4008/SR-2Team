@@ -15,6 +15,7 @@ public:
 	_int Update_Layer(const _float& fDeltaTime);
 	void LateUpdate_Layer();
 	HRESULT Add_Object(GAMEOBJECTID eObjID, CGameObject* pObj);
+	void DeleteLayer();
 private:
 	vector<CGameObject*>* Find_GameObject(GAMEOBJECTID eObjID);
 	CGameObject* Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID eObjID);
@@ -25,6 +26,8 @@ private:
 public:
 	CComponent* getComponent(GAMEOBJECTID eObjID,COMPONENTID eComponentID, COMPONENTTYPE eType);
 	CGameObject* getGameObject(GAMEOBJECTID eObj);
+	void getAllObjecID(vector<GAMEOBJECTID>& pVector);
+	void getAllObject(vector<vector<CGameObject*>>& pVector);
 private:
 	map<GAMEOBJECTID, vector<CGameObject*>> m_mapObject;
 };

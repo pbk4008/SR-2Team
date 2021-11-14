@@ -3,14 +3,23 @@
 
 CTerrain::CTerrain():m_pBufferCom(nullptr),m_pTexture(nullptr)
 {
+	ZeroMemory(&m_vScale,sizeof(_vec3));
+	ZeroMemory(&m_vRotate,sizeof(_vec3));
+	ZeroMemory(&m_vPosition,sizeof(_vec3));
 }
 
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr)
 {
+	ZeroMemory(&m_vScale, sizeof(_vec3));
+	ZeroMemory(&m_vRotate, sizeof(_vec3));
+	ZeroMemory(&m_vPosition, sizeof(_vec3));
 }
 
 CTerrain::CTerrain(const CTerrain& rhs):CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture)
 {
+	ZeroMemory(&m_vScale, sizeof(_vec3));
+	ZeroMemory(&m_vRotate, sizeof(_vec3));
+	ZeroMemory(&m_vPosition, sizeof(_vec3));
 	m_pBufferCom->AddRef();
 	m_pTexture->AddRef();
 }
@@ -29,6 +38,10 @@ HRESULT CTerrain::Init_Terrain()
 _int CTerrain::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
+
+	m_pTransform->setScale(m_vScale);
+	m_pTransform->setAngle(m_vRotate);
+	m_pTransform->setPos(m_vPosition);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
@@ -73,7 +86,6 @@ HRESULT CTerrain::Add_Component()
 	
 	pCom = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
 	NULL_CHECK_RETURN(m_pTexture, E_FAIL);
-	m_pTexture->setTexture(GetTexture(L"Terrain1", TEXTURETYPE::TEX_NORMAL));
 	m_pTexture->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, pCom);
 
@@ -85,4 +97,19 @@ void CTerrain::Free()
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
+}
+
+void CTerrain::setTexture(const _tchar* pFileName)
+{
+	m_pTexture->setTexture(GetTexture(pFileName, TEXTURETYPE::TEX_NORMAL));
+}
+
+void CTerrain::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition)
+{
+	m_vScale = vScale;
+	m_vRotate = vRotate;
+	m_vPosition = vPosition;
+	m_pTransform->setScale(m_vScale);
+	m_pTransform->setAngle(m_vRotate);
+	m_pTransform->setPos(m_vPosition);
 }

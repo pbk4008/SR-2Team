@@ -180,6 +180,8 @@
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
+    <ClInclude Include="..\Code\Quad.h" />
+    <ClInclude Include="..\Code\Cube.h" />
     <ClInclude Include="..\Code\ShootMon.h" />
     <ClInclude Include="..\Code\Player_Walk.h" />
     <ClInclude Include="..\Code\ShootMon_Attack.h" />
@@ -228,6 +230,8 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
+    <ClCompile Include="..\Code\Quad.cpp" />
+    <ClCompile Include="..\Code\Cube.cpp" />
     <ClCompile Include="..\Code\ShootMon.cpp" />
     <ClCompile Include="..\Code\Player_Walk.cpp" />
     <ClCompile Include="..\Code\ShootMon_Attack.cpp" />
