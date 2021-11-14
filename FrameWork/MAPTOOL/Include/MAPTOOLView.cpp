@@ -17,6 +17,10 @@
 #include "StaticCamera.h"
 #include "DynamicCamera.h"
 #include "TerrainTex.h"
+#include "TerrainObject.h"
+#include "QuadObject.h"
+#include "CubeObject.h"
+#include "ToolGameObject.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,6 +37,7 @@ BEGIN_MESSAGE_MAP(CMAPTOOLView, CView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_WM_ERASEBKGND()
+	ON_WM_ACTIVATE()
 END_MESSAGE_MAP()
 
 // CMAPTOOLView 생성/소멸
@@ -43,15 +48,30 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 	, m_pGraphicDev(nullptr)
 	, m_pMainFrame(nullptr)
 	, m_pProtoMgr(nullptr)
+	, m_bOnActive(true)
+	, m_pDynamicCamera(nullptr)
+	, m_pInputDev(nullptr)
+	, m_pTextureMgr(nullptr)
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
+	m_vecSRP[0] = { 1.f,1.f,1.f };
+	ZeroMemory(m_vecSRP[1], sizeof(_vec3) * 2);
+
 
 }
 
 CMAPTOOLView::~CMAPTOOLView()
 {
+	std::for_each(m_listTerrain.begin(), m_listTerrain.end(), DeleteObj);
+	m_listTerrain.clear();
+
+	std::for_each(m_listQuad.begin(), m_listQuad.end(), DeleteObj);
+	m_listQuad.clear();
+
+	std::for_each(m_listCube.begin(), m_listCube.end(), DeleteObj);
+	m_listCube.clear();
+
 	m_pGraphicDev->DestroyInstance();
-	Safe_Release(m_pBufferCom);
 	Safe_Release(m_pDynamicCamera);
 	Utility_Release();
 	System_Release();
@@ -85,14 +105,215 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	(*ppGraphicDev)->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-
-
-
 	/*	wrap: 0~1을 넘는 경우 다시 0부터 출력 //기본옵션
 		clamp : 0~1을 넘는 경우 그냥 잘라냄
 		mirror : 0~1을 넘는 경우 반전하여 출력 */
+}
 
+void CMAPTOOLView::Update_View(const float& fTimeDelta)
+{
+	if (m_bOnActive)
+	{
+		CInputDev::GetInstance()->Update_InputDev();
+		m_pDynamicCamera->Update_Object(fTimeDelta);
+		Set_XYZKey();
+	}
+		if (!m_listTerrain.empty())
+		{
+			for (const auto& Obj : m_listTerrain)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				//m_vecSRP[1] = Obj->getTransform()->getToolAngle();
+				m_vecSRP[1] = Obj->getTransform()->getAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CToolGameObject*>(Obj)->Set_Transform(m_vecSRP[0],m_vecSRP[1],m_vecSRP[2]);
+				dynamic_cast<CToolGameObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
+		}
+		if (!m_listQuad.empty())
+		{
+			for (const auto& Obj : m_listQuad)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				m_vecSRP[1] = Obj->getTransform()->getAngle();
 
+				//m_vecSRP[1] = Obj->getTransform()->getToolAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CToolGameObject*>(Obj)->Set_Transform(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+				dynamic_cast<CToolGameObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
+		}
+		if (!m_listCube.empty())
+		{
+			for (const auto& Obj : m_listCube)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				m_vecSRP[1] = Obj->getTransform()->getAngle();
+
+				//m_vecSRP[1] = Obj->getTransform()->getToolAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CToolGameObject*>(Obj)->Set_Transform(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+				dynamic_cast<CToolGameObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
+		}
+
+		if (m_pForm->m_pNowObject)
+		{
+			Init_LineXYZ(ObjectLineXYZ, 1.f, m_pForm->m_pNowObject);
+		}
+		
+			
+}
+
+void CMAPTOOLView::Init_LineXYZ(std::array<_vec3, 6>& LineXYZ, _float Length, CGameObject* NowObject )
+{
+	if (!NowObject)
+	{
+		LineXYZ[0] = _vec3{ 0	  ,0     ,0 };
+		LineXYZ[1] = _vec3{ 0	  ,0	 ,Length };
+		LineXYZ[2] = _vec3{ 0	  ,0	 ,0 };
+		LineXYZ[3] = _vec3{ 0	  ,Length,0 };
+		LineXYZ[4] = _vec3{ 0     ,0	 ,0 };
+		LineXYZ[5] = _vec3{ Length,0	 ,0 };
+	}
+	else
+	{
+		_matrix	ObjectWorld = NowObject->getTransform()->getWorldMatrix();
+
+		LineXYZ[0] = _vec3{ ObjectWorld._41								, ObjectWorld._42							  , ObjectWorld._43								};
+		LineXYZ[1] = _vec3{ ObjectWorld._41	+ (Length * ObjectWorld._31), ObjectWorld._42 + (Length * ObjectWorld._32), ObjectWorld._43 + (Length * ObjectWorld._33)};
+		LineXYZ[2] = _vec3{ ObjectWorld._41						   		, ObjectWorld._42							  , ObjectWorld._43								};
+		LineXYZ[3] = _vec3{ ObjectWorld._41 + (Length * ObjectWorld._21), ObjectWorld._42 + (Length * ObjectWorld._22), ObjectWorld._43 + (Length * ObjectWorld._23)};
+		LineXYZ[4] = _vec3{ ObjectWorld._41								, ObjectWorld._42							  , ObjectWorld._43								};
+		LineXYZ[5] = _vec3{ ObjectWorld._41 + (Length * ObjectWorld._11), ObjectWorld._42 + (Length * ObjectWorld._12), ObjectWorld._43 + (Length * ObjectWorld._13)};
+
+	}
+}
+
+void CMAPTOOLView::Render_LineXYZ()
+{
+	_matrix matWorld, matView, matProj;
+
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+	m_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphicDev->getLine()->Begin();
+	m_pGraphicDev->getLine()->DrawTransform(&LineXYZ[0], 2, &(matView * matProj), D3DCOLOR_XRGB(255, 0, 0));
+	m_pGraphicDev->getLine()->DrawTransform(&LineXYZ[2], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 255, 0));
+	m_pGraphicDev->getLine()->DrawTransform(&LineXYZ[4], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 0, 255));
+	if (m_pForm->m_pNowObject)
+	{
+		m_pGraphicDev->getLine()->DrawTransform(&ObjectLineXYZ[0], 2, &(matView * matProj), D3DCOLOR_XRGB(255, 0, 0));
+		m_pGraphicDev->getLine()->DrawTransform(&ObjectLineXYZ[2], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 255, 0));
+		m_pGraphicDev->getLine()->DrawTransform(&ObjectLineXYZ[4], 2, &(matView * matProj), D3DCOLOR_XRGB(0, 0, 255));
+	}
+	m_pGraphicDev->getLine()->End();
+
+}
+
+void CMAPTOOLView::Init_ToolWindows()
+{
+	//View창 정확한 크기구하기
+	m_pMainFrame = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
+	m_pForm = dynamic_cast<CForm*>(m_pMainFrame->m_tMainSplitter.GetPane(0, 0));
+
+	RECT rcMain = {};
+	m_pMainFrame->GetWindowRect(&rcMain); //전체 윈도우크기 구하기
+
+	SetRect(&rcMain, 0, 0, rcMain.right - rcMain.left, rcMain.bottom - rcMain.top);
+	RECT rcView{};
+	GetClientRect(&rcView); // 현재 클래스의 윈도우 크기 구하기
+
+	const int iGapX = rcMain.right - rcView.right; //갭 차이 구하기
+	const int iGapY = rcMain.bottom - rcView.bottom;
+	m_pMainFrame->SetWindowPos(nullptr, 0, 0, WINCX + iGapX, WINCY + iGapY, SWP_NOMOVE);
+	// 갭차이만큼 더해서 진짜 자신의 크기를 구해준다
+
+	//글로벌 핸들 만들어주기
+	g_hWnd = m_hWnd;
+}
+
+void CMAPTOOLView::Init_Component()
+{
+	// ==================================== 컴포넌트 원본 생성 =====================================================
+	// Camera
+	const _vec3 vLook = { 0.f,10.f,-10.f };
+	const _vec3 vAt = { 0.f,0.f,10.f };
+	const _vec3 vUp = { 0.f,1.f,0.f };
+	Init_ComProto(COMPONENTID::CAMERA, CDynamicCamera::Create(m_pDevice, &vLook, &vAt, &vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f));
+
+	// Transform
+	Init_ComProto(COMPONENTID::TRANSFORM, CTransform::Create());
+
+	// RcTex
+	//Init_ComProto(COMPONENTID::RCTEX, CRcTex::Create(m_pDevice));
+
+	// TerrainTex
+	//Init_ComProto(COMPONENTID::TERRAINTEX, CTerrainTex::Create(m_pDevice, 2, 2, 1));
+	// ==================================== 컴포넌트 원본 생성 =====================================================
+}
+
+void CMAPTOOLView::Set_XYZKey()
+{
+	if (m_pForm->m_pNowObject)
+	{
+		m_vecSRP[0] = m_pForm->m_pNowObject->getTransform()->getScale();
+		//m_vecSRP[1] = m_pForm->m_pNowObject->getTransform()->getToolAngle();
+		m_vecSRP[1] = m_pForm->m_pNowObject->getTransform()->getAngle();
+		m_vecSRP[2] = m_pForm->m_pNowObject->getTransform()->getPos();
+	}
+	else
+	{
+		return;
+	}
+	
+	if (m_pForm->m_Button_Scale.GetCheck())
+	{
+		UpDown_Key(&m_vecSRP[0]);
+	}
+	else if (m_pForm->m_Button_Roation.GetCheck())
+	{
+		UpDown_Key(&m_vecSRP[1]);
+	}
+	else if (m_pForm->m_Button_Position.GetCheck())
+	{
+		UpDown_Key(&m_vecSRP[2]);
+	}
+
+	m_pForm->m_pNowObject->getTransform()->setScale(m_vecSRP[0]);
+	//m_pForm->m_pNowObject->getTransform()->setToolAngle(m_vecSRP[1]);
+	m_pForm->m_pNowObject->getTransform()->setAngle(m_vecSRP[1]);
+	m_pForm->m_pNowObject->getTransform()->setPos(m_vecSRP[2]);
+	m_pForm->Set_SRP(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+
+}
+
+void CMAPTOOLView::UpDown_Key(_vec3* pVector)
+{
+	if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000)
+	{
+		pVector->x -= m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000)
+	{
+		pVector->x += m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000)
+	{
+		pVector->y -= m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD5) & 0x8000)
+	{
+		pVector->y += m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000)
+	{
+		pVector->z -= m_pForm->m_fMovePower;
+	}
+	if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000)
+	{
+		pVector->z += m_pForm->m_fMovePower;
+	}
 }
 
 // CMAPTOOLView 그리기
@@ -105,8 +326,36 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 	if (!pDoc)
 		return;
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+			//루프 처리
+	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
 
+	{
+		if (m_pForm->m_bWireFrame.GetCheck())
+			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
+		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	}
+
+	Render_GameObject(m_pDevice);
+
+	{
+		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		if (m_pForm->m_bWireFrame.GetCheck())
+			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
+	if (m_pForm->m_Button_Zbuffer.GetCheck())
+	{
+		m_pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	}
+
+	Render_LineXYZ();
+
+	if (m_pForm->m_Button_Zbuffer.GetCheck())
+	{
+		m_pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	}
+	m_pGraphicDev->Render_End();
 
 }
 
@@ -164,52 +413,27 @@ void CMAPTOOLView::OnInitialUpdate()
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 
-	m_pMainFrame = dynamic_cast<CMainFrame*>(AfxGetApp()->GetMainWnd());
-	m_pForm = dynamic_cast<CForm*>(m_pMainFrame->m_tMainSplitter.GetPane(0, 0));
+	//기본 Tool창 설정
+	Init_ToolWindows();
 
-	RECT rcMain = {};
-	m_pMainFrame->GetWindowRect(&rcMain); //전체 윈도우크기 구하기
-
-	SetRect(&rcMain, 0, 0, rcMain.right - rcMain.left, rcMain.bottom - rcMain.top);
-	RECT rcView{};
-	GetClientRect(&rcView); // 현재 클래스의 윈도우 크기 구하기
-
-	const int iGapX = rcMain.right - rcView.right; //갭 차이 구하기
-	const int iGapY = rcMain.bottom - rcView.bottom;
-	m_pMainFrame->SetWindowPos(nullptr, 0, 0, WINCX + iGapX, WINCY + iGapY, SWP_NOMOVE);
-	// 갭차이만큼 더해서 진짜 자신의 크기를 구해준다
-
-	g_hWnd = m_hWnd;
-
+	// Graphic Device 기초설정
 	SetUp_DefaultGraphicDevSetting(&m_pDevice);
 
+	// XYZ색선 점 설정
+	Init_LineXYZ(LineXYZ,5.f);
 
-	// ==================================== 컴포넌트 원본 생성 =====================================================
+	// 매니저 활성
 	Init_ProtoMgr();
 	m_pTextureMgr = Init_TextureMgr();
-	const _vec3 vLook = { 0.f,10.f,-10.f };
-	const _vec3 vAt = { 0.f,0.f,10.f };
-	const _vec3 vUp = { 0.f,1.f,0.f };
-	Init_ComProto(COMPONENTID::CAMERA, CDynamicCamera::Create(m_pDevice, &vLook, &vAt, &vUp,D3DXToRadian(60.f),(_float)WINCX / WINCY , 0.1f, 1000.f));
+
+	//컴포넌트들 생성
+	Init_Component();
+
+	//카메라 붙이기
 	m_pDynamicCamera = Clone_ComProto<CDynamicCamera>(COMPONENTID::CAMERA);
 
-	// ==================================== 컴포넌트 원본 생성 =====================================================
-	// 
-	//// === 버퍼 만들기 ===
-	//Init_ComProto( COMPONENTID::TERRAINTEX, CTerrainTex::Create(m_pDevice, 129, 129, 1));
-	////// == 버퍼 붙이기 == 
-	//m_pBufferCom = Clone_ComProto<CTerrainTex>(COMPONENTID::TERRAINTEX);
 
-	// 생으로 만들기 //바닥만들기
-	m_pBufferCom = CTerrainTex::Create(m_pDevice, 129, 129, 1);
-	// ===  === 
-	m_pForm->m_dwTerrainX = 129;
-	m_pForm->m_dwTerrainZ = 129;
-	m_pForm->m_dwInterval = 1;
 	m_pForm->UpdateData(false);
-
-
-
 }
 
 
@@ -219,4 +443,15 @@ BOOL CMAPTOOLView::OnEraseBkgnd(CDC* pDC)
 	// WM_PAINT 메세지가 날아오기전 날아오는메세지 이것으로 인해 directx clear 함수가 지워주는데도 그전에 한번더 지워주어서 깜빡임이 발생할수있다 0을 반환 해주자
 	//return CView::OnEraseBkgnd(pDC);
 	return 0;
+}
+
+
+void CMAPTOOLView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+
+	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+
+	if (TRUE == bActivate) m_bOnActive = true;
+	if (FALSE == bActivate) m_bOnActive = false;
 }

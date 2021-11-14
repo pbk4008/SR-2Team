@@ -38,6 +38,12 @@ public:
 	void setHit(_bool bHit) { m_bHit = bHit; }
 	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
 	void setCollider(CCollision* pCollider) { m_pCollider = pCollider; }
+	void setPivot(const _float& fLen) { m_fPivotLen = fLen; }
+	void setMaterial(const _float& fR, const _float& fG,const _float& fB,const _float& fA)
+	{ m_pMaterial->Diffuse.a = fA; 
+	 m_pMaterial->Diffuse.r = fR; 
+	 m_pMaterial->Diffuse.g = fG; 
+	 m_pMaterial->Diffuse.b = fB; }
 private:
 	CTransform* m_pTransform;
 	_vec3 m_vCenter;
@@ -46,8 +52,10 @@ private:
 	COLLISIONTRIGGER m_eTrigger;
 	LPD3DXMESH m_pSphere;
 	_bool m_bHit;
+	_float m_fPivotLen;
 	CCollision* m_pCollider;
 	CCollisionMgr* m_pCollisionMgr;
+	D3DMATERIAL9* m_pMaterial;
 };
 END
 #endif

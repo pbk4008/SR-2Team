@@ -34,8 +34,20 @@
     <Filter Include="01. View\Form\TerrainTexture">
       <UniqueIdentifier>{1e4beeaf-a8b5-4ab2-98c3-a27e93627bb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. View\Form\Texture">
-      <UniqueIdentifier>{eaa3d31b-8f70-40a3-8f01-5332399a39e0}</UniqueIdentifier>
+    <Filter Include="04. GameObject">
+      <UniqueIdentifier>{f8325a97-f0ec-466e-b68e-40485fc02f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\00. Terrain">
+      <UniqueIdentifier>{fe5a680a-996b-4b68-b329-fc9601f9619a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\02. CubeTex">
+      <UniqueIdentifier>{79691a57-69d3-41cf-9f05-9fe6e303be00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\01. QuadTex">
+      <UniqueIdentifier>{31a868ba-a083-4c6f-9517-2a778b8143f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. GameObject\ToolGameObject">
+      <UniqueIdentifier>{b3097b84-a4dc-4e08-aff7-afecd439a533}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,8 +99,17 @@
     <ClInclude Include="CTerrainTexture.h">
       <Filter>01. View\Form\TerrainTexture</Filter>
     </ClInclude>
-    <ClInclude Include="CTerrainPicture.h">
-      <Filter>01. View\Form\Texture</Filter>
+    <ClInclude Include="..\Code\TerrainObject.h">
+      <Filter>04. GameObject\00. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\CubeObject.h">
+      <Filter>04. GameObject\02. CubeTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\QuadObject.h">
+      <Filter>04. GameObject\01. QuadTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ToolGameObject.h">
+      <Filter>04. GameObject\ToolGameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,8 +140,17 @@
     <ClCompile Include="CTerrainTexture.cpp">
       <Filter>01. View\Form\TerrainTexture</Filter>
     </ClCompile>
-    <ClCompile Include="CTerrainPicture.cpp">
-      <Filter>01. View\Form\Texture</Filter>
+    <ClCompile Include="..\Code\TerrainObject.cpp">
+      <Filter>04. GameObject\00. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\CubeObject.cpp">
+      <Filter>04. GameObject\02. CubeTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuadObject.cpp">
+      <Filter>04. GameObject\01. QuadTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ToolGameObject.cpp">
+      <Filter>04. GameObject\ToolGameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

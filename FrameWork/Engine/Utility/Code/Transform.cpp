@@ -286,11 +286,11 @@ void CTransform::setAngle(const _vec3& vAngle)
 	D3DXMatrixIdentity(&matY);
 	D3DXMatrixIdentity(&matZ);
 
-	D3DXMatrixRotationX(&matX, (m_vAngle.x));
+	D3DXMatrixRotationX(&matX, D3DXToRadian(m_vAngle.x));
 
-	D3DXMatrixRotationY(&matY, (m_vAngle.y));
+	D3DXMatrixRotationY(&matY, D3DXToRadian(m_vAngle.y));
 
-	D3DXMatrixRotationZ(&matZ, (m_vAngle.z));
+	D3DXMatrixRotationZ(&matZ, D3DXToRadian(m_vAngle.z));
 
 	m_matRotate = matZ * matX * matY;
 
@@ -313,4 +313,9 @@ void CTransform::setRevolve(MATRIXINFO eInfo, _float fAngle)
 		break;
 	}
 	m_dwFlag |= FLAG_REVOLVE;
+}
+void Engine::CTransform::setToolAngle(const _vec3& vecToolAngle)
+{
+	memcpy(&m_ToolvAngle, &vecToolAngle, sizeof(_vec3));
+
 }

@@ -8,7 +8,7 @@ class CBullet;
 class CPlayer final : public CGameObject
 {
 public:
-	enum class STATE {IDLE, ATTACK,WALK, MAX};
+	enum class STATE {IDLE, ATTACK,WALK, HIT,MAX};
 	enum class ATTACKTYPE { SWORD, SHURIKEN, BOMB };
 private:
 	explicit CPlayer();
@@ -49,7 +49,9 @@ private:
 	_bool m_bJump;
 	_bool m_bHide;
 	_bool m_bDash;
+	_bool m_bDashDelay;
 	_float m_fAngle;
+	_float m_fDashTime;
 
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;

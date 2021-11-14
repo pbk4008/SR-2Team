@@ -50,7 +50,7 @@ _int CFog::Update_GameObject(const _float& fDeltaTime)
 	m_pTransform->setPos(m_vFirstPos);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
-	cout << m_vFirstPos.x <<" " << m_vFirstPos.y <<" " << m_vFirstPos.z << endl;
+	//cout << m_vFirstPos.x <<" " << m_vFirstPos.y <<" " << m_vFirstPos.z << endl;
 	m_pCollision->Collison(COLLISIONTAG::PLAYER);
 	m_fDestroyTime += fDeltaTime;
 	setSideMatrix();
@@ -70,7 +70,7 @@ void CFog::LateUpdate_GameObject()
 	CGameObject::LateUpdate_GameObject();
 	if (m_pCollision->getHit())
 	{
-		cout << "충돌!!" << endl;
+		//cout << "충돌!!" << endl;
 		m_pCollision->ResetCollision();
 	}
 }

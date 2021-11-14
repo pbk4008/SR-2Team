@@ -17,7 +17,9 @@
 
 #include <afxdisp.h>        // MFC 자동화 클래스입니다.
 
-
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // Internet Explorer 4 공용 컨트롤에 대한 MFC 지원입니다.
@@ -27,6 +29,9 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include <afxcontrolbars.h>     // MFC의 리본 및 컨트롤 막대 지원
+
+//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")    //semicolon이 없음
+#include <iostream>
 
 #include "d3d9.h"
 #pragma comment(lib, "d3d9.lib")
@@ -40,6 +45,7 @@
 #pragma comment(lib,"Utility.lib")
 
 #include <string>
+#include <array>
 #include <vector>
 #include <list>
 #include <map>
@@ -49,8 +55,8 @@
 
 
 
-#include "ToolInclude.h"
 #include "Export_Function.h"
+#include "ToolInclude.h"
 
 
 
