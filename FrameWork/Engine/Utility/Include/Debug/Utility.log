@@ -1,15 +1,8 @@
-﻿  Collision.cpp
-<<<<<<< HEAD
+﻿  Layer.cpp
+  Scene.cpp
+  코드를 생성하고 있습니다...
+     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
-=======
-  GameObject.cpp
-  Management.cpp
-  Transform.cpp
-  Generating Code...
-  LINK : ..\Bin\Utility.dll not found or not built by the last incremental link; performing full link
-     Creating library ../Bin\Utility.lib and object ../Bin\Utility.exp
-  Utility.vcxproj -> C:\Users\redro\Desktop\Team SR\FrameWork\Engine\Utility\Bin\Utility.dll
->>>>>>> 95107ab2ad9cb6f6edfb60dfcbea7d6f465661aa
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h

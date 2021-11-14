@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-﻿  System.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\System\Bin\System.dll
-=======
 ﻿  FrameMgr.cpp
   GraphicDev.cpp
   InputDev.cpp
   TimeMgr.cpp
-  Generating Code...
-     Creating library ../Bin\System.lib and object ../Bin\System.exp
-  System.vcxproj -> C:\Users\redro\Desktop\Team SR\FrameWork\Engine\System\Bin\System.dll
->>>>>>> 95107ab2ad9cb6f6edfb60dfcbea7d6f465661aa
+  코드를 생성하고 있습니다...
+  System.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\System\Bin\System.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h

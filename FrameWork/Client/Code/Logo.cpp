@@ -22,9 +22,9 @@ CLogo::~CLogo()
 
 HRESULT CLogo::Init_Scene()
 {
-	FAILED_CHECK_RETURN(Init_ProtoMgr(), E_FAIL);
 	Init_LogoScene();
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
+	FAILED_CHECK_RETURN(Init_ProtoMgr(), E_FAIL);
 
 	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
@@ -44,18 +44,20 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 			CScene* pScene = nullptr;
 
 			pScene = CStage::Create(m_pDevice);
+
+			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			FAILED_CHECK_RETURN(Change_Scene(pScene), E_FAIL);
 
 			return iExit;
 		}
-
 	}
 	return iExit;
 }
 
 void CLogo::LateUpdate_Scene()
+
 {
 	CScene::LateUpdate_Scene();
 }
@@ -70,6 +72,7 @@ HRESULT CLogo::Init_Layer()
 	FAILED_CHECK_RETURN(Init_Environment_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_GameLogic_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_UI_Layer(), E_FAIL);
+	FAILED_CHECK_RETURN(Init_LoadingLayer(), E_FAIL);
 
 	return S_OK;
 }
@@ -107,6 +110,17 @@ HRESULT CLogo::Init_UI_Layer()
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
+	return S_OK;
+}
+
+HRESULT CLogo::Init_LoadingLayer()
+{
+	CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	//TODO : UI 게임오브젝트 추가
+	CGameObject* pGameObject = nullptr;
+
+	m_mapLayer.emplace(LAYERID::LOADING, pLayer);
 	return S_OK;
 }
 

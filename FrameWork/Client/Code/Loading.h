@@ -2,6 +2,7 @@
 #ifndef __LODING_H__
 #define __LODING_H__
 #include "Base.h"
+#include "INIManager.h"
 class CLoading  final : public CBase
 {
 private:
@@ -14,6 +15,20 @@ public:
 public:
 	static CLoading* Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID);
 	static unsigned CALLBACK Thread_Main(void* pArg);
+	HRESULT Load_Terrain(const _tchar* strName);
+	HRESULT Load_Quad(const _tchar* strName);
+	HRESULT Load_Cube(const _tchar* strName);
+private:
+	template<typename ... Args>
+	std::string string_format(const std::string& format, Args ... args)
+	{
+		int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+		if (size_s <= 0) { throw std::runtime_error("Error during formatting."); }
+		auto size = static_cast<size_t>(size_s);
+		auto buf = std::make_unique<char[]>(size);
+		std::snprintf(buf.get(), size, format.c_str(), args ...);
+		return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
+	}
 private:
 	virtual void Free();
 public:
@@ -21,7 +36,6 @@ public:
 	CRITICAL_SECTION* getCrt() { return &m_Crt; }
 	_bool getFinish() { return m_bFinish; }
 	const _tchar* getString() { return m_szLoading; }
-	HRESULT Load_Terrain(const _tchar* strPath, const _tchar* TerrainName);
 private:
 	HANDLE m_hThread;
 	CRITICAL_SECTION m_Crt;
@@ -31,6 +45,7 @@ private:
 	_bool m_bFinish;
 	_tchar m_szLoading[256];
 
+	INIManager* m_pIniManager;
 	CTextureMgr* m_pTextureMgr;
 };
 #endif
