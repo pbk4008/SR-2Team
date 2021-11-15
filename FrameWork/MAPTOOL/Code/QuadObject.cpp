@@ -14,8 +14,9 @@ CQuadObject::CQuadObject(LPDIRECT3DDEVICE9 pDevice)
 
 CQuadObject::CQuadObject(const CQuadObject& rhs)
 	: CToolGameObject(rhs)
-	, m_pQuadTex(rhs.m_pQuadTex)
+	//, m_pQuadTex(rhs.m_pQuadTex)
 {
+	m_pQuadTex = CRcTex::Create(m_pDevice);
 }
 
 CQuadObject::~CQuadObject()

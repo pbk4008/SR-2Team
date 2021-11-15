@@ -36,7 +36,6 @@ public:
 	CString m_tCurTextureState; //폴더이름
 	CString m_tFilePath;
 	int m_iTreeParentIndex;
-	int m_iTreeIndex;
 
 
 	CButton m_Check_Terrain;

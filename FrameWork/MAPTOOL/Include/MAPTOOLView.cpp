@@ -336,7 +336,21 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	}
 
+	{
+		if (m_pForm->m_bAlphaTest.GetCheck())
+		{
+			m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+			m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+			m_pDevice->SetRenderState(D3DRS_ALPHAREF, 200);
+		}
+	}
+
 	Render_GameObject(m_pDevice);
+
+	{
+		if(m_pForm->m_bAlphaTest.GetCheck())
+		m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	}
 
 	{
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

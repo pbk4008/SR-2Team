@@ -53,7 +53,7 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
 	//Texture불러오기
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
+	/*m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Death/DEATH_00%d.png", L"MeleeMon_Death", 9);
@@ -67,7 +67,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/MOVE_00%d.png", L"FlyMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Attack/ATTACK_00%d.png", L"FlyMon_Attack", 3);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Death/DEATH_00%d.png", L"FlyMon_Death", 7);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Death/DEATH_00%d.png", L"FlyMon_Death", 7);*/
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Sword/Player_Attack_Sword00%d.png", L"PlayerSwordAttack", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Shuriken/Player_Attack_Shuriken00%d.png", L"PlayerShurikenAttack",8);
@@ -134,25 +134,25 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-	// Melee Monster #1
-	pObj = CMeleeMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	
-	// Shoot Monster
-	pObj = CShootMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+	//// Melee Monster #1
+	//pObj = CMeleeMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
+	//
+	//// Shoot Monster
+	//pObj = CShootMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
-	// MonBullet
-	pObj = CMonBullet::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	
-	// Fly Monster
-	pObj = CFlyMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+	//// MonBullet
+	//pObj = CMonBullet::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	//
+	//// Fly Monster
+	//pObj = CFlyMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -168,7 +168,7 @@ _uint CLoading::Loading_ForStage()
 	
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;

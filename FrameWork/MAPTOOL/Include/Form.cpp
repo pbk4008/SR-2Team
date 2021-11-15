@@ -73,6 +73,7 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, Tree_Object, m_Tree_Object);
 	DDX_Text(pDX, Edit_Tree_FilterName, m_strTreeFilterName);
 	DDX_Text(pDX, Edit_ObjectName, m_strObjectName);
+	DDX_Control(pDX, AlphaTest_Object, m_bAlphaTest);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -312,6 +313,8 @@ void CForm::OnBnClickedTerrainSave()
 	}
 
 	m_pIniManager->SaveIni(std::string("TerrainData"));
+	ERR_MSG(L"Terrain save Sucesses");
+
 }
 
 
@@ -499,6 +502,9 @@ void CForm::OnBnClickedTerrainLoad()
 
 		UpdateData(TRUE);
 	}
+	ERR_MSG(L"Terrain Load Sucesses");
+	UpdateData(FALSE);
+
 }
 
 void CForm::ReSize_Detail()
@@ -893,6 +899,12 @@ void CForm::OnTvnSelchangedObject(NMHDR* pNMHDR, LRESULT* pResult)
 
 	LinkResourceAndVariableQuad();
 
+	GetDlgItem(Terrain_dwCntX)->EnableWindow(FALSE);
+	GetDlgItem(Terrain_dwCntZ)->EnableWindow(FALSE);
+	GetDlgItem(Terrain_DwInterval)->EnableWindow(FALSE);
+	GetDlgItem(Terrain_DeTail)->EnableWindow(FALSE);
+	GetDlgItem(Terrain_DetailSpin)->EnableWindow(FALSE);
+
 	*pResult = 0;
 }
 
@@ -1053,6 +1065,7 @@ void CForm::OnBnClickedObjectSave()
 	}
 
 	m_pIniManager->SaveIni(std::string("QuadData"));
+	ERR_MSG(L"Quad Save Sucesses");
 
 }
 
@@ -1230,6 +1243,8 @@ void CForm::OnBnClickedObjectLoad()
 
 		UpdateData(TRUE);
 	}
+
+	ERR_MSG(L"Quad Load Sucesses");
 }
 
 
@@ -1318,6 +1333,8 @@ void CForm::OnBnClickedCubesave()
 	}
 
 	m_pIniManager->SaveIni(std::string("CubeData"));
+	ERR_MSG(L"Cube save Sucesses");
+
 }
 
 
@@ -1514,6 +1531,8 @@ void CForm::OnBnClickedCubeLoad()
 
 		UpdateData(TRUE);
 	}
+	ERR_MSG(L"Cube Load Sucesses");
+
 }
 
 

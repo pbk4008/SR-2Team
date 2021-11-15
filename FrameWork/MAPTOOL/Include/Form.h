@@ -116,6 +116,7 @@ public:
 	afx_msg void OnBnClickedCubesave();
 	afx_msg void OnBnClickedCubeLoad();
 	afx_msg void OnBnClickedModifyParent();
+	CButton m_bAlphaTest;
 };
 
 template<typename ... Args>

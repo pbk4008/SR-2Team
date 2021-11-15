@@ -20,6 +20,10 @@ CToolGameObject::CToolGameObject(const CToolGameObject& rhs)
 	, m_strTypeName(rhs.m_strTypeName)
 	, m_strParent(rhs.m_strParent)
 {
+	for (auto& texture : m_vecTextureInfo)
+	{
+		texture.pTexture->AddRef();
+	}
 }
 
 CToolGameObject::~CToolGameObject()
