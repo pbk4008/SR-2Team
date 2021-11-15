@@ -1378,7 +1378,9 @@ void CForm::OnBnClickedCubeLoad()
 				Value = ObjectAndTypeName.substr(0, ObjectAndTypeName.size());
 				FileName.assign(Value.begin(), Value.end());
 
-				dynamic_cast<CToolGameObject*>(pCube)->Set_Path(FolderName, FileName, PointerSize);
+				vecTextureInfo[PointerSize].strTextureFolder = FolderName;
+				vecTextureInfo[PointerSize].strTextureName = FileName;
+
 
 				TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
 				lstrcat(strtemp, FolderName.c_str());
@@ -1387,7 +1389,6 @@ void CForm::OnBnClickedCubeLoad()
 				lstrcat(strtemp, L".png");
 				if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
 					Insert_Texture(m_pMapToolView->m_pGraphicDev->getDevice(), TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
-
 
 				vecTextureInfo[PointerSize].pTexture = CTexture::Create(m_pMapToolView->m_pDevice);
 				vecTextureInfo[PointerSize].pTexture->setTexture(GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL));
@@ -1400,7 +1401,8 @@ void CForm::OnBnClickedCubeLoad()
 			FileName.assign(Value.begin(), Value.end());
 			ObjectAndTypeName.erase(0, dot + 1);
 		
-			dynamic_cast<CToolGameObject*>(pCube)->Set_Path(FolderName, FileName, PointerSize);
+			vecTextureInfo[PointerSize].strTextureFolder = FolderName;
+			vecTextureInfo[PointerSize].strTextureName = FileName;
 
 			TCHAR strtemp[MAX_PATH] = L"..\\..\\Client\\Bin\\Resource\\Texture\\";
 			lstrcat(strtemp, FolderName.c_str());

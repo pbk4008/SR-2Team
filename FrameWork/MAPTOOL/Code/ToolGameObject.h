@@ -33,7 +33,6 @@ public:
 	inline CTexture* Get_Texture(const _uint& _index = 0) { return m_vecTextureInfo[_index].pTexture;}
 	inline std::vector<TEXTUREINFO>& Get_vecTextureInfo() { return m_vecTextureInfo; }
 	inline void Set_vecTextureInfo(const std::vector<TEXTUREINFO>& vecTextureInfo) { std::copy(vecTextureInfo.begin(), vecTextureInfo.end(), m_vecTextureInfo.begin()); }
-	//inline std::string& Get_ParentTreeName
 
 
 protected:

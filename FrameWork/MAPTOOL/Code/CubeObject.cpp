@@ -2,11 +2,13 @@
 #include "CubeObject.h"
 
 CCubeObject::CCubeObject()
+	: m_pCubeTex{}
 {
 }
 
 CCubeObject::CCubeObject(LPDIRECT3DDEVICE9 pDevice)
 	: CToolGameObject(pDevice)
+	, m_pCubeTex{}
 {
 
 }
