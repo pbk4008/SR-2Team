@@ -15,10 +15,11 @@ CToolGameObject::CToolGameObject(LPDIRECT3DDEVICE9 pDevice)
 CToolGameObject::CToolGameObject(const CToolGameObject& rhs)
 	: CGameObject(rhs)
 	, m_tVTXINFO(rhs.m_tVTXINFO)
-	, m_strObjectName(rhs.m_strObjectName)
 	, m_vecTextureInfo(rhs.m_vecTextureInfo)
+	, m_strObjectName(rhs.m_strObjectName)
+	, m_strTypeName(rhs.m_strTypeName)
+	, m_strParent(rhs.m_strParent)
 {
-
 }
 
 CToolGameObject::~CToolGameObject()

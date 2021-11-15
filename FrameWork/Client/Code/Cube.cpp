@@ -63,6 +63,7 @@ void CCube::LateUpdate_GameObject()
 
 void CCube::Render_GameObject()
 {
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	CGameObject::Render_GameObject();
 	for (_int i = 0; i < 6; i++)
 	{
