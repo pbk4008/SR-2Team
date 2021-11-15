@@ -917,6 +917,60 @@ void CForm::OnLbnKillfocusTerrain()
 void CForm::OnBnClickedCloneObject()
 {
 	// TODO: Add your control notification handler code here
+	CString strTypeName;
+	CString strObjectName;
+	dynamic_cast<CToolGameObject*>(m_pNowObject)->Get_TypeName(strTypeName);
+	dynamic_cast<CToolGameObject*>(m_pNowObject)->Get_ObjectName(strObjectName);
+
+	CGameObject* CloneObject = nullptr;
+	CString Appendsize = L"_";
+
+	if (!strTypeName.Compare(L"Terrain"))
+	{
+		size_t terrainsize = m_pMapToolView->m_listTerrain.size();
+		Appendsize += CString(to_wstring(terrainsize).c_str()) ;
+		strObjectName = strObjectName + Appendsize;
+
+		CloneObject = static_cast<CTerrainObject*>(m_pNowObject)->Clone_GameObject();
+		static_cast<CToolGameObject*>(CloneObject)->Set_ObjectName(strObjectName);
+
+		m_List_Terrain.AddString(strObjectName);
+		m_List_Terrain.SetCurSel(m_TerrainlistIndex);
+		++m_TerrainlistIndex;
+		//리소스를 변수로 보낸다.
+		m_pMapToolView->m_listTerrain.emplace_back(CloneObject);
+	}
+	else if (!strTypeName.Compare(L"Quad"))
+	{
+		size_t quadsize = m_pMapToolView->m_listQuad.size();
+		CloneObject = static_cast<CQuadObject*>(m_pNowObject)->Clone_GameObject();
+		Appendsize += CString(to_wstring(quadsize).c_str());
+		strObjectName = strObjectName + Appendsize;
+		static_cast<CToolGameObject*>(CloneObject)->Set_ObjectName(strObjectName);
+
+		m_pMapToolView->m_listQuad.emplace_back(CloneObject);
+
+		m_Tree_Object.InsertItem(strObjectName, m_Tree_Object.GetParentItem(m_TreeNow), TVI_LAST);
+		m_Tree_Object.SetFocus();
+
+	}
+	else if (!strTypeName.Compare(L"Cube"))
+	{
+		size_t cubesize = m_pMapToolView->m_listCube.size();
+
+		CloneObject = static_cast<CCubeObject*>(m_pNowObject)->Clone_GameObject();
+		Appendsize += CString(to_wstring(cubesize).c_str());
+		strObjectName = strObjectName + Appendsize;
+
+		static_cast<CToolGameObject*>(CloneObject)->Set_ObjectName(strObjectName);
+
+		m_pMapToolView->m_listCube.emplace_back(CloneObject);
+
+		m_Tree_Object.InsertItem(strObjectName, m_Tree_Object.GetParentItem(m_TreeNow), TVI_LAST);
+		m_Tree_Object.SetFocus();
+
+	}
+
 }
 
 
