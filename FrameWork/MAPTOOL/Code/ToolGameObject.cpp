@@ -22,7 +22,10 @@ CToolGameObject::CToolGameObject(const CToolGameObject& rhs)
 {
 	for (auto& texture : m_vecTextureInfo)
 	{
-		texture.pTexture->AddRef();
+		if (texture.pTexture)
+		{
+			texture.pTexture->AddRef();
+		}
 	}
 }
 

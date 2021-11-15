@@ -144,6 +144,7 @@ void CTerrainTexture::Set_XYZRadioEnable(BOOL bEnable)
 		m_Radio_Yplus .EnableWindow(TRUE);
 		m_Radio_Zminus.EnableWindow(TRUE);
 		m_Radio_Zplus .EnableWindow(TRUE);
+		m_Radio_ALL.EnableWindow(TRUE);
 	}
 	else
 	{

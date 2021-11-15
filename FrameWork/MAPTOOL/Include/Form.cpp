@@ -1268,13 +1268,6 @@ void CForm::OnBnClickedCubesave()
 	for (const auto& Cube : m_pMapToolView->m_listCube)
 	{
 		section = string_format("Cube_%d", i++);
-		/*Key = "Info";
-
-		VTXINFO* NowTerrainInfo = nullptr;
-		static_cast<CToolGameObject*>(Cube)->Get_VTXINFO(&NowTerrainInfo);
-		Value = string_format("%d,%d,%d,%d", NowTerrainInfo->X, NowTerrainInfo->Z, NowTerrainInfo->Interval, NowTerrainInfo->Detail);
-
-		m_pIniManager->AddData(section, Key, Value);*/
 
 		Key = "FolderFileName";
 
