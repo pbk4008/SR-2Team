@@ -947,6 +947,10 @@ void CForm::OnBnClickedCloneObject()
 		Appendsize += CString(to_wstring(quadsize).c_str());
 		strObjectName = strObjectName + Appendsize;
 		static_cast<CToolGameObject*>(CloneObject)->Set_ObjectName(strObjectName);
+		static_cast<CToolGameObject*>(CloneObject)->getTransform()->setScale(m_vecScale);
+		static_cast<CToolGameObject*>(CloneObject)->getTransform()->setAngle(m_vecRotaion);
+		static_cast<CToolGameObject*>(CloneObject)->getTransform()->setPos(m_vecPosition);
+
 
 		m_pMapToolView->m_listQuad.emplace_back(CloneObject);
 
@@ -963,6 +967,9 @@ void CForm::OnBnClickedCloneObject()
 		strObjectName = strObjectName + Appendsize;
 
 		static_cast<CToolGameObject*>(CloneObject)->Set_ObjectName(strObjectName);
+		static_cast<CToolGameObject*>(CloneObject)->getTransform()->setScale(m_vecScale);
+		static_cast<CToolGameObject*>(CloneObject)->getTransform()->setAngle(m_vecRotaion);
+		static_cast<CToolGameObject*>(CloneObject)->getTransform()->setPos(m_vecPosition);
 
 		m_pMapToolView->m_listCube.emplace_back(CloneObject);
 
