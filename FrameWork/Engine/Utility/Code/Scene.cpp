@@ -117,6 +117,7 @@ HRESULT CScene::setLayer(LAYERID eLayerID, CLayer* pLayer)
 		{
 			pEnvironmentLayer->Add_Object(pIDVec[i], pObj);
 			pObj->AddRef();
+			pObj->setActive(true);
 		}
 	}
 

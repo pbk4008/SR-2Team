@@ -50,6 +50,7 @@ void CQuad::LateUpdate_GameObject()
 
 void CQuad::Render_GameObject()
 {
+	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	CGameObject::Render_GameObject();
 	m_pTexture->Render_Texture();
