@@ -16,6 +16,11 @@ CTerrainObject::CTerrainObject(const CTerrainObject& rhs)
 	: CToolGameObject(rhs)
 	, m_pTerrainTex(rhs.m_pTerrainTex)
 {
+	VTXINFO newVtxInfo;
+	newVtxInfo.X = rhs.m_pTerrainTex->getCntX();
+	newVtxInfo.Z = rhs.m_pTerrainTex->getCntZ();
+	newVtxInfo.Interval = rhs.m_pTerrainTex->getInterval();
+	m_pTerrainTex = CTerrainTex::Create(m_pDevice,newVtxInfo.X,newVtxInfo.Z,newVtxInfo.Interval);
 }
 
 CTerrainObject::~CTerrainObject()
@@ -87,7 +92,7 @@ HRESULT CTerrainObject::Add_Component()
 	CGameObject::Add_Component();
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTerrainTex = CTerrainTex::Create(m_pDevice,m_tVTXINFO.X, m_tVTXINFO.Z, m_tVTXINFO.Interval);
+	pComponent = m_pTerrainTex = CTerrainTex::Create(m_pDevice,m_tVTXINFO.X, m_tVTXINFO.Z, m_tVTXINFO.Interval,m_tVTXINFO.Detail);
 	m_mapComponent->emplace(COMPONENTID::TERRAINTEX, pComponent);
 
 	return S_OK;

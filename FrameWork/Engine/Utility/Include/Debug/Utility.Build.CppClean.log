@@ -10,6 +10,7 @@ c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\rctex.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\rccol.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\protomgr.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\management.obj
+c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\layer.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\inimanager.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\gameobject.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\cubetex.obj
@@ -21,27 +22,39 @@ c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\animator.ob
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\animation.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\vibuffer.obj
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\tricol.obj
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\layer.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\vc142.pdb
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\vc142.idb
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\transform.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\texturemgr.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\texture.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\terraintex.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\scene.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\renderer.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\rctex.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\rccol.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\protomgr.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\management.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\layer.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\inimanager.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\gameobject.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\cubetex.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\component.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\collisionmgr.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\collision.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\camera.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\animator.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\animation.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\vibuffer.obj
+c:\users\redro\desktop\team sr\framework\engine\utility\include\debug\tricol.obj
+c:\users\kko\desktop\sr_2team\framework\engine\utility\bin\utility.dll
+c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.ilk
+c:\users\kko\desktop\sr_2team\framework\engine\utility\bin\utility.pdb
 c:\users\kko\desktop\sr_2team\framework\engine\utility\bin\utility.lib
 c:\users\kko\desktop\sr_2team\framework\engine\utility\bin\utility.exp
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\cl.command.1.tlog
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\cl.read.1.tlog
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\cl.write.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link-cvtres.read.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link-cvtres.write.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link-rc.read.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link-rc.write.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.14384.delete.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.17452.delete.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772-cvtres.read.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772-cvtres.write.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772-rc.read.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772-rc.write.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772.delete.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772.read.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.9772.write.1.tlog
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.command.1.tlog
-c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.delete.1.tlog
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.read.1.tlog
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\link.write.1.tlog
 c:\users\kko\desktop\sr_2team\framework\engine\utility\include\debug\utility.tlog\utility.write.1u.tlog
