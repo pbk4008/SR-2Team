@@ -168,7 +168,7 @@ _uint CLoading::Loading_ForStage()
 	
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;

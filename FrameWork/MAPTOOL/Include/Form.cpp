@@ -74,6 +74,8 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, Edit_Tree_FilterName, m_strTreeFilterName);
 	DDX_Text(pDX, Edit_ObjectName, m_strObjectName);
 	DDX_Control(pDX, AlphaTest_Object, m_bAlphaTest);
+	DDX_Control(pDX, Combo_ItemList, m_Combo_ItemList);
+	DDX_Control(pDX, Combo_MonsterList, m_Combo_MonsterList);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -149,6 +151,16 @@ void CForm::OnInitialUpdate()
 	m_TreeRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);
 
 	m_pIniManager = INIManager::GetInstance();
+
+	m_Combo_ItemList.AddString(L"Hp20");
+	m_Combo_ItemList.AddString(L"Hp50");
+	m_Combo_ItemList.AddString(L"Hp100");
+	m_Combo_ItemList.AddString(L"Shuriken20");
+	m_Combo_ItemList.AddString(L"Shuriken50");
+
+	m_Combo_MonsterList.AddString(L"MeleeMon");
+	m_Combo_MonsterList.AddString(L"ShootMon");
+	m_Combo_MonsterList.AddString(L"FlyMon");
 	
 }
 

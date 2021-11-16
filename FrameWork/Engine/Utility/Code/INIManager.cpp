@@ -5,15 +5,8 @@ IMPLEMENT_SINGLETON(INIManager)
 
 	void INIManager::AddData(const std::string& section, const std::string& key, const std::string& value)
 	{
-		INIDATA iniData;
-		iniData.section = section;
-		iniData.key = key;
-		iniData.value = value;
 
-		VecIniData vIniData;
-		vIniData.push_back(iniData);
-
-		m_vIniData.push_back(vIniData);
+		m_vIniData.push_back(VecIniData{ INIDATA{ section,key,value } });
 	}
 
 	void INIManager::SaveIni( std::string& fileName)

@@ -170,6 +170,18 @@
     <Filter Include="02.GameObject\00.BackGround\02.Qube">
       <UniqueIdentifier>{b0eefbfe-7b95-4755-b353-ea295d3fd623}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\06. Item">
+      <UniqueIdentifier>{ef812540-492a-47f2-a81e-c1a6468b6a1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\06. Item\00. Hp">
+      <UniqueIdentifier>{b3c4b8fb-a3e7-49ee-adb3-0712dea9da0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\06. Item\01. BULLET">
+      <UniqueIdentifier>{f8dd0348-0164-454b-8e62-ef5342f1cb51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\06. Item\02. BOMB">
+      <UniqueIdentifier>{d6a1dda0-7cd7-4ba6-93ce-60e98bfe3312}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

@@ -117,6 +117,8 @@ public:
 	afx_msg void OnBnClickedCubeLoad();
 	afx_msg void OnBnClickedModifyParent();
 	CButton m_bAlphaTest;
+	CComboBox m_Combo_ItemList;
+	CComboBox m_Combo_MonsterList;
 };
 
 template<typename ... Args>

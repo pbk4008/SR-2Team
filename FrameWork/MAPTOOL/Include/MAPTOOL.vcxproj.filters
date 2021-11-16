@@ -49,6 +49,9 @@
     <Filter Include="04. GameObject\ToolGameObject">
       <UniqueIdentifier>{b3097b84-a4dc-4e08-aff7-afecd439a533}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GameObject\03. Item">
+      <UniqueIdentifier>{a40ab12b-8427-43f8-9387-53790506fb52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MAPTOOL.h">
