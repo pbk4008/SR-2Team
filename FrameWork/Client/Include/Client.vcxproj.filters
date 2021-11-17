@@ -197,6 +197,9 @@
     <Filter Include="02.GameObject\04.bullet\99.Animation\04.FireballAnim">
       <UniqueIdentifier>{f4a8a304-e722-410a-8387-bbea93dbb099}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\06. Item">
+      <UniqueIdentifier>{4e1c11f5-fbb3-4a90-aa38-b00b503ff8b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -367,6 +370,9 @@
     <ClInclude Include="..\Code\Fireball_Anim.h">
       <Filter>02.GameObject\04.bullet\99.Animation\04.FireballAnim</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Item.h">
+      <Filter>02.GameObject\06. Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -516,6 +522,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Fireball_Anim.cpp">
       <Filter>02.GameObject\04.bullet\99.Animation\04.FireballAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Item.cpp">
+      <Filter>02.GameObject\06. Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

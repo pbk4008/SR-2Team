@@ -49,7 +49,7 @@ HRESULT CMainApp::GraphicDevice_Setting()
 	FAILED_CHECK_RETURN(Init_GraphicDev(WINDOW::WIN, WINCX, WINCY, g_hWnd, &m_pGraphicDev), E_FAIL);
 	NULL_CHECK_RETURN(m_pGraphicDev, E_FAIL);
 
-	m_pGraphicDev->AddRef();
+	//m_pGraphicDev->AddRef();
 	m_pDevice = m_pGraphicDev->getDevice();
 	m_pDevice->AddRef();
 

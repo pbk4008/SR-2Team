@@ -46,6 +46,7 @@ public:
 	std::list<CGameObject*> m_listTerrain;
 	std::list<CGameObject*> m_listQuad;
 	std::list<CGameObject*> m_listCube;
+	std::list<CGameObject*> m_listItem;
 	 
 	
 // 작업입니다.

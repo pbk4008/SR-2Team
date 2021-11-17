@@ -26,8 +26,8 @@ BEGIN(Engine)
 
 	public:      void         AddData(const std::string& section, const std::string& key, const std::string& value);
 	public:      void         SaveIni(std::string& fileName);
-	public:      std::string&      LoadDataString( std::string& fileName, const std::string& section, const std::string& key);
-	public:      int            LoadDataInteger(std::string& fileName, const std::string& section, const std::string& key);
+	public:      std::string&      LoadDataString( const std::string& fileName, const std::string& section, const std::string& key);
+	public:      int            LoadDataInteger(const std::string& fileName, const std::string& section, const std::string& key);
 
 	private:   VecIniDatas      m_vIniData;
 	private:  std::string		m_strResult;

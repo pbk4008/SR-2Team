@@ -5,15 +5,8 @@ IMPLEMENT_SINGLETON(INIManager)
 
 	void INIManager::AddData(const std::string& section, const std::string& key, const std::string& value)
 	{
-		INIDATA iniData;
-		iniData.section = section;
-		iniData.key = key;
-		iniData.value = value;
 
-		VecIniData vIniData;
-		vIniData.push_back(iniData);
-
-		m_vIniData.push_back(vIniData);
+		m_vIniData.push_back(VecIniData{ INIDATA{ section,key,value } });
 	}
 
 	void INIManager::SaveIni( std::string& fileName)
@@ -32,16 +25,16 @@ IMPLEMENT_SINGLETON(INIManager)
 		m_vIniData.clear();
 	}
 
-	std::string& INIManager::LoadDataString( std::string& fileName, const std::string& section, const std::string& key)
+	std::string& INIManager::LoadDataString( const std::string& fileName, const std::string& section, const std::string& key)
 	{
 		char str[256];
-		fileName = "\\" + fileName + ".ini";
 		GetCurrentDirectoryA(256, str);
+		strcat_s(str, "\\");
 
-		fileName = str + fileName;
+		std::string strFileName = str + fileName + ".ini";
 
 		char* data = new char[256];
-		GetPrivateProfileStringA(section.c_str(), key.c_str(), "", data, 256, fileName.c_str());
+		GetPrivateProfileStringA(section.c_str(), key.c_str(), "", data, 256, strFileName.c_str());
 
 		m_strResult = data;
 		delete[] data;
@@ -49,15 +42,15 @@ IMPLEMENT_SINGLETON(INIManager)
 		return m_strResult;
 	}
 
-	int INIManager::LoadDataInteger(std::string& fileName, const std::string& section, const std::string& key)
+	int INIManager::LoadDataInteger(const std::string& fileName, const std::string& section, const std::string& key)
 	{
 		char str[256];
-		fileName = "\\" + fileName + ".ini";
 		GetCurrentDirectoryA(256, str);
+		strcat_s(str, "\\");
 
-		fileName = str + fileName;
+		std::string strFileName = str + fileName + ".ini";
 
-		return GetPrivateProfileIntA(section.c_str(), key.c_str(), 0, fileName.c_str());
+		return GetPrivateProfileIntA(section.c_str(), key.c_str(), 0, strFileName.c_str());
 	}
 
 	

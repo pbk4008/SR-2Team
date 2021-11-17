@@ -2,11 +2,13 @@
 #include "CubeObject.h"
 
 CCubeObject::CCubeObject()
+	: m_pCubeTex{}
 {
 }
 
 CCubeObject::CCubeObject(LPDIRECT3DDEVICE9 pDevice)
 	: CToolGameObject(pDevice)
+	, m_pCubeTex{}
 {
 
 }
@@ -14,7 +16,10 @@ CCubeObject::CCubeObject(LPDIRECT3DDEVICE9 pDevice)
 CCubeObject::CCubeObject(const CCubeObject& rhs)
 	: CToolGameObject(rhs)
 {
-	std::copy(rhs.m_pCubeTex.begin(), rhs.m_pCubeTex.end(), m_pCubeTex.begin());
+	for (_uint i = 0; i < 6; ++i)
+	{
+		m_pCubeTex[i] = CRcTex::Create(m_pDevice, i);
+	}
 }
 
 CCubeObject::~CCubeObject()

@@ -18,6 +18,7 @@ public:
 	HRESULT Load_Terrain(const _tchar* strName);
 	HRESULT Load_Quad(const _tchar* strName);
 	HRESULT Load_Cube(const _tchar* strName);
+	HRESULT Load_Item(const _tchar* strName);
 private:
 	template<typename ... Args>
 	std::string string_format(const std::string& format, Args ... args)

@@ -5,18 +5,14 @@ CCube::CCube()
 {
 	m_CubePlane.reserve(6);
 	m_CubeTexture.reserve(6);
-	ZeroMemory(&m_vScale, sizeof(_vec3));
-	ZeroMemory(&m_vRotate, sizeof(_vec3));
-	ZeroMemory(&m_vPosition, sizeof(_vec3));
+
 }
 
 CCube::CCube(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice)
 {
 	m_CubePlane.reserve(6);
 	m_CubePlane.reserve(6);
-	ZeroMemory(&m_vScale, sizeof(_vec3));
-	ZeroMemory(&m_vRotate, sizeof(_vec3));
-	ZeroMemory(&m_vPosition, sizeof(_vec3));
+
 }
 
 CCube::CCube(const CCube& rhs) : CGameObject(rhs)
@@ -27,12 +23,9 @@ CCube::CCube(const CCube& rhs) : CGameObject(rhs)
 		CRcTex* pBuffer = CRcTex::Create(m_pDevice, i);
 		m_CubePlane.emplace_back(pBuffer);
 		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-		m_CubePlane.emplace_back(pBuffer);
 		m_CubeTexture.emplace_back(pTexture);
 	}
-	ZeroMemory(&m_vScale, sizeof(_vec3));
-	ZeroMemory(&m_vRotate, sizeof(_vec3));
-	ZeroMemory(&m_vPosition, sizeof(_vec3));
+
 }
 
 CCube::~CCube()
@@ -48,9 +41,9 @@ HRESULT CCube::Init_Cube()
 _int CCube::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	m_pTransform->setScale(m_vScale);
-	m_pTransform->setAngle(m_vRotate);
-	m_pTransform->setPos(m_vPosition);
+	m_pTransform->setScale(m_pTransform->getScale());
+	m_pTransform->setAngle(m_pTransform->getAngle());
+	m_pTransform->setPos(m_pTransform->getPos());
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
@@ -101,6 +94,11 @@ void CCube::Free()
 	for_each(m_CubePlane.begin(), m_CubePlane.end(), DeleteObj);
 	m_CubePlane.clear();
 	m_CubePlane.shrink_to_fit();
+
+	for_each(m_CubeTexture.begin(), m_CubeTexture.end(), DeleteObj);
+	m_CubeTexture.clear();
+	m_CubeTexture.shrink_to_fit();
+
 	CGameObject::Free();
 }
 
@@ -109,12 +107,3 @@ void CCube::setTexture(const _tchar* pTextureName, const _int iIndex)
 	m_CubeTexture[iIndex]->setTexture(GetTexture(pTextureName, TEXTURETYPE::TEX_NORMAL));
 }
 
-void CCube::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition)
-{
-	m_vScale = vScale;
-	m_vRotate = vRotate;
-	m_vPosition = vPosition;
-	m_pTransform->setScale(m_vScale);
-	m_pTransform->setAngle(m_vRotate);
-	m_pTransform->setPos(m_vPosition);
-}

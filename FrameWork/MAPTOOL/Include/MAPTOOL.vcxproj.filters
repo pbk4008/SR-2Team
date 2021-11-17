@@ -49,6 +49,9 @@
     <Filter Include="04. GameObject\ToolGameObject">
       <UniqueIdentifier>{b3097b84-a4dc-4e08-aff7-afecd439a533}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GameObject\03. Item">
+      <UniqueIdentifier>{2b06cb4e-e611-40f6-b04b-f63820b5544c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MAPTOOL.h">
@@ -111,6 +114,9 @@
     <ClInclude Include="..\Code\ToolGameObject.h">
       <Filter>04. GameObject\ToolGameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\ItemObject.h">
+      <Filter>04. GameObject\03. Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MAPTOOL.cpp">
@@ -151,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\ToolGameObject.cpp">
       <Filter>04. GameObject\ToolGameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ItemObject.cpp">
+      <Filter>04. GameObject\03. Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

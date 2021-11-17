@@ -101,9 +101,14 @@ HRESULT CStage::Init_GameLogic_Layer()
 	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 	
 	//// shootmon
+
 	/*CShootMon* m_pMeleeMon = nullptr;
 	pGameObject = m_pMeleeMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);*/
+
+	//CShootMon* m_pMeleeMon = nullptr;
+	//pGameObject = m_pMeleeMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
 
 	//// flymon
 	/*CFlyMon* m_pMeleeMon = nullptr;

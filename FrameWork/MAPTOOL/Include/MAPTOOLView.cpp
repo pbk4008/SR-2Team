@@ -21,6 +21,7 @@
 #include "QuadObject.h"
 #include "CubeObject.h"
 #include "ToolGameObject.h"
+#include "ItemObject.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -70,6 +71,9 @@ CMAPTOOLView::~CMAPTOOLView()
 
 	std::for_each(m_listCube.begin(), m_listCube.end(), DeleteObj);
 	m_listCube.clear();
+
+	std::for_each(m_listItem.begin(), m_listItem.end(), DeleteObj);
+	m_listItem.clear();
 
 	m_pGraphicDev->DestroyInstance();
 	Safe_Release(m_pDynamicCamera);
@@ -146,6 +150,19 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 		if (!m_listCube.empty())
 		{
 			for (const auto& Obj : m_listCube)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				m_vecSRP[1] = Obj->getTransform()->getAngle();
+
+				//m_vecSRP[1] = Obj->getTransform()->getToolAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CToolGameObject*>(Obj)->Set_Transform(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+				dynamic_cast<CToolGameObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
+		}
+		if (!m_listItem.empty())
+		{
+			for (const auto& Obj : m_listItem)
 			{
 				m_vecSRP[0] = Obj->getTransform()->getScale();
 				m_vecSRP[1] = Obj->getTransform()->getAngle();
@@ -245,12 +262,19 @@ void CMAPTOOLView::Init_Component()
 	// Transform
 	Init_ComProto(COMPONENTID::TRANSFORM, CTransform::Create());
 
-	// RcTex
-	//Init_ComProto(COMPONENTID::RCTEX, CRcTex::Create(m_pDevice));
+	Init_ComProto(COMPONENTID::COLLISION, CCollision::Create(m_pDevice));
 
-	// TerrainTex
-	//Init_ComProto(COMPONENTID::TERRAINTEX, CTerrainTex::Create(m_pDevice, 2, 2, 1));
 	// ==================================== 컴포넌트 원본 생성 =====================================================
+	// ==================================== 아이템 텍스처 넣기 =====================================================
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN50PATH, L"SHURIKEN50", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
+	// ==================================== 아이템 텍스처 넣기 =====================================================
+
 }
 
 void CMAPTOOLView::Set_XYZKey()
@@ -258,7 +282,6 @@ void CMAPTOOLView::Set_XYZKey()
 	if (m_pForm->m_pNowObject)
 	{
 		m_vecSRP[0] = m_pForm->m_pNowObject->getTransform()->getScale();
-		//m_vecSRP[1] = m_pForm->m_pNowObject->getTransform()->getToolAngle();
 		m_vecSRP[1] = m_pForm->m_pNowObject->getTransform()->getAngle();
 		m_vecSRP[2] = m_pForm->m_pNowObject->getTransform()->getPos();
 	}
@@ -281,7 +304,6 @@ void CMAPTOOLView::Set_XYZKey()
 	}
 
 	m_pForm->m_pNowObject->getTransform()->setScale(m_vecSRP[0]);
-	//m_pForm->m_pNowObject->getTransform()->setToolAngle(m_vecSRP[1]);
 	m_pForm->m_pNowObject->getTransform()->setAngle(m_vecSRP[1]);
 	m_pForm->m_pNowObject->getTransform()->setPos(m_vecSRP[2]);
 	m_pForm->Set_SRP(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
@@ -336,7 +358,21 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	}
 
+	{
+		if (m_pForm->m_bAlphaTest.GetCheck())
+		{
+			m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+			m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+			m_pDevice->SetRenderState(D3DRS_ALPHAREF, 200);
+		}
+	}
+
 	Render_GameObject(m_pDevice);
+
+	{
+		if(m_pForm->m_bAlphaTest.GetCheck())
+		m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	}
 
 	{
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

@@ -19,7 +19,7 @@
 IMPLEMENT_DYNAMIC(CTerrainTexture, CDialogEx)
 
 CTerrainTexture::CTerrainTexture(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_CTerrainTexture, pParent) ,m_iTreeIndex(0)
+	: CDialogEx(IDD_CTerrainTexture, pParent)
 	, m_iTreeParentIndex(0)
 {
 
@@ -144,6 +144,7 @@ void CTerrainTexture::Set_XYZRadioEnable(BOOL bEnable)
 		m_Radio_Yplus .EnableWindow(TRUE);
 		m_Radio_Zminus.EnableWindow(TRUE);
 		m_Radio_Zplus .EnableWindow(TRUE);
+		m_Radio_ALL.EnableWindow(TRUE);
 	}
 	else
 	{
@@ -267,25 +268,25 @@ void CTerrainTexture::OnBnClickedButton1()
 	CMAPTOOLView* pView = dynamic_cast<CMAPTOOLView*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0,1));
 	CForm* pForm = dynamic_cast<CForm*>(dynamic_cast<CMainFrame*>(AfxGetMainWnd())->m_tMainSplitter.GetPane(0,0));
 
-	int index = 0;
+	//int index = 0;
 
-	// 현재 선택한 Index 트리핸들
-	HTREEITEM hItem = m_Tree_Terrain_Texture.GetSelectedItem();
+	//// 현재 선택한 Index 트리핸들
+	//HTREEITEM hItem = m_Tree_Terrain_Texture.GetSelectedItem();
 
-	// 현재 선택한 트리핸들의 부모핸들의 자식핸들의 첫번째 Index (TILE_000.png 파일검색)
-	HTREEITEM hChild = m_Tree_Terrain_Texture.GetChildItem(this->m_Tree_Terrain_Texture.GetParentItem(hItem));
+	//// 현재 선택한 트리핸들의 부모핸들의 자식핸들의 첫번째 Index (TILE_000.png 파일검색)
+	//HTREEITEM hChild = m_Tree_Terrain_Texture.GetChildItem(this->m_Tree_Terrain_Texture.GetParentItem(hItem));
 
 
-	while (hChild)
-	{
-		//둘이 비교해서 같으면 그 인덱스이다.
-		if (hChild == hItem) break;
+	//while (hChild)
+	//{
+	//	//둘이 비교해서 같으면 그 인덱스이다.
+	//	if (hChild == hItem) break;
 
-		// 아니면 다음 인덱스로 넘겨주고 인덱스 변수 증가시킴
-		hChild = m_Tree_Terrain_Texture.GetNextItem(hChild, TVGN_NEXT);
-		++index;
-	}
-	m_iTreeIndex = index;
+	//	// 아니면 다음 인덱스로 넘겨주고 인덱스 변수 증가시킴
+	//	hChild = m_Tree_Terrain_Texture.GetNextItem(hChild, TVGN_NEXT);
+	//	++index;
+	//}
+	//m_iTreeIndex = index;
 
 	//파일이름
 	pView->m_tTexturePath = pForm->m_strFileName = m_tCurTextureState;
