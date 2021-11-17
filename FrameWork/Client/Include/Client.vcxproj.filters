@@ -152,9 +152,6 @@
     <Filter Include="02.GameObject\04.Bullet\99.Animation\02.FogAnim">
       <UniqueIdentifier>{0f1cd9a4-186c-4aef-bad4-0b9529791f26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.Bullet\99.Animation\03. MonBulletAnim">
-      <UniqueIdentifier>{66baa5af-2876-456c-bec3-deb1a0fafb55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\04.Bullet\01.Bomb">
       <UniqueIdentifier>{3e6f16c5-feee-410c-a8b4-4ea36c5734bc}</UniqueIdentifier>
     </Filter>
@@ -190,6 +187,15 @@
     </Filter>
     <Filter Include="02.GameObject\00.BackGround\02.Qube">
       <UniqueIdentifier>{b0eefbfe-7b95-4755-b353-ea295d3fd623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet\03. Fireball">
+      <UniqueIdentifier>{f9ca2709-7947-474b-8437-9071cb9349e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\03.MonBulletAnim">
+      <UniqueIdentifier>{66baa5af-2876-456c-bec3-deb1a0fafb55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\04.FireballAnim">
+      <UniqueIdentifier>{f4a8a304-e722-410a-8387-bbea93dbb099}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -329,7 +335,7 @@
       <Filter>02.GameObject\04.Bullet\02. MonBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MonBulletAnim.h">
-      <Filter>02.GameObject\04.Bullet\99.Animation\03. MonBulletAnim</Filter>
+      <Filter>02.GameObject\04.bullet\99.Animation\03.MonBulletAnim</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Boss_IdleAnim.h">
       <Filter>02.GameObject\05.Boss\00. Animation\00. Idle</Filter>
@@ -354,6 +360,12 @@
     </ClInclude>
     <ClInclude Include="..\Code\Cube.h">
       <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Fireball.h">
+      <Filter>02.GameObject\04.Bullet\03. Fireball</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Fireball_Anim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\04.FireballAnim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,7 +485,7 @@
       <Filter>02.GameObject\04.Bullet\02. MonBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonBulletAnim.cpp">
-      <Filter>02.GameObject\04.Bullet\99.Animation\03. MonBulletAnim</Filter>
+      <Filter>02.GameObject\04.bullet\99.Animation\03.MonBulletAnim</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_IdleAnim.cpp">
       <Filter>02.GameObject\05.Boss\00. Animation\00. Idle</Filter>
@@ -498,6 +510,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Cube.cpp">
       <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fireball.cpp">
+      <Filter>02.GameObject\04.Bullet\03. Fireball</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fireball_Anim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\04.FireballAnim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

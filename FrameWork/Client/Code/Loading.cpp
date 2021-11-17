@@ -17,6 +17,7 @@
 #include "Quad.h"
 #include "Fog.h"
 #include "Boss.h"
+#include "Fireball.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -82,10 +83,11 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire1/FIRE_00%d.png", L"Boss_Fire1", 28);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire2/FIRE2_00%d.png", L"Boss_Fire2", 15);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire3/FIRE3_00%d.png", L"Boss_Fire3", 22);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fireball/FIREBALL_00%d.png", L"Boss_Fireball", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fly/FLY_00%d.png", L"Boss_Fly", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Death/DEATH_00%d.png", L"Boss_Death", 12);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/MeleeAttack/MELEE_00%d.png", L"Boss_Melee", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/RangeAttack/RANGE_00%d.png", L"Boss_Range", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/MeleeAttack/MELEE_00%d.png", L"Boss_Melee", 5);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/RangeAttack/RANGE1_00%d.png", L"Boss_Range", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Move/MOVE_00%d.png", L"Boss_Move", 3);
 
 	//Component원본 생성
@@ -157,6 +159,10 @@ _uint CLoading::Loading_ForStage()
 	pObj = CMonBullet::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+
+	pObj = CFireball::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::FIREBALL, pObj);
 	
 	// Fly Monster
 	pObj = CFlyMon::Create(m_pDevice);

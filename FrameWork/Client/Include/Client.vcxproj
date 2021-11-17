@@ -162,6 +162,8 @@
     <ClInclude Include="..\Code\Boss_MeleeAnim.h" />
     <ClInclude Include="..\Code\Boss_RangeAnim.h" />
     <ClInclude Include="..\Code\Boss_WalkAnim.h" />
+    <ClInclude Include="..\Code\Fireball.h" />
+    <ClInclude Include="..\Code\Fireball_Anim.h" />
     <ClInclude Include="..\Code\FlyMon.h" />
     <ClInclude Include="..\Code\FlyMon_Attack.h" />
     <ClInclude Include="..\Code\FlyMon_Death.h" />
@@ -218,6 +220,8 @@
     <ClCompile Include="..\Code\Boss_MeleeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_WalkAnim.cpp" />
+    <ClCompile Include="..\Code\Fireball.cpp" />
+    <ClCompile Include="..\Code\Fireball_Anim.cpp" />
     <ClCompile Include="..\Code\FlyMon.cpp" />
     <ClCompile Include="..\Code\FlyMon_Attack.cpp" />
     <ClCompile Include="..\Code\FlyMon_Death.cpp" />

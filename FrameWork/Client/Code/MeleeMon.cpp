@@ -18,7 +18,7 @@ CMeleeMon::CMeleeMon()
 
 CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
-	m_fSpeed(0.f), m_bAttack(false), m_iTimer(1), 
+	m_fSpeed(0.f), m_bAttack(false), m_iTimer(0), 
 	m_pAnimator(nullptr), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), 
 	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0)
 {
@@ -27,7 +27,7 @@ CMeleeMon::CMeleeMon(LPDIRECT3DDEVICE9 pDevice)
 
 CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	: CMonster(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture),
-	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(1),
+	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(rhs.m_iTimer),
 	 m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState), 
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr),
 	m_iHP(rhs.m_iHP)

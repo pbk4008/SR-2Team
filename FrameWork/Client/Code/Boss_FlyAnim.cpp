@@ -29,7 +29,7 @@ HRESULT CBoss_FlyAnim::Init_Boss_FlyAnim()
 	m_bLoop = true;
 	m_fPlaySpeed = 0.4f;
 	m_fSpeed = 1.f;
-	InitTexture(L"Boss_FlyAnim");
+	InitTexture(L"Boss_Fly");
 	return S_OK;
 }
 

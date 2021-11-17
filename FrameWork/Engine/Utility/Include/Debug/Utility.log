@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-﻿  INIManager.cpp
-  Layer.cpp
-  Generating Code...
-     Creating library ../Bin\Utility.lib and object ../Bin\Utility.exp
-  Utility.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\Utility\Bin\Utility.dll
-=======
-﻿  Transform.cpp
-  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
->>>>>>> main
+﻿  Utility.vcxproj -> C:\Users\Admin\Desktop\SR Team - Shadow Warrior\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h

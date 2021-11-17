@@ -9,7 +9,7 @@ class CBullet;
 class CBoss : public CGameObject
 {
 public:
-	enum class STATE { IDLE, WALKING, PATTERN1, PATTERN2, PATTERN3, DEATH, MAX };
+	enum class STATE { IDLE, WALKING, MELEE, RANGE, PILLAR, CHARGE, DEATH, MAX };
 
 private:
 	explicit CBoss();
@@ -27,16 +27,25 @@ public:
 
 private:
 	void Change_State();
+	virtual HRESULT Add_Component();
+	virtual void	 Follow(const _float& fDeltaTime);
+	virtual void	 Attack_Dis(const _float& fDeltaTime);
+	virtual void	 AttackHit(const _float& fDeltaTime);
+	virtual void	 MeleeAttack(const _float& fDeltaTime);
+	virtual void	 RangeAttack(const _float& fDeltaTime);
+	virtual void	 ChargeAttack(const _float& fDeltaTime);
+	virtual void	 TeleportPillerAttack(const _float& fTimeDelta);
+	virtual void	 HPCheck();
+	virtual void	 Attack_Type(const _float& fDeltaTime);
+	virtual void	 Chase(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
+	virtual void	 ChaseRange(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
+	virtual _matrix* ComputeLookAtTarget(const _vec3* pTargetPos);
+	CBullet* Fireball(GAMEOBJECTID eID);
+
+	virtual void	 Free();
 
 public:
 	static CBoss* Create(LPDIRECT3DDEVICE9 pDevice);
-
-private:
-	virtual HRESULT Add_Component();
-	virtual void Follow(const _float& fDeltaTime);
-	virtual void Attack(const _float& fDeltaTime);
-	virtual void Attack_Dis(const _float& fDeltaTime);
-	virtual void Free();
 
 private:
 	CRcTex*			m_pBufferCom;
@@ -50,9 +59,11 @@ private:
 	CCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
 
 	_int			m_iHP;
+	_int			m_iAttackNumber;
 
 	_bool			m_bAttack;
 	_bool			m_bMoving;
+	_bool			m_bChargeAttack;
 
 	_float			m_iTimer;
 	_float			m_fSpeed;

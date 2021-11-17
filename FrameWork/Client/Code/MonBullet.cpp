@@ -43,7 +43,6 @@ _int CMonBullet::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
 
-	//m_pTransform->setAngle(MATRIXINFO::MAT_UP, 90.f);
 	m_pTransform->setScale(0.1f, 0.1f, 0.1f);
 
 	iExit = CBullet::Update_GameObject(fDeltaTime);
