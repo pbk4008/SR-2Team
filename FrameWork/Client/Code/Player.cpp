@@ -348,6 +348,7 @@ HRESULT CPlayer::Add_Component()
 	m_pAtkCollision->setActive(false);
 	m_pAtkCollision->setPivot(1.f);
 	m_pAtkCollision->setTrigger(COLLISIONTRIGGER::ATTACK);
+	m_pAtkCollision->AddRef();
 	return S_OK;
 }
 

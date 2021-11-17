@@ -75,9 +75,13 @@
 #define Button_Modify_Parent            1076
 #define AlphaTest_Object                1077
 #define Combo_ItemList                  1078
-#define IDC_COMBO2                      1080
 #define IDC_BUTTON3                     1081
 #define Combo_MonsterList               1082
+#define IDC_BUTTON4                     1083
+#define Button_Item_Create              1084
+#define Button_Item_Save                1085
+#define IDC_BUTTON6                     1086
+#define Button_Item_Load                1086
 
 // Next default values for new objects
 // 
@@ -85,7 +89,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1083
+#define _APS_NEXT_CONTROL_VALUE         1087
 #define _APS_NEXT_SYMED_VALUE           313
 #endif
 #endif

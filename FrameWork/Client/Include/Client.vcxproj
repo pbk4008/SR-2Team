@@ -164,6 +164,7 @@
     <ClInclude Include="..\Code\Bullet.h" />
     <ClInclude Include="..\Code\Fog.h" />
     <ClInclude Include="..\Code\FogAnim.h" />
+    <ClInclude Include="..\Code\Item.h" />
     <ClInclude Include="..\Code\Loading.h" />
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Fog.cpp" />
     <ClCompile Include="..\Code\FogAnim.cpp" />
+    <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />

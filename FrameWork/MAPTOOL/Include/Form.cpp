@@ -12,6 +12,7 @@
 #include "QuadObject.h"
 #include "CubeObject.h"
 #include "ToolGameObject.h"
+#include "ItemObject.h"
 
 #include "INIManager.h"
 
@@ -104,6 +105,9 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(BUTTON_Cube_save, &CForm::OnBnClickedCubesave)
 	ON_BN_CLICKED(BUTTON_Cube_Load, &CForm::OnBnClickedCubeLoad)
 	ON_BN_CLICKED(Button_Modify_Parent, &CForm::OnBnClickedModifyParent)
+	ON_BN_CLICKED(Button_Item_Create, &CForm::OnBnClickedItemCreate)
+	ON_BN_CLICKED(Button_Item_Save, &CForm::OnBnClickedItemSave)
+	ON_BN_CLICKED(Button_Item_Load, &CForm::OnBnClickedItemLoad)
 END_MESSAGE_MAP()
 
 
@@ -148,15 +152,18 @@ void CForm::OnInitialUpdate()
 
 	m_fMovePower = 1.f;
 
-	m_TreeRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);
+	m_TreeObjectRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);
+	m_TreeItemRoot = m_Tree_Object.InsertItem(L"Item", 0, 0, TVI_ROOT, TVI_LAST);
 
 	m_pIniManager = INIManager::GetInstance();
 
-	m_Combo_ItemList.AddString(L"Hp20");
-	m_Combo_ItemList.AddString(L"Hp50");
-	m_Combo_ItemList.AddString(L"Hp100");
-	m_Combo_ItemList.AddString(L"Shuriken20");
-	m_Combo_ItemList.AddString(L"Shuriken50");
+	m_Combo_ItemList.AddString(L"HP20");
+	m_Combo_ItemList.AddString(L"HP50");
+	m_Combo_ItemList.AddString(L"HP100");
+	m_Combo_ItemList.AddString(L"SHURIKEN20");
+	m_Combo_ItemList.AddString(L"SHURIKEN50");
+	m_Combo_ItemList.AddString(L"BOMB2");
+	m_Combo_ItemList.AddString(L"BOMB5");
 
 	m_Combo_MonsterList.AddString(L"MeleeMon");
 	m_Combo_MonsterList.AddString(L"ShootMon");
@@ -595,7 +602,7 @@ void CForm::LinkResourceAndVariableTerrain()
 
 void CForm::LinkResourceAndVariableQuad()
 {
-	if (m_pMapToolView->m_listQuad.empty() && m_pMapToolView->m_listCube.empty())
+	if (m_pMapToolView->m_listQuad.empty() && m_pMapToolView->m_listCube.empty() && m_pMapToolView->m_listItem.empty())
 		return;
 
 	CString strNow = m_Tree_Object.GetItemText(m_TreeNow);
@@ -619,10 +626,24 @@ void CForm::LinkResourceAndVariableQuad()
 			if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
 			{
 				m_pNowObject = iter;
+				bFindCheck = true;
 				break;
 			}
 		}
 	}
+	if (!bFindCheck)
+	{
+		for (const auto& iter : m_pMapToolView->m_listItem)
+		{
+			if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
+			{
+				m_pNowObject = iter;
+				bFindCheck = true;
+				break;
+			}
+		}
+	}
+	
 	if (!m_pNowObject)
 		return;
 
@@ -769,7 +790,7 @@ void CForm::OnBnClickedMakefilter()
 	if (m_strTreeFilterName.IsEmpty())
 		return;
 	
-	m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, m_TreeRoot, TVI_LAST);
+	m_Tree_Object.InsertItem((LPCTSTR)m_strTreeFilterName, m_TreeObjectRoot, TVI_LAST);
 	m_Tree_Object.SetFocus();
 	
 }
@@ -1244,9 +1265,9 @@ void CForm::OnBnClickedObjectLoad()
 
 		static_cast<CToolGameObject*>(pQuad)->Set_TreeName(strParent);
 
-		HTREEITEM hFindItem =FindTreeData(m_TreeRoot, CString{ strParent.c_str() });
+		HTREEITEM hFindItem =FindTreeData(m_TreeObjectRoot, CString{ strParent.c_str() });
 		if (hFindItem == nullptr)
-			 hFindItem = m_Tree_Object.InsertItem(CString{ strParent.c_str() }, m_TreeRoot);
+			 hFindItem = m_Tree_Object.InsertItem(CString{ strParent.c_str() }, m_TreeObjectRoot);
 
 		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
 
@@ -1528,9 +1549,9 @@ void CForm::OnBnClickedCubeLoad()
 
 		static_cast<CToolGameObject*>(pCube)->Set_TreeName(strParent);
 
-		HTREEITEM hFindItem = FindTreeData(m_TreeRoot, CString{ strParent.c_str() });
+		HTREEITEM hFindItem = FindTreeData(m_TreeObjectRoot, CString{ strParent.c_str() });
 		if (hFindItem == nullptr)
-			hFindItem = m_Tree_Object.InsertItem(CString{ strParent.c_str() }, m_TreeRoot);
+			hFindItem = m_Tree_Object.InsertItem(CString{ strParent.c_str() }, m_TreeObjectRoot);
 
 		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
 
@@ -1630,4 +1651,285 @@ void CForm::OnBnClickedModifyParent()
 	
 	UpdateData(FALSE);
 
+}
+
+void CForm::OnBnClickedItemCreate()
+{
+	// TODO: Add your control notification handler code here
+
+/// <summary>
+/// eITEM enum Class 의 순서에 따라 combobox의 순서를 동기화시켜서 만들때 해당 index번호에따라
+/// 알맞은 item을 만들어주게한다.
+/// </summary>
+
+	_uint uiItemIndex = m_Combo_ItemList.GetCurSel();
+
+	CString strFileName;
+	m_Combo_ItemList.GetLBText(uiItemIndex,strFileName);
+
+	_uint uiItemSize = m_pMapToolView->m_listItem.size();
+
+	CGameObject* pObj = CItemObject::Create(m_pMapToolView->m_pDevice);
+
+	m_pMapToolView->m_listItem.emplace_back(pObj);
+
+	CString strObjectName;
+
+	switch (uiItemIndex)
+	{
+	case 0:
+		strObjectName = L"HP20_";
+		break;
+	case 1:
+		strObjectName = L"HP50_";
+		break;
+	case 2:
+		strObjectName = L"HP100_";
+		break;
+	case 3:
+		strObjectName = L"SHURIKEN20_";
+		break;
+	case 4:
+		strObjectName = L"SHRUIKEN50_";
+		break;
+	case 5:
+		strObjectName = L"BOMB2_";
+		break;
+	case 6:
+		strObjectName = L"BOMB5_";
+		break;
+	default:
+		ERR_MSG(L"아이템이 제대로 선택되지않았습니다.");
+		return;
+		break;
+	}
+	strObjectName += to_wstring(uiItemSize).c_str();
+	static_cast<CItemObject*>(pObj)->setType(static_cast<eITEM>(uiItemIndex));
+	static_cast<CToolGameObject*>(pObj)->Set_ObjectName(strObjectName);
+	static_cast<CToolGameObject*>(pObj)->Set_TypeName(strFileName);
+
+	std::wstring wstrParent = m_Tree_Object.GetItemText(m_TreeItemRoot).GetString();
+	std::string  strParent{ wstrParent.begin(), wstrParent.end() };
+	static_cast<CToolGameObject*>(pObj)->Set_TreeName(strParent);
+
+
+	for (_uint i = 0; i < 6; ++i)
+	{
+		// 깡통텍스처 만든다.
+		static_cast<CToolGameObject*>(pObj)->Set_Texture(CTexture::Create(m_pMapToolView->m_pDevice), i);
+		// 깡통텍스처 불러온다.
+		CTexture* pTexture = static_cast<CToolGameObject*>(pObj)->Get_Texture(i);
+		// 깡통에 그림을 넣어준다.
+		pTexture->setTexture(GetTexture(strFileName, TEXTURETYPE::TEX_NORMAL));
+	}
+
+
+	m_Tree_Object.InsertItem(strObjectName, m_TreeItemRoot);
+}
+
+
+void CForm::OnBnClickedItemSave()
+{
+	// TODO: Add your control notification handler code here
+	std::string section;
+	std::string Key;
+	std::string Value;
+
+	section = "ItemCount";
+
+	Key = "Count";
+
+	Value = to_string(m_pMapToolView->m_listItem.size());
+
+	m_pIniManager->AddData(section, Key, Value);
+
+	int i = 0;
+
+	for (const auto& Item : m_pMapToolView->m_listItem)
+	{
+		section = string_format("Item_%d", i++);
+
+		Key = "ObjectAndTypeName";
+
+		CString strObjectName;
+		static_cast<CToolGameObject*>(Item)->Get_ObjectName(strObjectName);
+		string ObjectName = std::string(CT2CA(strObjectName));
+
+		CString strTypeName;
+		static_cast<CToolGameObject*>(Item)->Get_TypeName(strTypeName);
+		string TypeName = std::string(CT2CA(strTypeName));
+
+		Value = ObjectName + "," + TypeName;
+
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "Scale";
+		const _vec3& vec3Scale = Item->getTransform()->getScale();
+		Value = string_format("%f,%f,%f", vec3Scale.x, vec3Scale.y, vec3Scale.z);
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "Euler Angle";
+		const _vec3& pVec = Item->getTransform()->getToolAngle();
+		Value = string_format("%f,%f,%f", pVec.x, pVec.y, pVec.z);
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "Position";
+		const _vec3& vec3Position = Item->getTransform()->getPos();
+		Value = string_format("%f,%f,%f", vec3Position.x, vec3Position.y, vec3Position.z);
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "ParentName";
+		static_cast<CToolGameObject*>(Item)->Get_TreeName(Value);
+		m_pIniManager->AddData(section, Key, Value);
+
+	}
+
+	m_pIniManager->SaveIni(std::string("ItemData"));
+	ERR_MSG(L"Item save Sucesses");
+
+}
+
+
+void CForm::OnBnClickedItemLoad()
+{
+	// TODO: Add your control notification handler code here
+	int QuadSize = m_pIniManager->LoadDataInteger(std::string("ItemData"), "ItemCount", "Count");
+
+	//이것은 수정이 필요함
+	if (!m_pMapToolView->m_listItem.empty())
+	{
+		std::for_each(m_pMapToolView->m_listItem.begin(), m_pMapToolView->m_listItem.end(), DeleteObj);
+		m_pMapToolView->m_listItem.clear();
+	}
+
+	std::string Section;
+	std::string Key;
+	std::string Value;
+	CGameObject* pItem = nullptr;
+
+	for (int i = 0; i < QuadSize; ++i)
+	{
+		Section = string_format("Item_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
+
+		pItem = CItemObject::Create(m_pMapToolView->m_pDevice);
+
+		std::wstring ObjectName;
+		std::wstring TypeName;
+
+		Key = "ObjectAndTypeName";
+
+		std::string FileFolderName = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
+
+		while (true)
+		{
+			if (FileFolderName.find(',') == std::string::npos)
+			{
+				Value = FileFolderName.substr(0, FileFolderName.size());
+				TypeName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = FileFolderName.find(',');
+			Value = FileFolderName.substr(0, dot);
+			ObjectName.assign(Value.begin(), Value.end());
+			FileFolderName.erase(0, dot + 1);
+		}
+
+		dynamic_cast<CToolGameObject*>(pItem)->Set_ObjectName(CString(ObjectName.c_str()));
+		dynamic_cast<CToolGameObject*>(pItem)->Set_TypeName(CString(TypeName.c_str()));
+
+		dynamic_cast<CItemObject*>(pItem)->setType(static_cast<eITEM>(_wtoi(TypeName.c_str())));	
+		
+		for (_uint i = 0; i < 6; ++i)
+		{
+			// 깡통텍스처 만든다.
+			static_cast<CToolGameObject*>(pItem)->Set_Texture(CTexture::Create(m_pMapToolView->m_pDevice), i);
+			// 깡통텍스처 불러온다.
+			CTexture* pTexture = static_cast<CToolGameObject*>(pItem)->Get_Texture(i);
+			// 깡통에 그림을 넣어준다.
+			pTexture->setTexture(GetTexture(TypeName.c_str(), TEXTURETYPE::TEX_NORMAL));
+		}
+
+
+		Key = "Scale";
+
+		std::string strScale = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == std::string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+
+		std::string strAngle = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
+
+		_vec3 Roatate{};
+		while (true)
+		{
+			if (strAngle.find(',') == std::string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&Roatate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&Roatate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+
+		std::string strPos = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == std::string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+		pItem->getTransform()->setScale(Scale);
+		pItem->getTransform()->setAngle(Roatate);
+		pItem->getTransform()->setPos(Position);
+
+		Key = "ParentName";
+
+		std::string strParent = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
+
+		static_cast<CToolGameObject*>(pItem)->Set_TreeName(strParent);
+
+		HTREEITEM hFindItem = FindTreeData(m_TreeObjectRoot, CString{ strParent.c_str() });
+
+		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
+
+		m_pMapToolView->m_listItem.emplace_back(pItem);
+
+		UpdateData(TRUE);
+	}
+	ERR_MSG(L"Item Load Sucesses");
 }

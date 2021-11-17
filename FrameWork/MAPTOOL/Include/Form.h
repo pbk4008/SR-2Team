@@ -59,6 +59,10 @@ public:
 	afx_msg void OnBnClickedCloneObject();
 	afx_msg void OnBnClickedObjectSave();
 	afx_msg void OnBnClickedObjectLoad();
+	afx_msg void OnBnClickedCubesave();
+	afx_msg void OnBnClickedCubeLoad();
+	afx_msg void OnBnClickedModifyParent();
+	afx_msg void OnBnClickedItemCreate();
 	void ReSize_Detail();
 	void ReSize_ObjectInfo();
 	void LinkResourceAndVariableTerrain();
@@ -107,18 +111,18 @@ public:
 
 	CTreeCtrl m_Tree_Object;
 	// Object Tree의 Root
-	HTREEITEM m_TreeRoot;
+	HTREEITEM m_TreeObjectRoot;
+	HTREEITEM m_TreeItemRoot;
 	HTREEITEM m_TreeNow;
 	CString m_strTreeFilterName;
 	CString m_strObjectName;
 
 	INIManager* m_pIniManager;
-	afx_msg void OnBnClickedCubesave();
-	afx_msg void OnBnClickedCubeLoad();
-	afx_msg void OnBnClickedModifyParent();
 	CButton m_bAlphaTest;
 	CComboBox m_Combo_ItemList;
 	CComboBox m_Combo_MonsterList;
+	afx_msg void OnBnClickedItemSave();
+	afx_msg void OnBnClickedItemLoad();
 };
 
 template<typename ... Args>

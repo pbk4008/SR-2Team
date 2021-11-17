@@ -1,6 +1,7 @@
 #ifndef __ENGINE_INCLUDE_H__
 #define __ENGINE_INCLUDE_H__
 #include <vector>
+#include <array>
 #include <list>
 #include <map>
 #include <string>

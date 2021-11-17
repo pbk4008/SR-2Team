@@ -3,23 +3,17 @@
 
 CQuad::CQuad():m_pBuffer(nullptr), m_pTexture(nullptr)
 {
-	ZeroMemory(&m_vScale, sizeof(_vec3));
-	ZeroMemory(&m_vRotate, sizeof(_vec3));
-	ZeroMemory(&m_vPosition, sizeof(_vec3));
+
 }
 
 CQuad::CQuad(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBuffer(nullptr), m_pTexture(nullptr)
 {
-	ZeroMemory(&m_vScale, sizeof(_vec3));
-	ZeroMemory(&m_vRotate, sizeof(_vec3));
-	ZeroMemory(&m_vPosition, sizeof(_vec3));
+
 }
 
 CQuad::CQuad(const CQuad& rhs) : CGameObject(rhs), m_pBuffer(nullptr), m_pTexture(nullptr)
 {
-	ZeroMemory(&m_vScale, sizeof(_vec3));
-	ZeroMemory(&m_vRotate, sizeof(_vec3));
-	ZeroMemory(&m_vPosition, sizeof(_vec3));
+
 	Add_Component();
 }
 
@@ -35,9 +29,9 @@ HRESULT CQuad::Init_Quad()
 _int CQuad::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	m_pTransform->setScale(m_vScale);
-	m_pTransform->setAngle(m_vRotate);
-	m_pTransform->setPos(m_vPosition);
+	m_pTransform->setScale(m_pTransform->getScale());
+	m_pTransform->setAngle(m_pTransform->getAngle());
+	m_pTransform->setPos(m_pTransform->getPos());
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
@@ -100,15 +94,4 @@ void CQuad::Free()
 void CQuad::setTexture(const _tchar* pFileName)
 {
 	m_pTexture->setTexture(GetTexture(pFileName, TEXTURETYPE::TEX_NORMAL));
-}
-
-void CQuad::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition)
-{
-	m_vScale = vScale;
-	m_vRotate = vRotate;
-	m_vPosition = vPosition;
-	m_pTransform->setScale(vScale);
-	m_pTransform->setAngle(vRotate);
-	m_pTransform->setPos(vPosition);
-
 }
