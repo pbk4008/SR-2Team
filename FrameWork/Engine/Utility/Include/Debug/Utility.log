@@ -1,29 +1,4 @@
-﻿  Animation.cpp
-  Animator.cpp
-  Camera.cpp
-  Collision.cpp
-  CollisionMgr.cpp
-  Component.cpp
-  CubeTex.cpp
-  GameObject.cpp
-  INIManager.cpp
-  Layer.cpp
-  Management.cpp
-  ProtoMgr.cpp
-  RcCol.cpp
-  RcTex.cpp
-  Renderer.cpp
-  Scene.cpp
-  TerrainTex.cpp
-  Texture.cpp
-  TextureMgr.cpp
-  Transform.cpp
-  Generating Code...
-  Compiling...
-  TriCol.cpp
-  VIBuffer.cpp
-  Generating Code...
-     Creating library ../Bin\Utility.lib and object ../Bin\Utility.exp
+﻿  Collision.cpp
   Utility.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h

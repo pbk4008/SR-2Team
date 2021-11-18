@@ -32,6 +32,7 @@ CForm::CForm()
 	, m_fMovePower(0)
 	, m_strTreeFilterName(_T(""))
 	, m_strObjectName(_T(""))
+	, m_fItemRadius(0)
 {
 	ZeroMemory(&m_tPlayerPos, sizeof(_float) * 2);
 }
@@ -77,6 +78,7 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, AlphaTest_Object, m_bAlphaTest);
 	DDX_Control(pDX, Combo_ItemList, m_Combo_ItemList);
 	DDX_Control(pDX, Combo_MonsterList, m_Combo_MonsterList);
+	DDX_Text(pDX, Edit_Item_Radius, m_fItemRadius);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -638,6 +640,7 @@ void CForm::LinkResourceAndVariableQuad()
 			if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
 			{
 				m_pNowObject = iter;
+				m_fItemRadius = static_cast<CItemObject*>(m_pNowObject)->getCollider()->getRadius();
 				bFindCheck = true;
 				break;
 			}
@@ -870,7 +873,13 @@ BOOL CForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	else if (zDelta > 0 && m_fMovePower < 0)
 		m_fMovePower *= -1;
 
-	if (m_pNowObject)
+	if (GetDlgItem(Edit_Item_Radius) == GetFocus())
+	{
+		m_fItemRadius += m_fMovePower;
+		static_cast<CItemObject*>(m_pNowObject)->getCollider()->setRadius(m_fItemRadius);
+		UpdateData(FALSE);
+	}
+	else if (m_pNowObject)
 	{
 		if (GetDlgItem(Object_PosX) == GetFocus())
 		{
@@ -915,10 +924,10 @@ BOOL CForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 		m_pNowObject->getTransform()->setAngle(m_vecRotaion);
 		m_pNowObject->getTransform()->setPos(m_vecPosition);
 
-
-
 		UpdateData(FALSE);
 	}
+
+
 	return CFormView::OnMouseWheel(nFlags, zDelta, pt);
 }
 
@@ -1782,6 +1791,11 @@ void CForm::OnBnClickedItemSave()
 		static_cast<CToolGameObject*>(Item)->Get_TreeName(Value);
 		m_pIniManager->AddData(section, Key, Value);
 
+		Key = "Radius";
+		_float fRadius = static_cast<CItemObject*>(Item)->getCollider()->getRadius();
+		Value = string_format("%f", fRadius);
+		m_pIniManager->AddData(section, Key, Value);
+
 	}
 
 	m_pIniManager->SaveIni(std::string("ItemData"));
@@ -1926,6 +1940,11 @@ void CForm::OnBnClickedItemLoad()
 		HTREEITEM hFindItem = FindTreeData(m_TreeObjectRoot, CString{ strParent.c_str() });
 
 		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
+
+		Key = "Radius";
+		std::string strRadius = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
+		_float fRadius = stof(strRadius);
+		static_cast<CItemObject*>(pItem)->getCollider()->setRadius(fRadius);
 
 		m_pMapToolView->m_listItem.emplace_back(pItem);
 

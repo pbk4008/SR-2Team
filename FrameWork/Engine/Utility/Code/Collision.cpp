@@ -22,10 +22,10 @@ CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m
 , m_eTrigger(rhs.m_eTrigger),m_fPivotLen(rhs.m_fPivotLen),m_pMaterial(nullptr)
 {
 	m_pMaterial = new D3DMATERIAL9;
-	m_pMaterial->Diffuse.a = 1.f;
-	m_pMaterial->Diffuse.r = 1.f;
-	m_pMaterial->Diffuse.g = 1.f;
-	m_pMaterial->Diffuse.b = 1.f;
+	m_pMaterial->Diffuse.a = 1;
+	m_pMaterial->Diffuse.r = 1;
+	m_pMaterial->Diffuse.g = 1;
+	m_pMaterial->Diffuse.b = 1;
 	m_pCollisionMgr->AddRef();
 	if (rhs.m_pTransform)
 		m_pTransform->AddRef();
@@ -65,10 +65,25 @@ CComponent* CCollision::Clone_Component()
 void CCollision::Render_Collision()
 {
 	_matrix matWorld = m_pTransform->getWorldMatrix();
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			if (i == j)
+			{
+				matWorld.m[i][j] = 1;
+			}
+			else
+			{
+				matWorld.m[i][j] = 0;
+			}
+		}
+	}
 	matWorld.m[3][0] = m_vCenter.x;
 	matWorld.m[3][1] = m_vCenter.y;
 	matWorld.m[3][2] = m_vCenter.z;
 	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	D3DMATERIAL9 mtrl;
 	ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
@@ -77,9 +92,9 @@ void CCollision::Render_Collision()
 	mtrl.Diffuse.g =m_pMaterial->Diffuse.g;
 	mtrl.Diffuse.b =m_pMaterial->Diffuse.b;
 	m_pDevice->SetMaterial(&mtrl);
-
 	m_pSphere->DrawSubset(0);
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
 void CCollision::Collison(COLLISIONTAG eTag)
