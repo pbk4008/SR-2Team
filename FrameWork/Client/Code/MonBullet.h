@@ -3,7 +3,7 @@
 #define __MonBullet_H__
 #include "Bullet.h"
 BEGIN(Engine)
-class CCollision;
+class CSphereCollision;
 END
 class CMonBulletAnim;;
 class CMonBullet : public CBullet
@@ -38,7 +38,7 @@ public:
 
 private:
 	CMonBulletAnim*	m_pAnimation;
-	CCollision*		m_pCollision;
+	CSphereCollision*		m_pCollision;
 
 	_vec3			m_vTargetPos;
 

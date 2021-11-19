@@ -73,6 +73,15 @@
     <Filter Include="05.Manager\03.INIManager">
       <UniqueIdentifier>{b20c39b6-7cec-4905-9e57-33fcf937b054}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\06.Collision\00.SphereCollision">
+      <UniqueIdentifier>{69408489-d74f-4298-a811-6c144fa39975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\06.Collision\01.BoxCollision">
+      <UniqueIdentifier>{fd79755f-6607-467a-997e-69bbfd03d49f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Component\07.NaviMesh">
+      <UniqueIdentifier>{9b288021-3f0f-4e25-94e6-4a9729e3ae93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">
@@ -143,6 +152,15 @@
     </ClInclude>
     <ClInclude Include="..\Code\INIManager.h">
       <Filter>05.Manager\03.INIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\SphereCollision.h">
+      <Filter>04.Component\06.Collision\00.SphereCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\BoxCollision.h">
+      <Filter>04.Component\06.Collision\01.BoxCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\NaviMesh.h">
+      <Filter>04.Component\07.NaviMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +234,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\INIManager.cpp">
       <Filter>05.Manager\03.INIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphereCollision.cpp">
+      <Filter>04.Component\06.Collision\00.SphereCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BoxCollision.cpp">
+      <Filter>04.Component\06.Collision\01.BoxCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\NaviMesh.cpp">
+      <Filter>04.Component\07.NaviMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

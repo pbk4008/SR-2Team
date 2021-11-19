@@ -41,5 +41,23 @@ namespace Engine
 		_ulong x;
 		_ulong z;
 	}UPOINT;
+	typedef struct NaviCell
+	{
+		_vec3 vPoint[3];
+		_vec3 vMid[3];
+		_vec3 vCenter;
+		_float fDist;
+		_ulong dwIndex;
+		_int iParentIndex;
+		//LPDIRECT3DVERTEXBUFFER9 pVtx;
+		_bool bCheck;
+		NaviCell() :dwIndex(0), iParentIndex(-1), fDist(0.f), bCheck(true)
+		{
+			bCheck = true;
+			ZeroMemory(vPoint, sizeof(vPoint));
+			ZeroMemory(vMid, sizeof(vMid));
+			ZeroMemory(vCenter, sizeof(_vec3));
+		}
+	}CELL;
 }
 #endif

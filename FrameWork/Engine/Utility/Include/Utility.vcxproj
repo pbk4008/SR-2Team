@@ -157,6 +157,7 @@ call "Update_Utility.bat"</Command>
     <ClInclude Include="..\..\Export\Export_Utility.h" />
     <ClInclude Include="..\Code\Animation.h" />
     <ClInclude Include="..\Code\Animator.h" />
+    <ClInclude Include="..\Code\BoxCollision.h" />
     <ClInclude Include="..\Code\Camera.h" />
     <ClInclude Include="..\Code\Collision.h" />
     <ClInclude Include="..\Code\CollisionMgr.h" />
@@ -166,11 +167,13 @@ call "Update_Utility.bat"</Command>
     <ClInclude Include="..\Code\INIManager.h" />
     <ClInclude Include="..\Code\Layer.h" />
     <ClInclude Include="..\Code\Management.h" />
+    <ClInclude Include="..\Code\NaviMesh.h" />
     <ClInclude Include="..\Code\ProtoMgr.h" />
     <ClInclude Include="..\Code\RcCol.h" />
     <ClInclude Include="..\Code\RcTex.h" />
     <ClInclude Include="..\Code\Renderer.h" />
     <ClInclude Include="..\Code\Scene.h" />
+    <ClInclude Include="..\Code\SphereCollision.h" />
     <ClInclude Include="..\Code\TerrainTex.h" />
     <ClInclude Include="..\Code\Texture.h" />
     <ClInclude Include="..\Code\TextureMgr.h" />
@@ -184,6 +187,7 @@ call "Update_Utility.bat"</Command>
   <ItemGroup>
     <ClCompile Include="..\Code\Animation.cpp" />
     <ClCompile Include="..\Code\Animator.cpp" />
+    <ClCompile Include="..\Code\BoxCollision.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\Collision.cpp" />
     <ClCompile Include="..\Code\CollisionMgr.cpp" />
@@ -193,11 +197,13 @@ call "Update_Utility.bat"</Command>
     <ClCompile Include="..\Code\INIManager.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
+    <ClCompile Include="..\Code\NaviMesh.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\SphereCollision.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\TextureMgr.cpp" />

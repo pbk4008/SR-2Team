@@ -3,7 +3,9 @@
 #define __CUBE_H__
 #include "GameObject.h"
 #include "Quad.h"
-
+BEGIN(Engine)
+class CBoxCollision;
+END
 class CCube final : public CGameObject
 {
 private:
@@ -28,5 +30,10 @@ public:
 private:
 	vector<CTexture*> m_CubeTexture;
 	vector<CRcTex*> m_CubePlane;
+
+	CBoxCollision* m_pCollision;
+	_vec3 m_vScale;
+	_vec3 m_vRotate;
+	_vec3 m_vPosition;
 };
 #endif

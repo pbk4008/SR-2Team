@@ -6,6 +6,7 @@
 #include "MeleeMon_WalkF.h"
 #include "MeleeMon_Attack.h"
 #include "MeleeMon_Death.h"
+#include "SphereCollision.h"
 
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -38,7 +39,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	CComponent* pComponent = nullptr;
 
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -46,10 +47,10 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);
@@ -256,7 +257,7 @@ HRESULT CMeleeMon::Add_Component()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 	
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -264,10 +265,10 @@ HRESULT CMeleeMon::Add_Component()
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);

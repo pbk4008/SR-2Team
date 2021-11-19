@@ -7,7 +7,6 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Animator.h"
-#include "Collision.h"
 #include "ShootMon.h"
 #include "FlyMon.h"
 #include "Shuriken.h"
@@ -17,6 +16,7 @@
 #include "Quad.h"
 #include "Fog.h"
 #include "Item.h"
+#include "NaviMesh.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -91,14 +91,6 @@ _uint CLoading::Loading_ForStage()
 	//Component盔夯 积己
 	CComponent* pCom = nullptr;
 
-	pCom = CRcTex::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::RCTEX, pCom);
-
-	pCom = CTexture::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::TEXTURE, pCom);
-
 	pCom = CAnimator::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::ANIMATOR, pCom);
@@ -111,10 +103,17 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::CAMERA, pCom);
 
-	pCom = CCollision::Create(m_pDevice);
+	pCom = CSphereCollision::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::COLLISION, pCom);
+	Init_ComProto(COMPONENTID::SPHERECOL, pCom);
 
+	pCom = CBoxCollision::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::BOXCOL, pCom);
+
+	pCom = CNaviMesh::Create(m_pDevice,0,0);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::NAVIMESH, pCom);
 	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
 
@@ -179,10 +178,10 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::ITEM, pObj);
 	
-	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -262,8 +261,6 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 			VtxInfoValue.erase(0, dot + 1);
 		}
 		//瘤屈 积己
-
-
 		CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, iVecTerrainInfo[0]
 			, iVecTerrainInfo[1], iVecTerrainInfo[2], iVecTerrainInfo[3]);
 		NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
@@ -372,6 +369,7 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 
 		pTerrain->LoadTransform(Scale, Roatate, Position);
 		pTerrain->setActive(false);
+		pTerrain->Create_NaviMesh();
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::TERRAIN, pTerrain);
 	}
 	return S_OK;

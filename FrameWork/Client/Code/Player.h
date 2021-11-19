@@ -5,6 +5,9 @@
 class CMainCamera;
 class CPlayerModel;
 class CBullet;
+BEGIN(Engine)
+class CSphereCollision;
+END
 class CPlayer final : public CGameObject
 {
 public:
@@ -25,8 +28,9 @@ private:
 	void KeyInput(const float& fDelatTime);
 	void ChangeState();
 	void ChangeAttackType();
-	void Dash(const float& fDeltaTime);
+	void Dash(const _float& fDeltaTime);
 	CBullet* Shoot(GAMEOBJECTID eID, _bool& bCheck);
+	void TelePort(const _float& fDeltaTime, const _vec3& vLook, const _float fPower = 1);
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -55,8 +59,8 @@ private:
 
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;
-
-	CCollision* m_pHitCollision;
-	CCollision* m_pAtkCollision;
+	
+	CSphereCollision* m_pHitCollision;
+	CSphereCollision* m_pAtkCollision;
 };
 #endif

@@ -22,9 +22,10 @@
 #include "Renderer.h"
 #include "Animation.h"
 #include "Animator.h"
-#include "Collision.h"
+#include "SphereCollision.h"
+#include "BoxCollision.h"
 #include "CollisionMgr.h"
-
+#include "NaviMesh.h"
 #include "INIManager.h"
 
 //Management
@@ -60,6 +61,7 @@ inline void Clear_RenderList();
 
 //CollisonMgr
 inline CCollisionMgr* Init_CollisionMgr();
+inline HRESULT Insert_Wall(CCollision* pCollision);
 inline HRESULT Insert_Collision(CCollision* pCollision);
 inline void ClearCollisionList();
 
