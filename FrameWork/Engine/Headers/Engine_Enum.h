@@ -17,6 +17,7 @@ namespace Engine
 	///////// 여기서부터 몬스터 ///////////
 		FIREBALL,
 		MONBULLET,
+		BOSSHP,
 		MELEEMON_TEX,
 		MELEEMON_IDLEANIM,
 		MELEEMON_IDLETEX,

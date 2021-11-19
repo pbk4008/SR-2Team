@@ -156,8 +156,8 @@
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
     <ClInclude Include="..\Code\Boss.h" />
+    <ClInclude Include="..\Code\Boss_ChargeAnim.h" />
     <ClInclude Include="..\Code\Boss_DeathAnim.h" />
-    <ClInclude Include="..\Code\Boss_FlyAnim.h" />
     <ClInclude Include="..\Code\Boss_IdleAnim.h" />
     <ClInclude Include="..\Code\Boss_MeleeAnim.h" />
     <ClInclude Include="..\Code\Boss_RangeAnim.h" />
@@ -201,6 +201,7 @@
     <ClInclude Include="..\Code\ShurikenAnim.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
+    <ClInclude Include="..\Code\UI.h" />
     <ClInclude Include="..\Headers\Enum.h" />
     <ClInclude Include="..\Headers\Include.h" />
     <ClInclude Include="..\Headers\Value.h" />
@@ -215,8 +216,8 @@
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />
+    <ClCompile Include="..\Code\Boss_ChargeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_DeathAnim.cpp" />
-    <ClCompile Include="..\Code\Boss_FlyAnim.cpp" />
     <ClCompile Include="..\Code\Boss_IdleAnim.cpp" />
     <ClCompile Include="..\Code\Boss_MeleeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
@@ -260,6 +261,7 @@
     <ClCompile Include="..\Code\ShurikenAnim.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

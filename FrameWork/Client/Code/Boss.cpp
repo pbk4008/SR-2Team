@@ -7,13 +7,14 @@
 #include "Boss_MeleeAnim.h"
 #include "Boss_RangeAnim.h"
 #include "Boss_DeathAnim.h"
-#include "Boss_FlyAnim.h"
+#include "Boss_ChargeAnim.h"
 #include "Fireball.h"
 
 CBoss::CBoss()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_pCollision(nullptr), m_pAttackColl(nullptr),
-	m_iHP(0), m_bAttack(false), m_bMoving(false), m_iTimer(0), m_fSpeed(0.f), m_iAttackNumber(0)
+	m_iHP(0), m_bAttack(false), m_bMoving(false), m_iTimer(0), m_fSpeed(0.f), m_iAttackNumber(0),
+	m_bChargeAttack(false), m_fChargeTime (0.f), m_fFireballTimer(0.f)
 {
 
 }
@@ -21,7 +22,8 @@ CBoss::CBoss()
 CBoss::CBoss(LPDIRECT3DDEVICE9 pDevice)
 	: CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_pCollision(nullptr), m_pAttackColl(nullptr),
-	m_iHP(0), m_bAttack(false), m_bMoving(false), m_iTimer(0), m_fSpeed(0.f), m_iAttackNumber(0)
+	m_iHP(0), m_bAttack(false), m_bMoving(false), m_iTimer(0), m_fSpeed(0.f), m_iAttackNumber(0),
+	m_bChargeAttack(false), m_fChargeTime(0.f), m_fFireballTimer(0.f)
 {
 
 }
@@ -31,7 +33,8 @@ CBoss::CBoss(const CBoss& rhs)
 	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(rhs.m_iTimer),
 	m_pAnimator(rhs.m_pAnimator), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX),
 	m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(rhs.m_iHP),
-	m_iAttackNumber(rhs.m_iAttackNumber)
+	m_iAttackNumber(rhs.m_iAttackNumber), m_bChargeAttack(rhs.m_bChargeAttack), m_fChargeTime(rhs.m_fChargeTime),
+	m_fFireballTimer(rhs.m_fFireballTimer)
 {
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
@@ -56,8 +59,6 @@ CBoss::CBoss(const CBoss& rhs)
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
 	Insert_Collision(m_pAttackColl);
-
-
 }
 
 CBoss::~CBoss()
@@ -70,7 +71,11 @@ HRESULT CBoss::Init_Boss()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fSpeed = 5.f;
 
-	m_iHP = 1500;
+	m_iHP = 2000;
+
+	CTextureMgr* pTexMgr = Init_TextureMgr();
+	pTexMgr->getTexture(L"Boss_HPFull", TEXTURETYPE::TEX_NORMAL);
+	pTexMgr->getTexture(L"Boss_HPEmpty", TEXTURETYPE::TEX_NORMAL);
 
 	return S_OK;
 }
@@ -78,34 +83,40 @@ HRESULT CBoss::Init_Boss()
 Engine::_int CBoss::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
+
 	m_pTransform->setScale(3.f, 3.f, 3.f);
 	m_pTransform->UsingGravity(fDeltaTime);
-	_vec3 vPos = m_pTransform->getPos();
-	vPos.y + 15.0f;
 
-
-	HPCheck();
-	Follow(fDeltaTime);
-	Attack_Dis(fDeltaTime);
+	HitBoss(fDeltaTime);
 
 	if (GetAsyncKeyState('P'))
 	{
-		CBullet* pBullet = nullptr;
-		pBullet = Fireball(GAMEOBJECTID::FIREBALL);
-		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::FIREBALL, pBullet);
+		m_iHP = 1499;
 	}
 
 	if (GetAsyncKeyState('L'))
 	{
-		m_bChargeAttack = true;
+		m_iHP = 999;
 	}
 
 	if (GetAsyncKeyState('K'))
 	{
-		TeleportPillerAttack(fDeltaTime);
+		m_iHP = 2000;
 	}
 
-	ChargeAttack(fDeltaTime);
+	if (GetAsyncKeyState('O'))
+	{
+		m_iHP = 0;
+	}
+
+	//jkhkjhk
+
+	HPCheck();		///hp checks into pattern --> m_eCurState
+
+	Follow(fDeltaTime); /// into chase and chase range --> follow distance
+	Attack_Dis(fDeltaTime); /// stance determines attack distance
+
+	Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -116,7 +127,6 @@ Engine::_int CBoss::Update_GameObject(const _float& fDeltaTime)
 void CBoss::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
-
 }
 
 void CBoss::Render_GameObject()
@@ -154,8 +164,8 @@ HRESULT CBoss::SettingAnimator()
 	CBoss_DeathAnim* pDeath = CBoss_DeathAnim::Create(m_pDevice);
 	m_pAnimator->Insert_Animation(L"Boss_Death", L"Boss_Idle", pDeath, true);
 
-	CBoss_FlyAnim* pFly = CBoss_FlyAnim::Create(m_pDevice);
-	m_pAnimator->Insert_Animation(L"Boss_Fly", L"Boss_Idle", pFly, true);
+	CBoss_ChargeAnim* pCharge = CBoss_ChargeAnim::Create(m_pDevice);
+	m_pAnimator->Insert_Animation(L"Boss_Charge", L"Boss_Idle", pCharge, true);
 
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Melee");
 	m_pAnimator->Connet_Animation(L"Boss_Melee", L"Boss_Move");
@@ -166,8 +176,8 @@ HRESULT CBoss::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Death");
 	m_pAnimator->Connet_Animation(L"Boss_Death", L"Boss_Move");
 
-	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Fly");
-	m_pAnimator->Connet_Animation(L"Boss_Fly", L"Boss_Move");
+	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Charge");
+	m_pAnimator->Connet_Animation(L"Boss_Charge", L"Boss_Move");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"Boss_Idle"));
 
@@ -194,11 +204,31 @@ void CBoss::Change_State()
 		case CBoss::STATE::RANGE:
 			m_pAnimator->Change_Animation(L"Boss_Range");
 			break;
+		case CBoss::STATE::CHARGE:
+			m_pAnimator->Change_Animation(L"Boss_Charge");
+			break;
 		case CBoss::STATE::DEATH:
 			m_pAnimator->Change_Animation(L"Boss_Death");
 			break;
 		}
 		m_ePreState = m_eCurState;
+	}
+}
+
+void CBoss::GetHit(const _float fDeltaTime)
+{
+	m_iTimer += fDeltaTime;
+	if (m_iTimer >= 1.0f)
+	{
+		cout << "Boss got hit!" << endl;
+		m_pAttackColl->setActive(false);
+
+		if (m_pAttackColl->getActive())
+			m_pAttackColl->Update_Component(fDeltaTime);
+
+		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
+
+		m_iTimer = 0.f;
 	}
 }
 
@@ -254,9 +284,12 @@ void CBoss::Follow(const _float& fDeltaTime)
 
 	if (m_eCurState == STATE::RANGE)
 		ChaseRange(&playerPos, m_fSpeed, fDeltaTime);
+
+	if (m_eCurState == STATE::CHARGE)
+		ChaseCharge(&playerPos, m_fSpeed, fDeltaTime);
 }
 
-void CBoss::AttackHit(const _float& fDeltaTime)
+void CBoss::HitPlayer(const _float& fDeltaTime)
 {
 	m_iTimer += fDeltaTime;
 	if (m_iTimer >= 1.0f)
@@ -281,76 +314,116 @@ void CBoss::MeleeAttack(const _float& fDeltaTime)
 
 void CBoss::RangeAttack(const _float& fDeltaTime)
 {
-	//CBullet* pBullet = nullptr;
-
 	m_eCurState = STATE::RANGE;
 	Change_State();
 
-	//pBullet = Fireball(GAMEOBJECTID::FIREBALL);
-	//Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::FIREBALL, pBullet);
+	m_fFireballTimer += fDeltaTime;
+	if (m_fFireballTimer >= 1.0f)
+	{
+		CBullet* pBullet = nullptr;
+		pBullet = Fireball(GAMEOBJECTID::FIREBALL);
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONBULLET, pBullet);
+
+		m_fFireballTimer = 0.f;
+	}
 }
 
-void CBoss::ChargeAttack(const _float& fDeltaTime)
+void CBoss::ChargeTarget(const _float& fDeltaTime)
 {
 	if (m_bChargeAttack)
 	{
+		_vec3 vPos;
+		vPos = m_pTransform->getPos();
+
 		CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 		_vec3 playerPos = pObject->getTransform()->getPos();
 
-		_vec3 vBossPos = m_pTransform->getPos();
+		_vec3 vDir = playerPos - vPos;
 
-		_vec3 vChargeDir = playerPos - vBossPos;
+		D3DXVec3Normalize(&vDir, &vDir);
 
-		D3DXVec3Normalize(&vChargeDir, &vChargeDir);
+		setLook(vDir);
+		setPos(vPos);
+		setTarget(playerPos);
 
-		_float fCDis = D3DXVec3Length(&vChargeDir);
-
-		m_fSpeed = 15.f;
-		vBossPos += *D3DXVec3Normalize(&vChargeDir, &vChargeDir) * m_fSpeed * fDeltaTime;
-
-		m_bChargeAttack = false;
-
-		m_pTransform->setPos(vBossPos);
+		ChargeAttack(fDeltaTime, vDir, vPos, playerPos);
 	}
-
-	//m_eCurState = STATE::IDLE;
-	//Change_State();
-
-	//_vec3 vLook, vPos;
-	//vPos = m_pTransform->getPos();
-
-	//CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
-	//_vec3 playerPos = pObject->getTransform()->getPos();
-
-	//m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
-
-	//_vec3 vDir = playerPos - vPos;
-	//D3DXVec3Normalize(&vDir, &vDir);
-
-	//_vec3	m_vInfo;
-	//m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
-
-	////////////////
-
-	//_matrix matRot;
-	//matRot = *ComputeLookAtTarget(&playerPos);
-
-	//m_pTransform->setRotate(matRot);
-
-	//_vec3 vDir = playerPos - m_vInfo;
-
-	//_vec3 vDis = playerPos - m_vInfo;
-	//_float fDis = D3DXVec3Length(&vDis);
-
-	//if (fDis >= 1.0f)
-	//	m_vInfo += *D3DXVec3Normalize(&vDivr, &vDir) * m_fSpeed * fDeltaTime;
-
-	//m_pTransform->setPos(m_vInfo);
 }
 
-void CBoss::TeleportPillerAttack(const _float& fTimeDelta)
+void CBoss::ChargeAttack(const _float& fDeltaTime, const _vec3 vDir, const _vec3 vPos, const _vec3 vPlayerPos)
 {
+	m_fSpeed = 20.f;
+	_vec3 vLook = vDir;
 
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	m_vFirstPos = vPlayerPos;
+	m_vFirstPos += vDir * m_fSpeed * fDeltaTime;
+
+	m_fChargeTime += fDeltaTime;
+	if (m_fChargeTime >= 0.6f)
+	{
+		m_fSpeed = 2.f;
+		m_bChargeAttack = false;
+		m_fChargeTime = 0.f;
+	}
+	m_pTransform->setPos(m_vFirstPos);
+}
+
+void CBoss::setPos(const _vec3& vPos)
+{
+	m_vFirstPos = vPos;
+}
+
+void CBoss::setLook(const _vec3& vLook)
+{
+	m_vLook = vLook;
+}
+
+void CBoss::setTarget(const _vec3& vTarget)
+{
+	m_vTargetPos = vTarget;
+}
+
+void CBoss::HitBoss(const _float& fTimeDelta)
+{
+	/*m_iTimer += fTimeDelta;
+	if (m_iTimer >= 1.0f)
+	{
+		if (m_pCollision->getHit())
+		{
+			m_iHP -= 50;
+			cout << "Boss Hit!" << endl;
+			m_pCollision->setActive(false);
+
+			if (m_pCollision->getActive())
+				m_pCollision->Update_Component(fTimeDelta);
+
+			m_pCollision->Collison(COLLISIONTAG::PLAYER);
+
+			m_iTimer = 0.f;
+		}
+	}*/
+
+	if (m_pCollision->getHit())
+	{
+		m_iTimer += fTimeDelta;
+		if (m_iTimer >= 1.0f)
+
+		{
+			m_iHP -= 50;
+			cout << "Boss Hit!" << endl;
+			m_pCollision->setActive(false);
+
+			if (m_pCollision->getActive())
+				m_pCollision->Update_Component(fTimeDelta);
+
+			m_pCollision->Collison(COLLISIONTAG::PLAYER);
+
+			m_iTimer = 0.f;
+		}
+
+	}
 }
 
 void CBoss::HPCheck()
@@ -362,7 +435,7 @@ void CBoss::HPCheck()
 	else if (m_iHP > 1000 && m_iHP <= 1500)
 		m_eCurState = STATE::RANGE;
 	else if (m_iHP > 500 && m_iHP <= 1000)
-		m_eCurState = STATE::PILLAR;
+		m_eCurState = STATE::CHARGE;
 	else if (m_iHP <= 500)
 		m_eCurState = STATE::IDLE; /////////////////////////////////////
 }
@@ -382,7 +455,8 @@ void CBoss::Attack_Dis(const _float& fDeltaTime)
 		if (fDis <= 1.0f)
 		{
 			Change_State();
-			MeleeAttack(fDeltaTime);
+			MeleeAttack(fDeltaTime); 
+			HitPlayer(fDeltaTime);
 			m_pAttackColl->setActive(true);
 		}
 		else if (fDis > 1.0f)
@@ -407,27 +481,23 @@ void CBoss::Attack_Dis(const _float& fDeltaTime)
 		}
 	}
 
-	if (m_eCurState == STATE::PILLAR)
+	if (m_eCurState == STATE::CHARGE)
 	{
-		////////////
-	}
-}
-
-void CBoss::Attack_Type(const _float& fDeltaTime)
-{
-	switch (m_iAttackNumber)
-	{
-	case 1:
-		MeleeAttack(fDeltaTime);
-		break;
-	case 2:
-		RangeAttack(fDeltaTime);
-		break;
-	case 3:
-		TeleportPillerAttack(fDeltaTime);
-		break;
-	case 4:
-		break;
+		if (fDis <= 12.0f)
+		{
+			Change_State();
+			m_fChargeTime += fDeltaTime;
+			if (m_fChargeTime >= 1.0f)
+			{
+				m_bChargeAttack = true;
+			}
+			ChargeTarget(fDeltaTime); /// targets player and then into chargeattack()
+		}
+		else if (fDis > 12.0f)
+		{
+			m_eCurState = STATE::WALKING;
+			Change_State();
+		}
 	}
 }
 
@@ -468,6 +538,27 @@ void CBoss::ChaseRange(const _vec3* pTargetPos, const _float& fSpeed, const _flo
 	_float fDis = D3DXVec3Length(&vDis);
 
 	if (fDis >= 10.0f)
+		m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
+
+	m_pTransform->setPos(m_vInfo);
+}
+
+void CBoss::ChaseCharge(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta)
+{
+	_vec3	m_vInfo;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
+
+	_matrix matRot;
+	matRot = *ComputeLookAtTarget(pTargetPos);
+
+	m_pTransform->setRotate(matRot);
+
+	_vec3 vDir = *pTargetPos - m_vInfo;
+
+	_vec3 vDis = *pTargetPos - m_vInfo;
+	_float fDis = D3DXVec3Length(&vDis);
+
+	if (fDis >= 12.0f)
 		m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
 
 	m_pTransform->setPos(m_vInfo);
@@ -528,3 +619,24 @@ void CBoss::Free()
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }
+
+
+/*if (GetAsyncKeyState('P'))
+	{
+		m_iHP = 1499;
+	}
+
+	if (GetAsyncKeyState('L'))
+	{
+		m_iHP = 999;
+	}
+
+	if (GetAsyncKeyState('K'))
+	{
+		m_iHP = 2000;
+	}
+
+	if (GetAsyncKeyState('O'))
+	{
+		m_iHP = 0;
+	}*/

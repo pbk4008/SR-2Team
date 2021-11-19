@@ -27,21 +27,32 @@ public:
 
 private:
 	void Change_State();
+	void GetHit(const _float fDeltaTime);
 	virtual HRESULT Add_Component();
+
 	virtual void	 Follow(const _float& fDeltaTime);
 	virtual void	 Attack_Dis(const _float& fDeltaTime);
-	virtual void	 AttackHit(const _float& fDeltaTime);
+	virtual void	 HitPlayer(const _float& fDeltaTime);
 	virtual void	 MeleeAttack(const _float& fDeltaTime);
 	virtual void	 RangeAttack(const _float& fDeltaTime);
-	virtual void	 ChargeAttack(const _float& fDeltaTime);
-	virtual void	 TeleportPillerAttack(const _float& fTimeDelta);
+	virtual void	 ChargeTarget(const _float& fDeltaTime);
+	virtual void	 ChargeAttack(const _float& fDeltaTime, const _vec3 vDir, const _vec3 vPos, const _vec3 vPlayerPos);
+
+	virtual void	 HitBoss(const _float& fTimeDelta);
 	virtual void	 HPCheck();
-	virtual void	 Attack_Type(const _float& fDeltaTime);
+
 	virtual void	 Chase(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	virtual void	 ChaseRange(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
+	virtual void	 ChaseCharge(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
+
 	virtual _matrix* ComputeLookAtTarget(const _vec3* pTargetPos);
 	CBullet* Fireball(GAMEOBJECTID eID);
 
+
+public:
+	void setPos(const _vec3& vPos);
+	void setLook(const _vec3& vLook);
+	void setTarget(const _vec3& vTarget);
 	virtual void	 Free();
 
 public:
@@ -66,11 +77,13 @@ private:
 	_bool			m_bChargeAttack;
 
 	_float			m_iTimer;
+	_float			m_fFireballTimer;
 	_float			m_fSpeed;
-};
-//    : m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr), 
-//		m_eCurState, m_ePreState, m_pCollision(nullptr), m_pAttackColl(nullptr), 
-//		m_iHP, m_bAttack, m_bMoving, m_iTimer, m_fSpeed
+	_float			m_fChargeTime;
 
+	_vec3			m_vTargetPos;
+	_vec3			m_vFirstPos;
+	_vec3			m_vLook;
+};
 
 #endif // Boss_h__
