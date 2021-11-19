@@ -39,14 +39,14 @@ public:	virtual CGameObject*				Clone_GameObject() override;
 public:	static  CItemObject*						Create(LPDIRECT3DDEVICE9 pDevice);
 public:	inline	std::array<CRcTex*, 6>&		Get_Tex() { return marrTexBuffer; }
 public: inline	_uint						getType() { return static_cast<_uint>(meType); }
-public:	inline	void						setType(eITEM eType) { meType = eType; }
+public:	inline	void						setType(const eITEM& eType) { meType = eType; }
 public: inline	void						getItemPower(int& itemPower) { itemPower = muiItemPower; }
 public:	inline	void						setItemPower(const int& itemPower) { muiItemPower = itemPower; }
+public: inline	CCollision*					getCollider() { return mpCollider; }
 
 private: virtual HRESULT					Add_Component() override;
 private: virtual void						Free() override;
 
-public:			 void						setTexture(const _tchar* pFineName, const _uint iIndex);
 
 private: CCollision*						mpCollider;
 private: _uint								muiItemPower;

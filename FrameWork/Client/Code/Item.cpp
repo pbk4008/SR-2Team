@@ -114,8 +114,6 @@ HRESULT CItem::Add_Component()
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
-	mpCollider->AddRef();
-	
 
 	return S_OK;
 }

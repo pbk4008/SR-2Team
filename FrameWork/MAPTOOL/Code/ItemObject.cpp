@@ -67,14 +67,12 @@ void CItemObject::Render_GameObject()
 		{
 			m_vecTextureInfo[i].pTexture->Render_Texture();
 		}
-		else
-		{
-			m_pDevice->SetTexture(0, nullptr);
-		}
-
 		marrTexBuffer[i]->Render_Buffer();
+		m_pDevice->SetTexture(0, nullptr);
 	}
 
+	mpCollider->Render_Collision();
+	
 	CGameObject::Render_GameObject();
 }
 
@@ -108,10 +106,14 @@ HRESULT CItemObject::Add_Component()
 	}
 
 	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
-	mpCollider->setRadius(1.f);
+	mpCollider->setRadius(0.8f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
+	mpCollider->setTransform(m_pTransform);
+
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+
 
 	return S_OK;
 }

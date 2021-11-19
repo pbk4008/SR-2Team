@@ -123,6 +123,7 @@ public:
 	CComboBox m_Combo_MonsterList;
 	afx_msg void OnBnClickedItemSave();
 	afx_msg void OnBnClickedItemLoad();
+	float m_fItemRadius;
 };
 
 template<typename ... Args>
