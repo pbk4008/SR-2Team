@@ -1,4 +1,8 @@
-﻿  LINK : ..\Bin\System.dll not found or not built by the last incremental link; performing full link
+﻿  FrameMgr.cpp
+  GraphicDev.cpp
+  InputDev.cpp
+  TimeMgr.cpp
+  Generating Code...
      Creating library ../Bin\System.lib and object ../Bin\System.exp
   System.vcxproj -> C:\Users\kko\Desktop\SR_2Team\FrameWork\Engine\System\Bin\System.dll
   .\Engine\Headers\Engine_Enum.h

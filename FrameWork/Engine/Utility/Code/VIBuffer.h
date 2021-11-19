@@ -17,6 +17,7 @@ public:
 protected:
 	virtual HRESULT Init_Buffer();
 	virtual void Render_Buffer();
+	virtual void Render_Buffer(_uint DrawIndex);
 protected:
 	virtual void Free();
 protected:

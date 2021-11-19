@@ -105,9 +105,6 @@
     <ClInclude Include="..\Code\TerrainObject.h">
       <Filter>04. GameObject\00. Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\CubeObject.h">
-      <Filter>04. GameObject\02. CubeTex</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\QuadObject.h">
       <Filter>04. GameObject\01. QuadTex</Filter>
     </ClInclude>
@@ -116,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="..\Code\ItemObject.h">
       <Filter>04. GameObject\03. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\TestCubeObject.h">
+      <Filter>04. GameObject\02. CubeTex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +149,6 @@
     <ClCompile Include="..\Code\TerrainObject.cpp">
       <Filter>04. GameObject\00. Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\CubeObject.cpp">
-      <Filter>04. GameObject\02. CubeTex</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\QuadObject.cpp">
       <Filter>04. GameObject\01. QuadTex</Filter>
     </ClCompile>
@@ -160,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\ItemObject.cpp">
       <Filter>04. GameObject\03. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TestCubeObject.cpp">
+      <Filter>04. GameObject\02. CubeTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

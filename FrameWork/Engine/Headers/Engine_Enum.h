@@ -8,6 +8,7 @@ namespace Engine
 		TRICOL,
 		RCCOL,
 		RCTEX,
+		CUBETEX,
 		TERRAINTEX,
 		TRANSFORM,
 		CAMERA,

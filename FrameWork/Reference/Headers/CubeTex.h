@@ -13,6 +13,7 @@ private:
 public:
 	virtual HRESULT Init_Buffer();
 	virtual void Render_Buffer();
+	virtual void Render_Buffer(_uint DrawIndex);
 	virtual CComponent* Clone_Component();
 public:
 	static CCubeTex* Create(LPDIRECT3DDEVICE9 pDevice);

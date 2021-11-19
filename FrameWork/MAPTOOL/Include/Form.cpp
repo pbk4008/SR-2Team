@@ -10,9 +10,9 @@
 #include "VIBuffer.h"
 #include "TerrainObject.h"
 #include "QuadObject.h"
-#include "CubeObject.h"
 #include "ToolGameObject.h"
 #include "ItemObject.h"
+#include "TestCubeObject.h"
 
 #include "INIManager.h"
 
@@ -79,6 +79,7 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, Combo_ItemList, m_Combo_ItemList);
 	DDX_Control(pDX, Combo_MonsterList, m_Combo_MonsterList);
 	DDX_Text(pDX, Edit_Item_Radius, m_fItemRadius);
+	DDX_Control(pDX, IDC_CHECK1, m_Button_LightOnOff);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -762,7 +763,8 @@ void CForm::OnBnClickedCubeCreate()
 		return;
 
 	CGameObject* pObj = nullptr;
-	pObj = CCubeObject::Create(m_pMapToolView->m_pDevice);
+	/*pObj = CCubeObject::Create(m_pMapToolView->m_pDevice);*/
+	pObj = CTestCubeObject::Create(m_pMapToolView->m_pDevice);
 	static_cast<CToolGameObject*>(pObj)->Set_ObjectName(m_strObjectName);
 	static_cast<CToolGameObject*>(pObj)->Set_TypeName(L"Cube");
 
@@ -1016,7 +1018,7 @@ void CForm::OnBnClickedCloneObject()
 	{
 		size_t cubesize = m_pMapToolView->m_listCube.size();
 
-		CloneObject = static_cast<CCubeObject*>(m_pNowObject)->Clone_GameObject();
+		CloneObject = static_cast<CTestCubeObject*>(m_pNowObject)->Clone_GameObject();
 		Appendsize += CString(to_wstring(cubesize).c_str());
 		strObjectName = strObjectName + Appendsize;
 
@@ -1397,7 +1399,7 @@ void CForm::OnBnClickedCubeLoad()
 		int PointerSize = 0;
 
 
-		pCube = CCubeObject::Create(m_pMapToolView->m_pDevice);
+		pCube = CTestCubeObject::Create(m_pMapToolView->m_pDevice);
 
 		std::wstring FolderName;
 		std::wstring FileName;

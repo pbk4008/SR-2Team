@@ -140,7 +140,6 @@ void CPlayer::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	if (m_pAtkCollision->getActive())
 	{
-		m_pAtkCollision->setMaterial(1.0f, 0.f, 0.f, 1.f);
 		m_pAtkCollision->Render_Collision();
 	}
 	m_pHitCollision->Render_Collision();

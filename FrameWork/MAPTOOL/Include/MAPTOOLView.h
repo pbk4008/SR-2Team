@@ -47,6 +47,10 @@ public:
 	std::list<CGameObject*> m_listQuad;
 	std::list<CGameObject*> m_listCube;
 	std::list<CGameObject*> m_listItem;
+	//================
+	// LIGHT
+	D3DLIGHT9 mLight;
+
 	 
 	
 // 작업입니다.

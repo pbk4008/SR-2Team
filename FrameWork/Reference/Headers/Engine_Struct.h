@@ -11,17 +11,33 @@ namespace Engine
 	const _ulong FVF_COL = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX0;
 	typedef struct tagVtxTex
 	{
+		tagVtxTex() {}
+		tagVtxTex(const _vec3& _vpos, const _vec3& _vNormal ,const _vec2& _vUv)
+		{
+			vPos = _vpos;
+			vNormal = _vNormal;
+			vUV = _vUv;
+		}
 		_vec3 vPos;
+		_vec3 vNormal;
 		_vec2 vUV;
 	}VTXTEX;
-	const _ulong FVF_TEX = D3DFVF_XYZ | D3DFVF_TEX1;
+	const _ulong FVF_TEX = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
 
 	typedef struct tagVtxCubeTex
 	{
+		tagVtxCubeTex() {}
+		tagVtxCubeTex(const _vec3& _vpos,const _vec3& _vNormal ,const _vec2& _vUv)
+		{
+			vPos = _vpos;
+			vNormal = _vNormal;
+			vUV = _vUv;
+		}
 		_vec3 vPos;
-		_vec3 vUV;
+		_vec3 vNormal;
+		_vec2 vUV;
 	}VTXCUBE;
-	const _ulong FVF_CUBE = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
+	const _ulong FVF_CUBE = D3DFVF_XYZ |D3DFVF_NORMAL| D3DFVF_TEX1;
 	typedef struct tagIndex16
 	{
 		_ushort _0;

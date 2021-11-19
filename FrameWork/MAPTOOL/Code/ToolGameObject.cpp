@@ -3,13 +3,17 @@
 
 CToolGameObject::CToolGameObject()
 {
-
+	mMaterial.Ambient = { 1.f,1.f,1.f,1.f };
+	mMaterial.Diffuse = { 1.f,1.f,1.f,1.f };
+	mMaterial.Specular = { 1.f,1.f,1.f,1.f };
 }
 
 CToolGameObject::CToolGameObject(LPDIRECT3DDEVICE9 pDevice)
 	: CGameObject(pDevice)
 {
-
+	mMaterial.Ambient = { 1.f,1.f,1.f,1.f };
+	mMaterial.Diffuse = { 1.f,1.f,1.f,1.f };
+	mMaterial.Specular = { 1.f,1.f,1.f,1.f };
 }
 
 CToolGameObject::CToolGameObject(const CToolGameObject& rhs)
@@ -19,6 +23,7 @@ CToolGameObject::CToolGameObject(const CToolGameObject& rhs)
 	, m_strObjectName(rhs.m_strObjectName)
 	, m_strTypeName(rhs.m_strTypeName)
 	, m_strParent(rhs.m_strParent)
+	, mMaterial(rhs.mMaterial)
 {
 	for (auto& texture : m_vecTextureInfo)
 	{
@@ -27,6 +32,9 @@ CToolGameObject::CToolGameObject(const CToolGameObject& rhs)
 			texture.pTexture->AddRef();
 		}
 	}
+
+	
+
 }
 
 CToolGameObject::~CToolGameObject()

@@ -67,7 +67,7 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 		
 		}
 	}
-	m_pVB->Unlock();
+
 
 	_ulong dwTriCnt = 0;
 
@@ -96,6 +96,26 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 			dwTriCnt++;
 		}
 	}
+
+	_vec3 e0, e1, vnormal;
+	for (_ulong tricnt = 0; tricnt < dwTriCnt; ++tricnt)
+	{
+		e0 = pVertex[pIndex[tricnt]._1].vPos - pVertex[pIndex[tricnt]._0].vPos;
+		e1 = pVertex[pIndex[tricnt]._2].vPos - pVertex[pIndex[tricnt]._0].vPos;
+
+		D3DXVec3Cross(&vnormal, &e0, &e1);
+
+		pVertex[pIndex[tricnt]._0].vNormal += vnormal;
+		pVertex[pIndex[tricnt]._1].vNormal += vnormal;
+		pVertex[pIndex[tricnt]._2].vNormal += vnormal;
+	}
+
+	for (_ulong tricnt = 0; tricnt < m_dwTriCnt; ++tricnt	)
+	{
+		D3DXVec3Normalize(&pVertex[tricnt].vNormal, &pVertex[tricnt].vNormal);
+	}
+
+	m_pVB->Unlock();
 	m_pIB->Unlock();
 	return S_OK;
 }

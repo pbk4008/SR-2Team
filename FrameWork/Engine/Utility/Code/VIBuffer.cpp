@@ -43,6 +43,14 @@ void CVIBuffer::Render_Buffer()
 	m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_dwVtxCnt, 0, m_dwTriCnt);
 }
 
+void Engine::CVIBuffer::Render_Buffer(_uint DrawIndex)
+{
+	m_pDevice->SetStreamSource(0, m_pVB, 0, m_dwVtxSize);
+	m_pDevice->SetFVF(m_dwFVF);
+	m_pDevice->SetIndices(m_pIB);
+	m_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_dwVtxCnt, DrawIndex, DrawIndex + 2);
+}
+
 void CVIBuffer::Free()
 {
 	Safe_Release(m_pVB);

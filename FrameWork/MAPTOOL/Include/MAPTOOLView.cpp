@@ -19,7 +19,6 @@
 #include "TerrainTex.h"
 #include "TerrainObject.h"
 #include "QuadObject.h"
-#include "CubeObject.h"
 #include "ToolGameObject.h"
 #include "ItemObject.h"
 
@@ -58,6 +57,13 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 	m_vecSRP[0] = { 1.f,1.f,1.f };
 	ZeroMemory(m_vecSRP[1], sizeof(_vec3) * 2);
 
+	mLight.Type = D3DLIGHT_POINT;
+	mLight.Position = { 0.f,0.f,0.f };
+	mLight.Direction = { 0.f,0.f,0.f };
+	mLight.Diffuse = { 1.f,1.f,1.f,1.f };
+	mLight.Ambient = { 0.4f,0.4f,0.4f,0.4f };
+	mLight.Specular = { 0.6f,0.6f,0.6f ,0.6f };
+	mLight.Range = 20.f;
 
 }
 
@@ -98,6 +104,8 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 	(*ppGraphicDev)->AddRef();
 
 	(*ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//Device가 알아서 법선벡터들을 관리하게 해준다.
+	(*ppGraphicDev)->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
 
 	// 폰트 설치
 
@@ -122,6 +130,26 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 		m_pDynamicCamera->Update_Object(fTimeDelta);
 		Set_XYZKey();
 	}
+	if (m_pForm->m_Button_LightOnOff.GetCheck())
+	{
+		/*_matrix matCameraWorld;
+		_matrix matView = static_cast<CCamera*>(m_pDynamicCamera)->getViewmat();
+
+		_vec3 NormalEye;
+		_vec3 NormalAt = {
+			(*D3DXMatrixInverse(&matCameraWorld, nullptr, &matView)).m[3][0],
+			(*D3DXMatrixInverse(&matCameraWorld, nullptr, &matView)).m[3][1],
+			(*D3DXMatrixInverse(&matCameraWorld, nullptr, &matView)).m[3][2]
+		};
+		D3DXVec3Normalize(&NormalAt, &NormalAt);*/
+		//mLight.Position = *D3DXVec3Normalize(&NormalEye,&m_pDynamicCamera->getEye());
+		_vec3 NormalAt;
+		mLight.Direction = *D3DXVec3Normalize(&NormalAt,&m_pDynamicCamera->getAt());
+		/*mLight.Direction.x = NormalAt.x;
+		mLight.Direction.y = NormalAt.y;
+		mLight.Direction.z = NormalAt.z;*/
+	}
+
 		if (!m_listTerrain.empty())
 		{
 			for (const auto& Obj : m_listTerrain)
@@ -255,7 +283,7 @@ void CMAPTOOLView::Init_Component()
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 	// Camera
 	const _vec3 vLook = { 0.f,10.f,-10.f };
-	const _vec3 vAt = { 0.f,0.f,10.f };
+	const _vec3 vAt = { 0.f,0.f,1.f };
 	const _vec3 vUp = { 0.f,1.f,0.f };
 	Init_ComProto(COMPONENTID::CAMERA, CDynamicCamera::Create(m_pDevice, &vLook, &vAt, &vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f));
 
@@ -352,6 +380,15 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
 
 	{
+		if (m_pForm->m_Button_LightOnOff.GetCheck())
+		{
+			m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+			m_pDevice->SetLight(0, &mLight);
+			m_pDevice->LightEnable(0, TRUE);
+		}
+	}
+
+	{
 		if (m_pForm->m_bWireFrame.GetCheck())
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
@@ -378,6 +415,13 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 		if (m_pForm->m_bWireFrame.GetCheck())
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
+	{
+		if (!m_pForm->m_Button_LightOnOff.GetCheck())
+		{
+			m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+		}
 	}
 
 	if (m_pForm->m_Button_Zbuffer.GetCheck())

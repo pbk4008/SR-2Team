@@ -57,6 +57,9 @@ void CTerrainObject::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &(m_pTransform->getWorldMatrix()));
 
+	m_pDevice->SetMaterial(&mMaterial);
+
+
 	if (!m_vecTextureInfo.empty() && 
 		m_vecTextureInfo.front().pTexture)
 	{
@@ -94,6 +97,8 @@ HRESULT CTerrainObject::Add_Component()
 
 	pComponent = m_pTerrainTex = CTerrainTex::Create(m_pDevice,m_tVTXINFO.X, m_tVTXINFO.Z, m_tVTXINFO.Interval,m_tVTXINFO.Detail);
 	m_mapComponent->emplace(COMPONENTID::TERRAINTEX, pComponent);
+
+
 
 	return S_OK;
 }

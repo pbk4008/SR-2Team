@@ -18,6 +18,7 @@ public:
 	virtual CComponent* Clone_Component()override;
 	void ZoomInAndOut(const _float& fDeltaTime);
 	void ResetZoom();
+public: inline _matrix& getViewmat() { return m_matView; }
 public:
 	static CCamera* Create(LPDIRECT3DDEVICE9 pDevice, const _vec3& pEye, const _vec3& pAt, const _vec3& pUp
 		, const _float& fFov, const _float& fAspect, const _float& fNear, const _float& fFar);

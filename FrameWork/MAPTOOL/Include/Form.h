@@ -124,6 +124,7 @@ public:
 	afx_msg void OnBnClickedItemSave();
 	afx_msg void OnBnClickedItemLoad();
 	float m_fItemRadius;
+	CButton m_Button_LightOnOff;
 };
 
 template<typename ... Args>
