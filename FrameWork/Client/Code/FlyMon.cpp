@@ -6,7 +6,7 @@
 #include "FlyMon_WalkF.h"
 #include "FlyMon_Attack.h"
 #include "FlyMon_Death.h"
-
+#include "SphereCollision.h"
 CFlyMon::CFlyMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(1), m_pAnimator(nullptr),
@@ -40,7 +40,7 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	CComponent* pComponent = nullptr;
 
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -48,10 +48,10 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);
@@ -253,7 +253,7 @@ HRESULT CFlyMon::Add_Component()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -261,10 +261,10 @@ HRESULT CFlyMon::Add_Component()
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);

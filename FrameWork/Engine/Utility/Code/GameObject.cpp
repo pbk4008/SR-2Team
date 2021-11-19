@@ -29,14 +29,12 @@ CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice), m_b
                 m_mapComponent[i].emplace(iter.first, m_pTransform);
                 m_pTransform->AddRef();
             }
-            else if (iter.first == COMPONENTID::COLLISION)
-            {
+            else if (iter.first == COMPONENTID::SPHERECOL)
                 continue;
-            }
+            else if (iter.first == COMPONENTID::BOXCOL)
+                continue;
             else if (iter.first == COMPONENTID::ANIMATION)
-            {
                 continue;
-            }
             else
             {
                 m_mapComponent[i].emplace(iter.first, iter.second);

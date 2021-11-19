@@ -141,7 +141,8 @@ void CTransform::TerrainOverMove()
 	_ulong dwCntZ = pTerrainTex->getCntZ();
 	_ulong dwInterval= pTerrainTex->getInterval();
 
-	pCollMgr->TerrainCollision(m_vPos.x,m_fBottomY,m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
+	m_fBottomY = m_vPos.y-1;
+	pCollMgr->TerrainCollision(m_vPos.x, m_fBottomY,m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
 	
 	//Terrain 월드 좌표 y변환 값 구하기
 	CTransform* pTransform = static_cast<CTransform*>(Get_Component(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN, COMPONENTID::TRANSFORM, COMPONENTTYPE::TYPE_DYNAMIC));

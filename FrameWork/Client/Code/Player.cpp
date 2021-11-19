@@ -5,6 +5,7 @@
 #include "Animator.h"
 #include "Shuriken.h"
 #include "Bomb.h"
+#include "SphereCollision.h"
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
@@ -26,6 +27,7 @@ m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState
 m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_bDash(rhs.m_bDash)
 , m_fDashTime(rhs.m_fDashTime), m_bDashDelay(rhs.m_bDashDelay)
 {
+	m_pTransform->setPos(3.f,0.f,3.f);
 	if (rhs.m_pModel)
 		m_pModel->AddRef();
 	if(rhs.m_pMainCamera)
@@ -38,7 +40,7 @@ m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_b
 	Insert_Collision(m_pHitCollision);
 	Insert_Collision(m_pAtkCollision);
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pHitCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pHitCollision);
 }
 
 CPlayer::~CPlayer()
@@ -56,14 +58,19 @@ HRESULT CPlayer::Init_Player()
 _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
-	KeyInput(fDeltaTime);
-	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
 	if (!m_bJump)
 		m_pTransform->UsingGravity(fDeltaTime);
 	else
-		m_pTransform->Jump(fDeltaTime, 4.f,m_bJump);
-	if (m_bDash&&!m_bDashDelay)
+		m_pTransform->Jump(fDeltaTime, 4.f, m_bJump);
+	KeyInput(fDeltaTime);
+	m_pHitCollision->WallCollision();
+	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
+	
+
+	if (m_bDash && !m_bDashDelay)
+	{
 		Dash(fDeltaTime);
+	}
 	if (m_bDashDelay)
 	{
 		m_fDashTime += fDeltaTime;
@@ -118,7 +125,7 @@ void CPlayer::LateUpdate_GameObject()
 			m_eCulState = STATE::HIT;
 			break;
 		case COLLISIONTAG::BULLET:
-			m_eCulState = STATE::HIT;
+			//m_eCulState = STATE::HIT;
 			break;
 		}
 		m_pHitCollision->ResetCollision();
@@ -284,20 +291,15 @@ void CPlayer::ChangeAttackType()
 	}
 }
 
-void CPlayer::Dash(const _float& fDeltaTime)
+void CPlayer::Dash(const float& fDeltaTime)
 {
 	m_pMainCamera->CameraZoomInAndOut(fDeltaTime);
-	_float fDashSpeed = 30.f;
-	_vec3 vPos = m_pTransform->getPos();
 	_vec3 vLook;
 	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
 	D3DXVec3Normalize(&vLook, &vLook);
-	vPos += fDashSpeed * vLook * fDeltaTime;
-	m_pTransform->setPos(vPos);
-	m_pTransform->Jump(fDeltaTime, 1.f, m_bDash,2);
+	TelePort(fDeltaTime, vLook, 1.f);
 	if (!m_bDash)
 	{
-		//m_eCulState = STATE::HIT;
 		m_bDashDelay = true;
 		m_pMainCamera->CameraZoomReset();
 	}
@@ -328,21 +330,30 @@ CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 	return static_cast<CBullet*>(pBullet);
 }
 
+void CPlayer::TelePort(const _float& fDeltaTime, const _vec3& vLook, const _float fPower)
+{
+	_float fDashSpeed = 30.f;
+	_vec3 vPos = m_pTransform->getPos();
+	vPos += fDashSpeed * vLook * fDeltaTime;
+	m_pTransform->setPos(vPos);
+	m_pTransform->Jump(fDeltaTime, fPower, m_bDash, 2);
+}
+
 HRESULT CPlayer::Add_Component()
 {
 	CGameObject::Add_Component();
 	CComponent* pCom = nullptr;
 
-	m_pHitCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pHitCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pHitCollision->setRadius(1.f);
 	m_pHitCollision->setTag(COLLISIONTAG::PLAYER);
 	m_pHitCollision->setActive(true);
 	m_pHitCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pHitCollision->AddRef();
 	pCom = m_pHitCollision;
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pCom);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pCom);
 	
-	m_pAtkCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAtkCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAtkCollision->setRadius(3.f);
 	m_pAtkCollision->setTag(COLLISIONTAG::PLAYER);
 	m_pAtkCollision->setActive(false);

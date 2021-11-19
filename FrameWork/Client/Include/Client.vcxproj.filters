@@ -4,9 +4,6 @@
     <Filter Include="98.Headers">
       <UniqueIdentifier>{4642d0f2-68e7-4cb6-960a-6158cbad93d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Default">
-      <UniqueIdentifier>{8f8e741d-0026-44c9-aa15-a62932bb2372}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. MainApp">
       <UniqueIdentifier>{6e927b4d-c57d-4386-936e-eb96a8f15be4}</UniqueIdentifier>
     </Filter>
@@ -160,29 +157,35 @@
     <Filter Include="02.GameObject\04.bullet\99.Animation\03. MonBulletAnim">
       <UniqueIdentifier>{66baa5af-2876-456c-bec3-deb1a0fafb55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Default\리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="02.GameObject\00.BackGround\01.Quad">
       <UniqueIdentifier>{af28e2c7-4c94-4965-9dbb-d5fa36f75653}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\00.BackGround\02.Qube">
+    <Filter Include="02.GameObject\00.BackGround\02.Cube">
       <UniqueIdentifier>{b0eefbfe-7b95-4755-b353-ea295d3fd623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Algorithm">
+      <UniqueIdentifier>{9234477d-f60d-49a5-a617-d2d09829f42f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Headers\99.Default">
+      <UniqueIdentifier>{8f8e741d-0026-44c9-aa15-a62932bb2372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.Headers\99.Default\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
-      <Filter>99.Default</Filter>
+      <Filter>98.Headers\99.Default</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>99.Default</Filter>
+      <Filter>98.Headers\99.Default</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>99.Default</Filter>
+      <Filter>98.Headers\99.Default</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>99.Default</Filter>
+      <Filter>98.Headers\99.Default</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>98.Headers</Filter>
@@ -314,12 +317,15 @@
       <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Cube.h">
-      <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
+      <Filter>02.GameObject\00.BackGround\02.Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\AStar.h">
+      <Filter>03.Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>99.Default</Filter>
+      <Filter>98.Headers\99.Default</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp">
@@ -440,20 +446,23 @@
       <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Cube.cpp">
-      <Filter>02.GameObject\00.BackGround\02.Qube</Filter>
+      <Filter>02.GameObject\00.BackGround\02.Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\AStar.cpp">
+      <Filter>03.Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
-      <Filter>99.Default\리소스 파일</Filter>
+      <Filter>98.Headers\99.Default\리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
-      <Filter>99.Default\리소스 파일</Filter>
+      <Filter>98.Headers\99.Default\리소스 파일</Filter>
     </Image>
     <Image Include="Client.ico">
-      <Filter>99.Default\리소스 파일</Filter>
+      <Filter>98.Headers\99.Default\리소스 파일</Filter>
     </Image>
   </ItemGroup>
 </Project>
