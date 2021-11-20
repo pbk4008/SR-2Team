@@ -19,21 +19,19 @@ CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
 	, mpCollider(nullptr)
-	, mItemTexture(nullptr)
+	, mItemTexture(rhs.mItemTexture)
+	, mItemPlane(rhs.mItemPlane)
 {
-	Add_Component();
-	mpCollider->AddRef();
+	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
+	mpCollider->setRadius(1.f);
+	mpCollider->setTag(COLLISIONTAG::ETC);
+	mpCollider->setActive(true);
+	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 	mpCollider->setTransform(m_pTransform);
+	mpCollider->AddRef();
 	Insert_Collision(mpCollider);
-
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
-	for (_uint i = 0; i < 6; ++i)
-	{
-		CRcTex* pBuffer = CRcTex::Create(m_pDevice, i);
-		m_ItemPlane.emplace_back(pBuffer);
-		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-		m_ItemTexture.emplace_back(pTexture);
-	}
+
 }
 
 CItem::~CItem()
@@ -43,6 +41,8 @@ CItem::~CItem()
 
 HRESULT CItem::Init_CItem()
 {
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
 	return S_OK;
 }
 
@@ -70,7 +70,7 @@ void CItem::Render_GameObject()
 	mItemTexture->Render_Texture();
 	for (_int i = 0; i < 6; i++)
 	{
-		mItemPlane[i]->Render_Buffer();
+		mItemPlane->Render_Buffer(i);
 	}
 	m_pDevice->SetTexture(0, nullptr);
 
@@ -100,26 +100,16 @@ CItem* CItem::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CItem::Add_Component()
 {
-	
-
 	CComponent* pComponent = nullptr;
 
-	for (_uint i = 0; i < 6; ++i)
-	{
-		pComponent = mItemPlane[i] = CRcTex::Create(m_pDevice, i);
-		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::RCTEX, pComponent);
-		pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
-	}
+	pComponent = mItemPlane = CCubeTex::Create(m_pDevice);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CUBETEX, pComponent);
 
-	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	mpCollider->setRadius(1.f);
-	mpCollider->setTag(COLLISIONTAG::ETC);
-	mpCollider->setActive(true);
-	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
-	mpCollider->setTransform(m_pTransform);
+	pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
+	pComponent->AddRef();
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
+	
 
 	return S_OK;
 }
@@ -128,9 +118,7 @@ void CItem::Free()
 {
 	CGameObject::Free();
 
-	for_each(m_ItemPlane.begin(), m_ItemPlane.end(), DeleteObj);
-	m_ItemPlane.clear();
-	m_ItemPlane.shrink_to_fit();
+	Safe_Release(mItemPlane);
 
 	Safe_Release(mItemTexture);
 

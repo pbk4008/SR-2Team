@@ -4,28 +4,26 @@
 #include "BoxCollision.h"
 CCube::CCube():m_pCollision(nullptr)
 {
-	m_CubePlane.reserve(6);
 	m_CubeTexture.reserve(6);
 
 }
 
 CCube::CCube(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCollision(nullptr)
 {
-	m_CubePlane.reserve(6);
-	m_CubePlane.reserve(6);
 
 }
 
-CCube::CCube(const CCube& rhs) : CGameObject(rhs), m_pCollision(nullptr)
+CCube::CCube(const CCube& rhs) : CGameObject(rhs), m_pCollision(nullptr), m_CubePlane(rhs.m_CubePlane)
 {
 	m_pCollision = Clone_ComProto<CBoxCollision>(COMPONENTID::BOXCOL);
 	m_pCollision->setActive(true);
-	
-	m_CubePlane.reserve(6);
-	for (_int i = 0; i < 6; i++)
+
+	m_CubeTexture.reserve(6);
+
+	m_CubePlane->AddRef();
+
+	for (_int i = 0; i < 6; ++i)
 	{
-		CRcTex* pBuffer = CRcTex::Create(m_pDevice, i);
-		m_CubePlane.emplace_back(pBuffer);
 		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
 		m_CubeTexture.emplace_back(pTexture);
 	}
@@ -62,15 +60,15 @@ void CCube::LateUpdate_GameObject()
 void CCube::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-	CGameObject::Render_GameObject();
 	for (_int i = 0; i < 6; i++)
 	{
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		m_CubeTexture[i]->Render_Texture();
-		m_CubePlane[i]->Render_Buffer();
+		m_CubePlane->Render_Buffer(i);
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	}
 	m_pCollision->Render_Collision();
+	CGameObject::Render_GameObject();
 }
 
 CGameObject* CCube::Clone_GameObject()
@@ -93,21 +91,35 @@ CCube* CCube::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CCube::Add_Component()
 {
+	//transform
 	CGameObject::Add_Component();
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_CubePlane = Clone_ComProto<CCubeTex>(COMPONENTID::CUBETEX);
+	m_mapComponent->emplace(COMPONENTID::CUBETEX, pComponent);
+	pComponent->AddRef();
+
+	for (_int i = 0; i < 6; ++i)
+	{
+		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+		m_CubeTexture.emplace_back(pTexture);
+	}
+	m_mapComponent->emplace(COMPONENTID::TEXTURE, pComponent);
+	pComponent->AddRef();
+	
+
 	return S_OK;
 }
 
 void CCube::Free()
 {
-	for_each(m_CubePlane.begin(), m_CubePlane.end(), DeleteObj);
-	m_CubePlane.clear();
-	m_CubePlane.shrink_to_fit();
+	CGameObject::Free();
+	Safe_Release(m_CubePlane);
 
 	for_each(m_CubeTexture.begin(), m_CubeTexture.end(), DeleteObj);
 	m_CubeTexture.clear();
 	m_CubeTexture.shrink_to_fit();
 
-	CGameObject::Free();
 	Safe_Release(m_pCollision);
 }
 
