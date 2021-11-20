@@ -27,7 +27,7 @@ private:
 public:
 	void setPos(const _vec3& vPos) { m_vFirstPos = vPos; }
 private:
-	CCollision* m_pCollision;
+	CSphereCollision* m_pCollision;
 	CFogAnim* m_pAnimation;
 	CTransform* m_pSideTransform;
 	CRcTex* m_pFrontBuffer;

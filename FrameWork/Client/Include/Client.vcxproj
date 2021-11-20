@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Code\AStar.h" />
     <ClInclude Include="..\Code\BackGround.h" />
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\AStar.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
