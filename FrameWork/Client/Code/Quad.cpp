@@ -11,9 +11,14 @@ CQuad::CQuad(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBuffer(nullpt
 
 }
 
-CQuad::CQuad(const CQuad& rhs) : CGameObject(rhs), m_pBuffer(nullptr), m_pTexture(nullptr)
+CQuad::CQuad(const CQuad& rhs) : CGameObject(rhs), m_pBuffer(rhs.m_pBuffer), m_pTexture(nullptr)
 {
-	Add_Component();
+	m_pBuffer->AddRef();
+	//Texture
+	CComponent* pComponent = nullptr;
+	pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_mapComponent->emplace(COMPONENTID::TEXTURE, pComponent);
+	pComponent->AddRef();
 }
 
 CQuad::~CQuad()
@@ -22,6 +27,8 @@ CQuad::~CQuad()
 
 HRESULT CQuad::Init_Quad()
 {
+	Add_Component();
+
 	return S_OK;
 }
 
@@ -70,8 +77,14 @@ CQuad* CQuad::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CQuad::Add_Component()
 {
-	m_pBuffer = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	//Trasnform
+	CGameObject::Add_Component();
+	CComponent* pComponent = nullptr;
+
+	//Rctex
+	pComponent = m_pBuffer = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
+	m_mapComponent->emplace(COMPONENTID::CUBETEX, pComponent);
+	pComponent->AddRef();
 
 	return S_OK;
 }

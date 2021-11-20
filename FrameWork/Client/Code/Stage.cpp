@@ -49,7 +49,6 @@ void CStage::LateUpdate_Scene()
 
 void CStage::Render_Scene()
 {
-	_CrtSetBreakAlloc(103276);
 }
 
 HRESULT CStage::Init_Layer()

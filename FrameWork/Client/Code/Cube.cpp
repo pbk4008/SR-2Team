@@ -13,12 +13,17 @@ CCube::CCube(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCollision(nul
 	m_CubeTexture.reserve(6);
 }
 
-CCube::CCube(const CCube& rhs) : CGameObject(rhs), m_pCollision(nullptr), m_CubePlane(nullptr)
+
+CCube::CCube(const CCube& rhs) : CGameObject(rhs), m_pCollision(nullptr), m_CubePlane(rhs.m_CubePlane)
 {
 	m_pCollision = Clone_ComProto<CBoxCollision>(COMPONENTID::BOXCOL);
 	m_pCollision->setActive(true);
-	
-	for (_int i = 0; i < 6; i++)
+
+	m_CubeTexture.reserve(6);
+
+	m_CubePlane->AddRef();
+
+	for (_int i = 0; i < 6; ++i)
 	{
 		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
 		m_CubeTexture.emplace_back(pTexture);
@@ -56,7 +61,6 @@ void CCube::LateUpdate_GameObject()
 void CCube::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-	CGameObject::Render_GameObject();
 	for (_int i = 0; i < 6; i++)
 	{
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -65,6 +69,7 @@ void CCube::Render_GameObject()
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	}
 	m_pCollision->Render_Collision();
+	CGameObject::Render_GameObject();
 }
 
 CGameObject* CCube::Clone_GameObject()
@@ -87,7 +92,23 @@ CCube* CCube::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CCube::Add_Component()
 {
+	//transform
 	CGameObject::Add_Component();
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_CubePlane = Clone_ComProto<CCubeTex>(COMPONENTID::CUBETEX);
+	m_mapComponent->emplace(COMPONENTID::CUBETEX, pComponent);
+	pComponent->AddRef();
+
+	for (_int i = 0; i < 6; ++i)
+	{
+		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+		m_CubeTexture.emplace_back(pTexture);
+	}
+	m_mapComponent->emplace(COMPONENTID::TEXTURE, pComponent);
+	pComponent->AddRef();
+	
+
 	return S_OK;
 }
 
