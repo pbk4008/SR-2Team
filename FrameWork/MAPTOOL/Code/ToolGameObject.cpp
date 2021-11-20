@@ -3,17 +3,13 @@
 
 CToolGameObject::CToolGameObject()
 {
-	mMaterial.Ambient = { 1.f,1.f,1.f,1.f };
-	mMaterial.Diffuse = { 1.f,1.f,1.f,1.f };
-	mMaterial.Specular = { 1.f,1.f,1.f,1.f };
+	mMaterial.Ambient = mMaterial.Diffuse = { 1.f,1.f,1.f,1.f };
 }
 
 CToolGameObject::CToolGameObject(LPDIRECT3DDEVICE9 pDevice)
 	: CGameObject(pDevice)
 {
-	mMaterial.Ambient = { 1.f,1.f,1.f,1.f };
-	mMaterial.Diffuse = { 1.f,1.f,1.f,1.f };
-	mMaterial.Specular = { 1.f,1.f,1.f,1.f };
+	mMaterial.Ambient = mMaterial.Diffuse = { 1.f,1.f,1.f,1.f };
 }
 
 CToolGameObject::CToolGameObject(const CToolGameObject& rhs)

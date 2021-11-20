@@ -62,6 +62,7 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 			//간단히 보면 2차원 배열을 1차원으로 표시한다는 식으로 이해하면 빠를 듯
 			_float fY = ((_float)(*((LPWORD)d3drc.pBits + i * (d3drc.Pitch / 4) + j) & 0x000000ff)) / 10.f;
 			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), fY, _float(i * m_dwInterval));
+			pVertex[dwIndex].vNormal = _vec3(0.f, 1.f, 0.f);
 			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1) ,_float(i)/(m_dwCntZ-1));
 			m_pVtxPos[dwIndex] = pVertex[dwIndex].vPos;
 		
@@ -95,24 +96,6 @@ HRESULT CTerrainTex::Init_BufferTexture(LPDIRECT3DTEXTURE9 pTexture, const _ulon
 			pIndex[dwTriCnt]._2 = _ushort(dwIndex);
 			dwTriCnt++;
 		}
-	}
-
-	_vec3 e0, e1, vnormal;
-	for (_ulong tricnt = 0; tricnt < dwTriCnt; ++tricnt)
-	{
-		e0 = pVertex[pIndex[tricnt]._1].vPos - pVertex[pIndex[tricnt]._0].vPos;
-		e1 = pVertex[pIndex[tricnt]._2].vPos - pVertex[pIndex[tricnt]._0].vPos;
-
-		D3DXVec3Cross(&vnormal, &e0, &e1);
-
-		pVertex[pIndex[tricnt]._0].vNormal += vnormal;
-		pVertex[pIndex[tricnt]._1].vNormal += vnormal;
-		pVertex[pIndex[tricnt]._2].vNormal += vnormal;
-	}
-
-	for (_ulong tricnt = 0; tricnt < m_dwTriCnt; ++tricnt	)
-	{
-		D3DXVec3Normalize(&pVertex[tricnt].vNormal, &pVertex[tricnt].vNormal);
 	}
 
 	m_pVB->Unlock();
@@ -180,11 +163,11 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 		{
 			dwIndex = i * m_dwCntX + j;
 			pVertex[dwIndex].vPos = _vec3(_float(j * m_dwInterval), 0, _float(i * m_dwInterval));
+			pVertex[dwIndex].vNormal = _vec3(0.f, 1.f, 0.f);
 			pVertex[dwIndex].vUV = _vec2(_float(j) / (m_dwCntX - 1)*iDetail, _float(i) / (m_dwCntZ - 1)* iDetail);
 			m_pVtxPos[dwIndex] = pVertex[dwIndex].vPos;
 		}
 	}
-	m_pVB->Unlock();
 
 	_ulong dwTriCnt = 0;
 
@@ -211,6 +194,7 @@ HRESULT Engine::CTerrainTex::Init_BufferNoTexture(const _ulong& dwCntX, const _u
 			dwTriCnt++;
 		}
 	}
+	m_pVB->Unlock();
 	m_pIB->Unlock();
 	return S_OK;
 }

@@ -106,8 +106,6 @@ HRESULT CTestCubeObject::Add_Component()
 
 void CTestCubeObject::Free()
 {
-	Safe_Release(m_pCubeTex);
-
 	CToolGameObject::Free();
 	CGameObject::Free();
 }

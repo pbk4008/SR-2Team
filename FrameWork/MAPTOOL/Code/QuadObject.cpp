@@ -102,7 +102,6 @@ HRESULT CQuadObject::Add_Component()
 void CQuadObject::Free()
 {
 
-	Safe_Release(m_pQuadTex);
 	CToolGameObject::Free();
 	CGameObject::Free();
 }

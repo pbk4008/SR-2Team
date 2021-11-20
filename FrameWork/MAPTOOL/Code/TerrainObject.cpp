@@ -105,7 +105,6 @@ HRESULT CTerrainObject::Add_Component()
 
 void CTerrainObject::Free()
 {
-	Safe_Release(m_pTerrainTex);
 	CToolGameObject::Free();
 	CGameObject::Free();
 }

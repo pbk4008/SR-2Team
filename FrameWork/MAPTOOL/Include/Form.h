@@ -113,6 +113,7 @@ public:
 	// Object Tree의 Root
 	HTREEITEM m_TreeObjectRoot;
 	HTREEITEM m_TreeItemRoot;
+	HTREEITEM m_TreeMonsterRoot;
 	HTREEITEM m_TreeNow;
 	CString m_strTreeFilterName;
 	CString m_strObjectName;
@@ -125,6 +126,13 @@ public:
 	afx_msg void OnBnClickedItemLoad();
 	float m_fItemRadius;
 	CButton m_Button_LightOnOff;
+	float m_fLightDirectionX;
+	float m_fLightDirectionY;
+	float m_fLightDirectionZ;
+	CButton m_Button_FogOnOff;
+	afx_msg void OnBnClickedMonsterCreate();
+	afx_msg void OnBnClickedMonsterSave();
+	afx_msg void OnBnClickedMonsterLoad();
 };
 
 template<typename ... Args>

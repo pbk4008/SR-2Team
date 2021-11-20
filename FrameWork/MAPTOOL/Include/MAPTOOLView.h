@@ -47,6 +47,7 @@ public:
 	std::list<CGameObject*> m_listQuad;
 	std::list<CGameObject*> m_listCube;
 	std::list<CGameObject*> m_listItem;
+	std::list<CGameObject*> m_listMonster;
 	//================
 	// LIGHT
 	D3DLIGHT9 mLight;
@@ -65,6 +66,9 @@ public:
 	void Init_Component();
 	void Set_XYZKey();
 	void UpDown_Key(_vec3* pVector);
+	void Init_Light();
+	void Update_Light();
+	void Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density);
 // 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.

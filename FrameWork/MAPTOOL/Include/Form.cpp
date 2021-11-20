@@ -13,6 +13,7 @@
 #include "ToolGameObject.h"
 #include "ItemObject.h"
 #include "TestCubeObject.h"
+#include "MonsterObject.h"
 
 #include "INIManager.h"
 
@@ -33,6 +34,9 @@ CForm::CForm()
 	, m_strTreeFilterName(_T(""))
 	, m_strObjectName(_T(""))
 	, m_fItemRadius(0)
+	, m_fLightDirectionX(0)
+	, m_fLightDirectionY(0)
+	, m_fLightDirectionZ(0)
 {
 	ZeroMemory(&m_tPlayerPos, sizeof(_float) * 2);
 }
@@ -80,6 +84,10 @@ void CForm::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, Combo_MonsterList, m_Combo_MonsterList);
 	DDX_Text(pDX, Edit_Item_Radius, m_fItemRadius);
 	DDX_Control(pDX, IDC_CHECK1, m_Button_LightOnOff);
+	DDX_Text(pDX, EditLightDirectionX, m_fLightDirectionX);
+	DDX_Text(pDX, EditLightDirectionY, m_fLightDirectionY);
+	DDX_Text(pDX, EditLightDirectionZ, m_fLightDirectionZ);
+	DDX_Control(pDX, Check_FogOnOff, m_Button_FogOnOff);
 }
 
 BEGIN_MESSAGE_MAP(CForm, CFormView)
@@ -111,6 +119,9 @@ BEGIN_MESSAGE_MAP(CForm, CFormView)
 	ON_BN_CLICKED(Button_Item_Create, &CForm::OnBnClickedItemCreate)
 	ON_BN_CLICKED(Button_Item_Save, &CForm::OnBnClickedItemSave)
 	ON_BN_CLICKED(Button_Item_Load, &CForm::OnBnClickedItemLoad)
+	ON_BN_CLICKED(Button_Monster_Create, &CForm::OnBnClickedMonsterCreate)
+	ON_BN_CLICKED(Button_Monster_Save, &CForm::OnBnClickedMonsterSave)
+	ON_BN_CLICKED(Button_Monster_Load, &CForm::OnBnClickedMonsterLoad)
 END_MESSAGE_MAP()
 
 
@@ -157,6 +168,7 @@ void CForm::OnInitialUpdate()
 
 	m_TreeObjectRoot = m_Tree_Object.InsertItem(L"Object", 0, 0, TVI_ROOT, TVI_LAST);
 	m_TreeItemRoot = m_Tree_Object.InsertItem(L"Item", 0, 0, TVI_ROOT, TVI_LAST);
+	m_TreeMonsterRoot = m_Tree_Object.InsertItem(L"Monster", 0, 0, TVI_ROOT, TVI_LAST);
 
 	m_pIniManager = INIManager::GetInstance();
 
@@ -605,36 +617,37 @@ void CForm::LinkResourceAndVariableTerrain()
 
 void CForm::LinkResourceAndVariableQuad()
 {
-	if (m_pMapToolView->m_listQuad.empty() && m_pMapToolView->m_listCube.empty() && m_pMapToolView->m_listItem.empty())
+	if (m_pMapToolView->m_listQuad.empty() && m_pMapToolView->m_listCube.empty() && m_pMapToolView->m_listItem.empty() && m_pMapToolView->m_listMonster.empty())
 		return;
 
 	CString strNow = m_Tree_Object.GetItemText(m_TreeNow);
+	HTREEITEM TreeNow = m_Tree_Object.GetParentItem(m_TreeNow);
+	// 부모가없으면 최상위 부모Tree라는뜻
+	if (TreeNow == nullptr)
+		return;
+	CString strTreeNow = m_Tree_Object.GetItemText(TreeNow);
 
-
-	_bool bFindCheck = false;
-
-	for (const auto& iter : m_pMapToolView->m_listQuad)
+	if (strTreeNow == L"Object")
 	{
-		if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
-		{
-			m_pNowObject = iter;
-			bFindCheck = true;
-			break;
-		}
-	}
-	if (!bFindCheck)
-	{
-		for (const auto& iter : m_pMapToolView->m_listCube)
+		for (const auto& iter : m_pMapToolView->m_listQuad)
 		{
 			if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
 			{
 				m_pNowObject = iter;
-				bFindCheck = true;
 				break;
 			}
 		}
+
+		for (const auto& iter : m_pMapToolView->m_listCube)
+		{
+				if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
+				{
+					m_pNowObject = iter;
+					break;
+				}
+		}
 	}
-	if (!bFindCheck)
+	else if (strTreeNow == L"Item")
 	{
 		for (const auto& iter : m_pMapToolView->m_listItem)
 		{
@@ -642,7 +655,17 @@ void CForm::LinkResourceAndVariableQuad()
 			{
 				m_pNowObject = iter;
 				m_fItemRadius = static_cast<CItemObject*>(m_pNowObject)->getCollider()->getRadius();
-				bFindCheck = true;
+				break;
+			}
+		}
+	}
+	else if (strTreeNow == L"Monster")
+	{
+		for (const auto& iter : m_pMapToolView->m_listMonster)
+		{
+			if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
+			{
+				m_pNowObject = iter;
 				break;
 			}
 		}
@@ -1682,7 +1705,6 @@ void CForm::OnBnClickedItemCreate()
 
 	CGameObject* pObj = CItemObject::Create(m_pMapToolView->m_pDevice);
 
-	m_pMapToolView->m_listItem.emplace_back(pObj);
 
 	CString strObjectName;
 
@@ -1714,6 +1736,9 @@ void CForm::OnBnClickedItemCreate()
 		return;
 		break;
 	}
+
+	m_pMapToolView->m_listItem.emplace_back(pObj);
+
 	strObjectName += to_wstring(uiItemSize).c_str();
 	static_cast<CItemObject*>(pObj)->setType(static_cast<eITEM>(uiItemIndex));
 	static_cast<CToolGameObject*>(pObj)->Set_ObjectName(strObjectName);
@@ -1953,4 +1978,271 @@ void CForm::OnBnClickedItemLoad()
 		UpdateData(TRUE);
 	}
 	ERR_MSG(L"Item Load Sucesses");
+}
+
+
+void CForm::OnBnClickedMonsterCreate()
+{
+	// TODO: Add your control notification handler code here
+	_uint uiItemIndex = m_Combo_MonsterList.GetCurSel();
+
+	CString strFileName;
+	m_Combo_MonsterList.GetLBText(uiItemIndex, strFileName);
+
+	_uint uiItemSize = m_pMapToolView->m_listMonster.size();
+
+	CGameObject* pObj = CMonsterObject::Create(m_pMapToolView->m_pDevice);
+
+
+	CString strObjectName;
+
+	switch (uiItemIndex)
+	{
+	case 0:
+		strObjectName = L"Melee_";
+		break;
+	case 1:
+		strObjectName = L"Shoot_";
+		break;
+	case 2:
+		strObjectName = L"Fly_";
+		break;
+	case 3:
+		strObjectName = L"Boss_";
+		break;
+	default:
+		ERR_MSG(L"아이템이 제대로 선택되지않았습니다.");
+		return;
+		break;
+	}
+
+	m_pMapToolView->m_listMonster.emplace_back(pObj);
+
+	strObjectName += to_wstring(uiItemSize).c_str();
+	static_cast<CMonsterObject*>(pObj)->setType(static_cast<GAMEOBJECTID>(uiItemIndex + 1));
+	static_cast<CToolGameObject*>(pObj)->Set_ObjectName(strObjectName);
+	static_cast<CToolGameObject*>(pObj)->Set_TypeName(strFileName);
+
+	std::wstring wstrParent = m_Tree_Object.GetItemText(m_TreeMonsterRoot).GetString();
+	std::string  strParent{ wstrParent.begin(), wstrParent.end() };
+	static_cast<CToolGameObject*>(pObj)->Set_TreeName(strParent);
+
+
+
+		// 깡통텍스처 만든다.
+		static_cast<CToolGameObject*>(pObj)->Set_Texture(CTexture::Create(m_pMapToolView->m_pDevice));
+		// 깡통텍스처 불러온다.
+		CTexture* pTexture = static_cast<CToolGameObject*>(pObj)->Get_Texture();
+		// 깡통에 그림을 넣어준다.
+		pTexture->setTexture(GetTexture(strFileName, TEXTURETYPE::TEX_NORMAL));
+
+
+
+	m_Tree_Object.InsertItem(strObjectName, m_TreeMonsterRoot);
+}
+
+
+void CForm::OnBnClickedMonsterSave()
+{
+	// TODO: Add your control notification handler code here
+	// TODO: Add your control notification handler code here
+	std::string section;
+	std::string Key;
+	std::string Value;
+
+	section = "MonsterCount";
+
+	Key = "Count";
+
+	Value = to_string(m_pMapToolView->m_listMonster.size());
+
+	m_pIniManager->AddData(section, Key, Value);
+
+	int i = 0;
+
+	for (const auto& monster : m_pMapToolView->m_listMonster)
+	{
+		section = string_format("Monster_%d", i++);
+
+		Key = "ObjectAndTypeName";
+
+		CString strObjectName;
+		static_cast<CToolGameObject*>(monster)->Get_ObjectName(strObjectName);
+		string ObjectName = std::string(CT2CA(strObjectName));
+
+		CString strTypeName;
+		static_cast<CToolGameObject*>(monster)->Get_TypeName(strTypeName);
+		string TypeName = std::string(CT2CA(strTypeName));
+
+		Value = ObjectName + "," + TypeName;
+
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "Scale";
+		const _vec3& vec3Scale = monster->getTransform()->getScale();
+		Value = string_format("%f,%f,%f", vec3Scale.x, vec3Scale.y, vec3Scale.z);
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "Euler Angle";
+		const _vec3& pVec = monster->getTransform()->getToolAngle();
+		Value = string_format("%f,%f,%f", pVec.x, pVec.y, pVec.z);
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "Position";
+		const _vec3& vec3Position = monster->getTransform()->getPos();
+		Value = string_format("%f,%f,%f", vec3Position.x, vec3Position.y, vec3Position.z);
+		m_pIniManager->AddData(section, Key, Value);
+
+		Key = "ParentName";
+		static_cast<CToolGameObject*>(monster)->Get_TreeName(Value);
+		m_pIniManager->AddData(section, Key, Value);
+	}
+
+	m_pIniManager->SaveIni(std::string("MonsterData"));
+	ERR_MSG(L"Monster save Sucesses");
+}
+
+
+void CForm::OnBnClickedMonsterLoad()
+{
+	// TODO: Add your control notification handler code here
+	int QuadSize = m_pIniManager->LoadDataInteger(std::string("MonsterData"), "MonsterCount", "Count");
+
+	//이것은 수정이 필요함
+	if (!m_pMapToolView->m_listMonster.empty())
+	{
+		std::for_each(m_pMapToolView->m_listMonster.begin(), m_pMapToolView->m_listMonster.end(), DeleteObj);
+		m_pMapToolView->m_listMonster.clear();
+	}
+
+	std::string Section;
+	std::string Key;
+	std::string Value;
+	CGameObject* pMonster = nullptr;
+
+	for (int i = 0; i < QuadSize; ++i)
+	{
+		Section = string_format("Monster_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
+
+		pMonster = CMonsterObject::Create(m_pMapToolView->m_pDevice);
+
+		std::wstring ObjectName;
+		std::wstring TypeName;
+
+		Key = "ObjectAndTypeName";
+
+		std::string FileFolderName = m_pIniManager->LoadDataString(std::string("MonsterData"), Section, Key);
+
+		while (true)
+		{
+			if (FileFolderName.find(',') == std::string::npos)
+			{
+				Value = FileFolderName.substr(0, FileFolderName.size());
+				TypeName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = FileFolderName.find(',');
+			Value = FileFolderName.substr(0, dot);
+			ObjectName.assign(Value.begin(), Value.end());
+			FileFolderName.erase(0, dot + 1);
+		}
+
+		dynamic_cast<CToolGameObject*>(pMonster)->Set_ObjectName(CString(ObjectName.c_str()));
+		dynamic_cast<CToolGameObject*>(pMonster)->Set_TypeName(CString(TypeName.c_str()));
+
+		dynamic_cast<CMonsterObject*>(pMonster)->setType(static_cast<GAMEOBJECTID>(_wtoi(TypeName.c_str())));
+
+	
+			// 깡통텍스처 만든다.
+			static_cast<CToolGameObject*>(pMonster)->Set_Texture(CTexture::Create(m_pMapToolView->m_pDevice));
+			// 깡통텍스처 불러온다.
+			CTexture* pTexture = static_cast<CToolGameObject*>(pMonster)->Get_Texture();
+			// 깡통에 그림을 넣어준다.
+			pTexture->setTexture(GetTexture(TypeName.c_str(), TEXTURETYPE::TEX_NORMAL));
+	
+
+
+		Key = "Scale";
+
+		std::string strScale = m_pIniManager->LoadDataString(std::string("MonsterData"), Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == std::string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+
+		std::string strAngle = m_pIniManager->LoadDataString(std::string("MonsterData"), Section, Key);
+
+		_vec3 Roatate{};
+		while (true)
+		{
+			if (strAngle.find(',') == std::string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&Roatate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&Roatate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+
+		std::string strPos = m_pIniManager->LoadDataString(std::string("MonsterData"), Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == std::string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+		pMonster->getTransform()->setScale(Scale);
+		pMonster->getTransform()->setAngle(Roatate);
+		pMonster->getTransform()->setPos(Position);
+
+		Key = "ParentName";
+
+		std::string strParent = m_pIniManager->LoadDataString(std::string("MonsterData"), Section, Key);
+
+		static_cast<CToolGameObject*>(pMonster)->Set_TreeName(strParent);
+
+		HTREEITEM hFindItem = FindTreeData(m_TreeObjectRoot, CString{ strParent.c_str() });
+
+		m_Tree_Object.InsertItem(CString{ ObjectName.c_str() }, hFindItem);
+
+
+		m_pMapToolView->m_listMonster.emplace_back(pMonster);
+
+		UpdateData(TRUE);
+	}
+	ERR_MSG(L"Monster Load Sucesses");
 }

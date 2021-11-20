@@ -52,6 +52,9 @@
     <Filter Include="04. GameObject\03. Item">
       <UniqueIdentifier>{2b06cb4e-e611-40f6-b04b-f63820b5544c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. GameObject\04. Monster">
+      <UniqueIdentifier>{59663b72-4bc8-4a8d-8455-ed33eaf8fb21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MAPTOOL.h">
@@ -117,6 +120,9 @@
     <ClInclude Include="..\Code\TestCubeObject.h">
       <Filter>04. GameObject\02. CubeTex</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\MonsterObject.h">
+      <Filter>04. GameObject\04. Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MAPTOOL.cpp">
@@ -160,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\TestCubeObject.cpp">
       <Filter>04. GameObject\02. CubeTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterObject.cpp">
+      <Filter>04. GameObject\04. Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
