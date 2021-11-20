@@ -67,7 +67,7 @@ void CUI::Render_GameObject()
 {
 	_matrix			OldViewMatrix, OldProjMatrix;
 
-	m_pTextureCom->setTexture();
+	//m_pTexture->setTexture();
 
 	_matrix			IdentityMatrix;
 	D3DXMatrixIdentity(&IdentityMatrix);
@@ -114,7 +114,6 @@ HRESULT CUI::Add_Component()
 void CUI::Free(void)
 {
 	Safe_Release(m_pTexture);
-	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }

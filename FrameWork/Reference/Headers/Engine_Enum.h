@@ -14,7 +14,6 @@ namespace Engine
 		ANIMATION,
 		ANIMATOR,
 		COLLISION,
-		UITEX,
 	///////// 여기서부터 몬스터 ///////////
 		FIREBALL,
 		MONBULLET,
@@ -49,7 +48,6 @@ namespace Engine
 		QUAD,
 		CUBE,
 		ITEM,
-		UI,
 		GAMEOBJECT_END
 	};
 	enum class COLLISIONTAG {PLAYER,MONSTER,BULLET,ETC,MAX};

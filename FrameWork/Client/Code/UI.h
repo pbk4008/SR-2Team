@@ -31,7 +31,7 @@ private:
 
 private:
 	CRcTex*		m_pBufferCom;
-	CTexture*	m_pTextureCom;
+	CTexture*	m_pTexture;
 	CRenderer*  m_pRenderer;
 
 private:

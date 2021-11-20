@@ -19,6 +19,7 @@
 #include "Boss.h"
 #include "Fireball.h"
 #include "Item.h"
+#include "Ui.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -221,6 +222,10 @@ _uint CLoading::Loading_ForStage()
 	pObj = CItem::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::ITEM, pObj);
+
+	pObj = CUI::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::UI, pObj);
 	
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
