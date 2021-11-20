@@ -285,10 +285,12 @@ CNaviMesh* CNaviMesh::Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, co
 
 void CNaviMesh::Free()
 {
+	CComponent::Free();
+
 	for (auto pMeshList : m_vecNaviMesh)
 		pMeshList.clear();
 	m_vecNaviMesh.clear();
-
+	m_vecNaviCell.shrink_to_fit();
 	/*for (auto pCell : m_vecNaviCell)
 	{
 		Safe_Release(pCell->pVtx);
@@ -298,7 +300,6 @@ void CNaviMesh::Free()
 	m_vecNaviCell.clear();
 	m_vecNaviCell.shrink_to_fit();
 
-	CComponent::Free();
 }
 
 void CNaviMesh::setVtxCnt(const _vec3* pVtx, const _ulong& dwCntX, const _ulong& dwCntZ)

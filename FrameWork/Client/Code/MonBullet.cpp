@@ -139,12 +139,9 @@ HRESULT CMonBullet::Add_Component()
 
 void CMonBullet::Free()
 {
-	if (!m_bClone)
-		ClearCollisionList();
-
+	CBullet::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAnimation);
-	CBullet::Free();
 }
 
 void CMonBullet::setPos(const _vec3& vPos)

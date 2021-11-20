@@ -12,14 +12,14 @@ CCollisionMgr::~CCollisionMgr()
 }
 HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 {
-	pCollision->AddRef();
+	pCollision->setIndex(m_vecCollision.size());
 	m_vecCollision.emplace_back(pCollision);
 	return S_OK;
 }
 
 HRESULT CCollisionMgr::Insert_Wall(CCollision* pCollision)
 {
-	pCollision->AddRef();
+	pCollision->setIndex(m_vecCollision.size());
 	m_vecWall.emplace_back(pCollision);
 	return S_OK;
 }
@@ -130,13 +130,18 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 	}
 }
 
-void CCollisionMgr::ClearCollisionList()
+void CCollisionMgr::ClearCollision()
 {
 	for_each(m_vecCollision.begin(), m_vecCollision.end(), DeleteObj);
-	for_each(m_vecWall.begin(), m_vecWall.end(), DeleteObj);
-	m_vecCollision.clear();
 	m_vecWall.clear();
 }
+
+void CCollisionMgr::ClearWall()
+{
+	for_each(m_vecWall.begin(), m_vecWall.end(), DeleteObj);
+	m_vecCollision.clear();
+}
+
 
 void CCollisionMgr::WallCollision(CCollision* pCollsion, _vec3& MoveVec)
 {
@@ -145,6 +150,7 @@ void CCollisionMgr::WallCollision(CCollision* pCollsion, _vec3& MoveVec)
 		BoxToSphereCollisionCheck(pCollsion, pCollider, &MoveVec);
 	}
 }
+
 
 _bool CCollisionMgr::SphereCollisionCheck(CCollision* pCol, CCollision* pCollider)
 {
@@ -310,5 +316,8 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 
 void CCollisionMgr::Free()
 {
-	ClearCollisionList();
+	for_each(m_vecCollision.begin(), m_vecCollision.end(), DeleteObj);
+	m_vecWall.clear();
+	for_each(m_vecWall.begin(), m_vecWall.end(), DeleteObj);
+	m_vecCollision.clear();
 }

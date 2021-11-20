@@ -315,11 +315,10 @@ void CShootMon::Attack_Dis(const _float& fDeltaTime)
 
 void CShootMon::Free()
 {
+	CMonster::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
-	ClearCollisionList();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
-	CMonster::Free();
 }

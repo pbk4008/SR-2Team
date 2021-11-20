@@ -26,6 +26,7 @@ private:
 	virtual void Free();
 public:
 	void setTexture(const _tchar* pFineName);
+	void setVtxSetting(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwInterVal, const _ulong& dwDetail);
 	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition);
 	void Create_NaviMesh();
 public:

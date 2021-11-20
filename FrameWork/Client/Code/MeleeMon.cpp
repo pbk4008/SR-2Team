@@ -280,11 +280,10 @@ HRESULT CMeleeMon::Add_Component()
 
 void CMeleeMon::Free()
 {
+	CGameObject::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
-	ClearCollisionList();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 };

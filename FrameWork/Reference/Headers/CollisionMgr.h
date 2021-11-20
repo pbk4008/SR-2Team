@@ -29,7 +29,8 @@ public:
 		const _ulong& dwCntZ,
 		const _ulong& dwVtxItv);
 	void Collision(CCollision* pCollision , COLLISIONTAG eTag);
-	void ClearCollisionList();
+	void ClearCollision();
+	void ClearWall();
 	void WallCollision(CCollision* pCollsion, _vec3& MoveVec);
 private:
 	_bool SphereCollisionCheck(CCollision* pCol, CCollision* pCollider);

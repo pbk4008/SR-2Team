@@ -13,7 +13,6 @@ CQuad::CQuad(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBuffer(nullpt
 
 CQuad::CQuad(const CQuad& rhs) : CGameObject(rhs), m_pBuffer(nullptr), m_pTexture(nullptr)
 {
-
 	Add_Component();
 }
 
@@ -71,24 +70,17 @@ CQuad* CQuad::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CQuad::Add_Component()
 {
-	CGameObject::Add_Component();
-
 	m_pBuffer = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	m_pBuffer->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, m_pBuffer);
-	
 	m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-	m_pTexture->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, m_pTexture);
 
 	return S_OK;
 }
 
 void CQuad::Free()
 {
+	CGameObject::Free();
 	Safe_Release(m_pBuffer);
 	Safe_Release(m_pTexture);
-	CGameObject::Free();
 }
 
 void CQuad::setTexture(const _tchar* pFileName)

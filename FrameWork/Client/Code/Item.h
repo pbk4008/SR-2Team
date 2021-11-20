@@ -38,7 +38,7 @@ public:		void setTexture(const _tchar* pTextureName, const _int iIndex);
 private:	std::vector<CTexture*> m_ItemTexture;
 private:	std::vector<CRcTex*> m_ItemPlane;
 private:	_uint mItemPower;
-private: CCollision* mpCollider;
+private: CSphereCollision* mpCollider;
 
 
 };

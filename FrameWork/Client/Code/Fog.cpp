@@ -36,8 +36,6 @@ HRESULT CFog::Init_Fog()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, m_pFrontBuffer);
 
 	m_pSideBuffer = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	m_pSideBuffer->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, m_pSideBuffer);
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	return S_OK;
@@ -127,20 +125,16 @@ HRESULT CFog::Add_Component()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
 
 	m_pAnimation = CFogAnim::Create(m_pDevice);
-	m_pAnimation->AddRef();
 	
 	return S_OK;
 }
 
 void CFog::Free()
 {
-	if (!m_bClone)
-		ClearCollisionList();
-
+	CGameObject::Free();
 	Safe_Release(m_pSideTransform);
 	Safe_Release(m_pAnimation);
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pFrontBuffer);
 	Safe_Release(m_pSideBuffer);
-	CGameObject::Free();
 }

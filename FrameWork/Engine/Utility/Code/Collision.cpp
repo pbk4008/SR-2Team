@@ -5,21 +5,21 @@
 
 CCollision::CCollision() : m_pTransform(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
 ,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr), m_fPivotLen(0.f)
-,m_pMaterial(nullptr)
+,m_pMaterial(nullptr), m_dwIndex(-1)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTransform(nullptr), 
  m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr)
-,m_fPivotLen(0.f), m_pMaterial(nullptr)
+,m_fPivotLen(0.f), m_pMaterial(nullptr), m_dwIndex(-1)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr)
 , m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag), m_pCollider(rhs.m_pCollider)
-, m_eTrigger(rhs.m_eTrigger),m_fPivotLen(rhs.m_fPivotLen),m_pMaterial(nullptr)
+, m_eTrigger(rhs.m_eTrigger),m_fPivotLen(rhs.m_fPivotLen),m_pMaterial(nullptr), m_dwIndex(rhs.m_dwIndex)
 {
 	m_pMaterial = new D3DMATERIAL9;
 	m_pMaterial->Diffuse.a = 1;
@@ -87,10 +87,8 @@ void CCollision::Render_Collision()
 	mtrl.Diffuse.g =m_pMaterial->Diffuse.g;
 	mtrl.Diffuse.b =m_pMaterial->Diffuse.b;
 	m_pDevice->SetMaterial(&mtrl);
-	m_pSphere->DrawSubset(0);
 	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
 }
 
 void CCollision::Collison(COLLISIONTAG eTag)

@@ -21,13 +21,14 @@ CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
 CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
-	, mpCollider(rhs.mpCollider)
+	, mpCollider(nullptr)
 {
+	Add_Component();
 	mpCollider->AddRef();
 	mpCollider->setTransform(m_pTransform);
 	Insert_Collision(mpCollider);
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
 
 
 	m_ItemPlane.reserve(6);
@@ -37,9 +38,7 @@ CItem::CItem(const CItem& rhs)
 		m_ItemPlane.emplace_back(pBuffer);
 		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
 		m_ItemTexture.emplace_back(pTexture);
-		pTexture->AddRef();
 	}
-
 }
 
 CItem::~CItem()
@@ -49,7 +48,6 @@ CItem::~CItem()
 
 HRESULT CItem::Init_CItem()
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	return S_OK;
 }
 
@@ -68,7 +66,6 @@ _int CItem::Update_GameObject(const _float& fDeltaTime)
 void CItem::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
-
 }
 
 void CItem::Render_GameObject()
@@ -107,9 +104,9 @@ CItem* CItem::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CItem::Add_Component()
 {
-	CGameObject::Add_Component();
+	//CGameObject::Add_Component();
 
-	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	mpCollider->setRadius(1.f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
@@ -120,6 +117,8 @@ HRESULT CItem::Add_Component()
 
 void CItem::Free()
 {
+	CGameObject::Free();
+
 	for_each(m_ItemPlane.begin(), m_ItemPlane.end(), DeleteObj);
 	m_ItemPlane.clear();
 	m_ItemPlane.shrink_to_fit();
@@ -130,7 +129,6 @@ void CItem::Free()
 
 	Safe_Release(mpCollider);
 
-	CGameObject::Free();
 }
 
 void CItem::setTexture(const _tchar* pTextureName, const _int iIndex)

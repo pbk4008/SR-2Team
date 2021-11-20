@@ -113,9 +113,13 @@ HRESULT Insert_Wall(CCollision* pCollision)
 {
 	return CCollisionMgr::GetInstance()->Insert_Wall(pCollision);
 }
-void ClearCollisionList()
+void ClearCollision()
 {
-	CCollisionMgr::GetInstance()->ClearCollisionList();
+	CCollisionMgr::GetInstance()->ClearCollision();
+}
+void ClearWall()
+{
+	CCollisionMgr::GetInstance()->ClearWall();
 }
 
 void Utility_Release()

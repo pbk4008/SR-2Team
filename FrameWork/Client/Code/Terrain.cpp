@@ -16,15 +16,12 @@ CTerrain::CTerrain(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pBufferC
 	ZeroMemory(&m_vPosition, sizeof(_vec3));
 }
 
-CTerrain::CTerrain(const CTerrain& rhs):CGameObject(rhs), m_pBufferCom(rhs.m_pBufferCom), m_pTexture(rhs.m_pTexture), m_pNaviMesh(rhs.m_pNaviMesh)
+CTerrain::CTerrain(const CTerrain& rhs):CGameObject(rhs), m_pBufferCom(nullptr), m_pTexture(nullptr), m_pNaviMesh(nullptr)
 {
 	ZeroMemory(&m_vScale, sizeof(_vec3));
 	ZeroMemory(&m_vRotate, sizeof(_vec3));
 	ZeroMemory(&m_vPosition, sizeof(_vec3));
-	m_pBufferCom->AddRef();
-	m_pTexture->AddRef();
-	if (rhs.m_pNaviMesh)
-		m_pNaviMesh->AddRef();
+	Add_Component();
 }
 
 CTerrain::~CTerrain()
@@ -33,8 +30,6 @@ CTerrain::~CTerrain()
 
 HRESULT CTerrain::Init_Terrain()
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
 	return S_OK;
 }
 
@@ -81,7 +76,6 @@ CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CTerrain::Add_Component()
 {
-	CGameObject::Add_Component();
 	CComponent* pCom = nullptr;
 
 	pCom = m_pBufferCom = Clone_ComProto<CTerrainTex>(COMPONENTID::TERRAINTEX);
@@ -103,15 +97,20 @@ HRESULT CTerrain::Add_Component()
 
 void CTerrain::Free()
 {
+	CGameObject::Free();
 	Safe_Release(m_pNaviMesh);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 }
 
 void CTerrain::setTexture(const _tchar* pFileName)
 {
 	m_pTexture->setTexture(GetTexture(pFileName, TEXTURETYPE::TEX_NORMAL));
+}
+
+void CTerrain::setVtxSetting(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwInterVal, const _ulong& dwDetail)
+{
+	m_pBufferCom->Init_BufferNoTexture(dwCntX, dwCntZ, dwInterVal, dwDetail);
 }
 
 void CTerrain::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition)
@@ -143,7 +142,7 @@ void CTerrain::Create_NaviMesh()
 		_vec3 vRightTop = _vec3(vPos.x + vAxis.x, vPos.y, vPos.z + vAxis.z);
 
 		RECT rc = { _long(vLeftBottom.x),_long(vLeftBottom.z), _long(vRightTop.x), _long(vRightTop.z) };
-		m_pNaviMesh->Check_Shape(vPos,&rc);
+		//m_pNaviMesh->Check_Shape(vPos,&rc);
 	}
 	m_pNaviMesh->Connet_NaviMesh();
 }

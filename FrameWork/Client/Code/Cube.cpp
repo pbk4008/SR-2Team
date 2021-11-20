@@ -108,6 +108,7 @@ void CCube::Free()
 	m_CubeTexture.shrink_to_fit();
 
 	CGameObject::Free();
+	Safe_Release(m_pCollision);
 }
 
 void CCube::setTexture(const _tchar* pTextureName, const _int iIndex)

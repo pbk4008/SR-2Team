@@ -359,19 +359,16 @@ HRESULT CPlayer::Add_Component()
 	m_pAtkCollision->setActive(false);
 	m_pAtkCollision->setPivot(1.f);
 	m_pAtkCollision->setTrigger(COLLISIONTRIGGER::ATTACK);
-	m_pAtkCollision->AddRef();
 	return S_OK;
 }
 
 void CPlayer::Free()
 {
-	if(!m_bClone)
-		ClearCollisionList();
+	CGameObject::Free();
 	Safe_Release(m_pHitCollision);
 	Safe_Release(m_pAtkCollision);
 	Safe_Release(m_pMainCamera);
 	Safe_Release(m_pModel);
-	CGameObject::Free();
 }
 
 void CPlayer::setCamera(CMainCamera* pCamera)

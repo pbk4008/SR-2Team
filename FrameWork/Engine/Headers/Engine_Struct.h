@@ -58,6 +58,9 @@ namespace Engine
 			ZeroMemory(vMid, sizeof(vMid));
 			ZeroMemory(vCenter, sizeof(_vec3));
 		}
+		~NaviCell()
+		{
+		}
 	}CELL;
 }
 #endif

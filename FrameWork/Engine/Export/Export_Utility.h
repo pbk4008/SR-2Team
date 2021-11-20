@@ -63,7 +63,8 @@ inline void Clear_RenderList();
 inline CCollisionMgr* Init_CollisionMgr();
 inline HRESULT Insert_Wall(CCollision* pCollision);
 inline HRESULT Insert_Collision(CCollision* pCollision);
-inline void ClearCollisionList();
+inline void ClearCollision();
+inline void ClearWall();
 
 inline void Utility_Release();
 #include "Export_Utility.inl"
