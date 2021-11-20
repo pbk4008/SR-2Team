@@ -114,6 +114,10 @@ _uint CLoading::Loading_ForStage()
 	pCom = CNaviMesh::Create(m_pDevice,0,0);
 	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::NAVIMESH, pCom);
+
+	pCom = CCubeTex::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::CUBETEX, pCom);
 	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
 
@@ -148,9 +152,9 @@ _uint CLoading::Loading_ForStage()
 	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	//
 	//// Shoot Monster
-	pObj = CShootMon::Create(m_pDevice);
+	/*pObj = CShootMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);*/
 
 	//// MonBullet
 	//pObj = CMonBullet::Create(m_pDevice);
@@ -181,7 +185,7 @@ _uint CLoading::Loading_ForStage()
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"KKOTerrainData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -782,7 +786,7 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 		Key = "Radius";
 		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
 		_float fRadius = stof(strRadius);
-		pItem->getCollider()->setRadius(fRadius);
+		static_cast<CSphereCollision*>(pItem->getCollider())->setRadius(fRadius);
 
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pItem);
 	}

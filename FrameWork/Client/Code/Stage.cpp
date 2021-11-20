@@ -83,7 +83,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 	CGameObject* pGameObject = nullptr;
 	//Player»ý¼º
 
-	CPlayer* pPlayer = nullptr;
+	/*CPlayer* pPlayer = nullptr;
 
 	pGameObject = pPlayer = Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
 
@@ -92,7 +92,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 
 	pPlayer->setModel(pModel);
 	pPlayer->setCamera(pCam);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);*/
 
 	//// meleemon
 	//CMeleeMon* m_pMeleeMon = nullptr;
@@ -100,9 +100,9 @@ HRESULT CStage::Init_GameLogic_Layer()
 	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 	
 	//// shootmon
-	CShootMon* m_pMeleeMon = nullptr;
+	/*CShootMon* m_pMeleeMon = nullptr;
 	pGameObject = m_pMeleeMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);*/
 
 	//// flymon
 	/*CFlyMon* m_pMeleeMon = nullptr;

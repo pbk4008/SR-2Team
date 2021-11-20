@@ -30,7 +30,7 @@ public:
 	void setTexture(const _tchar* pTextureName, const _int iIndex);
 private:
 	vector<CTexture*> m_CubeTexture;
-	vector<CRcTex*> m_CubePlane;
+	CCubeTex* m_CubePlane;
 
 	CBoxCollision* m_pCollision;
 	_vec3 m_vScale;

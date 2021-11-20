@@ -4,6 +4,8 @@
 CItem::CItem()
 	: mItemPower(0)
 	, mpCollider(nullptr)
+	, mItemPlane(nullptr)
+	, mItemTexture(nullptr)
 {
 }
 
@@ -11,6 +13,8 @@ CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
 	: CGameObject(pDevice)
 	, mItemPower(0)
 	, mpCollider(nullptr)
+	, mItemPlane(nullptr)
+	, mItemTexture(nullptr)
 {
 
 }
@@ -19,6 +23,7 @@ CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
 	, mpCollider(nullptr)
+	, mItemPlane(nullptr)
 	, mItemTexture(nullptr)
 {
 	Add_Component();
@@ -27,13 +32,8 @@ CItem::CItem(const CItem& rhs)
 	Insert_Collision(mpCollider);
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
-	for (_uint i = 0; i < 6; ++i)
-	{
-		CRcTex* pBuffer = CRcTex::Create(m_pDevice, i);
-		m_ItemPlane.emplace_back(pBuffer);
-		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-		m_ItemTexture.emplace_back(pTexture);
-	}
+	mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	mItemPlane = Clone_ComProto<CCubeTex>(COMPONENTID::CUBETEX);
 }
 
 CItem::~CItem()
@@ -70,7 +70,7 @@ void CItem::Render_GameObject()
 	mItemTexture->Render_Texture();
 	for (_int i = 0; i < 6; i++)
 	{
-		mItemPlane[i]->Render_Buffer();
+		mItemPlane->Render_Buffer(i);
 	}
 	m_pDevice->SetTexture(0, nullptr);
 
@@ -100,17 +100,7 @@ CItem* CItem::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CItem::Add_Component()
 {
-	
-
 	CComponent* pComponent = nullptr;
-
-	for (_uint i = 0; i < 6; ++i)
-	{
-		pComponent = mItemPlane[i] = CRcTex::Create(m_pDevice, i);
-		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::RCTEX, pComponent);
-		pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
-	}
 
 	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	mpCollider->setRadius(1.f);
@@ -127,15 +117,9 @@ HRESULT CItem::Add_Component()
 void CItem::Free()
 {
 	CGameObject::Free();
-
-	for_each(m_ItemPlane.begin(), m_ItemPlane.end(), DeleteObj);
-	m_ItemPlane.clear();
-	m_ItemPlane.shrink_to_fit();
-
 	Safe_Release(mItemTexture);
-
+	Safe_Release(mItemPlane);
 	Safe_Release(mpCollider);
-
 }
 
 void CItem::setTexture(const _tchar* pTextureName)
