@@ -80,13 +80,13 @@ _uint CLoading::Loading_ForStage()
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
 
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
+	/*m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN50PATH, L"SHURIKEN50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);*/
 	
 	//Component원본 생성
 	CComponent* pCom = nullptr;
@@ -186,7 +186,7 @@ _uint CLoading::Loading_ForStage()
 
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 
 	m_bFinish = true;

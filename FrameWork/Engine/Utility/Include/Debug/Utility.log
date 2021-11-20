@@ -1,9 +1,6 @@
-﻿  CollisionMgr.cpp
-  GameObject.cpp
-  Transform.cpp
-  코드를 생성하고 있습니다...
-     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
-  Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
+﻿  SphereCollision.cpp
+     Creating library ../Bin\Utility.lib and object ../Bin\Utility.exp
+  Utility.vcxproj -> C:\Users\redro\Desktop\Team SR\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
   .\Engine\Headers\Engine_Functor.h
