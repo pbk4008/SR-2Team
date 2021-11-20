@@ -11,7 +11,6 @@
 #include "Form.h"
 #include "TerrainObject.h"
 #include "QuadObject.h"
-#include "CubeObject.h"
 #include "ToolGameObject.h"
 
 // CTerrainTexture 대화 상자

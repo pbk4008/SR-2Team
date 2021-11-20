@@ -25,18 +25,20 @@ public:		virtual void LateUpdate_GameObject() override;
 public:		virtual void Render_GameObject() override;
 public:		virtual CGameObject* Clone_GameObject() override;
 public:		virtual void ResetObject() override;
-public:				void setItemPower(const _uint& itemPower) { mItemPower = itemPower; }
-public:				void getItemPower(_uint& itemPower) { itemPower = mItemPower; }
+public:	inline			void setItemPower(const _uint& itemPower) { mItemPower = itemPower; }
+public:	inline			void getItemPower(_uint& itemPower) { itemPower = mItemPower; }
+public: inline	CCollision* getCollider() { return mpCollider; }
+
 
 public:		static CItem* Create(LPDIRECT3DDEVICE9 pDevice);
 
 private:	virtual HRESULT Add_Component() override;
 private:	virtual void Free() override;
 
-public:		void setTexture(const _tchar* pTextureName, const _int iIndex);
+public:		void setTexture(const _tchar* pTextureName);
 
-private:	std::vector<CTexture*> m_ItemTexture;
-private:	std::vector<CRcTex*> m_ItemPlane;
+private:	CTexture* mItemTexture;
+private:	std::array<CRcTex*,6> mItemPlane;
 private:	_uint mItemPower;
 private: CSphereCollision* mpCollider;
 

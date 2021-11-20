@@ -5,8 +5,6 @@ CItem::CItem()
 	: mItemPower(0)
 	, mpCollider(nullptr)
 {
-	m_ItemTexture.reserve(6);
-	m_ItemPlane.reserve(6);
 }
 
 CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
@@ -14,14 +12,14 @@ CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
 	, mItemPower(0)
 	, mpCollider(nullptr)
 {
-	m_ItemTexture.reserve(6);
-	m_ItemPlane.reserve(6);
+
 }
 
 CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
 	, mpCollider(nullptr)
+	, mItemTexture(nullptr)
 {
 	Add_Component();
 	mpCollider->AddRef();
@@ -29,10 +27,7 @@ CItem::CItem(const CItem& rhs)
 	Insert_Collision(mpCollider);
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
-
-
-	m_ItemPlane.reserve(6);
-	for (_int i = 0; i < 6; ++i)
+	for (_uint i = 0; i < 6; ++i)
 	{
 		CRcTex* pBuffer = CRcTex::Create(m_pDevice, i);
 		m_ItemPlane.emplace_back(pBuffer);
@@ -72,14 +67,15 @@ void CItem::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
-	mpCollider->Render_Collision();
-
-
+	mItemTexture->Render_Texture();
 	for (_int i = 0; i < 6; i++)
 	{
-		m_ItemTexture[i]->Render_Texture();
-		m_ItemPlane[i]->Render_Buffer();
+		mItemPlane[i]->Render_Buffer();
 	}
+	m_pDevice->SetTexture(0, nullptr);
+
+	mpCollider->Render_Collision();
+
 	CGameObject::Render_GameObject();
 }
 
@@ -104,13 +100,26 @@ CItem* CItem::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CItem::Add_Component()
 {
-	//CGameObject::Add_Component();
+	
+
+	CComponent* pComponent = nullptr;
+
+	for (_uint i = 0; i < 6; ++i)
+	{
+		pComponent = mItemPlane[i] = CRcTex::Create(m_pDevice, i);
+		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::RCTEX, pComponent);
+		pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
+	}
 
 	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	mpCollider->setRadius(1.f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
+	mpCollider->setTransform(m_pTransform);
+
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
 
 	return S_OK;
 }
@@ -123,16 +132,14 @@ void CItem::Free()
 	m_ItemPlane.clear();
 	m_ItemPlane.shrink_to_fit();
 
-	for_each(m_ItemTexture.begin(), m_ItemTexture.end(), DeleteObj);
-	m_ItemTexture.clear();
-	m_ItemTexture.shrink_to_fit();
+	Safe_Release(mItemTexture);
 
 	Safe_Release(mpCollider);
 
 }
 
-void CItem::setTexture(const _tchar* pTextureName, const _int iIndex)
+void CItem::setTexture(const _tchar* pTextureName)
 {
-	m_ItemTexture[iIndex]->setTexture(GetTexture(pTextureName, TEXTURETYPE::TEX_NORMAL));
+	mItemTexture->setTexture(GetTexture(pTextureName, TEXTURETYPE::TEX_NORMAL));
 
 }

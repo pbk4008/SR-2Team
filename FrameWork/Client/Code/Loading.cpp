@@ -712,14 +712,9 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 		{
 			pItem->setItemPower(5);
 		}
-
-
-		for (_uint i = 0; i < 6; ++i)
-		{
-			pItem->setTexture(TypeName.c_str(), i);
-		}
-
-
+		
+		pItem->setTexture(TypeName.c_str());
+		
 		Key = "Scale";
 		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
 
@@ -783,6 +778,12 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 		pItem->getTransform()->setAngle(vRotate);
 		pItem->getTransform()->setPos(Position);
 		pItem->setActive(true);
+
+		Key = "Radius";
+		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
+		_float fRadius = stof(strRadius);
+		pItem->getCollider()->setRadius(fRadius);
+
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pItem);
 	}
 	return S_OK;

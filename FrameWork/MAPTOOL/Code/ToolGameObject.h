@@ -42,7 +42,7 @@ protected:
 	std::vector<TEXTUREINFO> m_vecTextureInfo;
 	CString m_strObjectName;
 	CString m_strTypeName;
-
+protected: D3DMATERIAL9 mMaterial;
 	std::string m_strParent;
 
 };

@@ -24,6 +24,7 @@ private:
 	virtual void Free();
 private:
 	CTerrainTex* m_pTerrainTex;
+
 };
 
 

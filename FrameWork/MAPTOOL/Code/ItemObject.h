@@ -52,7 +52,6 @@ private: CCollision*						mpCollider;
 private: _uint								muiItemPower;
 private: eITEM								meType;
 private: std::array<CRcTex*, 6>				marrTexBuffer;
-
 };
 
 
