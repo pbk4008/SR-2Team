@@ -91,6 +91,7 @@ CCube* CCube::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CCube::Add_Component()
 {
+
 	//transform
 	CGameObject::Add_Component();
 

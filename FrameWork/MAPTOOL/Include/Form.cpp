@@ -625,9 +625,14 @@ void CForm::LinkResourceAndVariableQuad()
 	// 부모가없으면 최상위 부모Tree라는뜻
 	if (TreeNow == nullptr)
 		return;
+	
+	// 부모의 Cstring
 	CString strTreeNow = m_Tree_Object.GetItemText(TreeNow);
 
-	if (strTreeNow == L"Object")
+	HTREEITEM TreeParent = m_Tree_Object.GetParentItem(TreeNow);
+	CString strTreeParent = m_Tree_Object.GetItemText(TreeParent);
+
+	if (strTreeParent == L"Object")
 	{
 		for (const auto& iter : m_pMapToolView->m_listQuad)
 		{
