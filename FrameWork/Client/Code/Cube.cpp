@@ -92,6 +92,8 @@ CCube* CCube::Create(LPDIRECT3DDEVICE9 pDevice)
 HRESULT CCube::Add_Component()
 {
 	//transform
+	CGameObject::Add_Component();
+
 	CComponent* pComponent = nullptr;
 
 	pComponent = m_CubePlane = Clone_ComProto<CCubeTex>(COMPONENTID::CUBETEX);
