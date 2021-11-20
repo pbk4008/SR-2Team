@@ -638,11 +638,6 @@ HRESULT CLoading::Load_Cube(const _tchar* strName)
 			strPos.erase(0, dot + 1);
 		}
 
-
-		/*pCube->getTransform()->setScale(Scale);
-		pCube->getTransform()->setAngle(vRotate);
-		pCube->getTransform()->setPos(Position);*/
-
 		pCube->LoadTransform(Scale, vRotate, Position);
 		pCube->setActive(false);
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::CUBE, pCube);

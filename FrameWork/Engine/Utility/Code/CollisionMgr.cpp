@@ -12,14 +12,12 @@ CCollisionMgr::~CCollisionMgr()
 }
 HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 {
-	pCollision->setIndex(m_vecCollision.size());
 	m_vecCollision.emplace_back(pCollision);
 	return S_OK;
 }
 
 HRESULT CCollisionMgr::Insert_Wall(CCollision* pCollision)
 {
-	pCollision->setIndex(m_vecCollision.size());
 	m_vecWall.emplace_back(pCollision);
 	return S_OK;
 }

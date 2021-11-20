@@ -82,7 +82,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 	CGameObject* pGameObject = nullptr;
 	//Player»ý¼º
 
-	/*CPlayer* pPlayer = nullptr;
+	CPlayer* pPlayer = nullptr;
 
 	pGameObject = pPlayer = Clone_ObjProto<CPlayer>(GAMEOBJECTID::PLAYER);
 
@@ -91,7 +91,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 
 	pPlayer->setModel(pModel);
 	pPlayer->setCamera(pCam);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
 	//// meleemon
 	//CMeleeMon* m_pMeleeMon = nullptr;

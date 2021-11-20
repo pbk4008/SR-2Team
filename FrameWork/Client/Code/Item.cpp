@@ -23,7 +23,7 @@ CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
 	, mpCollider(nullptr)
-	, mItemTexture(rhs.mItemTexture)
+	, mItemTexture(nullptr)
 	, mItemPlane(rhs.mItemPlane)
 {
 	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
@@ -34,7 +34,12 @@ CItem::CItem(const CItem& rhs)
 	mpCollider->setTransform(m_pTransform);
 	mpCollider->AddRef();
 	Insert_Collision(mpCollider);
+
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
+
+	mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, mItemTexture);
+	mItemTexture->AddRef();
 }
 
 CItem::~CItem()
@@ -105,19 +110,9 @@ HRESULT CItem::Add_Component()
 {
 	CComponent* pComponent = nullptr;
 
-	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	mpCollider->setRadius(1.f);
-	mpCollider->setTag(COLLISIONTAG::ETC);
-	mpCollider->setActive(true);
-	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
-	mpCollider->setTransform(m_pTransform);
-
 	pComponent = mItemPlane = CCubeTex::Create(m_pDevice);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CUBETEX, pComponent);
-
-	pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
-	pComponent->AddRef();
+	mItemPlane->AddRef();
 
 	return S_OK;
 }
