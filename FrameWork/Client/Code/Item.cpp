@@ -18,7 +18,7 @@ CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
 CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
-	, mpCollider(Clone_ComProto<CCollision>(COMPONENTID::COLLISION))
+	, mpCollider(Clone_ComProto<CCollision>(COMPONENTID::SPHERECOL))
 	, mItemTexture(nullptr)
 {
 	CComponent* pComponenet = nullptr;
@@ -34,7 +34,7 @@ CItem::CItem(const CItem& rhs)
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 	mpCollider->setTransform(m_pTransform);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
 
 }
 
@@ -117,14 +117,14 @@ HRESULT CItem::Add_Component()
 		pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
 		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
 
-	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::SPHERECOL);
 	mpCollider->setRadius(0.8f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 	mpCollider->setTransform(m_pTransform);
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
 
 	return S_OK;
 }

@@ -21,7 +21,7 @@ CItemObject::CItemObject(LPDIRECT3DDEVICE9 pDeivce)
 
 CItemObject::CItemObject(const CItemObject& rhs)
 	: CToolGameObject(rhs)
-	, mpCollider(Clone_ComProto<CCollision>(COMPONENTID::COLLISION))
+	, mpCollider(Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL))
 	, muiItemPower(rhs.muiItemPower)
 	, meType(rhs.meType)
 {
@@ -29,7 +29,7 @@ CItemObject::CItemObject(const CItemObject& rhs)
 	{
 		marrTexBuffer[texIndex] = CRcTex::Create(m_pDevice,texIndex);
 	}
-	mpCollider->setRadius(0.8f);
+	static_cast<CSphereCollision*>(mpCollider)->setRadius(0.8f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
@@ -120,15 +120,15 @@ HRESULT CItemObject::Add_Component()
 		m_mapComponent->emplace(COMPONENTID::RCTEX, pComponent);
 	}
 
-	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	//Load할때 따로 지정해줌
-	mpCollider->setRadius(0.8f);
+	static_cast<CSphereCollision*>(mpCollider)->setRadius(0.8f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 	mpCollider->setTransform(m_pTransform);
 
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
 
 
 	return S_OK;

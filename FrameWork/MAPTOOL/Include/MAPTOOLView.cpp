@@ -293,7 +293,8 @@ void CMAPTOOLView::Init_Component()
 	// Transform
 	Init_ComProto(COMPONENTID::TRANSFORM, CTransform::Create());
 
-	Init_ComProto(COMPONENTID::COLLISION, CCollision::Create(m_pDevice));
+	Init_ComProto(COMPONENTID::SPHERECOL, CSphereCollision::Create(m_pDevice));
+
 
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 	// ==================================== 아이템 텍스처 넣기 =====================================================

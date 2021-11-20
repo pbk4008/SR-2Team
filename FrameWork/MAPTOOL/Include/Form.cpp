@@ -654,7 +654,7 @@ void CForm::LinkResourceAndVariableQuad()
 			if (dynamic_cast<CToolGameObject*>(iter)->Compare_Filter(strNow))
 			{
 				m_pNowObject = iter;
-				m_fItemRadius = static_cast<CItemObject*>(m_pNowObject)->getCollider()->getRadius();
+				m_fItemRadius = static_cast<CSphereCollision*>(static_cast<CItemObject*>(m_pNowObject)->getCollider())->getRadius();
 				break;
 			}
 		}
@@ -901,7 +901,7 @@ BOOL CForm::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	if (GetDlgItem(Edit_Item_Radius) == GetFocus())
 	{
 		m_fItemRadius += m_fMovePower;
-		static_cast<CItemObject*>(m_pNowObject)->getCollider()->setRadius(m_fItemRadius);
+		static_cast<CSphereCollision*>(static_cast<CItemObject*>(m_pNowObject)->getCollider())->setRadius(m_fItemRadius);
 		UpdateData(FALSE);
 	}
 	else if (m_pNowObject)
@@ -1819,7 +1819,7 @@ void CForm::OnBnClickedItemSave()
 		m_pIniManager->AddData(section, Key, Value);
 
 		Key = "Radius";
-		_float fRadius = static_cast<CItemObject*>(Item)->getCollider()->getRadius();
+		_float fRadius = static_cast<CSphereCollision*>(static_cast<CItemObject*>(Item)->getCollider())->getRadius();
 		Value = string_format("%f", fRadius);
 		m_pIniManager->AddData(section, Key, Value);
 
@@ -1971,7 +1971,7 @@ void CForm::OnBnClickedItemLoad()
 		Key = "Radius";
 		std::string strRadius = m_pIniManager->LoadDataString(std::string("ItemData"), Section, Key);
 		_float fRadius = stof(strRadius);
-		static_cast<CItemObject*>(pItem)->getCollider()->setRadius(fRadius);
+		static_cast<CSphereCollision*>(static_cast<CItemObject*>(pItem)->getCollider())->setRadius(fRadius);
 
 		m_pMapToolView->m_listItem.emplace_back(pItem);
 
