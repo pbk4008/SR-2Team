@@ -11,6 +11,7 @@
 #include "ShootMon.h"
 #include "FlyMon.h"
 #include "Boss.h"
+#include "UI.h"
 
 CStage::CStage() : m_pLoading(nullptr)
 {
@@ -130,6 +131,10 @@ HRESULT CStage::Init_UI_Layer()
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	//TODO : UI 게임오브젝트 추가
 	CGameObject* pGameObject = nullptr;
+
+	CUI* pUI = nullptr;
+	pGameObject = CUI::Create(m_pDevice);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::UI, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
 	return S_OK;

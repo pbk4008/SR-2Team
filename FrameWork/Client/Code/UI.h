@@ -20,6 +20,7 @@ private:
 public:
 	virtual HRESULT Init_UI();
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
+	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() override;
 
 	static CUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
