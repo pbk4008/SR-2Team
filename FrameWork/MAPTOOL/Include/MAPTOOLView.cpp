@@ -19,9 +19,9 @@
 #include "TerrainTex.h"
 #include "TerrainObject.h"
 #include "QuadObject.h"
-#include "CubeObject.h"
 #include "ToolGameObject.h"
 #include "ItemObject.h"
+#include "MonsterObject.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -59,6 +59,7 @@ CMAPTOOLView::CMAPTOOLView() noexcept
 	ZeroMemory(m_vecSRP[1], sizeof(_vec3) * 2);
 
 
+
 }
 
 CMAPTOOLView::~CMAPTOOLView()
@@ -74,6 +75,9 @@ CMAPTOOLView::~CMAPTOOLView()
 
 	std::for_each(m_listItem.begin(), m_listItem.end(), DeleteObj);
 	m_listItem.clear();
+
+	std::for_each(m_listMonster.begin(), m_listMonster.end(), DeleteObj);
+	m_listMonster.clear();
 
 	m_pGraphicDev->DestroyInstance();
 	Safe_Release(m_pDynamicCamera);
@@ -98,6 +102,7 @@ void CMAPTOOLView::SetUp_DefaultGraphicDevSetting(LPDIRECT3DDEVICE9* ppGraphicDe
 	(*ppGraphicDev)->AddRef();
 
 	(*ppGraphicDev)->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//Device가 알아서 법선벡터들을 관리하게 해준다.
 
 	// 폰트 설치
 
@@ -122,6 +127,19 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 		m_pDynamicCamera->Update_Object(fTimeDelta);
 		Set_XYZKey();
 	}
+	if (m_pForm->m_Button_LightOnOff.GetCheck())
+	{
+		Update_Light();
+	}
+	if (!m_pForm->m_Button_FogOnOff.GetCheck())
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	}
+	else
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+	}
+
 		if (!m_listTerrain.empty())
 		{
 			for (const auto& Obj : m_listTerrain)
@@ -163,6 +181,19 @@ void CMAPTOOLView::Update_View(const float& fTimeDelta)
 		if (!m_listItem.empty())
 		{
 			for (const auto& Obj : m_listItem)
+			{
+				m_vecSRP[0] = Obj->getTransform()->getScale();
+				m_vecSRP[1] = Obj->getTransform()->getAngle();
+
+				//m_vecSRP[1] = Obj->getTransform()->getToolAngle();
+				m_vecSRP[2] = Obj->getTransform()->getPos();
+				dynamic_cast<CToolGameObject*>(Obj)->Set_Transform(m_vecSRP[0], m_vecSRP[1], m_vecSRP[2]);
+				dynamic_cast<CToolGameObject*>(Obj)->Update_GameObject(fTimeDelta);
+			}
+		}
+		if (!m_listMonster.empty())
+		{
+			for (const auto& Obj : m_listMonster)
 			{
 				m_vecSRP[0] = Obj->getTransform()->getScale();
 				m_vecSRP[1] = Obj->getTransform()->getAngle();
@@ -255,7 +286,7 @@ void CMAPTOOLView::Init_Component()
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 	// Camera
 	const _vec3 vLook = { 0.f,10.f,-10.f };
-	const _vec3 vAt = { 0.f,0.f,10.f };
+	const _vec3 vAt = { 0.f,0.f,1.f };
 	const _vec3 vUp = { 0.f,1.f,0.f };
 	Init_ComProto(COMPONENTID::CAMERA, CDynamicCamera::Create(m_pDevice, &vLook, &vAt, &vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f));
 
@@ -274,6 +305,11 @@ void CMAPTOOLView::Init_Component()
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 	// ==================================== 아이템 텍스처 넣기 =====================================================
+	// ==================================== 몬스터 텍스쳐 넣기 =====================================================
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, MeleeMon, L"MeleeMon", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, FlyMon, L"FlyMon", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, ShootMon, L"ShootMon", 1);
+	// ==================================== 몬스터 텍스쳐 넣기 =====================================================
 
 }
 
@@ -338,6 +374,92 @@ void CMAPTOOLView::UpDown_Key(_vec3* pVector)
 	}
 }
 
+void CMAPTOOLView::Init_Light()
+{
+	ZeroMemory(&mLight, sizeof(D3DLIGHT9));
+	mLight.Type = D3DLIGHT_SPOT;
+	// Update View에서 position Direction 업데이트해줌
+	/*mLight.Position = { 0.f,0.f,0.f };
+	mLight.Direction = { 0.f,0.f,0.f };*/
+	mLight.Diffuse.r = 1.f;
+	mLight.Diffuse.g = 1.f;
+	mLight.Diffuse.b = 1.f;
+	mLight.Attenuation0 = 0.01f;
+	mLight.Attenuation1 = 0.0f;
+	mLight.Attenuation2 = 0.0f;
+	mLight.Theta = D3DX_PI / 4.f;
+	mLight.Phi = D3DX_PI / 3.f;
+	mLight.Falloff = 1.f;
+	//mLight.Theta = 0.f;
+	//mLight.Phi = D3DX_PI / 2.f;
+	mLight.Ambient = { 0.4f,0.4f,0.4f,0.4f };
+	mLight.Specular = { 0.6f,0.6f,0.6f ,0.6f };
+	mLight.Range = 25.f;
+
+	
+}
+
+void CMAPTOOLView::Update_Light()
+{
+	_matrix matCameraWorld;
+	_matrix matView = static_cast<CCamera*>(m_pDynamicCamera)->getViewmat();
+	D3DXMatrixInverse(&matCameraWorld, nullptr, &matView);
+
+
+	_vec3 NormalAt = {
+		matCameraWorld.m[2][0],
+		matCameraWorld.m[2][1],
+		matCameraWorld.m[2][2]
+	};
+	D3DXVec3Normalize(&NormalAt, &NormalAt);
+	mLight.Direction = NormalAt;
+	m_pForm->m_fLightDirectionX = NormalAt.x;
+	m_pForm->m_fLightDirectionY = NormalAt.y;
+	m_pForm->m_fLightDirectionZ = NormalAt.z;
+	m_pForm->UpdateData(FALSE);
+
+
+	_vec3 NormalEye = {
+		matCameraWorld.m[3][0],
+		matCameraWorld.m[3][1],
+		matCameraWorld.m[3][2]
+	};
+	mLight.Position = NormalEye;
+}
+
+void CMAPTOOLView::Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density)
+{
+	float Start = 0.5f;
+	float End = 50.f;
+
+	m_pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+	m_pDevice->SetRenderState(D3DRS_FOGCOLOR, Color);
+
+	if (D3DFOG_LINEAR == Mode)
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
+		m_pDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
+	}
+	else
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+	}
+
+	// Enable range-based fog if desired (only supported for
+	//   vertex fog).  For this example, it is assumed that UseRange
+	//   is set to a nonzero value only if the driver exposes the 
+	//   D3DPRASTERCAPS_FOGRANGE capability.
+	// Note: This is slightly more performance intensive
+	//   than non-range-based fog.
+	if (UseRange)
+		m_pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+
+	
+}
+
 // CMAPTOOLView 그리기
 
 
@@ -350,6 +472,21 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 			//루프 처리
 	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f));
+
+
+
+
+	{
+		if (m_pForm->m_Button_LightOnOff.GetCheck())
+		{
+			m_pDevice->SetLight(0, &mLight);
+			m_pDevice->LightEnable(0, TRUE);
+			m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+			m_pDevice->SetRenderState(D3DRS_AMBIENT, 0x00202020);
+			m_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, TRUE);
+
+		}
+	}
 
 	{
 		if (m_pForm->m_bWireFrame.GetCheck())
@@ -378,6 +515,13 @@ void CMAPTOOLView::OnDraw(CDC* /*pDC*/)
 		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 		if (m_pForm->m_bWireFrame.GetCheck())
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
+	{
+		if (!m_pForm->m_Button_LightOnOff.GetCheck())
+		{
+			m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+		}
 	}
 
 	if (m_pForm->m_Button_Zbuffer.GetCheck())
@@ -467,6 +611,10 @@ void CMAPTOOLView::OnInitialUpdate()
 
 	//카메라 붙이기
 	m_pDynamicCamera = Clone_ComProto<CDynamicCamera>(COMPONENTID::CAMERA);
+
+	Init_Light();
+	// fog는 Alpha값 무시됨
+	Init_Fog(D3DXCOLOR(0.15f, 0.15f, 0.15f, 0.1f), D3DFOG_EXP2,TRUE, 0.1f);
 
 
 	m_pForm->UpdateData(false);

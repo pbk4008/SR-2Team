@@ -188,12 +188,13 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Code\CubeObject.h" />
     <ClInclude Include="..\Code\DynamicCamera.h" />
     <ClInclude Include="..\Code\ItemObject.h" />
+    <ClInclude Include="..\Code\MonsterObject.h" />
     <ClInclude Include="..\Code\QuadObject.h" />
     <ClInclude Include="..\Code\StaticCamera.h" />
     <ClInclude Include="..\Code\TerrainObject.h" />
+    <ClInclude Include="..\Code\TestCubeObject.h" />
     <ClInclude Include="..\Code\ToolGameObject.h" />
     <ClInclude Include="..\Headers\ToolDefine.h" />
     <ClInclude Include="..\Headers\ToolExtern.h" />
@@ -211,12 +212,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Code\CubeObject.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\ItemObject.cpp" />
+    <ClCompile Include="..\Code\MonsterObject.cpp" />
     <ClCompile Include="..\Code\QuadObject.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\TerrainObject.cpp" />
+    <ClCompile Include="..\Code\TestCubeObject.cpp" />
     <ClCompile Include="..\Code\ToolGameObject.cpp" />
     <ClCompile Include="CTerrainTexture.cpp" />
     <ClCompile Include="Form.cpp" />

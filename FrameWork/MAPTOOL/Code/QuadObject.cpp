@@ -14,7 +14,7 @@ CQuadObject::CQuadObject(LPDIRECT3DDEVICE9 pDevice)
 
 CQuadObject::CQuadObject(const CQuadObject& rhs)
 	: CToolGameObject(rhs)
-	//, m_pQuadTex(rhs.m_pQuadTex)
+
 {
 	m_pQuadTex = CRcTex::Create(m_pDevice);
 }
@@ -55,6 +55,9 @@ void CQuadObject::LateUpdate_GameObject()
 void CQuadObject::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &(m_pTransform->getWorldMatrix()));
+
+	m_pDevice->SetMaterial(&mMaterial);
+
 
 	if (!m_vecTextureInfo.empty() && 
 		m_vecTextureInfo.front().pTexture)
@@ -99,7 +102,6 @@ HRESULT CQuadObject::Add_Component()
 void CQuadObject::Free()
 {
 
-	Safe_Release(m_pQuadTex);
 	CToolGameObject::Free();
 	CGameObject::Free();
 }

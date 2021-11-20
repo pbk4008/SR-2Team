@@ -7,7 +7,6 @@ CItemObject::CItemObject()
 	, meType(eITEM::ITEMEND)
 	, marrTexBuffer{ nullptr }
 {
-
 }
 
 CItemObject::CItemObject(LPDIRECT3DDEVICE9 pDeivce)
@@ -22,7 +21,7 @@ CItemObject::CItemObject(LPDIRECT3DDEVICE9 pDeivce)
 
 CItemObject::CItemObject(const CItemObject& rhs)
 	: CToolGameObject(rhs)
-	, mpCollider(rhs.mpCollider)
+	, mpCollider(Clone_ComProto<CCollision>(COMPONENTID::COLLISION))
 	, muiItemPower(rhs.muiItemPower)
 	, meType(rhs.meType)
 {
@@ -30,6 +29,10 @@ CItemObject::CItemObject(const CItemObject& rhs)
 	{
 		marrTexBuffer[texIndex] = CRcTex::Create(m_pDevice,texIndex);
 	}
+	mpCollider->setRadius(0.8f);
+	mpCollider->setTag(COLLISIONTAG::ETC);
+	mpCollider->setActive(true);
+	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 }
 CItemObject::~CItemObject()
 {
@@ -47,6 +50,15 @@ HRESULT CItemObject::Init_CItemObjectObject()
 _int CItemObject::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
+	_vec3 vecAngle = m_pTransform->getAngle();
+	vecAngle.y += fDeltaTime * 100.f;
+	if (vecAngle.y >= 360.f)
+	{
+		vecAngle.y -= 360.f;
+	}
+	m_pTransform->setAngle(vecAngle);
+
+
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 	return iExit;
@@ -60,6 +72,9 @@ void CItemObject::LateUpdate_GameObject()
 void CItemObject::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &(m_pTransform->getWorldMatrix()));
+
+	m_pDevice->SetMaterial(&mMaterial);
+
 
 	for (_uint i = 0; i < m_vecTextureInfo.size(); ++i)
 	{
@@ -106,6 +121,7 @@ HRESULT CItemObject::Add_Component()
 	}
 
 	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	//Load할때 따로 지정해줌
 	mpCollider->setRadius(0.8f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);

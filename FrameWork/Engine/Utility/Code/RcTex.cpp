@@ -42,15 +42,22 @@ HRESULT CRcTex::Init_Buffer()
 	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
 
 	pVertex[0].vPos = _vec3(-1.f, 1.f, 0.f);
+	pVertex[0].vNormal = _vec3(0.f, 0.f, -1.f);
 	pVertex[0].vUV = _vec2(0.f,0.f);
 
 	pVertex[1].vPos = _vec3(1.f, 1.f, 0.f);
+	pVertex[1].vNormal = _vec3(0.f, 0.f, -1.f);
+
 	pVertex[1].vUV = _vec2(1.f, 0.f);
 
 	pVertex[2].vPos = _vec3(1.f, -1.f, 0.f);
+	pVertex[2].vNormal = _vec3(0.f, 0.f, -1.f);
+
 	pVertex[2].vUV = _vec2(1.f, 1.f);
 
 	pVertex[3].vPos = _vec3(-1.f, -1.f, 0.f);
+	pVertex[3].vNormal = _vec3(0.f, 0.f, -1.f);
+
 	pVertex[3].vUV = _vec2(0.f, 1.f);
 
 	m_pVB->Unlock();
