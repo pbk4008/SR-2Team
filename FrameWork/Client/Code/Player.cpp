@@ -38,7 +38,9 @@ m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_b
 	m_pAtkCollision->AddRef();
 	m_pAtkCollision->setTransform(m_pTransform);
 	Insert_Collision(m_pHitCollision);
+	m_pHitCollision->setTarget(this);
 	Insert_Collision(m_pAtkCollision);
+
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pHitCollision);
 }

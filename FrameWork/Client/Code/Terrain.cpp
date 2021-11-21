@@ -40,6 +40,7 @@ _int CTerrain::Update_GameObject(const _float& fDeltaTime)
 	m_pTransform->setScale(m_vScale);
 	m_pTransform->setAngle(m_vRotate);
 	m_pTransform->setPos(m_vPosition);
+	m_pTransform->Update_Component(fDeltaTime);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);

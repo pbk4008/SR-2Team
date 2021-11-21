@@ -67,6 +67,13 @@ CGameObject* CManagement::getGameObject(GAMEOBJECTID eObjID)
 	return m_pScene->getGameObject(eObjID);
 }
 
+vector<CGameObject*>* CManagement::getGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID)
+{
+	NULL_CHECK_RETURN(m_pScene, nullptr);
+
+	return m_pScene->getGameObjects(eLayerID,eObjID);
+}
+
 HRESULT CManagement::add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj)
 {
 	NULL_CHECK_RETURN(m_pScene, E_FAIL);

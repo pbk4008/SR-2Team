@@ -26,6 +26,7 @@ private:
 public:
 	CComponent* getComponent(GAMEOBJECTID eObjID,COMPONENTID eComponentID, COMPONENTTYPE eType);
 	CGameObject* getGameObject(GAMEOBJECTID eObj);
+	vector<CGameObject*>* getGameObjects(GAMEOBJECTID eObjID);
 	void getAllObjecID(vector<GAMEOBJECTID>& pVector);
 	void getAllObject(vector<vector<CGameObject*>>& pVector);
 private:

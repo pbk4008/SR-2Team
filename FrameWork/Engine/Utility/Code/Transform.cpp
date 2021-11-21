@@ -134,7 +134,25 @@ _bool CTransform::IsZero(const _vec3& vVector)
 void CTransform::TerrainOverMove()
 {
 	//Terrain 로컬좌표로 y값 구하기
-	CGameObject* pTerrain = GetGameObject(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN);
+	vector<CGameObject*>* pTerrainList = GetGameObjects(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN);
+	if (!pTerrainList)
+		return;
+	CGameObject* pTerrain = nullptr;
+	_float fMin = 10000.f;
+	for (auto iter : *pTerrainList)
+	{
+		_vec3 vTerrainPos;
+		vTerrainPos = iter->getTransform()->getPos();
+
+		if (vTerrainPos.y > m_vPos.y+1)
+			continue;
+		_float fDist = abs(vTerrainPos.y -(m_vPos.y-1));
+		if (fMin > fDist)
+		{
+			fMin = fDist;
+			pTerrain = iter;
+		}
+	}
 	CTerrainTex* pTerrainTex = static_cast<CTerrainTex*>(pTerrain->getComponent(COMPONENTID::TERRAINTEX, COMPONENTTYPE::TYPE_STATIC));
 	
 	CCollisionMgr* pCollMgr = Init_CollisionMgr();

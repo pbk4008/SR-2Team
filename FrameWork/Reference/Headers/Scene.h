@@ -26,6 +26,7 @@ public:
 	CComponent* getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
 	CGameObject* getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
 	CGameObject* getGameObject(GAMEOBJECTID eObjID);
+	vector<CGameObject*>* getGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID);
 public:
 	HRESULT setLayer(LAYERID eLayerID,CLayer* pLayer);
 protected:

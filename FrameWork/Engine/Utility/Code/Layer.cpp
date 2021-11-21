@@ -132,6 +132,11 @@ CGameObject* CLayer::getGameObject(GAMEOBJECTID eObj)
 	return res;
 }
 
+vector<CGameObject*>* CLayer::getGameObjects(GAMEOBJECTID eObjID)
+{
+	return Find_GameObject(eObjID);
+}
+
 void CLayer::getAllObjecID(vector<GAMEOBJECTID>& pVector)
 {
 	pVector.reserve(m_mapObject.size());

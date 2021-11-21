@@ -30,6 +30,7 @@ _int CSphereCollision::Update_Component(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vCenter);
 	iExit = CCollision::Update_Component(fDeltaTime);
 	return iExit;
 }

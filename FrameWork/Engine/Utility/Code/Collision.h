@@ -5,6 +5,7 @@
 BEGIN(Engine)
 class CTransform;
 class CCollisionMgr;
+class CGameObject;
 class ENGINE_DLL CCollision abstract : public CComponent
 {
 protected:
@@ -28,14 +29,16 @@ public:
 	COLLISIONTRIGGER getTrigger() { return m_eTrigger; }
 	CCollision* getCollider() { return m_pCollider; }
 public:
-	void setCenter(const _vec3& pCenter);
+	void setTransform(const _vec3& pCenter);
 	void setTransform(CTransform* pTransform);
 	void setTag(COLLISIONTAG eTag);
 	void setHit(_bool bHit) { m_bHit = bHit; }
 	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
 	void setCollider(CCollision* pCollider) { m_pCollider = pCollider; }
 	void setPivot(const _float& fLen) { m_fPivotLen = fLen; }
+	void setTarget(CGameObject* pTarget);
 protected:
+	CGameObject* m_pTarget;
 	CTransform* m_pTransform;
 	_vec3 m_vCenter;
 	COLLISIONTAG m_eTag;
@@ -44,7 +47,6 @@ protected:
 	_float m_fPivotLen;
 	CCollision* m_pCollider;
 	CCollisionMgr* m_pCollisionMgr;
-	_ulong m_dwIndex;
 };
 END
 #endif

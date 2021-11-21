@@ -37,6 +37,7 @@ inline void Render_Manangement(LPDIRECT3DDEVICE9& pDevice);
 inline CComponent* Get_Component(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
 inline CGameObject* GetGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
 inline CGameObject* GetGameObject(GAMEOBJECTID eObjID);
+inline vector<CGameObject*>* GetGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID);
 inline HRESULT Add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj);
 
 //ProtoMgr
