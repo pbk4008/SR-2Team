@@ -33,6 +33,8 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr),
 	m_iHP(rhs.m_iHP)
 {
+	m_pBufferCom->AddRef();
+
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
 
@@ -47,6 +49,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
+	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
@@ -157,7 +160,7 @@ HRESULT CMeleeMon::SettingAnimator()
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATOR, m_pAnimator);
-
+	m_pAnimator->AddRef();
 	return S_OK;
 }
 
@@ -255,32 +258,13 @@ HRESULT CMeleeMon::Add_Component()
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
-	
-	// collision
-	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pCollision->setRadius(1.f);
-	m_pCollision->setTag(COLLISIONTAG::MONSTER);
-	m_pCollision->setActive(true);
-	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
-	m_pCollision->setTransform(m_pTransform);
-	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
-
-	// collision
-	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pAttackColl->setRadius(1.f);
-	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
-	m_pAttackColl->setActive(false);
-	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
 
 	return S_OK;
 }
 
 void CMeleeMon::Free()
 {
-	CGameObject::Free();
+	CMonster::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
 	Safe_Release(m_pTexture);
