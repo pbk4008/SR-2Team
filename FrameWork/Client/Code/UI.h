@@ -15,6 +15,8 @@ class CUI : public CGameObject
 {
 private:
 	explicit CUI();
+	explicit CUI(LPDIRECT3DDEVICE9 pDevice);
+	explicit CUI(const CUI& rhs);
 	virtual ~CUI();
 
 public:
@@ -22,8 +24,10 @@ public:
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() override;
+	virtual CGameObject* Clone_GameObject() override;
 
-	static CUI* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
+	static CUI* Create(LPDIRECT3DDEVICE9 pDevice);
 
 private:
 	HRESULT Add_Component();
@@ -32,7 +36,6 @@ private:
 private:
 	CRcTex*		m_pBufferCom;
 	CTexture*	m_pTexture;
-	CRenderer*  m_pRenderer;
 
 private:
 	_matrix	 m_pTransMatrix;

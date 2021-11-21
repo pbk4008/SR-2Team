@@ -41,6 +41,10 @@ CBoss::CBoss(const CBoss& rhs)
 
 	CComponent* pComponent = nullptr;
 
+	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BOSSHP);
+	//m_pTexture->AddRef();
+	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::BOSSHP, pComponent);
+
 	// collision
 	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
 	m_pCollision->setRadius(1.f);
@@ -133,6 +137,9 @@ void CBoss::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pCollision->Render_Collision();
+
+	//m_pTexture->Render_Texture();
+	//m_pDevice->SetTexture(0, nullptr);
 
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
@@ -251,6 +258,10 @@ HRESULT CBoss::Add_Component()
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
+
+	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BOSSHP);
+	//m_pTexture->AddRef();
+	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::BOSSHP, pComponent);
 
 	// collision
 	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
@@ -387,24 +398,6 @@ void CBoss::setTarget(const _vec3& vTarget)
 
 void CBoss::HitBoss(const _float& fTimeDelta)
 {
-	/*m_iTimer += fTimeDelta;
-	if (m_iTimer >= 1.0f)
-	{
-		if (m_pCollision->getHit())
-		{
-			m_iHP -= 50;
-			cout << "Boss Hit!" << endl;
-			m_pCollision->setActive(false);
-
-			if (m_pCollision->getActive())
-				m_pCollision->Update_Component(fTimeDelta);
-
-			m_pCollision->Collison(COLLISIONTAG::PLAYER);
-
-			m_iTimer = 0.f;
-		}
-	}*/
-
 	if (m_pCollision->getHit())
 	{
 		m_iTimer += fTimeDelta;
@@ -422,7 +415,6 @@ void CBoss::HitBoss(const _float& fTimeDelta)
 
 			m_iTimer = 0.f;
 		}
-
 	}
 }
 
@@ -619,24 +611,3 @@ void CBoss::Free()
 	Safe_Release(m_pBufferCom);
 	CGameObject::Free();
 }
-
-
-/*if (GetAsyncKeyState('P'))
-	{
-		m_iHP = 1499;
-	}
-
-	if (GetAsyncKeyState('L'))
-	{
-		m_iHP = 999;
-	}
-
-	if (GetAsyncKeyState('K'))
-	{
-		m_iHP = 2000;
-	}
-
-	if (GetAsyncKeyState('O'))
-	{
-		m_iHP = 0;
-	}*/

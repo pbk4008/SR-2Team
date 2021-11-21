@@ -2,6 +2,22 @@
 #include "UI.h"
 
 CUI::CUI()
+	:m_fX(0.f), m_fY(0.f), m_fSizeX(0.f), m_fSizeY(0.f), m_pBufferCom(nullptr), 
+	m_pTexture(nullptr)
+{
+
+}
+
+CUI::CUI(LPDIRECT3DDEVICE9 pDevice)
+	:m_fX(0.f), m_fY(0.f), m_fSizeX(0.f), m_fSizeY(0.f), m_pBufferCom(nullptr),
+	m_pTexture(nullptr)
+{
+
+}
+
+CUI::CUI(const CUI& rhs)
+	:m_fX(rhs.m_fX), m_fY(rhs.m_fY), m_fSizeX(rhs.m_fSizeX), m_fSizeY(rhs.m_fSizeY), m_pBufferCom(rhs.m_pBufferCom),
+	m_pTexture(rhs.m_pTexture)
 {
 
 }
@@ -16,9 +32,9 @@ HRESULT CUI::Init_UI()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fX = 400.f;
-	m_fY = 75.f;
-	m_fSizeX = 800.f;
-	m_fSizeY = 150.f;
+	m_fY = 140.f;
+	m_fSizeX = 400.f;
+	m_fSizeY = 140.f;
 
 	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.0f, 1.f);
 
@@ -50,13 +66,6 @@ Engine::_int CUI::Update_GameObject(const _float& fDeltaTime)
 
 	return iExit;
 }
-
-//POINT		ptMouse;
-//GetCursorPos(&ptMouse);
-//ScreenToClient(g_hWnd, &ptMouse);
-//
-//if (TRUE == PtInRect(&rcUI, ptMouse))
-//MSG_BOX("Ãæµ¹!");
 
 void CUI::LateUpdate_GameObject()
 {
@@ -93,9 +102,18 @@ void CUI::Render_GameObject()
 	m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
-CUI* CUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CUI* CUI::Create(LPDIRECT3DDEVICE9 pDevice)
 {
-	return nullptr;
+	CUI* pInstance = new CUI(pDevice);
+	if (FAILED(pInstance->Init_UI()))
+		Safe_Release(pInstance);
+
+	return pInstance;
+}
+
+CGameObject* CUI::Clone_GameObject()
+{
+	return new CUI(*this);
 }
 
 HRESULT CUI::Add_Component()
