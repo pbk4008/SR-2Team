@@ -21,6 +21,7 @@ public:
 	virtual CGameObject* Clone_GameObject();
 	virtual void ResetObject();
 	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition);
+	void setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition);
 public:
 	static CCube* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
