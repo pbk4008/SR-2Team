@@ -95,9 +95,9 @@ HRESULT CStage::Init_GameLogic_Layer()
 	pPlayer->setCamera(pCam);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
-	CMeleeMon* m_pMeleeMon = nullptr;
-	pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
+	//CMeleeMon* m_pMeleeMon = nullptr;
+	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 
 	////CShootMon* m_pShootMonn = nullptr;
 	//pGameObject = m_pShootMonn = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);

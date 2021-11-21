@@ -5,19 +5,19 @@
 #include "Transform.h"
 CBoxCollision::CBoxCollision(): m_pBox(nullptr)
 {
-	ZeroMemory(&m_vAxis, sizeof(_vec3));
+	ZeroMemory(&m_vScale, sizeof(_vec3));
 	ZeroMemory(&m_vAngle, sizeof(_vec3));
 	ZeroMemory(m_vPoint, sizeof(m_vPoint));
 }
 
 CBoxCollision::CBoxCollision(LPDIRECT3DDEVICE9 pDevice) : CCollision(pDevice), m_pBox(nullptr)
 {
-	ZeroMemory(&m_vAxis, sizeof(_vec3));
+	ZeroMemory(&m_vScale, sizeof(_vec3));
 	ZeroMemory(&m_vAngle, sizeof(_vec3));
 	ZeroMemory(m_vPoint, sizeof(m_vPoint));
 }
 
-CBoxCollision::CBoxCollision(const CBoxCollision& rhs) : CCollision(rhs), m_vAxis(rhs.m_vAxis), m_pBox(nullptr), m_vAngle(rhs.m_vAngle)
+CBoxCollision::CBoxCollision(const CBoxCollision& rhs) : CCollision(rhs), m_vScale(rhs.m_vScale), m_pBox(nullptr), m_vAngle(rhs.m_vAngle)
 {
 	memcpy(m_vPoint, rhs.m_vPoint, sizeof(m_vPoint));
 }
@@ -36,7 +36,7 @@ _int CBoxCollision::Update_Component(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 	iExit = CCollision::Update_Component(fDeltaTime);
-	m_pTransform->setScale(m_vAxis);
+	m_pTransform->setScale(m_vScale);
 	m_pTransform->setPos(m_vCenter);
 	m_pTransform->setAngle(m_vAngle);
 	m_pTransform->Update_Component(fDeltaTime);
@@ -83,7 +83,7 @@ void CBoxCollision::Free()
 
 void CBoxCollision::setAxis(const _vec3& vAxis, const _vec3& vAngle)
 {
-	m_vAxis = vAxis;
+	m_vScale = vAxis;
 	//m_vAngle = vAngle;
 	D3DXCreateBox(m_pDevice, 1.f, 1.f, 1.f, &m_pBox, nullptr);
 	CreateBoxPoint();
@@ -91,6 +91,6 @@ void CBoxCollision::setAxis(const _vec3& vAxis, const _vec3& vAngle)
 
 //void CBoxCollision::setAxis(const _vec3& vAxis)
 //{
-//	m_vAxis = vAxis;
+//	m_vScale = vAxis;
 //	D3DXCreateBox(m_pDevice, 1.f, 1.f, 1.f, &m_pBox, nullptr);
 //}

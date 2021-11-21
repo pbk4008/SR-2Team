@@ -26,6 +26,8 @@ CItem::CItem(const CItem& rhs)
 	, mItemTexture(nullptr)
 	, mItemPlane(rhs.mItemPlane)
 {
+
+
 	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	mpCollider->setRadius(1.f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
@@ -57,11 +59,11 @@ HRESULT CItem::Init_CItem()
 _int CItem::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
+	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	m_pTransform->setScale(m_pTransform->getScale());
 	// 뺑글뻉글 돌아가는 표현하고싶으면 여기를 바꾸면됨
 	m_pTransform->setAngle(m_pTransform->getAngle());
 	m_pTransform->setPos(m_pTransform->getPos());
-	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
 }

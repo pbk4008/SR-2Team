@@ -46,8 +46,7 @@ protected:
 	COLLISIONTRIGGER m_eTrigger;
 	_bool m_bHit;
 	_float m_fPivotLen;
-	CCollision* m_pCollider;
-	CCollisionMgr* m_pCollisionMgr;
+	_vec3 m_vCenter;
 };
 END
 #endif
