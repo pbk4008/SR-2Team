@@ -12,12 +12,14 @@ CCollisionMgr::~CCollisionMgr()
 }
 HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 {
+	pCollision->AddRef();
 	m_vecCollision.emplace_back(pCollision);
 	return S_OK;
 }
 
 HRESULT CCollisionMgr::Insert_Wall(CCollision* pCollision)
 {
+	pCollision->AddRef();
 	m_vecWall.emplace_back(pCollision);
 	return S_OK;
 }
@@ -138,13 +140,13 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 void CCollisionMgr::ClearCollision()
 {
 	for_each(m_vecCollision.begin(), m_vecCollision.end(), DeleteObj);
-	m_vecWall.clear();
+	m_vecCollision.clear();
 }
 
 void CCollisionMgr::ClearWall()
 {
 	for_each(m_vecWall.begin(), m_vecWall.end(), DeleteObj);
-	m_vecCollision.clear();
+	m_vecWall.clear();
 }
 
 

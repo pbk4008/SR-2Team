@@ -39,8 +39,10 @@ private:
 public:
 	void setCamera(CMainCamera* pCamera);
 	void setModel(CPlayerModel* pModel);
+	void setJumpCount(const _int& iJumpCount) { m_iJumpCount = iJumpCount; }
 public:
 	ATTACKTYPE getAttackType() { return m_eCurType; }
+	_int getJumpCount() { return m_iJumpCount; }
 private:
 	STATE m_eCulState;
 	STATE m_ePreState;
@@ -56,6 +58,12 @@ private:
 	_bool m_bDashDelay;
 	_float m_fAngle;
 	_float m_fDashTime;
+	_int m_iJumpCount;
+	_float m_fMaxHp;
+	_float m_fCurrentHp;
+	_int m_iShurikenCount;
+	_int m_iBombCount;
+
 
 	CMainCamera* m_pMainCamera;
 	CPlayerModel* m_pModel;
