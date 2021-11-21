@@ -162,14 +162,15 @@ void CTransform::TerrainOverMove()
 	_ulong dwInterval= pTerrainTex->getInterval();
 
 	m_fBottomY = m_vPos.y-1;
-	pCollMgr->TerrainCollision(m_vPos.x, m_fBottomY,m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
+	//_float WallTop = 0.f;
 	
 	//Terrain 월드 좌표 y변환 값 구하기
 	CTransform* pTransform = pTerrain->getTransform();
 	_vec3 vTerrainPos;
 	pTransform->getAxis(VECAXIS::AXIS_POS, vTerrainPos);
-
-	m_fBottomY += vTerrainPos.y;
+	pCollMgr->TerrainCollision(m_vPos.x, m_fBottomY, m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval, vTerrainPos.y);
+	//if (vTerrainPos.y < WallTop)
+		//m_fBottomY = WallTop;
 }
 
 void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck, _int iPlayer)
