@@ -19,6 +19,7 @@ namespace Engine
 		NAVIMESH,
 	///////// 여기서부터 몬스터 ///////////
 		FIREBALL,
+		COLLISION,
 		MONBULLET,
 		BOSSHP,
 		MELEEMON_TEX,
@@ -40,6 +41,7 @@ namespace Engine
 		MONSTER2,
 		MONSTER3,
 		BOSS,
+		BOSSHP,
 		MONBULLET,
 		FIREBALL,
 		TERRAIN,

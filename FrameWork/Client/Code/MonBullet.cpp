@@ -49,12 +49,12 @@ _int CMonBullet::Update_GameObject(const _float& fDeltaTime)
 
 	Move(fDeltaTime);
 	m_fDestroyTime += fDeltaTime;
-	/*if (m_fDestroyTime > 3.f)
+	if (m_fDestroyTime > 3.f)
 	{
 		m_fDestroyTime = 0.f;
 		setActive(false);
 		return iExit;
-	}*/
+	}
 
 	m_pCollision->Collison(COLLISIONTAG::PLAYER);
 	if (m_bReflect)

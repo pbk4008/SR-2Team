@@ -20,6 +20,7 @@
 #include "Item.h"
 #include "Ui.h"
 #include "NaviMesh.h"
+#include "HP.h"
 
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
@@ -67,7 +68,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Walk/WALKF_00%d.png", L"ShootMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Attack/ATTACK_00%d.png", L"ShootMon_Attack", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Death/DEATH_00%d.png", L"ShootMon_Death", 8);
-	//m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/MOVE_00%d.png", L"FlyMon_WalkF", 4);
@@ -95,7 +96,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_EMPTY.png", L"Boss_HPFull", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_FULL.png", L"Boss_HPEmpty", 1);
 
-	/*m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
@@ -104,7 +105,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);*/
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 	
 	//Component원본 생성
 	CComponent* pCom = nullptr;
@@ -179,36 +180,12 @@ _uint CLoading::Loading_ForStage()
 	pObj = CMonBullet::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-
-	pObj = CFireball::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::FIREBALL, pObj);
 	
 	// Fly Monster
 	pObj = CFlyMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
-
-	//// Melee Monster #1
-	//pObj = CMeleeMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	//
-	//// Shoot Monster
-	/*pObj = CShootMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);*/
-
-	//// MonBullet
-	//pObj = CMonBullet::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	//
-	//// Fly Monster
-	//pObj = CFlyMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
-
+	
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
@@ -217,9 +194,17 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
 
+	pObj = CHP::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
+
 	pObj = CBoss::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+
+	pObj = CFireball::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::FIREBALL, pObj);
 
 	pObj = CFog::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -235,8 +220,8 @@ _uint CLoading::Loading_ForStage()
 	
 
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 
 	m_bFinish = true;
@@ -949,7 +934,7 @@ HRESULT CLoading::Load_MeleeMon(const _tchar* strName)
 		Key = "Radius";
 		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
 		_float fRadius = stof(strRadius);
-		pMeleeMon->getCollider()->setRadius(fRadius);
+		static_cast<CSphereCollision*>(pMeleeMon->getCollider())->setRadius(fRadius);
 
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pMeleeMon);
 	}
@@ -1065,7 +1050,7 @@ HRESULT CLoading::Load_ShootMon(const _tchar* strName)
 		Key = "Radius";
 		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
 		_float fRadius = stof(strRadius);
-		pShootMon->getCollider()->setRadius(fRadius);
+		static_cast<CSphereCollision*>(pShootMon->getCollider())->setRadius(fRadius);
 
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pShootMon);
 	}
@@ -1181,7 +1166,7 @@ HRESULT CLoading::Load_FlyMon(const _tchar* strName)
 		Key = "Radius";
 		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
 		_float fRadius = stof(strRadius);
-		pFlyMon->getCollider()->setRadius(fRadius);
+		static_cast<CSphereCollision*>(pFlyMon->getCollider())->setRadius(fRadius);
 
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pFlyMon);
 	}

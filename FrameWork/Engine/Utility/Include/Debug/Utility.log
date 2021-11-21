@@ -15,6 +15,7 @@
   5개 파일이 복사되었습니다.
   .\Engine\Utility\Code\Animation.h
   .\Engine\Utility\Code\Animator.h
+  .\Engine\Utility\Code\BoxCollision.h
   .\Engine\Utility\Code\Camera.h
   .\Engine\Utility\Code\Collision.h
   .\Engine\Utility\Code\CollisionMgr.h
@@ -24,19 +25,21 @@
   .\Engine\Utility\Code\INIManager.h
   .\Engine\Utility\Code\Layer.h
   .\Engine\Utility\Code\Management.h
+  .\Engine\Utility\Code\NaviMesh.h
   .\Engine\Utility\Code\ProtoMgr.h
   .\Engine\Utility\Code\QuadCubeTex.h
   .\Engine\Utility\Code\RcCol.h
   .\Engine\Utility\Code\RcTex.h
   .\Engine\Utility\Code\Renderer.h
   .\Engine\Utility\Code\Scene.h
+  .\Engine\Utility\Code\SphereCollision.h
   .\Engine\Utility\Code\TerrainTex.h
   .\Engine\Utility\Code\Texture.h
   .\Engine\Utility\Code\TextureMgr.h
   .\Engine\Utility\Code\Transform.h
   .\Engine\Utility\Code\TriCol.h
   .\Engine\Utility\Code\VIBuffer.h
-  23개 파일이 복사되었습니다.
+  26개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll
   1개 파일이 복사되었습니다.
   .\Engine\Utility\Bin\Utility.dll

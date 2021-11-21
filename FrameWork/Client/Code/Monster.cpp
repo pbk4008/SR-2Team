@@ -98,9 +98,6 @@ _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 	_matrix matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
-	_matrix matWorld;
-	matWorld = m_pTransform->getWorldMatrix();
-
 	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
 
 	matBill._11 = matView._11;

@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Player.h"
 
+class CHP;
 class CBullet;
 class CBoss : public CGameObject
 {
@@ -62,12 +63,13 @@ private:
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
 	CAnimator*		m_pAnimator;
+	CHP*			m_pHP;
 
 	STATE			m_eCurState;
 	STATE			m_ePreState;
 
-	CCollision*		m_pCollision; // 몬스터가 맞는 충돌
-	CCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
+	CSphereCollision*		m_pCollision; // 몬스터가 맞는 충돌
+	CSphereCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
 
 	_int			m_iHP;
 	_int			m_iAttackNumber;

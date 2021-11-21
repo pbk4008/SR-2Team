@@ -9,6 +9,7 @@
 #include "Boss_DeathAnim.h"
 #include "Boss_ChargeAnim.h"
 #include "Fireball.h"
+#include "HP.h"
 
 CBoss::CBoss()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
@@ -41,12 +42,8 @@ CBoss::CBoss(const CBoss& rhs)
 
 	CComponent* pComponent = nullptr;
 
-	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BOSSHP);
-	//m_pTexture->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::BOSSHP, pComponent);
-
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -54,10 +51,10 @@ CBoss::CBoss(const CBoss& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);
@@ -75,16 +72,14 @@ HRESULT CBoss::Init_Boss()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fSpeed = 5.f;
 
-	m_iHP = 2000;
+	m_iHP = 699;
 
-	CTextureMgr* pTexMgr = Init_TextureMgr();
-	pTexMgr->getTexture(L"Boss_HPFull", TEXTURETYPE::TEX_NORMAL);
-	pTexMgr->getTexture(L"Boss_HPEmpty", TEXTURETYPE::TEX_NORMAL);
-
+//	m_pHP = Clone_ObjProto<CHP>(GAMEOBJECTID::BOSSHP);
+	
 	return S_OK;
 }
 
-Engine::_int CBoss::Update_GameObject(const _float& fDeltaTime)
+_int CBoss::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
@@ -95,17 +90,17 @@ Engine::_int CBoss::Update_GameObject(const _float& fDeltaTime)
 
 	if (GetAsyncKeyState('P'))
 	{
-		m_iHP = 1499;
+		m_iHP = 800;
 	}
 
 	if (GetAsyncKeyState('L'))
 	{
-		m_iHP = 999;
+		m_iHP = 400;
 	}
 
 	if (GetAsyncKeyState('K'))
 	{
-		m_iHP = 2000;
+		m_iHP = 200;
 	}
 
 	if (GetAsyncKeyState('O'))
@@ -138,16 +133,13 @@ void CBoss::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pCollision->Render_Collision();
 
-	//m_pTexture->Render_Texture();
-	//m_pDevice->SetTexture(0, nullptr);
-
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
 }
 
-Engine::CGameObject* CBoss::Clone_GameObject()
+CGameObject* CBoss::Clone_GameObject()
 {
 	return new CBoss(*this);
 }
@@ -259,12 +251,8 @@ HRESULT CBoss::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
-	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::BOSSHP);
-	//m_pTexture->AddRef();
-	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::BOSSHP, pComponent);
-
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -272,10 +260,10 @@ HRESULT CBoss::Add_Component()
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);
@@ -422,14 +410,13 @@ void CBoss::HPCheck()
 {
 	if (m_iHP <= 0)
 		m_eCurState = STATE::DEATH;
-	else if (m_iHP > 1500 && m_iHP <= 2000)
+	else if (m_iHP > 1000 && m_iHP <= 700)
 		m_eCurState = STATE::MELEE;
-	else if (m_iHP > 1000 && m_iHP <= 1500)
+	else if (m_iHP > 300 && m_iHP <= 699)
 		m_eCurState = STATE::RANGE;
-	else if (m_iHP > 500 && m_iHP <= 1000)
+	else if (m_iHP > 1 && m_iHP <= 299)
 		m_eCurState = STATE::CHARGE;
-	else if (m_iHP <= 500)
-		m_eCurState = STATE::IDLE; /////////////////////////////////////
+	
 }
 
 void CBoss::Attack_Dis(const _float& fDeltaTime)
@@ -603,11 +590,10 @@ CBullet* CBoss::Fireball(GAMEOBJECTID eID)
 
 void CBoss::Free()
 {
+	CGameObject::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
-	ClearCollisionList();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 }

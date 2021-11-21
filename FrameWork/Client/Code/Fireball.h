@@ -39,7 +39,7 @@ public:
 
 private:
 	CFireball_Anim* m_pAnimation;
-	CCollision* m_pCollision;
+	CSphereCollision* m_pCollision;
 
 	_vec3			m_vTargetPos;
 

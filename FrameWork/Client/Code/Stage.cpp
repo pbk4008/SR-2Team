@@ -95,24 +95,22 @@ HRESULT CStage::Init_GameLogic_Layer()
 	pPlayer->setCamera(pCam);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 
-	//// meleemon
-	//CMeleeMon* m_pMeleeMon = nullptr;
-	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
+	CMeleeMon* m_pMeleeMon = nullptr;
+	pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 
-	/*CShootMon* m_pMeleeMon = nullptr;
-	pGameObject = m_pMeleeMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);*/
+	////CShootMon* m_pShootMonn = nullptr;
+	//pGameObject = m_pShootMonn = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
 
-	//// flymon
-	/*CFlyMon* m_pMeleeMon = nullptr;
-	pGameObject = m_pMeleeMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
+	//CFlyMon* m_pFlyMonn = nullptr;
+	//pGameObject = m_pFlyMonn = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
 
 	//boss
-	CBoss* m_pBoss = nullptr;
-	pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
+	//CBoss* m_pBoss = nullptr;
+	//pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;

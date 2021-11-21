@@ -76,8 +76,6 @@ void CUI::Render_GameObject()
 {
 	_matrix			OldViewMatrix, OldProjMatrix;
 
-	//m_pTexture->setTexture();
-
 	_matrix			IdentityMatrix;
 	D3DXMatrixIdentity(&IdentityMatrix);
 

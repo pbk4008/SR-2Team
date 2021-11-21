@@ -49,7 +49,7 @@ _int CFireball::Update_GameObject(const _float& fDeltaTime)
 
 	Move(fDeltaTime);
 	m_fDestroyTime += fDeltaTime;
-	if (m_fDestroyTime > 5.f)
+	if (m_fDestroyTime > 3.f)
 	{
 		m_fDestroyTime = 0.f;
 		setActive(false);
@@ -124,13 +124,13 @@ HRESULT CFireball::Add_Component()
 	m_pAnimation->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATION, m_pAnimation);
 
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setActive(true);
 	m_pCollision->setTag(COLLISIONTAG::BULLET);
 	m_pCollision->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pCollision->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
 
 	Insert_Collision(m_pCollision);
 
@@ -139,12 +139,9 @@ HRESULT CFireball::Add_Component()
 
 void CFireball::Free()
 {
-	if (!m_bClone)
-		ClearCollisionList();
-
+	CBullet::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAnimation);
-	CBullet::Free();
 }
 
 void CFireball::setPos(const _vec3& vPos)
