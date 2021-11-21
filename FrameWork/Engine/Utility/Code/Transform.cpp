@@ -134,7 +134,25 @@ _bool CTransform::IsZero(const _vec3& vVector)
 void CTransform::TerrainOverMove()
 {
 	//Terrain 로컬좌표로 y값 구하기
-	CGameObject* pTerrain = GetGameObject(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN);
+	vector<CGameObject*>* pTerrainList = GetGameObjects(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN);
+	if (!pTerrainList)
+		return;
+	CGameObject* pTerrain = nullptr;
+	_float fMin = 10000.f;
+	for (auto iter : *pTerrainList)
+	{
+		_vec3 vTerrainPos;
+		vTerrainPos = iter->getTransform()->getPos();
+
+		if (vTerrainPos.y > m_vPos.y+1)
+			continue;
+		_float fDist = abs(vTerrainPos.y -(m_vPos.y-1));
+		if (fMin > fDist)
+		{
+			fMin = fDist;
+			pTerrain = iter;
+		}
+	}
 	CTerrainTex* pTerrainTex = static_cast<CTerrainTex*>(pTerrain->getComponent(COMPONENTID::TERRAINTEX, COMPONENTTYPE::TYPE_STATIC));
 	
 	CCollisionMgr* pCollMgr = Init_CollisionMgr();
@@ -144,14 +162,15 @@ void CTransform::TerrainOverMove()
 	_ulong dwInterval= pTerrainTex->getInterval();
 
 	m_fBottomY = m_vPos.y-1;
-	pCollMgr->TerrainCollision(m_vPos.x, m_fBottomY,m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval);
+	//_float WallTop = 0.f;
 	
 	//Terrain 월드 좌표 y변환 값 구하기
 	CTransform* pTransform = pTerrain->getTransform();
 	_vec3 vTerrainPos;
 	pTransform->getAxis(VECAXIS::AXIS_POS, vTerrainPos);
-
-	m_fBottomY += vTerrainPos.y;
+	pCollMgr->TerrainCollision(m_vPos.x, m_fBottomY, m_vPos.z, pTerrainTex->getVtxPos(), dwCntX, dwCntZ, dwInterval, vTerrainPos.y);
+	//if (vTerrainPos.y < WallTop)
+		//m_fBottomY = WallTop;
 }
 
 void CTransform::Jump(const _float& fDeltaTime, const _float& fJumpPow,_bool& bJumpCheck, _int iPlayer)

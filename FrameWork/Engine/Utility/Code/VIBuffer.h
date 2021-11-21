@@ -14,6 +14,9 @@ public:
 	LPDIRECT3DVERTEXBUFFER9 Get_VBuffer() { return m_pVB; }
 	LPDIRECT3DINDEXBUFFER9 Get_IBuffer() { return m_pIB; }
 	UPOINT Get_XZ() { return UPOINT{ m_dwCntX, m_dwCntZ }; }
+	_ulong GetVertexSize() { return m_dwVtxSize; }
+
+
 protected:
 	virtual HRESULT Init_Buffer();
 	virtual void Render_Buffer();

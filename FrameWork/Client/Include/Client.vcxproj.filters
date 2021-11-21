@@ -100,21 +100,6 @@
     <Filter Include="02.GameObject\02.Monster\02. FlyMon\00. Animation\02. Walk_Forward">
       <UniqueIdentifier>{b1849bea-584c-4b77-afb1-78c312fbec06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet">
-      <UniqueIdentifier>{bcd9d0cd-311e-4348-a595-13ff2d6dd07c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\04.bullet\00.Shuriken">
-      <UniqueIdentifier>{03d18626-d5f0-4b32-b9bd-d44f7f4af7cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\05. Boss">
-      <UniqueIdentifier>{88b4546f-29ab-44e2-9e58-981e6eefd91b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\05. Boss\00. Animation">
-      <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\04.bullet\99.Animation">
-      <UniqueIdentifier>{8394a9ea-490e-41ce-b7d4-28aa37c988a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\01.Player">
       <UniqueIdentifier>{2655cc0d-fdfb-4aa5-ba27-a387ae559359}</UniqueIdentifier>
     </Filter>
@@ -133,29 +118,56 @@
     <Filter Include="02.GameObject\01.Player\01.Animation\02.Walk">
       <UniqueIdentifier>{5e411b3c-95c0-42de-86e3-1f23f71ccc5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet\01.Bomb">
-      <UniqueIdentifier>{3e6f16c5-feee-410c-a8b4-4ea36c5734bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\04.bullet\01.Bomb\00.Fog">
-      <UniqueIdentifier>{cc3732dd-271d-4454-b339-725b78250b35}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\04.bullet\99.Animation">
       <UniqueIdentifier>{b5010f49-7967-484a-b6fd-fbc01d0db281}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet\99.Animation\00.ShurikenAnim">
+    <Filter Include="02.GameObject\05.Boss">
+      <UniqueIdentifier>{88b4546f-29ab-44e2-9e58-981e6eefd91b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\00. Animation">
+      <UniqueIdentifier>{1a0d2f14-ee07-4a9a-bf1e-c0f413e6a51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet">
+      <UniqueIdentifier>{bcd9d0cd-311e-4348-a595-13ff2d6dd07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet\00.Shuriken">
+      <UniqueIdentifier>{03d18626-d5f0-4b32-b9bd-d44f7f4af7cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet\99.Animation">
+      <UniqueIdentifier>{8394a9ea-490e-41ce-b7d4-28aa37c988a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet\99.Animation\00.ShurikenAnim">
       <UniqueIdentifier>{09338338-9a6f-4eae-8e67-9402043f9e00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet\99.Animation\01.BombAnim">
+    <Filter Include="02.GameObject\04.Bullet\99.Animation\01.BombAnim">
       <UniqueIdentifier>{e6fd3afe-c72d-4e4c-bea4-9f8db0a89eaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet\99.Animation\02.FogAnim">
+    <Filter Include="02.GameObject\04.Bullet\99.Animation\02.FogAnim">
       <UniqueIdentifier>{0f1cd9a4-186c-4aef-bad4-0b9529791f26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet\02. MonBullet">
+    <Filter Include="02.GameObject\04.Bullet\01.Bomb">
+      <UniqueIdentifier>{3e6f16c5-feee-410c-a8b4-4ea36c5734bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet\01.Bomb\00.Fog">
+      <UniqueIdentifier>{cc3732dd-271d-4454-b339-725b78250b35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.Bullet\02. MonBullet">
       <UniqueIdentifier>{1e89a857-959d-4da0-9c9b-09c9ccbe5af9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.bullet\99.Animation\03. MonBulletAnim">
-      <UniqueIdentifier>{66baa5af-2876-456c-bec3-deb1a0fafb55}</UniqueIdentifier>
+    <Filter Include="02.GameObject\05.Boss\00. Animation\00. Idle">
+      <UniqueIdentifier>{78e8f328-a52e-4d77-92cd-9d2460add8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\00. Animation\01. Move">
+      <UniqueIdentifier>{4f90e8df-2b65-4556-96ee-256f93d0dc71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\00. Animation\02. Melee">
+      <UniqueIdentifier>{6dd6c7b7-43b7-4ebc-b02d-328703f3b39a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\00. Animation\03. Range">
+      <UniqueIdentifier>{67ca2ca7-269f-4faa-bd68-5b20deee1ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\00. Animation\04. Death">
+      <UniqueIdentifier>{a5529eae-b7c5-4691-b0ae-a4db0e2fea95}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject\00.BackGround\01.Quad">
       <UniqueIdentifier>{af28e2c7-4c94-4965-9dbb-d5fa36f75653}</UniqueIdentifier>
@@ -163,8 +175,23 @@
     <Filter Include="02.GameObject\00.BackGround\02.Cube">
       <UniqueIdentifier>{b0eefbfe-7b95-4755-b353-ea295d3fd623}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\04.Bullet\03. Fireball">
+      <UniqueIdentifier>{f9ca2709-7947-474b-8437-9071cb9349e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\03.MonBulletAnim">
+      <UniqueIdentifier>{66baa5af-2876-456c-bec3-deb1a0fafb55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\04.FireballAnim">
+      <UniqueIdentifier>{f4a8a304-e722-410a-8387-bbea93dbb099}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObject\06. Item">
       <UniqueIdentifier>{4e1c11f5-fbb3-4a90-aa38-b00b503ff8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. UI">
+      <UniqueIdentifier>{ec6ffca5-7311-42bd-90e1-49df0416e06d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\00. Animation\05. Charge">
+      <UniqueIdentifier>{1d4a0bf6-93c6-4f4a-ac42-7f4dccc8b119}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.Algorithm">
       <UniqueIdentifier>{9234477d-f60d-49a5-a617-d2d09829f42f}</UniqueIdentifier>
@@ -175,6 +202,9 @@
     <Filter Include="98.Headers\99.Default\리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="02.GameObject\05.Boss\01. HP">
+      <UniqueIdentifier>{2ca58b8d-56b0-48ab-94c2-28f7fd9e2ed8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -278,7 +308,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Boss.h">
-      <Filter>02.GameObject\05. Boss</Filter>
+      <Filter>02.GameObject\05.Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MeleeMon_Death.h">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death</Filter>
@@ -290,31 +320,46 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Bullet.h">
-      <Filter>02.GameObject\04.bullet</Filter>
+      <Filter>02.GameObject\04.Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Bomb.h">
-      <Filter>02.GameObject\04.bullet\01.Bomb</Filter>
+      <Filter>02.GameObject\04.Bullet\01.Bomb</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Fog.h">
-      <Filter>02.GameObject\04.bullet\01.Bomb\00.Fog</Filter>
+      <Filter>02.GameObject\04.Bullet\01.Bomb\00.Fog</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\FogAnim.h">
-      <Filter>02.GameObject\04.bullet\99.Animation\02.FogAnim</Filter>
+      <Filter>02.GameObject\04.Bullet\99.Animation\02.FogAnim</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\BombAnim.h">
-      <Filter>02.GameObject\04.bullet\99.Animation\01.BombAnim</Filter>
+      <Filter>02.GameObject\04.Bullet\99.Animation\01.BombAnim</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\ShurikenAnim.h">
-      <Filter>02.GameObject\04.bullet\99.Animation\00.ShurikenAnim</Filter>
+      <Filter>02.GameObject\04.Bullet\99.Animation\00.ShurikenAnim</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Shuriken.h">
-      <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+      <Filter>02.GameObject\04.Bullet\00.Shuriken</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MonBullet.h">
-      <Filter>02.GameObject\04.bullet\02. MonBullet</Filter>
+      <Filter>02.GameObject\04.Bullet\02. MonBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MonBulletAnim.h">
-      <Filter>02.GameObject\04.bullet\99.Animation\03. MonBulletAnim</Filter>
+      <Filter>02.GameObject\04.bullet\99.Animation\03.MonBulletAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss_IdleAnim.h">
+      <Filter>02.GameObject\05.Boss\00. Animation\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss_WalkAnim.h">
+      <Filter>02.GameObject\05.Boss\00. Animation\01. Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss_MeleeAnim.h">
+      <Filter>02.GameObject\05.Boss\00. Animation\02. Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss_RangeAnim.h">
+      <Filter>02.GameObject\05.Boss\00. Animation\03. Range</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss_DeathAnim.h">
+      <Filter>02.GameObject\05.Boss\00. Animation\04. Death</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Quad.h">
       <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
@@ -325,8 +370,23 @@
     <ClInclude Include="..\Code\AStar.h">
       <Filter>03.Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Fireball.h">
+      <Filter>02.GameObject\04.Bullet\03. Fireball</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Fireball_Anim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\04.FireballAnim</Filter>
+    </ClInclude>
     <ClInclude Include="..\Code\Item.h">
       <Filter>02.GameObject\06. Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\UI.h">
+      <Filter>07. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Boss_ChargeAnim.h">
+      <Filter>02.GameObject\05.Boss\00. Animation\05. Charge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\HP.h">
+      <Filter>02.GameObject\05.Boss\01. HP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,7 +464,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\01. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss.cpp">
-      <Filter>02.GameObject\05. Boss</Filter>
+      <Filter>02.GameObject\05.Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MeleeMon_Death.cpp">
       <Filter>02.GameObject\02.Monster\00. MeleeMon\00. Animation\03. Death</Filter>
@@ -416,7 +476,7 @@
       <Filter>02.GameObject\02.Monster\02. FlyMon\00. Animation\03. Death</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bullet.cpp">
-      <Filter>02.GameObject\04.bullet</Filter>
+      <Filter>02.GameObject\04.Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02.GameObject\02.Monster</Filter>
@@ -425,28 +485,43 @@
       <Filter>02.GameObject\01.Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bomb.cpp">
-      <Filter>02.GameObject\04.bullet\01.Bomb</Filter>
+      <Filter>02.GameObject\04.Bullet\01.Bomb</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Fog.cpp">
-      <Filter>02.GameObject\04.bullet\01.Bomb\00.Fog</Filter>
+      <Filter>02.GameObject\04.Bullet\01.Bomb\00.Fog</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FogAnim.cpp">
-      <Filter>02.GameObject\04.bullet\99.Animation\02.FogAnim</Filter>
+      <Filter>02.GameObject\04.Bullet\99.Animation\02.FogAnim</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BombAnim.cpp">
-      <Filter>02.GameObject\04.bullet\99.Animation\01.BombAnim</Filter>
+      <Filter>02.GameObject\04.Bullet\99.Animation\01.BombAnim</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ShurikenAnim.cpp">
-      <Filter>02.GameObject\04.bullet\99.Animation\00.ShurikenAnim</Filter>
+      <Filter>02.GameObject\04.Bullet\99.Animation\00.ShurikenAnim</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Shuriken.cpp">
-      <Filter>02.GameObject\04.bullet\00.Shuriken</Filter>
+      <Filter>02.GameObject\04.Bullet\00.Shuriken</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonBullet.cpp">
-      <Filter>02.GameObject\04.bullet\02. MonBullet</Filter>
+      <Filter>02.GameObject\04.Bullet\02. MonBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonBulletAnim.cpp">
-      <Filter>02.GameObject\04.bullet\99.Animation\03. MonBulletAnim</Filter>
+      <Filter>02.GameObject\04.bullet\99.Animation\03.MonBulletAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_IdleAnim.cpp">
+      <Filter>02.GameObject\05.Boss\00. Animation\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_WalkAnim.cpp">
+      <Filter>02.GameObject\05.Boss\00. Animation\01. Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_MeleeAnim.cpp">
+      <Filter>02.GameObject\05.Boss\00. Animation\02. Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_RangeAnim.cpp">
+      <Filter>02.GameObject\05.Boss\00. Animation\03. Range</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_DeathAnim.cpp">
+      <Filter>02.GameObject\05.Boss\00. Animation\04. Death</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Quad.cpp">
       <Filter>02.GameObject\00.BackGround\01.Quad</Filter>
@@ -457,8 +532,23 @@
     <ClCompile Include="..\Code\AStar.cpp">
       <Filter>03.Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Fireball.cpp">
+      <Filter>02.GameObject\04.Bullet\03. Fireball</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fireball_Anim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\04.FireballAnim</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\Item.cpp">
       <Filter>02.GameObject\06. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UI.cpp">
+      <Filter>07. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Boss_ChargeAnim.cpp">
+      <Filter>02.GameObject\05.Boss\00. Animation\05. Charge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HP.cpp">
+      <Filter>02.GameObject\05.Boss\01. HP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

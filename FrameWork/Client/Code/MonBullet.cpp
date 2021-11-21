@@ -43,19 +43,18 @@ _int CMonBullet::Update_GameObject(const _float& fDeltaTime)
 {
 	int iExit = 0;
 
-	//m_pTransform->setAngle(MATRIXINFO::MAT_UP, 90.f);
 	m_pTransform->setScale(0.1f, 0.1f, 0.1f);
 
 	iExit = CBullet::Update_GameObject(fDeltaTime);
 
 	Move(fDeltaTime);
 	m_fDestroyTime += fDeltaTime;
-	/*if (m_fDestroyTime > 3.f)
+	if (m_fDestroyTime > 3.f)
 	{
 		m_fDestroyTime = 0.f;
 		setActive(false);
 		return iExit;
-	}*/
+	}
 
 	m_pCollision->Collison(COLLISIONTAG::PLAYER);
 	if (m_bReflect)

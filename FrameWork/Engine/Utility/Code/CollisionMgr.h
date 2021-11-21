@@ -27,7 +27,8 @@ public:
 		const _vec3* pTerrainVtxPos,
 		const _ulong& dwCntX,
 		const _ulong& dwCntZ,
-		const _ulong& dwVtxItv);
+		const _ulong& dwVtxItv
+		,const _float& fTerrinsYPos);
 	void Collision(CCollision* pCollision , COLLISIONTAG eTag);
 	void ClearCollision();
 	void ClearWall();

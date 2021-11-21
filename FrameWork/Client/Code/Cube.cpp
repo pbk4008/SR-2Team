@@ -91,7 +91,6 @@ CCube* CCube::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CCube::Add_Component()
 {
-
 	//transform
 	CGameObject::Add_Component();
 
@@ -128,7 +127,7 @@ void CCube::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3
 	m_pTransform->setScale(m_vScale);
 	m_pTransform->setAngle(m_vRotate);
 	m_pTransform->setPos(m_vPosition);
-	m_pCollision->setTransform(m_pTransform);
-	m_pCollision->setAxis(vScale,vRotate);
+	m_pCollision->setTransform(vPosition);
+	m_pCollision->setAxis(vScale, vRotate);
 	Insert_Wall(m_pCollision);
 }

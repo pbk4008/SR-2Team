@@ -95,6 +95,14 @@ CGameObject* CScene::getGameObject(GAMEOBJECTID eObjID)
 	return nullptr;
 }
 
+vector<CGameObject*>* CScene::getGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID)
+{
+	auto iter = Find_Layer(eLayerID);
+	NULL_CHECK_RETURN(iter, nullptr);
+
+	return iter->getGameObjects(eObjID);
+}
+
 HRESULT CScene::setLayer(LAYERID eLayerID, CLayer* pLayer)
 {
 	auto iter = m_mapLayer.find(eLayerID);

@@ -130,5 +130,4 @@ void CItem::Free()
 void CItem::setTexture(const _tchar* pTextureName)
 {
 	mItemTexture->setTexture(GetTexture(pTextureName, TEXTURETYPE::TEX_NORMAL));
-
 }

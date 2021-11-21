@@ -22,6 +22,7 @@ public:
 	CComponent* getComponent(LAYERID eLayerID, GAMEOBJECTID eObjID, COMPONENTID eComID, COMPONENTTYPE eType);
 	CGameObject* getGameObject(LAYERID eLayerID, GAMEOBJECTID eObjID);
 	CGameObject* getGameObject(GAMEOBJECTID eObjID);
+	vector<CGameObject*>* getGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID);
 	HRESULT add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj);
 private:
 	CScene* m_pScene;

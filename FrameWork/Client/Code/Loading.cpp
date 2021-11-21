@@ -15,8 +15,13 @@
 #include "Cube.h"
 #include "Quad.h"
 #include "Fog.h"
+#include "Boss.h"
+#include "Fireball.h"
 #include "Item.h"
+#include "Ui.h"
 #include "NaviMesh.h"
+#include "HP.h"
+
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -63,7 +68,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Walk/WALKF_00%d.png", L"ShootMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Attack/ATTACK_00%d.png", L"ShootMon_Attack", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Death/DEATH_00%d.png", L"ShootMon_Death", 8);
-	//m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/MOVE_00%d.png", L"FlyMon_WalkF", 4);
@@ -78,15 +83,29 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
 
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Idle/IDLE_000.png", L"Boss_Idle", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire1/FIRE_00%d.png", L"Boss_Fire1", 28);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire2/FIRE2_00%d.png", L"Boss_Fire2", 15);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire3/FIRE3_00%d.png", L"Boss_Fire3", 22);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fireball/FIREBALL_00%d.png", L"Boss_Fireball", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Charge/CHARGE_00%d.png", L"Boss_Charge", 3);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Death/DEATH_00%d.png", L"Boss_Death", 12);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/MeleeAttack/MELEE_00%d.png", L"Boss_Melee", 5);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/RangeAttack/RANGE1_00%d.png", L"Boss_Range", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Move/MOVE_00%d.png", L"Boss_Move", 3);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_EMPTY.png", L"Boss_HPFull", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_FULL.png", L"Boss_HPEmpty", 1);
 
-	/*m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN50PATH, L"SHURIKEN50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);*/
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 	
 	//Component원본 생성
 	CComponent* pCom = nullptr;
@@ -147,26 +166,26 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-	//// Melee Monster #1
-	//pObj = CMeleeMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	//
-	//// Shoot Monster
-	/*pObj = CShootMon::Create(m_pDevice);
+	// Melee Monster #1
+	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);*/
+	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
+	
+	// Shoot Monster
+	pObj = CShootMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
-	//// MonBullet
-	//pObj = CMonBullet::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	//
-	//// Fly Monster
-	//pObj = CFlyMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
-
+	// MonBullet
+	pObj = CMonBullet::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	
+	// Fly Monster
+	pObj = CFlyMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+	
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
@@ -175,6 +194,18 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
 
+	pObj = CHP::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
+
+	pObj = CBoss::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+
+	pObj = CFireball::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::FIREBALL, pObj);
+
 	pObj = CFog::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::FOG, pObj);
@@ -182,11 +213,15 @@ _uint CLoading::Loading_ForStage()
 	pObj = CItem::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::ITEM, pObj);
+
+	pObj = CUI::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::UI, pObj);
 	
 
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 
 	m_bFinish = true;
@@ -787,5 +822,358 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pItem);
 	}
+	return S_OK;
+}
+
+HRESULT CLoading::Load_MeleeMon(const _tchar* strName)
+{
+	wstring tmp = strName;
+	string strFile(tmp.begin(), tmp.end());
+
+
+	int MeleeMonSize = m_pIniManager->LoadDataInteger(strFile, "MeleeMonCount", "Count");
+
+	string Section;
+	string Key;
+	string Value;
+	CMeleeMon* pMeleeMon = nullptr;
+
+	for (int i = 0; i < MeleeMonSize; ++i)
+	{
+		Section = string_format("MeleeMon_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
+
+		pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+
+		Key = "ObjectAndTypeName";
+
+		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
+		std::wstring ObjectName;
+		std::wstring TypeName;
+		while (true)
+		{
+			if (FileFolderName.find(',') == std::string::npos)
+			{
+				Value = FileFolderName.substr(0, FileFolderName.size());
+				TypeName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = FileFolderName.find(',');
+			Value = FileFolderName.substr(0, dot);
+			ObjectName.assign(Value.begin(), Value.end());
+			FileFolderName.erase(0, dot + 1);
+		}
+
+		pMeleeMon->SettingAnimator();
+
+		Key = "Scale";
+		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 vRotate{};
+		while (true)
+		{
+			if (strAngle.find(',') == string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+
+		pMeleeMon->getTransform()->setScale(Scale);
+		pMeleeMon->getTransform()->setAngle(vRotate);
+		pMeleeMon->getTransform()->setPos(Position);
+		pMeleeMon->setActive(true);
+
+		Key = "Radius";
+		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
+		_float fRadius = stof(strRadius);
+		static_cast<CSphereCollision*>(pMeleeMon->getCollider())->setRadius(fRadius);
+
+		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pMeleeMon);
+	}
+	return S_OK;
+}
+
+HRESULT CLoading::Load_ShootMon(const _tchar* strName)
+{
+	wstring tmp = strName;
+	string strFile(tmp.begin(), tmp.end());
+
+
+	int ShootMonSize = m_pIniManager->LoadDataInteger(strFile, "ShootMonCount", "Count");
+
+	string Section;
+	string Key;
+	string Value;
+	CShootMon* pShootMon = nullptr;
+
+	for (int i = 0; i < ShootMonSize; ++i)
+	{
+		Section = string_format("ShootMon_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
+
+		pShootMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+
+		Key = "ObjectAndTypeName";
+
+		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
+		std::wstring ObjectName;
+		std::wstring TypeName;
+		while (true)
+		{
+			if (FileFolderName.find(',') == std::string::npos)
+			{
+				Value = FileFolderName.substr(0, FileFolderName.size());
+				TypeName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = FileFolderName.find(',');
+			Value = FileFolderName.substr(0, dot);
+			ObjectName.assign(Value.begin(), Value.end());
+			FileFolderName.erase(0, dot + 1);
+		}
+
+		pShootMon->SettingAnimator();
+
+		Key = "Scale";
+		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 vRotate{};
+		while (true)
+		{
+			if (strAngle.find(',') == string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+
+		pShootMon->getTransform()->setScale(Scale);
+		pShootMon->getTransform()->setAngle(vRotate);
+		pShootMon->getTransform()->setPos(Position);
+		pShootMon->setActive(true);
+
+		Key = "Radius";
+		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
+		_float fRadius = stof(strRadius);
+		static_cast<CSphereCollision*>(pShootMon->getCollider())->setRadius(fRadius);
+
+		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pShootMon);
+	}
+	return S_OK;
+}
+
+HRESULT CLoading::Load_FlyMon(const _tchar* strName)
+{
+	wstring tmp = strName;
+	string strFile(tmp.begin(), tmp.end());
+
+
+	int FlyMonSize = m_pIniManager->LoadDataInteger(strFile, "FlyMonCount", "Count");
+
+	string Section;
+	string Key;
+	string Value;
+	CFlyMon* pFlyMon = nullptr;
+
+	for (int i = 0; i < FlyMonSize; ++i)
+	{
+		Section = string_format("FlyMon_%d", i);
+		size_t dot = 0;
+		int PointerSize = 0;
+
+		pFlyMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+
+		Key = "ObjectAndTypeName";
+
+		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
+		std::wstring ObjectName;
+		std::wstring TypeName;
+		while (true)
+		{
+			if (FileFolderName.find(',') == std::string::npos)
+			{
+				Value = FileFolderName.substr(0, FileFolderName.size());
+				TypeName.assign(Value.begin(), Value.end());
+				break;
+			}
+			dot = FileFolderName.find(',');
+			Value = FileFolderName.substr(0, dot);
+			ObjectName.assign(Value.begin(), Value.end());
+			FileFolderName.erase(0, dot + 1);
+		}
+
+		pFlyMon->SettingAnimator();
+
+		Key = "Scale";
+		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 Scale{};
+
+		while (true)
+		{
+			if (strScale.find(',') == string::npos)
+			{
+				Value = strScale.substr(0, strScale.size());
+				*(((float*)&Scale) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strScale.find(',');
+			Value = strScale.substr(0, dot);
+			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+			strScale.erase(0, dot + 1);
+		}
+
+		Key = "Euler Angle";
+		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 vRotate{};
+		while (true)
+		{
+			if (strAngle.find(',') == string::npos)
+			{
+				Value = strAngle.substr(0, strAngle.size());
+				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strAngle.find(',');
+			Value = strAngle.substr(0, dot);
+			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
+			strAngle.erase(0, dot + 1);
+		}
+
+		Key = "Position";
+		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+		_vec3 Position{};
+		while (true)
+		{
+			if (strPos.find(',') == string::npos)
+			{
+				Value = strPos.substr(0, strPos.size());
+				*(((float*)&Position) + (PointerSize)) = stof(Value);
+				PointerSize = 0;
+				break;
+			}
+			dot = strPos.find(',');
+			Value = strPos.substr(0, dot);
+			*(((float*)&Position) + (PointerSize++)) = stof(Value);
+			strPos.erase(0, dot + 1);
+		}
+
+
+		pFlyMon->getTransform()->setScale(Scale);
+		pFlyMon->getTransform()->setAngle(vRotate);
+		pFlyMon->getTransform()->setPos(Position);
+		pFlyMon->setActive(true);
+
+		Key = "Radius";
+		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
+		_float fRadius = stof(strRadius);
+		static_cast<CSphereCollision*>(pFlyMon->getCollider())->setRadius(fRadius);
+
+		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pFlyMon);
+	}
+	return S_OK;
+}
+
+HRESULT CLoading::Load_Boss(const _tchar* strName)
+{
 	return S_OK;
 }

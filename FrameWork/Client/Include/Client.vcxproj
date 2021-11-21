@@ -157,6 +157,14 @@
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
     <ClInclude Include="..\Code\Boss.h" />
+    <ClInclude Include="..\Code\Boss_ChargeAnim.h" />
+    <ClInclude Include="..\Code\Boss_DeathAnim.h" />
+    <ClInclude Include="..\Code\Boss_IdleAnim.h" />
+    <ClInclude Include="..\Code\Boss_MeleeAnim.h" />
+    <ClInclude Include="..\Code\Boss_RangeAnim.h" />
+    <ClInclude Include="..\Code\Boss_WalkAnim.h" />
+    <ClInclude Include="..\Code\Fireball.h" />
+    <ClInclude Include="..\Code\Fireball_Anim.h" />
     <ClInclude Include="..\Code\FlyMon.h" />
     <ClInclude Include="..\Code\FlyMon_Attack.h" />
     <ClInclude Include="..\Code\FlyMon_Death.h" />
@@ -165,6 +173,7 @@
     <ClInclude Include="..\Code\Bullet.h" />
     <ClInclude Include="..\Code\Fog.h" />
     <ClInclude Include="..\Code\FogAnim.h" />
+    <ClInclude Include="..\Code\HP.h" />
     <ClInclude Include="..\Code\Item.h" />
     <ClInclude Include="..\Code\Loading.h" />
     <ClInclude Include="..\Code\Logo.h" />
@@ -194,6 +203,7 @@
     <ClInclude Include="..\Code\ShurikenAnim.h" />
     <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
+    <ClInclude Include="..\Code\UI.h" />
     <ClInclude Include="..\Headers\Enum.h" />
     <ClInclude Include="..\Headers\Include.h" />
     <ClInclude Include="..\Headers\Value.h" />
@@ -209,6 +219,14 @@
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />
+    <ClCompile Include="..\Code\Boss_ChargeAnim.cpp" />
+    <ClCompile Include="..\Code\Boss_DeathAnim.cpp" />
+    <ClCompile Include="..\Code\Boss_IdleAnim.cpp" />
+    <ClCompile Include="..\Code\Boss_MeleeAnim.cpp" />
+    <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
+    <ClCompile Include="..\Code\Boss_WalkAnim.cpp" />
+    <ClCompile Include="..\Code\Fireball.cpp" />
+    <ClCompile Include="..\Code\Fireball_Anim.cpp" />
     <ClCompile Include="..\Code\FlyMon.cpp" />
     <ClCompile Include="..\Code\FlyMon_Attack.cpp" />
     <ClCompile Include="..\Code\FlyMon_Death.cpp" />
@@ -217,6 +235,7 @@
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Fog.cpp" />
     <ClCompile Include="..\Code\FogAnim.cpp" />
+    <ClCompile Include="..\Code\HP.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
@@ -246,6 +265,7 @@
     <ClCompile Include="..\Code\ShurikenAnim.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

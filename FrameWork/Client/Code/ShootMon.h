@@ -27,6 +27,8 @@ public:
 	virtual CGameObject* Clone_GameObject() override;
 	HRESULT SettingAnimator();
 
+	CCollision* getCollider() { return m_pCollision; }
+
 private:
 	void Change_State();
 	CBullet* Shoot(GAMEOBJECTID eID);
