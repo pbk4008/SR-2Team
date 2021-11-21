@@ -280,7 +280,7 @@ HRESULT CMeleeMon::Add_Component()
 
 void CMeleeMon::Free()
 {
-	CGameObject::Free();
+	CMonster::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
 	Safe_Release(m_pTexture);

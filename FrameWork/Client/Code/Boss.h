@@ -51,6 +51,7 @@ private:
 
 
 public:
+	_int getHP() { return m_iHP; }
 	void setPos(const _vec3& vPos);
 	void setLook(const _vec3& vLook);
 	void setTarget(const _vec3& vTarget);
@@ -70,6 +71,9 @@ private:
 
 	CSphereCollision*		m_pCollision; // 몬스터가 맞는 충돌
 	CSphereCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
+
+	//CCollision* m_pCollision;
+	//CCollision* m_pAttackColl;
 
 	_int			m_iHP;
 	_int			m_iAttackNumber;
