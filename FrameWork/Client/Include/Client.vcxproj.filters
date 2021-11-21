@@ -176,6 +176,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="02.GameObject\07.Etc">
+      <UniqueIdentifier>{76a26a78-174e-4fea-8ed0-a9625045d433}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\07.Etc\00.Door">
+      <UniqueIdentifier>{79901796-4df6-4c9c-88d0-d3a93c481f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -328,6 +334,9 @@
     <ClInclude Include="..\Code\Item.h">
       <Filter>02.GameObject\06. Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Door.h">
+      <Filter>02.GameObject\07.Etc\00.Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -459,6 +468,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Item.cpp">
       <Filter>02.GameObject\06. Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Door.cpp">
+      <Filter>02.GameObject\07.Etc\00.Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

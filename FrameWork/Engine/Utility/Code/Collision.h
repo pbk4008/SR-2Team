@@ -35,7 +35,8 @@ public:
 	void setHit(_bool bHit) { m_bHit = bHit; }
 	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
 	void setCollider(CCollision* pCollider) { m_pCollider = pCollider; }
-	void setPivot(const _float& fLen) { m_fPivotLen = fLen; }
+	void setPivot(const _vec3& vPivot) { m_vPivot = vPivot; }
+	void setPivot(const _float& fPivotLen) { m_fPivotLen = fPivotLen; };
 	void setTarget(CGameObject* pTarget);
 protected:
 	CGameObject* m_pTarget;
@@ -44,6 +45,7 @@ protected:
 	COLLISIONTAG m_eTag;
 	COLLISIONTRIGGER m_eTrigger;
 	_bool m_bHit;
+	_vec3 m_vPivot;
 	_float m_fPivotLen;
 	CCollision* m_pCollider;
 	CCollisionMgr* m_pCollisionMgr;

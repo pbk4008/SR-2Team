@@ -17,6 +17,7 @@
 #include "Fog.h"
 #include "Item.h"
 #include "NaviMesh.h"
+#include "Door.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -77,6 +78,8 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Shuriken/Shuriken00%d.png", L"Shuriken", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
 
@@ -183,6 +186,9 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::ITEM, pObj);
 	
+	pObj = CDoor::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::DOOR, pObj);
 
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);

@@ -5,22 +5,24 @@
 #include "Export_Function.h"
 
 CCollision::CCollision() : m_pTransform(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
-,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr), m_fPivotLen(0.f)
-, m_pTarget(nullptr)
+,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr) 
+, m_pTarget(nullptr), m_fPivotLen(0.f)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
+	ZeroMemory(&m_vPivot, sizeof(_vec3));
 }
 
 CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTransform(nullptr), 
  m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr)
-,m_fPivotLen(0.f), m_pTarget(nullptr)
+, m_pTarget(nullptr), m_fPivotLen(0.f)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
+	ZeroMemory(&m_vPivot, sizeof(_vec3));
 }
 
 CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr)
 , m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag), m_pCollider(rhs.m_pCollider)
-, m_eTrigger(rhs.m_eTrigger),m_fPivotLen(rhs.m_fPivotLen), m_pTarget(rhs.m_pTarget)
+, m_eTrigger(rhs.m_eTrigger),m_vPivot(rhs.m_vPivot), m_pTarget(rhs.m_pTarget), m_fPivotLen(rhs.m_fPivotLen)
 {
 	if(rhs.m_pTarget)
 		m_pTarget->AddRef();
@@ -48,10 +50,15 @@ _int CCollision::Update_Component(const _float& fDeltaTime)
 	_int iExit = 0;
 
 	iExit = CComponent::Update_Component(fDeltaTime);
-	_vec3 vLook;
-	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
-	vLook *= m_fPivotLen;
-	m_vCenter += vLook;
+	if (m_fPivotLen>0)
+	{
+		_vec3 vLook;
+		m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
+		vLook *= m_fPivotLen;
+		m_vCenter += vLook;
+	}
+	else
+		m_vCenter += m_vPivot;
 	return iExit;
 }
 
@@ -84,7 +91,6 @@ void CCollision::WallCollision()
 void CCollision::Free()
 {
 	CComponent::Free();
-	Safe_Release(m_pTarget);
 	Safe_Release(m_pCollisionMgr);
 	Safe_Release(m_pTransform);
 }
@@ -113,7 +119,6 @@ void CCollision::setTag(COLLISIONTAG eTag)
 {
 	m_eTag = eTag;
 }
-
 void CCollision::setTarget(CGameObject* pTarget)
 {
 	m_pTarget = pTarget; 

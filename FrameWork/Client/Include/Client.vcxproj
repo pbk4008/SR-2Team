@@ -157,6 +157,7 @@
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
     <ClInclude Include="..\Code\Boss.h" />
+    <ClInclude Include="..\Code\Door.h" />
     <ClInclude Include="..\Code\FlyMon.h" />
     <ClInclude Include="..\Code\FlyMon_Attack.h" />
     <ClInclude Include="..\Code\FlyMon_Death.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />
+    <ClCompile Include="..\Code\Door.cpp" />
     <ClCompile Include="..\Code\FlyMon.cpp" />
     <ClCompile Include="..\Code\FlyMon_Attack.cpp" />
     <ClCompile Include="..\Code\FlyMon_Death.cpp" />

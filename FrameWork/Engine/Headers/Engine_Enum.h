@@ -39,6 +39,7 @@ namespace Engine
 		QUAD,
 		CUBE,
 		ITEM,
+		DOOR,
 		GAMEOBJECT_END
 	};
 	enum class COLLISIONTAG {PLAYER,MONSTER,BULLET,ETC,MAX};
