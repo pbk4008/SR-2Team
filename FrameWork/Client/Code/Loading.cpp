@@ -228,7 +228,7 @@ _uint CLoading::Loading_ForStage()
 	Init_ObjProto(GAMEOBJECTID::DOOR, pObj);
 
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 

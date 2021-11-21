@@ -187,9 +187,6 @@
     <Filter Include="02.GameObject\06. Item">
       <UniqueIdentifier>{4e1c11f5-fbb3-4a90-aa38-b00b503ff8b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07. UI">
-      <UniqueIdentifier>{ec6ffca5-7311-42bd-90e1-49df0416e06d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\05.Boss\00. Animation\05. Charge">
       <UniqueIdentifier>{1d4a0bf6-93c6-4f4a-ac42-7f4dccc8b119}</UniqueIdentifier>
     </Filter>
@@ -206,10 +203,13 @@
     <Filter Include="02.GameObject\05.Boss\01. HP">
       <UniqueIdentifier>{2ca58b8d-56b0-48ab-94c2-28f7fd9e2ed8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\07.Etc">
+    <Filter Include="02.GameObject\07. UI">
+      <UniqueIdentifier>{ec6ffca5-7311-42bd-90e1-49df0416e06d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\08.Etc">
       <UniqueIdentifier>{76a26a78-174e-4fea-8ed0-a9625045d433}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\07.Etc\00.Door">
+    <Filter Include="02.GameObject\08.Etc\00.Door">
       <UniqueIdentifier>{79901796-4df6-4c9c-88d0-d3a93c481f1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -386,7 +386,7 @@
       <Filter>02.GameObject\06. Item</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\UI.h">
-      <Filter>07. UI</Filter>
+      <Filter>02.GameObject\07. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Boss_ChargeAnim.h">
       <Filter>02.GameObject\05.Boss\00. Animation\05. Charge</Filter>
@@ -395,7 +395,7 @@
       <Filter>02.GameObject\05.Boss\01. HP</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\Door.h">
-      <Filter>02.GameObject\07.Etc\00.Door</Filter>
+      <Filter>02.GameObject\08.Etc\00.Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -551,7 +551,7 @@
       <Filter>02.GameObject\06. Item</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UI.cpp">
-      <Filter>07. UI</Filter>
+      <Filter>02.GameObject\07. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Boss_ChargeAnim.cpp">
       <Filter>02.GameObject\05.Boss\00. Animation\05. Charge</Filter>
@@ -560,7 +560,7 @@
       <Filter>02.GameObject\05.Boss\01. HP</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Door.cpp">
-      <Filter>02.GameObject\07.Etc\00.Door</Filter>
+      <Filter>02.GameObject\08.Etc\00.Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
