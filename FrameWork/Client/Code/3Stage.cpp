@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Stage.h"
+#include "3Stage.h"
 #include "Layer.h"
 #include "Loading.h"
 #include "Monster.h"
@@ -14,13 +14,13 @@
 #include "UI.h"
 #include "Door.h"
 
-CStage::CStage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr)
+C3Stage::C3Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr)
 {
 	m_vecDoor.reserve(3);
 	m_vecClearBox.reserve(9);
 }
 
-CStage::CStage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false)
+C3Stage::C3Stage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false)
 , m_pPlayer(nullptr)
 
 {
@@ -28,11 +28,11 @@ CStage::CStage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr)
 	m_vecClearBox.reserve(9);
 }
 
-CStage::~CStage()
+C3Stage::~C3Stage()
 {
 }
 
-HRESULT CStage::Init_Scene()
+HRESULT C3Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
@@ -43,7 +43,7 @@ HRESULT CStage::Init_Scene()
 	return S_OK;
 }
 
-_int CStage::Update_Scene(const _float& fDeltaTime)
+_int C3Stage::Update_Scene(const _float& fDeltaTime)
 {
 	if (!m_bFirst)
 	{
@@ -72,16 +72,16 @@ _int CStage::Update_Scene(const _float& fDeltaTime)
 	return iExit;
 }
 
-void CStage::LateUpdate_Scene()
+void C3Stage::LateUpdate_Scene()
 {
 	CScene::LateUpdate_Scene();
 }
 
-void CStage::Render_Scene()
+void C3Stage::Render_Scene()
 {
 }
 
-HRESULT CStage::Init_Layer()
+HRESULT C3Stage::Init_Layer()
 {
 	FAILED_CHECK_RETURN(Init_Environment_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_GameLogic_Layer(), E_FAIL);
@@ -91,7 +91,7 @@ HRESULT CStage::Init_Layer()
 	return S_OK;
 }
 
-HRESULT CStage::Init_Environment_Layer()
+HRESULT C3Stage::Init_Environment_Layer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -103,7 +103,7 @@ HRESULT CStage::Init_Environment_Layer()
 	return S_OK;
 }
 
-HRESULT CStage::Init_GameLogic_Layer()
+HRESULT C3Stage::Init_GameLogic_Layer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -133,9 +133,9 @@ HRESULT CStage::Init_GameLogic_Layer()
 	}
 	DoorSetting();
 
-	//CMeleeMon* m_pMeleeMon = nullptr;
-	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
+	CMeleeMon* m_pMeleeMon = nullptr;
+	pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 
 	////CShootMon* m_pShootMonn = nullptr;
 	//pGameObject = m_pShootMonn = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
@@ -154,7 +154,7 @@ HRESULT CStage::Init_GameLogic_Layer()
 	return S_OK;
 }
 
-HRESULT CStage::Init_UI_Layer()
+HRESULT C3Stage::Init_UI_Layer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -169,7 +169,7 @@ HRESULT CStage::Init_UI_Layer()
 	return S_OK;
 }
 
-HRESULT CStage::Init_Loading_Layer()
+HRESULT C3Stage::Init_Loading_Layer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -179,7 +179,7 @@ HRESULT CStage::Init_Loading_Layer()
 	return S_OK;
 }
 
-void CStage::DoorSetting()
+void C3Stage::DoorSetting()
 {
 	_vec3 vScale, vRotate, vPos, vTrigger;
 	ZeroMemory(&vScale, sizeof(_vec3));
@@ -205,7 +205,7 @@ void CStage::DoorSetting()
 	m_vecDoor[2]->setTrigger(vTrigger);
 }
 
-void CStage::setClearBox()
+void C3Stage::setClearBox()
 {
 	vector<CGameObject*>* pGameObjectList = getGameObjects(LAYERID::ENVIRONMENT, GAMEOBJECTID::CUBE);
 
@@ -221,7 +221,7 @@ void CStage::setClearBox()
 	}
 }
 
-void CStage::FloorClear()
+void C3Stage::FloorClear()
 {
 	m_bFloorClear = false;
 	for (auto pClearBox : m_vecClearBox)
@@ -229,15 +229,15 @@ void CStage::FloorClear()
 	m_pPlayer->setJumpCount(30);
 }
 
-CStage* CStage::Create(LPDIRECT3DDEVICE9 pDevice)
+C3Stage* C3Stage::Create(LPDIRECT3DDEVICE9 pDevice)
 {
-	CStage* pInstance = new CStage(pDevice);
+	C3Stage* pInstance = new C3Stage(pDevice);
 	if (FAILED(pInstance->Init_Scene()))
 		Safe_Release(pInstance);
 	return pInstance;
 }
 
-void CStage::Free()
+void C3Stage::Free()
 {
 	ClearWall();
 	ClearCollision();

@@ -5,12 +5,12 @@
 class CLoading;
 class CDoor;
 class CPlayer;
-class CStage final : public CScene
+class C3Stage final : public CScene
 {
 private:
-	explicit CStage();
-	explicit CStage(LPDIRECT3DDEVICE9 pDevice);
-	virtual ~CStage();
+	explicit C3Stage();
+	explicit C3Stage(LPDIRECT3DDEVICE9 pDevice);
+	virtual ~C3Stage();
 public:
 	virtual HRESULT Init_Scene() override;
 	virtual _int Update_Scene(const _float& fDeltaTime) override;
@@ -26,7 +26,7 @@ private:
 	void setClearBox();
 	void FloorClear();
 public:
-	static CStage* Create(LPDIRECT3DDEVICE9 pDevice);
+	static C3Stage* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual void Free();
 private:

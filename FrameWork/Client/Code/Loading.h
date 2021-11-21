@@ -11,7 +11,9 @@ private:
 	virtual ~CLoading();
 public:
 	HRESULT Init_Loading(SCENEID eLoading);
-	_uint   Loading_ForStage();
+	_uint   Loading_ForStage1();
+	_uint   Loading_ForStage2();
+	_uint   Loading_ForStage3();
 public:
 	static CLoading* Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID);
 	static unsigned CALLBACK Thread_Main(void* pArg);
