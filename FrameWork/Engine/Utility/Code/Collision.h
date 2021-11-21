@@ -41,14 +41,14 @@ public:
 protected:
 	CGameObject* m_pTarget;
 	CTransform* m_pTransform;
-	_vec3 m_vCenter;
+	CCollision* m_pCollider;
+	CCollisionMgr* m_pCollisionMgr;
 	COLLISIONTAG m_eTag;
 	COLLISIONTRIGGER m_eTrigger;
 	_bool m_bHit;
 	_vec3 m_vPivot;
 	_float m_fPivotLen;
-	CCollision* m_pCollider;
-	CCollisionMgr* m_pCollisionMgr;
+	_vec3 m_vCenter;
 };
 END
 #endif

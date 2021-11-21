@@ -130,7 +130,7 @@ void CTerrain::Create_NaviMesh()
 	auto pVector = CCollisionMgr::GetInstance()->getVecWall();
 	for (auto pWall : pVector)
 	{ 
-		_vec3 vAxis = static_cast<CBoxCollision*>(pWall)->getAxis();
+		_vec3 vAxis = static_cast<CBoxCollision*>(pWall)->getScale();
 		vAxis * 0.5f;
 		_vec3 vPos = pWall->getCenter();
 		

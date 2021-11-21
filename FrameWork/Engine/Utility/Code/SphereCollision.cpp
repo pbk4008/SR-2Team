@@ -38,20 +38,19 @@ _int CSphereCollision::Update_Component(const _float& fDeltaTime)
 void CSphereCollision::Render_Collision()
 {
 	_matrix matWorld = m_pTransform->getWorldMatrix();
-	for (int i = 0; i < 3; ++i)
-	{
-		for (int j = 0; j < 3; ++j)
-		{
-			if (i == j)
-			{
-				matWorld.m[i][j] = 1;
-			}
-			else
-			{
-				matWorld.m[i][j] = 0;
-			}
-		}
-	}
+	_vec3 vAxisX, vAxisY, vAxisZ;
+	memcpy(vAxisX, &matWorld.m[0], sizeof(_vec3));
+	memcpy(vAxisY, &matWorld.m[1], sizeof(_vec3));
+	memcpy(vAxisZ, &matWorld.m[2], sizeof(_vec3));
+
+	D3DXVec3Normalize(&vAxisX, &vAxisX);
+	D3DXVec3Normalize(&vAxisY, &vAxisY);
+	D3DXVec3Normalize(&vAxisZ, &vAxisZ);
+
+	memcpy(&matWorld.m[0], vAxisX, sizeof(_vec3));
+	memcpy(&matWorld.m[1], vAxisY, sizeof(_vec3));
+	memcpy(&matWorld.m[2], vAxisZ, sizeof(_vec3));
+
 	matWorld.m[3][0] = m_vCenter.x;
 	matWorld.m[3][1] = m_vCenter.y;
 	matWorld.m[3][2] = m_vCenter.z;
@@ -88,5 +87,5 @@ void CSphereCollision::Free()
 void CSphereCollision::setRadius(const _float& fRadius)
 {
 	m_fRadius = fRadius;
-	D3DXCreateSphere(m_pDevice, m_fRadius, 5, 5, &m_pSphere, nullptr);
+	D3DXCreateSphere(m_pDevice, m_fRadius, 10, 10, &m_pSphere, nullptr);
 }

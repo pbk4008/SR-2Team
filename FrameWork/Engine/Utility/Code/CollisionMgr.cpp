@@ -53,7 +53,7 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 			CBoxCollision* pBox = static_cast<CBoxCollision*>(pWall);
 
 			_vec3 WallPos = pBox->getCenter();
-			_vec3 WallAxis = pBox->getAxis();
+			_vec3 WallAxis = pBox->getScale();
 
 			_float fWallMinX, fWallMaxX;
 			_float fWallMinZ, fWallMaxZ;
@@ -125,7 +125,7 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 		}
 		if (CollisionCheck)
 		{
-			if (pCollision->getTrigger() == COLLISIONTRIGGER::INTERACT)
+			if (pCollision->getTrigger() == COLLISIONTRIGGER::INTERACT) 
 			{
 				pCollision->setHit(true);
 				pCollision->setCollider(pCol);
@@ -154,7 +154,10 @@ void CCollisionMgr::WallCollision(CCollision* pCollsion, _vec3& MoveVec)
 {
 	for (auto pCollider : m_vecWall)
 	{
-		BoxToSphereCollisionCheck(pCollsion, pCollider, &MoveVec);
+		//ShpereBoxCollisionCheck(pCollsion, pCollider,&MoveVec);
+		
+		if (BoxToSphereCollisionCheck(pCollsion, pCollider, &MoveVec))
+			break;
 	}
 }
 
@@ -190,8 +193,8 @@ _bool CCollisionMgr::BoxCollisionCheck(CCollision* pCol, CCollision* pCollider)
 	_vec3 pColliderPos = pBoxCollider->getCenter();
 
 	//길이
-	_vec3 vColAxis = pBoxCol->getAxis();
-	_vec3 vColliderAxis = pBoxCollider->getAxis();
+	_vec3 vColAxis = pBoxCol->getScale();
+	_vec3 vColliderAxis = pBoxCollider->getScale();
 
 	//콜리전의 AABB
 	AABB pColAABB =
@@ -248,7 +251,7 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 	_vec3 pSpherePos = pSphere->getCenter();
 
 	//길이
-	_vec3 pBoxAxis = 0.5f*pBox->getAxis();
+	_vec3 pBoxAxis = 0.5f*pBox->getScale();
 	_vec3 pSphereAxis = 0.5f*_vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
 
 	//콜리전의 AABB
@@ -356,4 +359,136 @@ void CCollisionMgr::Free()
 	m_vecWall.clear();
 	for_each(m_vecWall.begin(), m_vecWall.end(), DeleteObj);
 	m_vecCollision.clear();
+}
+
+Engine::_bool Engine::CCollisionMgr::ShpereBoxCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec)
+{
+	CBoxCollision* pBox = nullptr;
+	CSphereCollision* pSphere = nullptr;
+	if (typeid(*pCol) == typeid(CBoxCollision))
+	{
+		pBox = static_cast<CBoxCollision*>(pCol);
+		pSphere = static_cast<CSphereCollision*>(pCollider);
+	}
+	else if (typeid(*pCol) == typeid(CSphereCollision))
+	{
+		pBox = static_cast<CBoxCollision*>(pCollider);
+		pSphere = static_cast<CSphereCollision*>(pCol);
+	}
+
+	_vec3 pBoxPos = pBox->getCenter();
+	_vec3 pSpherePos = pSphere->getCenter();
+
+	//박스 
+	_vec3 pBoxAxis = 0.5f * pBox->getScale();
+	_float fSphereRadius = pSphere->getRadius();
+
+	// 상자최소최대
+	_vec3 pBoxMin = { pBoxPos.x - pBoxAxis.x,pBoxPos.y - pBoxAxis.y , pBoxPos.z - pBoxAxis.z };
+	_vec3 pBoxMax = { pBoxPos.x + pBoxAxis.x, pBoxPos.y + pBoxAxis.y , pBoxPos.z + pBoxAxis.z };
+
+	// 구 에서 제일 가까운점 찾기
+
+	_float x = max(pBoxMin.x, min(pSpherePos.x, pBoxMax.x));
+	_float y = max(pBoxMin.y, min(pSpherePos.y, pBoxMax.y));
+	_float z = max(pBoxMin.z, min(pSpherePos.z, pBoxMax.z));
+
+	_bool bCheck = true;
+
+	_float distance = sqrtf((x - pSpherePos.x) * (x - pSpherePos.x) + (y - pSpherePos.y) * (y - pSpherePos.y) + (z - pSpherePos.z) * (z - pSpherePos.z));
+
+	if (distance <= fSphereRadius)
+	{
+		if (!pVec)
+			return true;
+
+		if (pBoxMin.x < pSpherePos.x - fSphereRadius &&
+			pBoxMax.x < pSpherePos.x + fSphereRadius)
+			pVec->x = pBoxMax.x - pSpherePos.x - fSphereRadius;
+		else
+			pVec->x = pSpherePos.x + fSphereRadius - pBoxMin.x;
+
+		if (pBoxMin.z < pSpherePos.z - fSphereRadius &&
+			pBoxMax.z < pSpherePos.z + fSphereRadius)
+			pVec->z = pBoxMax.z - pSpherePos.z - fSphereRadius;
+		else
+			pVec->z = pSpherePos.z + fSphereRadius - pBoxMax.z;
+
+		if (pVec->y != 0)
+		{
+			*pVec = _vec3(0.f, 0.f, 0.f);
+			return bCheck;
+		}
+		if (pVec->x < pVec->z)
+		{
+			pVec->z = 0.f;
+			if (pBoxPos.x > pSpherePos.x)
+			{
+				*pVec *= -1;
+				D3DXVec3Normalize(pVec, pVec);
+			}
+		}
+		else
+		{
+			pVec->x = 0.f;
+			if (pBoxPos.z > pSpherePos.z)
+			{
+				*pVec *= -1;
+				D3DXVec3Normalize(pVec, pVec);
+
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+Engine::_bool Engine::CCollisionMgr::BoxtoSphereCollisionCheckOBB(CCollision* pCol, CCollision* pCollider)
+{
+
+	CBoxCollision* pBox = nullptr;
+	CSphereCollision* pSphere = nullptr;
+	if (typeid(*pCol) == typeid(CBoxCollision))
+	{
+		pBox = static_cast<CBoxCollision*>(pCol);
+		pSphere = static_cast<CSphereCollision*>(pCollider);
+	}
+	else if (typeid(*pCol) == typeid(CSphereCollision))
+	{
+		pBox = static_cast<CBoxCollision*>(pCollider);
+		pSphere = static_cast<CSphereCollision*>(pCol);
+	}
+
+
+	_vec3 pBoxPos = pBox->getCenter();
+	_vec3 pSpherePos = pSphere->getCenter();
+
+	//길이
+	_vec3 pBoxScale = 0.5f * pBox->getScale();
+	_vec3 pSphereAxis = 0.5f * _vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
+
+
+	//콜리전의 AABB
+	AABB pBoxAABB =
+	{
+		pBoxPos.x - pBoxScale.x,
+		pBoxPos.x + pBoxScale.x,
+		pBoxPos.y - pBoxScale.y,
+		pBoxPos.y + pBoxScale.y,
+		pBoxPos.z - pBoxScale.z,
+		pBoxPos.z + pBoxScale.z,
+	};
+	//콜리더의 AABB
+	AABB pSphereAABB =
+	{
+		pSpherePos.x - pSphereAxis.x,
+		pSpherePos.x + pSphereAxis.x,
+		pSpherePos.y - pSphereAxis.y,
+		pSpherePos.y + pSphereAxis.y,
+		pSpherePos.z - pSphereAxis.z,
+		pSpherePos.z + pSphereAxis.z,
+	};
+
+
+	return false;
 }

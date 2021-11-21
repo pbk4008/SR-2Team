@@ -37,6 +37,8 @@ private:
 	_bool SphereCollisionCheck(CCollision* pCol, CCollision* pCollider);
 	_bool BoxCollisionCheck(CCollision* pCol, CCollision* pCollider);
 	_bool BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec = nullptr);
+	_bool ShpereBoxCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec = nullptr);
+	_bool BoxtoSphereCollisionCheckOBB(CCollision* pCol, CCollision* pCollider);
 private:
 	virtual void Free();
 public:

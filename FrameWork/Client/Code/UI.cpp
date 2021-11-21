@@ -9,7 +9,7 @@ CUI::CUI()
 }
 
 CUI::CUI(LPDIRECT3DDEVICE9 pDevice)
-	:m_fX(0.f), m_fY(0.f), m_fSizeX(0.f), m_fSizeY(0.f), m_pBufferCom(nullptr),
+	:CGameObject(pDevice),m_fX(0.f), m_fY(0.f), m_fSizeX(0.f), m_fSizeY(0.f), m_pBufferCom(nullptr),
 	m_pTexture(nullptr)
 {
 
@@ -31,10 +31,14 @@ HRESULT CUI::Init_UI()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fX = 400.f;
-	m_fY = 140.f;
+	this->setActive(true);
+
+	m_pTexture->setTexture(GetTexture(L"UI", TEXTURETYPE::TEX_NORMAL));
+
+	m_fX = WINCX >>1;
+	m_fY = WINCY - 60.f;
 	m_fSizeX = 400.f;
-	m_fSizeY = 140.f;
+	m_fSizeY = 60.f;
 
 	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.0f, 1.f);
 
@@ -56,10 +60,10 @@ Engine::_int CUI::Update_GameObject(const _float& fDeltaTime)
 	m_pTransMatrix._41 = m_fX - (WINCX >> 1);
 	m_pTransMatrix._42 = -m_fY + (WINCY >> 1);
 
-	RECT		rcUI;
+	/*RECT		rcUI;
 
 	SetRect(&rcUI, m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f,
-		m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f);	
+		m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f);	*/
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::UI, this);
@@ -90,6 +94,7 @@ void CUI::Render_GameObject()
 	m_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	m_pDevice->SetRenderState(D3DRS_ALPHAREF, 50);
 
+	m_pTexture->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
@@ -123,6 +128,11 @@ HRESULT CUI::Add_Component()
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
+
+	//pComponent = m_pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	pComponent = m_pTexture = CTexture::Create(m_pDevice);
+	pComponent->AddRef();
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::TEXTURE, pComponent);
 
 	return S_OK;
 }

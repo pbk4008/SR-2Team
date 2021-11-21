@@ -52,12 +52,11 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 	return S_OK;
 }
 
-_uint CLoading::Loading_ForStage()
+_uint CLoading::Loading_ForStage1()
 {
 	//ToDo:쓰레드로 불러들일 곳
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
-
 	//Texture불러오기
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
@@ -83,24 +82,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
 
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Idle/IDLE_000.png", L"Boss_Idle", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire1/FIRE_00%d.png", L"Boss_Fire1", 28);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire2/FIRE2_00%d.png", L"Boss_Fire2", 15);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire3/FIRE3_00%d.png", L"Boss_Fire3", 22);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fireball/FIREBALL_00%d.png", L"Boss_Fireball", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Charge/CHARGE_00%d.png", L"Boss_Charge", 3);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Death/DEATH_00%d.png", L"Boss_Death", 12);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/MeleeAttack/MELEE_00%d.png", L"Boss_Melee", 5);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/RangeAttack/RANGE1_00%d.png", L"Boss_Range", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Move/MOVE_00%d.png", L"Boss_Move", 3);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_EMPTY.png", L"Boss_HPFull", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_FULL.png", L"Boss_HPEmpty", 1);
-
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
-
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/monster.png", L"Monster", 1);
-
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
@@ -110,7 +92,6 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 	
 	//Component원본 생성
 	CComponent* pCom = nullptr;
@@ -199,18 +180,6 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
 
-	//pObj = CHP::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
-
-	//pObj = CBoss::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
-
-	//pObj = CFireball::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::FIREBALL, pObj);
-
 	pObj = CFog::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::FOG, pObj);
@@ -227,10 +196,63 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::DOOR, pObj);
 
-	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"Stage1ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage1TerrainData"),E_FAIL);
+
+	m_bFinish = true;
+	return 0;
+}
+
+_uint CLoading::Loading_ForStage2()
+{
+	m_pTextureMgr = Init_TextureMgr();
+	NULL_CHECK_RETURN(m_pTextureMgr, -1);
+
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+
+	m_bFinish = true;
+	return 0;
+}
+
+_uint CLoading::Loading_ForStage3()
+{
+	m_pTextureMgr = Init_TextureMgr();
+	NULL_CHECK_RETURN(m_pTextureMgr, -1);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Idle/IDLE_000.png", L"Boss_Idle", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire1/FIRE_00%d.png", L"Boss_Fire1", 28);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire2/FIRE2_00%d.png", L"Boss_Fire2", 15);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire3/FIRE3_00%d.png", L"Boss_Fire3", 22);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fireball/FIREBALL_00%d.png", L"Boss_Fireball", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Charge/CHARGE_00%d.png", L"Boss_Charge", 3);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Death/DEATH_00%d.png", L"Boss_Death", 12);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/MeleeAttack/MELEE_00%d.png", L"Boss_Melee", 5);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/RangeAttack/RANGE1_00%d.png", L"Boss_Range", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Move/MOVE_00%d.png", L"Boss_Move", 3);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_EMPTY.png", L"Boss_HPFull", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_FULL.png", L"Boss_HPEmpty", 1);
+
+	//pObj = CHP::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
+
+	//pObj = CBoss::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+
+	//pObj = CFireball::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::FIREBALL, pObj);
+
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage3QuadData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage3CubeData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"Stage3ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage3TerrainData"), E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -255,9 +277,13 @@ unsigned CLoading::Thread_Main(void* pArg)
 	switch (pLoading->getLoadingID())
 	{
 	case SCENEID::STAGE_ONE:
-		iFlag = pLoading->Loading_ForStage();
+		iFlag = pLoading->Loading_ForStage1();
 		break;
 	case SCENEID::STAGE_TWO:
+		iFlag = pLoading->Loading_ForStage2();
+		break;
+	case SCENEID::STAGE_THREE:
+		iFlag = pLoading->Loading_ForStage3();
 		break;
 	}
 	LeaveCriticalSection(pLoading->getCrt());
