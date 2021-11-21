@@ -5,7 +5,6 @@
 #include "TextureMgr.h"
 #include "ProtoMgr.h"
 #pragma comment(lib,"System.lib")
-#pragma comment(lib,"Utility.lib")
 
 CAnimation::CAnimation() : m_pTexture(nullptr), m_bPlay(false), m_fPlaySpeed(0.f), m_fCulTime(0.f),m_iIndex(0), m_bLoop(false), m_bDelay(false), m_pTextureMgr(nullptr)
 {

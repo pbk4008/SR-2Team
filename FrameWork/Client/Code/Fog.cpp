@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Fog.h"
 #include "FogAnim.h"
-
+#include "SphereCollision.h"
 CFog::CFog() : m_pAnimation(nullptr),m_pCollision(nullptr), m_pFrontBuffer(nullptr), m_pSideBuffer(nullptr),m_fDestroyTime(0.f)
 , m_pSideTransform(nullptr)
 {
@@ -36,8 +36,6 @@ HRESULT CFog::Init_Fog()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, m_pFrontBuffer);
 
 	m_pSideBuffer = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
-	m_pSideBuffer->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, m_pSideBuffer);
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	return S_OK;
@@ -117,31 +115,26 @@ HRESULT CFog::Add_Component()
 {
 	m_pSideTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
 
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->AddRef();
 	m_pCollision->setTransform(m_pTransform);
 	m_pCollision->setTag(COLLISIONTAG::ETC);
 	m_pCollision->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pCollision->setRadius(3.f);
 	m_pCollision->setActive(true);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
 
 	m_pAnimation = CFogAnim::Create(m_pDevice);
-	m_pAnimation->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pAnimation);
 	
 	return S_OK;
 }
 
 void CFog::Free()
 {
-	if (!m_bClone)
-		ClearCollisionList();
-
+	CGameObject::Free();
 	Safe_Release(m_pSideTransform);
 	Safe_Release(m_pAnimation);
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pFrontBuffer);
 	Safe_Release(m_pSideBuffer);
-	CGameObject::Free();
 }

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 BEGIN(Engine)
 class CTerrainTex;
+class CNaviMesh;
 END
 class CTerrain final : public CGameObject
 {
@@ -25,11 +26,15 @@ private:
 	virtual void Free();
 public:
 	void setTexture(const _tchar* pFineName);
+	void setVtxSetting(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwInterVal, const _ulong& dwDetail);
 	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition);
+	void Create_NaviMesh();
+public:
+	CNaviMesh* getNaviMesh() { return m_pNaviMesh; }
 private:
 	CTerrainTex* m_pBufferCom;
 	CTexture* m_pTexture;
-
+	CNaviMesh* m_pNaviMesh;
 	_vec3 m_vScale;
 	_vec3 m_vRotate;
 	_vec3 m_vPosition;

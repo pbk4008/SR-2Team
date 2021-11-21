@@ -123,13 +123,13 @@ HRESULT CMonBullet::Add_Component()
 	m_pAnimation->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATION, m_pAnimation);
 
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setActive(true);
 	m_pCollision->setTag(COLLISIONTAG::BULLET);
 	m_pCollision->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pCollision->AddRef();
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pCollision);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
 
 	Insert_Collision(m_pCollision);
 
@@ -138,12 +138,9 @@ HRESULT CMonBullet::Add_Component()
 
 void CMonBullet::Free()
 {
-	if (!m_bClone)
-		ClearCollisionList();
-
+	CBullet::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAnimation);
-	CBullet::Free();
 }
 
 void CMonBullet::setPos(const _vec3& vPos)

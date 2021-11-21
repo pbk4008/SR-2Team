@@ -1,31 +1,33 @@
 #include "pch.h"
 #include "Cube.h"
 #include "Quad.h"
-CCube::CCube()
+#include "BoxCollision.h"
+CCube::CCube():m_pCollision(nullptr), m_CubePlane(nullptr)
 {
-	m_CubePlane.reserve(6);
 	m_CubeTexture.reserve(6);
 
 }
 
-CCube::CCube(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice)
+CCube::CCube(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pCollision(nullptr), m_CubePlane(nullptr)
 {
-	m_CubePlane.reserve(6);
-	m_CubePlane.reserve(6);
-
+	m_CubeTexture.reserve(6);
 }
 
-CCube::CCube(const CCube& rhs) : CGameObject(rhs)
+
+CCube::CCube(const CCube& rhs) : CGameObject(rhs), m_pCollision(nullptr), m_CubePlane(rhs.m_CubePlane)
 {
-	m_CubePlane.reserve(6);
-	for (_int i = 0; i < 6; i++)
+	m_pCollision = Clone_ComProto<CBoxCollision>(COMPONENTID::BOXCOL);
+	m_pCollision->setActive(true);
+
+	m_CubePlane->AddRef();
+
+	m_CubeTexture.reserve(6);
+
+	for (_int i = 0; i < 6; ++i)
 	{
-		CRcTex* pBuffer = CRcTex::Create(m_pDevice, i);
-		m_CubePlane.emplace_back(pBuffer);
 		CTexture* pTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
 		m_CubeTexture.emplace_back(pTexture);
-	}
-
+	} 
 }
 
 CCube::~CCube()
@@ -45,6 +47,7 @@ _int CCube::Update_GameObject(const _float& fDeltaTime)
 	m_pTransform->setAngle(m_pTransform->getAngle());
 	m_pTransform->setPos(m_pTransform->getPos());
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
+	m_pCollision->Update_Component(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
 }
@@ -57,12 +60,15 @@ void CCube::LateUpdate_GameObject()
 void CCube::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-	CGameObject::Render_GameObject();
 	for (_int i = 0; i < 6; i++)
 	{
+		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		m_CubeTexture[i]->Render_Texture();
-		m_CubePlane[i]->Render_Buffer();
+		m_CubePlane->Render_Buffer(i);
+		m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	}
+	m_pCollision->Render_Collision();
+	CGameObject::Render_GameObject();
 }
 
 CGameObject* CCube::Clone_GameObject()
@@ -85,21 +91,27 @@ CCube* CCube::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CCube::Add_Component()
 {
+	//transform
 	CGameObject::Add_Component();
+
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_CubePlane = Clone_ComProto<CCubeTex>(COMPONENTID::CUBETEX);
+	m_mapComponent->emplace(COMPONENTID::CUBETEX, pComponent);
+	pComponent->AddRef();
+
 	return S_OK;
 }
 
 void CCube::Free()
 {
-	for_each(m_CubePlane.begin(), m_CubePlane.end(), DeleteObj);
-	m_CubePlane.clear();
-	m_CubePlane.shrink_to_fit();
-
+	CGameObject::Free();
 	for_each(m_CubeTexture.begin(), m_CubeTexture.end(), DeleteObj);
 	m_CubeTexture.clear();
 	m_CubeTexture.shrink_to_fit();
 
-	CGameObject::Free();
+	Safe_Release(m_CubePlane);
+	Safe_Release(m_pCollision);
 }
 
 void CCube::setTexture(const _tchar* pTextureName, const _int iIndex)
@@ -107,3 +119,15 @@ void CCube::setTexture(const _tchar* pTextureName, const _int iIndex)
 	m_CubeTexture[iIndex]->setTexture(GetTexture(pTextureName, TEXTURETYPE::TEX_NORMAL));
 }
 
+void CCube::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition)
+{
+	m_vScale = vScale;
+	m_vRotate = vRotate;
+	m_vPosition = vPosition;
+	m_pTransform->setScale(m_vScale);
+	m_pTransform->setAngle(m_vRotate);
+	m_pTransform->setPos(m_vPosition);
+	m_pCollision->setTransform(vPosition);
+	m_pCollision->setAxis(vScale, vRotate);
+	Insert_Wall(m_pCollision);
+}

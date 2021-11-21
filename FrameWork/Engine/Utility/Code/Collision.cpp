@@ -2,24 +2,28 @@
 #include "Collision.h"
 #include "Transform.h"
 #include "CollisionMgr.h"
+#include "Export_Function.h"
 
-CCollision::CCollision() : m_pTransform(nullptr), m_pSphere(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
+CCollision::CCollision() : m_pTransform(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
 ,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr), m_fPivotLen(0.f)
+, m_pTarget(nullptr)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
-CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTransform(nullptr), m_pSphere(nullptr)
-, m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr)
-,m_fPivotLen(0.f)
+CCollision::CCollision(LPDIRECT3DDEVICE9 pDevice) : CComponent(pDevice),m_pTransform(nullptr), 
+ m_bHit(false), m_eTag(COLLISIONTAG::MAX),m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr)
+,m_fPivotLen(0.f), m_pTarget(nullptr)
 {
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
-CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr), m_fRadius(rhs.m_fRadius)
-, m_pSphere(rhs.m_pSphere), m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag), m_pCollider(rhs.m_pCollider)
-, m_eTrigger(rhs.m_eTrigger),m_fPivotLen(rhs.m_fPivotLen)
+CCollision::CCollision(const CCollision& rhs) : CComponent(rhs), m_vCenter(rhs.m_vCenter), m_pTransform(nullptr)
+, m_bHit(rhs.m_bHit),m_pCollisionMgr(rhs.m_pCollisionMgr), m_eTag(rhs.m_eTag), m_pCollider(rhs.m_pCollider)
+, m_eTrigger(rhs.m_eTrigger),m_fPivotLen(rhs.m_fPivotLen), m_pTarget(rhs.m_pTarget)
 {
+	if(rhs.m_pTarget)
+		m_pTarget->AddRef();
 	m_pCollisionMgr->AddRef();
 	if (rhs.m_pTransform)
 		m_pTransform->AddRef();
@@ -42,8 +46,8 @@ HRESULT CCollision::Init_Collision()
 _int CCollision::Update_Component(const _float& fDeltaTime)
 {
 	_int iExit = 0;
+
 	iExit = CComponent::Update_Component(fDeltaTime);
-	m_pTransform->getAxis(VECAXIS::AXIS_POS,m_vCenter);
 	_vec3 vLook;
 	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
 	vLook *= m_fPivotLen;
@@ -51,44 +55,14 @@ _int CCollision::Update_Component(const _float& fDeltaTime)
 	return iExit;
 }
 
-CComponent* CCollision::Clone_Component()
-{
-	return new CCollision(*this);
-}
-
 void CCollision::Render_Collision()
 {
-	_matrix matWorld = m_pTransform->getWorldMatrix();
-	for (int i = 0; i < 3; ++i)
-	{
-		for (int j = 0; j < 3; ++j)
-		{
-			if (i == j)
-			{
-				matWorld.m[i][j] = 1;
-			}
-			else
-			{
-				matWorld.m[i][j] = 0;
-			}
-		}
-	}
-	matWorld.m[3][0] = m_vCenter.x;
-	matWorld.m[3][1] = m_vCenter.y;
-	matWorld.m[3][2] = m_vCenter.z;
-	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	
-	m_pSphere->DrawSubset(0);
-	
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
 void CCollision::Collison(COLLISIONTAG eTag)
 {
-	m_pCollisionMgr->Collision(this, eTag);
 }
 
 void CCollision::ResetCollision()
@@ -96,21 +70,23 @@ void CCollision::ResetCollision()
 	m_bHit = false;
 	m_pCollider = nullptr;
 }
-
-CCollision* CCollision::Create(LPDIRECT3DDEVICE9 pDevice)
+void CCollision::WallCollision()
 {
-	CCollision* pInstance = new CCollision(pDevice);
-	if(FAILED(pInstance->Init_Collision()))
-		Safe_Release(pInstance);
-	return pInstance;
-}
+	_vec3 vMove;
+	ZeroMemory(&vMove, sizeof(_vec3));
+	m_pCollisionMgr->WallCollision(this, vMove);
+	_vec3 vPos=m_pTarget->getTransform()->getPos();
 
+	vPos += vMove;
+
+	m_pTarget->getTransform()->setPos(vPos);
+}
 void CCollision::Free()
 {
-	Safe_Release(m_pSphere);
+	CComponent::Free();
+	Safe_Release(m_pTarget);
 	Safe_Release(m_pCollisionMgr);
 	Safe_Release(m_pTransform);
-	CComponent::Free();
 }
 
 COLLISIONTAG CCollision::getTag()
@@ -118,25 +94,28 @@ COLLISIONTAG CCollision::getTag()
 	return m_eTag;
 }
 
-void CCollision::setCenter(const _vec3& pCenter)
+
+void CCollision::setTransform(const _vec3& pCenter)
 {
 	m_vCenter = pCenter;
-}
-
-void CCollision::setRadius(const _float& fRadius)
-{
-	m_fRadius = fRadius;
-	D3DXCreateSphere(m_pDevice, m_fRadius, 20, 20, &m_pSphere, NULL);
+	m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
+	m_pTransform->setPos(pCenter);
 }
 
 void CCollision::setTransform(CTransform* pTransform)
 {
 	m_pTransform = pTransform;
 	m_pTransform->AddRef();
+	m_vCenter = m_pTransform->getPos();
 }
 
 void CCollision::setTag(COLLISIONTAG eTag)
 {
 	m_eTag = eTag;
+}
+
+void CCollision::setTarget(CGameObject* pTarget)
+{
+	m_pTarget = pTarget; 
 }
 

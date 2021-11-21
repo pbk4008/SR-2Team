@@ -14,7 +14,9 @@ namespace Engine
 		CAMERA,
 		ANIMATION,
 		ANIMATOR,
-		COLLISION,
+		SPHERECOL,
+		BOXCOL,
+		NAVIMESH,
 	///////// 여기서부터 몬스터 ///////////
 		FIREBALL,
 		MONBULLET,

@@ -32,6 +32,10 @@ CGameObject* GetGameObject(GAMEOBJECTID eObjID)
 {
 	return CManagement::GetInstance()->getGameObject(eObjID);
 }
+vector<CGameObject*>* GetGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID)
+{
+	return CManagement::GetInstance()->getGameObjects(eLayerID, eObjID);
+}
 HRESULT Add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj)
 {
 	return CManagement::GetInstance()->add_GameObject(eLayerID, eObjID, pObj);
@@ -109,9 +113,17 @@ HRESULT Insert_Collision(CCollision* pCollision)
 {
 	return CCollisionMgr::GetInstance()->Insert_Collision(pCollision);
 }
-void ClearCollisionList()
+HRESULT Insert_Wall(CCollision* pCollision)
 {
-	CCollisionMgr::GetInstance()->ClearCollisionList();
+	return CCollisionMgr::GetInstance()->Insert_Wall(pCollision);
+}
+void ClearCollision()
+{
+	CCollisionMgr::GetInstance()->ClearCollision();
+}
+void ClearWall()
+{
+	CCollisionMgr::GetInstance()->ClearWall();
 }
 
 void Utility_Release()

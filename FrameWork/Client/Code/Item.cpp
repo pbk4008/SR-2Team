@@ -4,6 +4,8 @@
 CItem::CItem()
 	: mItemPower(0)
 	, mpCollider(nullptr)
+	, mItemPlane(nullptr)
+	, mItemTexture(nullptr)
 {
 }
 
@@ -11,6 +13,8 @@ CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
 	: CGameObject(pDevice)
 	, mItemPower(0)
 	, mpCollider(nullptr)
+	, mItemPlane(nullptr)
+	, mItemTexture(nullptr)
 {
 
 }
@@ -18,24 +22,24 @@ CItem::CItem(LPDIRECT3DDEVICE9 pDevice)
 CItem::CItem(const CItem& rhs)
 	: CGameObject(rhs)
 	, mItemPower(rhs.mItemPower)
-	, mpCollider(Clone_ComProto<CCollision>(COMPONENTID::COLLISION))
+	, mpCollider(nullptr)
 	, mItemTexture(nullptr)
+	, mItemPlane(rhs.mItemPlane)
 {
-	CComponent* pComponenet = nullptr;
-
-	for (_uint i = 0; i < 6; ++i)
-	{
-		pComponenet = mItemPlane[i] = CRcTex::Create(m_pDevice, i);
-	}
-	mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-
-	mpCollider->setRadius(0.8f);
+	mpCollider = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
+	mpCollider->setRadius(1.f);
 	mpCollider->setTag(COLLISIONTAG::ETC);
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 	mpCollider->setTransform(m_pTransform);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+	mpCollider->AddRef();
+	Insert_Collision(mpCollider);
 
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, mpCollider);
+
+	mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, mItemTexture);
+	mItemTexture->AddRef();
 }
 
 CItem::~CItem()
@@ -46,6 +50,7 @@ CItem::~CItem()
 HRESULT CItem::Init_CItem()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
 	return S_OK;
 }
 
@@ -64,7 +69,6 @@ _int CItem::Update_GameObject(const _float& fDeltaTime)
 void CItem::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
-
 }
 
 void CItem::Render_GameObject()
@@ -74,7 +78,7 @@ void CItem::Render_GameObject()
 	mItemTexture->Render_Texture();
 	for (_int i = 0; i < 6; i++)
 	{
-		mItemPlane[i]->Render_Buffer();
+		mItemPlane->Render_Buffer(i);
 	}
 	m_pDevice->SetTexture(0, nullptr);
 
@@ -104,40 +108,23 @@ CItem* CItem::Create(LPDIRECT3DDEVICE9 pDevice)
 
 HRESULT CItem::Add_Component()
 {
-
-	CGameObject::Add_Component();
-
 	CComponent* pComponent = nullptr;
 
-	for (_uint i = 0; i < 6; ++i)
-	{
-		pComponent = mItemPlane[i] = CRcTex::Create(m_pDevice, i);
-	}
-		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::RCTEX, pComponent);
-		pComponent = mItemTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
-		m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TEXTURE, pComponent);
-
-	mpCollider = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
-	mpCollider->setRadius(0.8f);
-	mpCollider->setTag(COLLISIONTAG::ETC);
-	mpCollider->setActive(true);
-	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
-	mpCollider->setTransform(m_pTransform);
-
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, mpCollider);
+	pComponent = mItemPlane = CCubeTex::Create(m_pDevice);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::CUBETEX, pComponent);
+	mItemPlane->AddRef();
 
 	return S_OK;
 }
 
 void CItem::Free()
 {
-	for_each(mItemPlane.begin(), mItemPlane.end(), DeleteObj);
-
-	Safe_Release(mItemTexture);
-
-	Safe_Release(mpCollider);
-
 	CGameObject::Free();
+
+	Safe_Release(mItemPlane);
+	Safe_Release(mItemTexture);
+	Safe_Release(mItemPlane);
+	Safe_Release(mpCollider);
 }
 
 void CItem::setTexture(const _tchar* pTextureName)

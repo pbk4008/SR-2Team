@@ -38,9 +38,9 @@ private:	virtual void Free() override;
 public:		void setTexture(const _tchar* pTextureName);
 
 private:	CTexture* mItemTexture;
-private:	std::array<CRcTex*,6> mItemPlane;
+private:	CCubeTex* mItemPlane;
 private:	_uint mItemPower;
-private: CCollision* mpCollider;
+private: CSphereCollision* mpCollider;
 
 
 };

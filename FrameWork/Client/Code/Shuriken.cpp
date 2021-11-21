@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Shuriken.h"
 #include "ShurikenAnim.h"
+#include "SphereCollision.h"
 
 CShuriken::CShuriken() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nullptr)
 {
@@ -107,14 +108,14 @@ HRESULT CShuriken::Add_Component()
     m_pAnimation->AddRef();
     m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::ANIMATION, m_pAnimation);
     
-    m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+    m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
     m_pCollision->setRadius(1.f);
     m_pCollision->setActive(true);
     m_pCollision->setTransform(m_pTransform);
     m_pCollision->setTag(COLLISIONTAG::BULLET);
     m_pCollision->setTrigger(COLLISIONTRIGGER::INTERACT);
     m_pCollision->AddRef();
-    m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, m_pCollision);
+    m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
     
     Insert_Collision(m_pCollision);
    
@@ -123,11 +124,9 @@ HRESULT CShuriken::Add_Component()
 
 void CShuriken::Free()
 {
-    if (!m_bClone)
-        ClearCollisionList();
+    CBullet::Free();
     Safe_Release(m_pCollision);
     Safe_Release(m_pAnimation);
-    CBullet::Free();
 }
 
 void CShuriken::setPos(const _vec3& vPos)

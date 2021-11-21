@@ -9,7 +9,6 @@ CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false), m_bClone(false),
 m_pTransform(nullptr)
 {
-
     m_pDevice->AddRef();
 }
 
@@ -29,14 +28,12 @@ CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice), m_b
                 m_mapComponent[i].emplace(iter.first, m_pTransform);
                 m_pTransform->AddRef();
             }
-            else if (iter.first == COMPONENTID::COLLISION)
-            {
+            else if (iter.first == COMPONENTID::SPHERECOL)
                 continue;
-            }
+            else if (iter.first == COMPONENTID::BOXCOL)
+                continue;
             else if (iter.first == COMPONENTID::ANIMATION)
-            {
                 continue;
-            }
             else
             {
                 m_mapComponent[i].emplace(iter.first, iter.second);
@@ -91,17 +88,18 @@ HRESULT CGameObject::Add_Component()
     m_pTransform = Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM);
     m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::TRANSFORM, m_pTransform);
     m_pTransform->AddRef();
+
     return S_OK;
 }
 
 void CGameObject::Free()
 {
-    Safe_Release(m_pTransform);
     for (_ulong i = 0; i < (_ulong)COMPONENTTYPE::TYPE_END; ++i)
     {
         for_each(m_mapComponent[i].begin(), m_mapComponent[i].end(), DeleteMap);
         m_mapComponent[i].clear();
     }
+    Safe_Release(m_pTransform);
     Safe_Release(m_pDevice);
 }
 

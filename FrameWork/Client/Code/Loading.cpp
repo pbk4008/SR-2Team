@@ -7,7 +7,6 @@
 #include "MainCamera.h"
 #include "PlayerModel.h"
 #include "Animator.h"
-#include "Collision.h"
 #include "ShootMon.h"
 #include "FlyMon.h"
 #include "Shuriken.h"
@@ -20,6 +19,8 @@
 #include "Fireball.h"
 #include "Item.h"
 #include "Ui.h"
+#include "NaviMesh.h"
+
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -66,7 +67,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Walk/WALKF_00%d.png", L"ShootMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Attack/ATTACK_00%d.png", L"ShootMon_Attack", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Death/DEATH_00%d.png", L"ShootMon_Death", 8);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
+	//m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/MOVE_00%d.png", L"FlyMon_WalkF", 4);
@@ -94,7 +95,7 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_EMPTY.png", L"Boss_HPFull", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_FULL.png", L"Boss_HPEmpty", 1);
 
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
+	/*m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
@@ -103,17 +104,10 @@ _uint CLoading::Loading_ForStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);*/
 	
 	//Component원본 생성
 	CComponent* pCom = nullptr;
-
-	pCom = CRcTex::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::RCTEX, pCom);
-
-	pCom = CTexture::Create(m_pDevice);
-	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::TEXTURE, pCom);
 
 	pCom = CAnimator::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
@@ -127,9 +121,21 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pCom, -1);
 	Init_ComProto(COMPONENTID::CAMERA, pCom);
 
-	pCom = CCollision::Create(m_pDevice);
+	pCom = CSphereCollision::Create(m_pDevice);
 	NULL_CHECK_RETURN(pCom, -1);
-	Init_ComProto(COMPONENTID::COLLISION, pCom);
+	Init_ComProto(COMPONENTID::SPHERECOL, pCom);
+
+	pCom = CBoxCollision::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::BOXCOL, pCom);
+
+	pCom = CNaviMesh::Create(m_pDevice,0,0);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::NAVIMESH, pCom);
+
+	pCom = CCubeTex::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::CUBETEX, pCom);
 
 	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
@@ -144,17 +150,17 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::CUBE, pObj);
 
-	//Player
+	////Player
 	pObj = CPlayer::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
 
-	////Camera
+	////////Camera
 	pObj = CMainCamera::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
 
-	//PlayerModel
+	////PlayerModel
 	pObj = CPlayerModel::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
@@ -189,9 +195,9 @@ _uint CLoading::Loading_ForStage()
 	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	//
 	//// Shoot Monster
-	//pObj = CShootMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+	/*pObj = CShootMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);*/
 
 	//// MonBullet
 	//pObj = CMonBullet::Create(m_pDevice);
@@ -227,10 +233,11 @@ _uint CLoading::Loading_ForStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::UI, pObj);
 	
-	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
+
 	FAILED_CHECK_RETURN(Load_Quad(L"QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"CubeData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Item(L"ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"TerrainData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -267,6 +274,7 @@ unsigned CLoading::Thread_Main(void* pArg)
 void CLoading::Free()
 {
  	Safe_Release(m_pDevice);
+	m_pIniManager->DestroyInstance();
 	m_pTextureMgr->DestroyInstance();
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
@@ -310,19 +318,19 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 			VtxInfoValue.erase(0, dot + 1);
 		}
 		//지형 생성
+		if (i==0)
+		{
+			CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2,2,1,1);
+			NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
+			Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
 
-
-		CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, iVecTerrainInfo[0]
-			, iVecTerrainInfo[1], iVecTerrainInfo[2], iVecTerrainInfo[3]);
-		NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
-		Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
-
-		CGameObject* pObj = CTerrain::Create(m_pDevice);
-		NULL_CHECK_RETURN(pObj, E_FAIL);
-		Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj);
-
+			CGameObject* pObj = CTerrain::Create(m_pDevice);
+			NULL_CHECK_RETURN(pObj, E_FAIL);
+			FAILED_CHECK_RETURN(Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj) , E_FAIL);
+		}
+		
 		pTerrain = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
-
+		pTerrain->setVtxSetting(iVecTerrainInfo[0], iVecTerrainInfo[1], iVecTerrainInfo[2], iVecTerrainInfo[3]);
 		//지형 텍스쳐 불러오기
 		wstring FolderName;
 		wstring FileName;
@@ -420,6 +428,7 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 
 		pTerrain->LoadTransform(Scale, Roatate, Position);
 		pTerrain->setActive(false);
+		pTerrain->Create_NaviMesh();
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::TERRAIN, pTerrain);
 	}
 	return S_OK;
@@ -679,10 +688,7 @@ HRESULT CLoading::Load_Cube(const _tchar* strName)
 			strPos.erase(0, dot + 1);
 		}
 
-
-		pCube->getTransform()->setScale(Scale);
-		pCube->getTransform()->setAngle(vRotate);
-		pCube->getTransform()->setPos(Position);
+		pCube->LoadTransform(Scale, vRotate, Position);
 		pCube->setActive(false);
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::CUBE, pCube);
 	}
@@ -827,7 +833,7 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 		Key = "Radius";
 		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
 		_float fRadius = stof(strRadius);
-		pItem->getCollider()->setRadius(fRadius);
+		static_cast<CSphereCollision*>(pItem->getCollider())->setRadius(fRadius);
 
 		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pItem);
 	}

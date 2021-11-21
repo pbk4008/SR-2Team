@@ -36,6 +36,7 @@ void CMainApp::LateUpdate_MainApp()
 
 void CMainApp::Render_MainApp()
 {
+
 	m_pGraphicDev->Render_Begin(D3DXCOLOR(0.5f,0.5f,0.5f,1.f));
 
 	if (m_pManagement)

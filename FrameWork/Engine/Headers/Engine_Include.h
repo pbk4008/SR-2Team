@@ -8,6 +8,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <algorithm>
+#include <typeinfo>
 #include <d3d9.h>
 #include <d3dx9.h>
 

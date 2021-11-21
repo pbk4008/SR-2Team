@@ -3,7 +3,9 @@
 #define __CUBE_H__
 #include "GameObject.h"
 #include "Quad.h"
-
+BEGIN(Engine)
+class CBoxCollision;
+END
 class CCube final : public CGameObject
 {
 private:
@@ -18,6 +20,7 @@ public:
 	virtual void Render_GameObject();
 	virtual CGameObject* Clone_GameObject();
 	virtual void ResetObject();
+	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 vPosition);
 public:
 	static CCube* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -27,6 +30,11 @@ public:
 	void setTexture(const _tchar* pTextureName, const _int iIndex);
 private:
 	vector<CTexture*> m_CubeTexture;
-	vector<CRcTex*> m_CubePlane;
+	CCubeTex* m_CubePlane;
+
+	CBoxCollision* m_pCollision;
+	_vec3 m_vScale;
+	_vec3 m_vRotate;
+	_vec3 m_vPosition;
 };
 #endif

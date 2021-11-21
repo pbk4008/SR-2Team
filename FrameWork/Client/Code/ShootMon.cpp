@@ -7,14 +7,14 @@
 #include "ShootMon_Attack.h"
 #include "ShootMon_Death.h"
 #include "MonBullet.h"
-
+#include "SphereCollision.h"
+#include "AStar.h"
 CShootMon::CShootMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(0), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_bMoving(false),
 	m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0), m_pMonBullet(nullptr)
 {
-
 }
 
 CShootMon::CShootMon(LPDIRECT3DDEVICE9 pDevice)
@@ -41,7 +41,7 @@ CShootMon::CShootMon(const CShootMon& rhs)
 	CComponent* pComponent = nullptr;
 
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -49,15 +49,17 @@ CShootMon::CShootMon(const CShootMon& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
 	Insert_Collision(m_pAttackColl);
+
+	m_pTransform->setPos(3.f, 3.f, 3.f);
 }
 
 CShootMon::~CShootMon()
@@ -68,8 +70,8 @@ CShootMon::~CShootMon()
 HRESULT CShootMon::Init_ShootMon()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_fSpeed = 100.f;
-	//m_fSpeed = 5.f;
+	//m_fSpeed = 100.f;
+	m_fSpeed = 5.f;
 
 	return S_OK;
 }
@@ -78,6 +80,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
+	
 	if (m_eCurState == STATE::DEATH)
 	{
 		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"Shootmon_Death"))
@@ -91,7 +94,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	}
 
 	Follow(fDeltaTime);
-	Attack_Dis(fDeltaTime);
+	//Attack_Dis(fDeltaTime);
 	m_pTransform->UsingGravity(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
@@ -233,7 +236,7 @@ HRESULT CShootMon::Add_Component()
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
 	// collision
-	m_pCollision = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
 	m_pCollision->setTag(COLLISIONTAG::MONSTER);
 	m_pCollision->setActive(true);
@@ -241,10 +244,10 @@ HRESULT CShootMon::Add_Component()
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::COLLISION, pComponent);
+	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
-	m_pAttackColl = Clone_ComProto<CCollision>(COMPONENTID::COLLISION);
+	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setActive(false);
@@ -256,6 +259,10 @@ HRESULT CShootMon::Add_Component()
 
 void CShootMon::Follow(const _float& fDeltaTime)
 {
+	_vec3 vPos = m_pTransform->getPos();
+
+	cout<< vPos.x << vPos.y << vPos.z << endl;
+
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 playerPos = pObject->getTransform()->getPos();
 
@@ -291,13 +298,13 @@ void CShootMon::Attack_Dis(const _float& fDeltaTime)
 	_vec3  vDis = m_vInfo - vPos;
 	_float fDis = D3DXVec3Length(&vDis);
 
-	if (fDis <= 15.0f)
+	if (fDis <= 5.f)
 	{
 		m_eCurState = STATE::ATTACK;
 		Change_State();
 		Attack(fDeltaTime);
 	}
-	else if (fDis > 15.0f)
+	else if (fDis > 5.f)
 	{
 		m_eCurState = STATE::WALKING;
 		Change_State();
@@ -306,11 +313,10 @@ void CShootMon::Attack_Dis(const _float& fDeltaTime)
 
 void CShootMon::Free()
 {
+	CMonster::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
-	ClearCollisionList();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 }

@@ -3,7 +3,7 @@
 #define __SHURIKEN_H__
 #include "Bullet.h"
 BEGIN(Engine)
-class CCollision;
+class CSphereCollision;
 END
 class CShurikenAnim;
 class CShuriken final : public CBullet
@@ -31,7 +31,7 @@ public:
 	static CShuriken* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	CShurikenAnim* m_pAnimation;
-	CCollision* m_pCollision;
+	CSphereCollision* m_pCollision;
 	_float m_fSpeed;
 };
 #endif
