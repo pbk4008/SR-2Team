@@ -152,6 +152,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Code\1Stage.h" />
+    <ClInclude Include="..\Code\2Stage.h" />
+    <ClInclude Include="..\Code\3Stage.h" />
     <ClInclude Include="..\Code\AStar.h" />
     <ClInclude Include="..\Code\BackGround.h" />
     <ClInclude Include="..\Code\Bomb.h" />
@@ -202,7 +205,6 @@
     <ClInclude Include="..\Code\ShootMon_WalkF.h" />
     <ClInclude Include="..\Code\Shuriken.h" />
     <ClInclude Include="..\Code\ShurikenAnim.h" />
-    <ClInclude Include="..\Code\Stage.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Code\UI.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -215,6 +217,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\1Stage.cpp" />
+    <ClCompile Include="..\Code\2Stage.cpp" />
+    <ClCompile Include="..\Code\3Stage.cpp" />
     <ClCompile Include="..\Code\AStar.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bomb.cpp" />
@@ -265,7 +270,6 @@
     <ClCompile Include="..\Code\ShootMon_WalkF.cpp" />
     <ClCompile Include="..\Code\Shuriken.cpp" />
     <ClCompile Include="..\Code\ShurikenAnim.cpp" />
-    <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="Client.cpp" />

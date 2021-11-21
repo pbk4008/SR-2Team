@@ -4,7 +4,7 @@
 #include "Loading.h"
 #include "BackGround.h"
 #include "Transform.h"
-#include "Stage.h"
+#include "1Stage.h"
 #include "BackGround.h"
 
 
@@ -43,7 +43,7 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 		{
 			CScene* pScene = nullptr;
 
-			pScene = CStage::Create(m_pDevice);
+			pScene = C1Stage::Create(m_pDevice);
 
 			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);

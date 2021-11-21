@@ -212,6 +212,15 @@
     <Filter Include="02.GameObject\08.Etc\00.Door">
       <UniqueIdentifier>{79901796-4df6-4c9c-88d0-d3a93c481f1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\02.Stage\00.1Stage">
+      <UniqueIdentifier>{37ea4abc-3ad1-4e4d-9364-a4bbc0288cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\02.Stage\01.2Stage">
+      <UniqueIdentifier>{ff8b8cbc-699e-443f-a8fe-f2fe4ec1e990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Scene\02.Stage\02.3Stage">
+      <UniqueIdentifier>{6d628c72-6686-4a21-8a26-9d09c169e654}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -249,9 +258,6 @@
     </ClInclude>
     <ClInclude Include="..\Code\Logo.h">
       <Filter>01.Scene\01.Logo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Stage.h">
-      <Filter>01.Scene\02.Stage</Filter>
     </ClInclude>
     <ClInclude Include="..\Code\MeleeMon.h">
       <Filter>02.GameObject\02.Monster\00. MeleeMon</Filter>
@@ -397,6 +403,15 @@
     <ClInclude Include="..\Code\Door.h">
       <Filter>02.GameObject\08.Etc\00.Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\1Stage.h">
+      <Filter>01.Scene\02.Stage\00.1Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\2Stage.h">
+      <Filter>01.Scene\02.Stage\01.2Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\3Stage.h">
+      <Filter>01.Scene\02.Stage\02.3Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -414,9 +429,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Logo.cpp">
       <Filter>01.Scene\01.Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Stage.cpp">
-      <Filter>01.Scene\02.Stage</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MeleeMon.cpp">
       <Filter>02.GameObject\02.Monster\00. MeleeMon</Filter>
@@ -561,6 +573,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Door.cpp">
       <Filter>02.GameObject\08.Etc\00.Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\1Stage.cpp">
+      <Filter>01.Scene\02.Stage\00.1Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\2Stage.cpp">
+      <Filter>01.Scene\02.Stage\01.2Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\3Stage.cpp">
+      <Filter>01.Scene\02.Stage\02.3Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
