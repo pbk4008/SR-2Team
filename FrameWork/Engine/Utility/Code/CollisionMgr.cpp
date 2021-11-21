@@ -26,7 +26,8 @@ HRESULT CCollisionMgr::Insert_Wall(CCollision* pCollision)
 void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float& fZ, const _vec3* pTerrainVtxPos,
 	const _ulong& dwCntX, 
 	const _ulong& dwCntZ, 
-	const _ulong& dwVtxItv)
+	const _ulong& dwVtxItv
+	, const _float& fTerrinsYPos)
 {
 	_ulong dwIndex = _ulong(fX / dwVtxItv) * dwCntX + _ulong(fZ/ dwVtxItv);
 
@@ -54,21 +55,26 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 
 			_float fWallMinX, fWallMaxX;
 			_float fWallMinZ, fWallMaxZ;
+			_float fWallMinY, fWallMaxY;
 
-			fWallMinX = WallPos.x - WallAxis.x+0.25f;
-			fWallMaxX = WallPos.x + WallAxis.x-0.25f;
+			fWallMinX = WallPos.x - (WallAxis.x*0.5f);
+			fWallMaxX = WallPos.x + (WallAxis.x*0.5f);
 
-			fWallMinZ = WallPos.z - WallAxis.z+0.25f;
-			fWallMaxZ = WallPos.z + WallAxis.z-0.25f;
+			fWallMinZ = WallPos.z - (WallAxis.z*0.5f);
+			fWallMaxZ = WallPos.z + (WallAxis.z*0.5f);
+
+			fWallMinY = WallPos.y - (WallAxis.y * 0.5f);
+			fWallMaxY = WallPos.y + (WallAxis.y * 0.5f);
 
 			_bool bCheck = false;
-			if (fWallMinX< fX && fWallMaxX>fX&& fWallMinZ< fZ && fWallMaxZ>fZ)
+			if (fWallMinX< fX && fWallMaxX>fX
+				&& fWallMinZ< fZ && fWallMaxZ>fZ)
 				bCheck = true;
 			else
 				bCheck = false;
 			if (bCheck)
 			{
-				_float fWallTop = WallPos.y+WallAxis.y;
+				_float fWallTop = WallPos.y+WallAxis.y*0.5f;
 				_float fDist = abs(fY - fWallTop);
 				if (fMin > fDist)
 					fMin = fWallTop;
@@ -76,6 +82,7 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 		}
 	}
 	_float fBottomY = ((-Plane.a * fX) + (-Plane.c * fZ) + (-Plane.d)) / Plane.b;
+	fBottomY += fTerrinsYPos;
 	if (fMin > abs(fY - fBottomY))
 		fMin = fBottomY;
 
@@ -277,7 +284,7 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 
 	if (bCheck)
 	{
-		if(!pVec)
+  		if(!pVec)
 			return bCheck;
 		if (pBoxAABB.fMinX < pSphereAABB.fMinX &&
 			pBoxAABB.fMaxX < pSphereAABB.fMaxX)
@@ -285,26 +292,55 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 		else
 			pVec->x = pSphereAABB.fMaxX - pBoxAABB.fMinX;
 
+		if (pBoxAABB.fMinY < pSphereAABB.fMinY &&
+			pBoxAABB.fMaxY < pSphereAABB.fMaxY)
+			pVec->y = pBoxAABB.fMaxY - pSphereAABB.fMinY;
+		else
+			pVec->y = pSphereAABB.fMaxY - pBoxAABB.fMinY;
+
+
 		if (pBoxAABB.fMinZ < pSphereAABB.fMinZ &&
 			pBoxAABB.fMaxZ < pSphereAABB.fMaxZ)
 			pVec->z = pBoxAABB.fMaxZ - pSphereAABB.fMinZ;
 		else
 			pVec->z = pSphereAABB.fMaxZ - pBoxAABB.fMinZ;
 
-		if (pVec->y!=0)
+
+		if (pVec->y == 0.f)
 		{
-			*pVec = _vec3(0.f, 0.f, 0.f);
+			if (min(pVec->x, pVec->z) == pVec->x)
+			{
+				pVec->z = 0.f;
+				if (pBoxPos.x > pSpherePos.x)
+					*pVec *= -1;
+			}
+			else if(min(pVec->x, pVec->z) == pVec->z)
+			{
+				pVec->x = 0.f;
+				if (pBoxPos.z > pSpherePos.z)
+					*pVec *= -1;
+			}
 			return bCheck;
 		}
-		if (pVec->x < pVec->z)
+
+		if (min(min(pVec->x, pVec->z), pVec->y) == pVec->x)
 		{
+			pVec->y = 0.f;
 			pVec->z = 0.f;
 			if (pBoxPos.x > pSpherePos.x)
 				*pVec *= -1;
 		}
-		else
+		else if (min(min(pVec->x, pVec->z), pVec->y) == pVec->y)
 		{
 			pVec->x = 0.f;
+			pVec->z = 0.f;
+			if (pBoxPos.y > pSpherePos.y)
+				*pVec *= -1;
+		}
+		else if (min(min(pVec->x, pVec->z), pVec->y) == pVec->z)
+		{
+			pVec->x = 0.f;
+			pVec->y = 0.f;
 			if (pBoxPos.z > pSpherePos.z)
 				*pVec *= -1;
 		}
