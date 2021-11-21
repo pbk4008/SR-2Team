@@ -395,7 +395,26 @@ void CMAPTOOLView::Init_Light()
 	//mLight.Phi = D3DX_PI / 2.f;
 	mLight.Ambient = { 0.4f,0.4f,0.4f,0.4f };
 	mLight.Specular = { 0.6f,0.6f,0.6f ,0.6f };
-	mLight.Range = 25.f;
+	mLight.Range = 50.f;
+
+	//mLight.Type = D3DLIGHT_DIRECTIONAL;
+	//// Update View에서 position Direction 업데이트해줌
+	////mLight.Position = { 0.f,0.f,0.f };
+	//mLight.Direction = { 0.f,-1.f,-1.f };
+	//mLight.Diffuse.r = 1.f;
+	//mLight.Diffuse.g = 1.f;
+	//mLight.Diffuse.b = 1.f;
+	//mLight.Attenuation0 = 0.01f;
+	//mLight.Attenuation1 = 0.0f;
+	//mLight.Attenuation2 = 0.0f;
+	//mLight.Theta = D3DX_PI / 4.f;
+	//mLight.Phi = D3DX_PI / 3.f;
+	//mLight.Falloff = 1.f;
+	////mLight.Theta = 0.f;
+	////mLight.Phi = D3DX_PI / 2.f;
+	//mLight.Ambient = { 0.4f,0.4f,0.4f,0.4f };
+	//mLight.Specular = { 0.6f,0.6f,0.6f ,0.6f };
+	//mLight.Range = 50.f;
 
 	
 }
@@ -615,7 +634,7 @@ void CMAPTOOLView::OnInitialUpdate()
 
 	Init_Light();
 	// fog는 Alpha값 무시됨
-	Init_Fog(D3DXCOLOR(0.15f, 0.15f, 0.15f, 0.1f), D3DFOG_EXP2,TRUE, 0.1f);
+	Init_Fog(D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.f), D3DFOG_EXP2,TRUE, 0.075f);
 
 
 	m_pForm->UpdateData(false);

@@ -61,7 +61,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	if (!m_bJump)
 		m_pTransform->UsingGravity(fDeltaTime);
 	else
-		m_pTransform->Jump(fDeltaTime, 4.f, m_bJump);
+		m_pTransform->Jump(fDeltaTime, 6.f, m_bJump);
 	KeyInput(fDeltaTime);
 	m_pHitCollision->WallCollision();
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);

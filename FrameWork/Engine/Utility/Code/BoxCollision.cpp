@@ -4,15 +4,15 @@
 #include "Transform.h"
 CBoxCollision::CBoxCollision(): m_pBox(nullptr)
 {
-	ZeroMemory(&m_vAxis, sizeof(_vec3));
+	ZeroMemory(&m_vScale, sizeof(_vec3));
 }
 
 CBoxCollision::CBoxCollision(LPDIRECT3DDEVICE9 pDevice) : CCollision(pDevice), m_pBox(nullptr)
 {
-	ZeroMemory(&m_vAxis, sizeof(_vec3));
+	ZeroMemory(&m_vScale, sizeof(_vec3));
 }
 
-CBoxCollision::CBoxCollision(const CBoxCollision& rhs) : CCollision(rhs), m_vAxis(rhs.m_vAxis), m_pBox(nullptr)
+CBoxCollision::CBoxCollision(const CBoxCollision& rhs) : CCollision(rhs), m_vScale(rhs.m_vScale), m_pBox(nullptr)
 {
 }
 
@@ -63,8 +63,9 @@ void CBoxCollision::Free()
 	CCollision::Free();
 }
 
-void CBoxCollision::setAxis(const _vec3& vAxis)
+void CBoxCollision::setAxis(const _vec3& vAxis,const _vec3& vRotate)
 {
-	m_vAxis = vAxis;
+	m_vScale = vAxis;
+	m_vAngle = vRotate;
 	D3DXCreateBox(m_pDevice, 1.f, 1.f, 1.f, &m_pBox, nullptr);
 }

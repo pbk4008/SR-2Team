@@ -87,5 +87,5 @@ void CSphereCollision::Free()
 void CSphereCollision::setRadius(const _float& fRadius)
 {
 	m_fRadius = fRadius;
-	D3DXCreateSphere(m_pDevice, m_fRadius, 5, 5, &m_pSphere, nullptr);
+	D3DXCreateSphere(m_pDevice, m_fRadius, 10, 10, &m_pSphere, nullptr);
 }

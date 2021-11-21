@@ -129,6 +129,6 @@ void CCube::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3
 	m_pTransform->setAngle(m_vRotate);
 	m_pTransform->setPos(m_vPosition);
 	m_pCollision->setTransform(m_pTransform);
-	m_pCollision->setAxis(vScale);
+	m_pCollision->setAxis(vScale,vRotate);
 	Insert_Wall(m_pCollision);
 }
