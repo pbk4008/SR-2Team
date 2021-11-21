@@ -1,4 +1,32 @@
-﻿  SphereCollision.cpp
+﻿  Animation.cpp
+  Animator.cpp
+  BoxCollision.cpp
+  Camera.cpp
+  Collision.cpp
+  CollisionMgr.cpp
+  Component.cpp
+  CubeTex.cpp
+  GameObject.cpp
+  INIManager.cpp
+  Layer.cpp
+  Management.cpp
+  NaviMesh.cpp
+  ProtoMgr.cpp
+  RcCol.cpp
+  RcTex.cpp
+  Renderer.cpp
+  Scene.cpp
+  SphereCollision.cpp
+  TerrainTex.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Texture.cpp
+  TextureMgr.cpp
+  Transform.cpp
+  TriCol.cpp
+  VIBuffer.cpp
+  코드를 생성하고 있습니다...
+     ../Bin\Utility.lib 라이브러리 및 ../Bin\Utility.exp 개체를 생성하고 있습니다.
   Utility.vcxproj -> C:\Users\pbk40\Desktop\SR팀폴\FrameWork\Engine\Utility\Bin\Utility.dll
   .\Engine\Headers\Engine_Enum.h
   .\Engine\Headers\Engine_Function.h
