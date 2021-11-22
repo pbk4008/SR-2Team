@@ -298,13 +298,13 @@ void CMAPTOOLView::Init_Component()
 
 	// ==================================== 컴포넌트 원본 생성 =====================================================
 	// ==================================== 아이템 텍스처 넣기 =====================================================
-	/*Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN50PATH, L"SHURIKEN50", 1);
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
-	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);*/
+	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 	// ==================================== 아이템 텍스처 넣기 =====================================================
 	// ==================================== 몬스터 텍스쳐 넣기 =====================================================
 	Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, MeleeMon, L"MeleeMon", 1);

@@ -24,6 +24,8 @@ public:
 	HRESULT	Load_MeleeMon(const _tchar* strName);
 	HRESULT	Load_ShootMon(const _tchar* strName);
 	HRESULT	Load_FlyMon(const _tchar* strName);
+
+	HRESULT	Load_Monster(const _tchar* strName);
 	HRESULT	Load_Boss(const _tchar* strName);
 	
 private:

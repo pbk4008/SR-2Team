@@ -9,7 +9,6 @@
 #include "Boss_DeathAnim.h"
 #include "Boss_ChargeAnim.h"
 #include "Fireball.h"
-#include "HP.h"
 
 CBoss::CBoss()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
