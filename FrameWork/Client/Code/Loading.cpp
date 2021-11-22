@@ -56,10 +56,9 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 
 _uint CLoading::Loading_ForStage1()
 {
-	//ToDo:������� �ҷ����� ��
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
-	//Texture�ҷ�����
+
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
@@ -171,11 +170,12 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-	// Melee Monster #1
-	pObj = CMeleeMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	//
+	//// Melee Monster #1
+	//pObj = CMeleeMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
+	////
+	// 
 	//// Shoot Monster
 	//pObj = CShootMon::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
