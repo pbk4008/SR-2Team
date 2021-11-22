@@ -60,6 +60,7 @@ private:
 	_bool m_bDash;
 	_bool m_bDashDelay;
 	_float m_fAngle;
+	_float m_fAngleX;
 	_float m_fDashTime;
 	_int m_iJumpCount;
 	_int m_iMaxHp;

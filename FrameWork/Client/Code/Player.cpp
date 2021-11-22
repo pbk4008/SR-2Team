@@ -20,7 +20,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
-, m_iMaxHp(0), m_iCurrentHp(0), m_iShurikenCount(0), m_iBombCount(0), m_iGetKeyCount(0)
+, m_iMaxHp(0), m_iCurrentHp(0), m_iShurikenCount(0), m_iBombCount(0), m_iGetKeyCount(0),m_fAngleX(0.f)
 {
 }
 
@@ -31,7 +31,7 @@ m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState
 m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_bDash(rhs.m_bDash)
 , m_fDashTime(rhs.m_fDashTime), m_bDashDelay(rhs.m_bDashDelay), m_iJumpCount(rhs.m_iJumpCount)
 , m_iMaxHp(rhs.m_iMaxHp), m_iCurrentHp(rhs.m_iCurrentHp), m_iShurikenCount(rhs.m_iShurikenCount), m_iBombCount(rhs.m_iBombCount)
-, m_iGetKeyCount(rhs.m_iGetKeyCount)
+, m_iGetKeyCount(rhs.m_iGetKeyCount) , m_fAngleX(rhs.m_fAngleX)
 {
 	m_pTransform->setPos(3.f,0.f,3.f);
 	if (rhs.m_pModel)
@@ -61,7 +61,8 @@ HRESULT CPlayer::Init_Player()
 
 	m_fSpeed = 8.f;
 	m_iMaxHp = 100.f;
-	m_iCurrentHp = m_iMaxHp;
+	//m_iCurrentHp = m_iMaxHp;
+	m_iCurrentHp = 0;
 	m_iShurikenCount = 15;
 	m_iBombCount = 3;
 
@@ -194,7 +195,9 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	D3DXVec3Normalize(&vRight, &vRight);
 	vPos = m_pTransform->getPos();
 
-	
+	vLook.y = 0.f;
+	vRight.y = 0.f;
+
 	if (Key_Pressing(VIR_W))
 	{
 		vPos += vLook * m_fSpeed * fDeltaTime;
@@ -244,11 +247,17 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 
 	_vec3 vMousDir = MousePos(g_hWnd);
 	if (vMousDir.x < 0.f)
-		m_fAngle += -0.1f;
+		m_fAngle += -3.f;
 	else if (vMousDir.x > 0.f)
-		m_fAngle += 0.1f;
+		m_fAngle += 3.f ;
 
-	m_pTransform->setAngle(MATRIXINFO::MAT_UP, m_fAngle);
+	if (vMousDir.y < 0.f)
+		m_fAngleX += -3.f;
+	else if (vMousDir.y > 0.f)
+		m_fAngleX += 3.f ;
+
+	_vec3 rotangle = { m_fAngleX,m_fAngle, 0.f };
+	m_pTransform->setAngle(rotangle);
 	m_pTransform->setPos(vPos);
 }
 

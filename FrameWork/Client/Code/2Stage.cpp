@@ -36,9 +36,9 @@ HRESULT C2Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
 	
-	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
 }
