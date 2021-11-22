@@ -12,7 +12,7 @@ CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STA
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
-,m_fMaxHp(0.f), m_fCurrentHp(0.f),m_iShurikenCount(0),m_iBombCount(0),m_iGetKeyCount(0)
+,m_iMaxHp(0), m_iCurrentHp(0),m_iShurikenCount(0),m_iBombCount(0),m_iGetKeyCount(0)
 {
 }
 
@@ -20,7 +20,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
-, m_fMaxHp(0.f), m_fCurrentHp(0.f), m_iShurikenCount(0), m_iBombCount(0), m_iGetKeyCount(0)
+, m_iMaxHp(0), m_iCurrentHp(0), m_iShurikenCount(0), m_iBombCount(0), m_iGetKeyCount(0),m_fAngleX(0.f)
 {
 }
 
@@ -30,8 +30,8 @@ m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState
 , m_bAttack(rhs.m_bAttack), m_fAngle(rhs.m_fAngle), m_bJump(rhs.m_bJump),
 m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_bDash(rhs.m_bDash)
 , m_fDashTime(rhs.m_fDashTime), m_bDashDelay(rhs.m_bDashDelay), m_iJumpCount(rhs.m_iJumpCount)
-, m_fMaxHp(rhs.m_fMaxHp), m_fCurrentHp(rhs.m_fCurrentHp), m_iShurikenCount(rhs.m_iShurikenCount), m_iBombCount(rhs.m_iBombCount)
-, m_iGetKeyCount(rhs.m_iGetKeyCount)
+, m_iMaxHp(rhs.m_iMaxHp), m_iCurrentHp(rhs.m_iCurrentHp), m_iShurikenCount(rhs.m_iShurikenCount), m_iBombCount(rhs.m_iBombCount)
+, m_iGetKeyCount(rhs.m_iGetKeyCount) , m_fAngleX(rhs.m_fAngleX)
 {
 	m_pTransform->setPos(3.f,0.f,3.f);
 	if (rhs.m_pModel)
@@ -60,8 +60,9 @@ HRESULT CPlayer::Init_Player()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fSpeed = 8.f;
-	m_fMaxHp = 100.f;
-	m_fCurrentHp = m_fMaxHp;
+	m_iMaxHp = 100;
+	//m_iCurrentHp = m_iMaxHp;
+	m_iCurrentHp = 60;
 	m_iShurikenCount = 15;
 	m_iBombCount = 3;
 
@@ -194,7 +195,9 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	D3DXVec3Normalize(&vRight, &vRight);
 	vPos = m_pTransform->getPos();
 
-	
+	vLook.y = 0.f;
+	vRight.y = 0.f;
+
 	if (Key_Pressing(VIR_W))
 	{
 		vPos += vLook * m_fSpeed * fDeltaTime;
@@ -244,11 +247,17 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 
 	_vec3 vMousDir = MousePos(g_hWnd);
 	if (vMousDir.x < 0.f)
-		m_fAngle += -0.1f;
+		m_fAngle += -3.f;
 	else if (vMousDir.x > 0.f)
-		m_fAngle += 0.1f;
+		m_fAngle += 3.f ;
 
-	m_pTransform->setAngle(MATRIXINFO::MAT_UP, m_fAngle);
+	if (vMousDir.y < 0.f)
+		m_fAngleX += -3.f;
+	else if (vMousDir.y > 0.f)
+		m_fAngleX += 3.f ;
+
+	_vec3 rotangle = { m_fAngleX,m_fAngle, 0.f };
+	m_pTransform->setAngle(rotangle);
 	m_pTransform->setPos(vPos);
 }
 
@@ -275,14 +284,28 @@ void CPlayer::ChangeState()
 					m_pAtkCollision->setActive(true);
 					break;
 				case ATTACKTYPE::SHURIKEN:
-					pBullet =Shoot(GAMEOBJECTID::SHURIKEN, bCheck);
-					if (bCheck)
-						Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKEN, pBullet);
+					if (m_iShurikenCount > 0)
+					{
+						pBullet = Shoot(GAMEOBJECTID::SHURIKEN, bCheck);
+						if (bCheck)
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKEN, pBullet);
+					}
+					else if (m_iShurikenCount <= 0)
+					{
+						m_pModel->setState(STATE::IDLE);
+					}
 					break;
 				case ATTACKTYPE::BOMB:
-					pBullet =Shoot(GAMEOBJECTID::BOMB,bCheck);
-					if (bCheck)
-						Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOMB, pBullet);
+					if (m_iBombCount > 0)
+					{
+						pBullet = Shoot(GAMEOBJECTID::BOMB, bCheck);
+						if (bCheck)
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOMB, pBullet);
+					}
+					else if (m_iBombCount <= 0)
+					{
+						m_pModel->setState(STATE::IDLE);
+					}
 					break;
 				}
 			}
@@ -313,6 +336,8 @@ void CPlayer::Dash(const float& fDeltaTime)
 	_vec3 vLook;
 	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
 	D3DXVec3Normalize(&vLook, &vLook);
+	if(!m_bJump)
+	vLook.y = 0.f;
 	TelePort(fDeltaTime, vLook, 1.f);
 	if (!m_bDash)
 	{
@@ -331,10 +356,14 @@ CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 	CGameObject* pBullet = GetGameObject(LAYERID::GAME_LOGIC, eID);
 	if (!pBullet)
 	{
-		if(eID==GAMEOBJECTID::SHURIKEN)
+		if (eID == GAMEOBJECTID::SHURIKEN)
+		{
 			pBullet = Clone_ObjProto<CShuriken>(eID);
+		}
 		if (eID == GAMEOBJECTID::BOMB)
+		{
 			pBullet = Clone_ObjProto<CBomb>(eID);
+		}
 		bCheck = true;
 	}
 	else
@@ -342,6 +371,12 @@ CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 	static_cast<CBullet*>(pBullet)->setPos(vPos);
 	static_cast<CBullet*>(pBullet)->setLook(vLook);
 	static_cast<CBullet*>(pBullet)->setAngle(m_pTransform->getAngle().y);
+
+	if (eID == GAMEOBJECTID::SHURIKEN)
+		--m_iShurikenCount;
+	else if (eID == GAMEOBJECTID::BOMB)
+		--m_iBombCount;
+
 	
 	return static_cast<CBullet*>(pBullet);
 }
@@ -398,4 +433,39 @@ void CPlayer::setModel(CPlayerModel* pModel)
 	m_pModel = pModel;
 	m_pModel->setTarget(this->getTransform());
 	m_pModel->SettingAnimator();
+}
+
+void CPlayer::PlusFormItem(const _int& _itemPower, const eITEM& _itemType)
+{
+	switch (_itemType)
+	{
+	case eITEM::HP20:
+	case eITEM::HP50:
+	case eITEM::HP100:
+		m_iCurrentHp += _itemPower;
+		if (m_iCurrentHp > m_iMaxHp)
+		{
+			m_iCurrentHp = m_iMaxHp;
+		}
+		break;
+	case eITEM::SHURIKEN20:
+	case eITEM::SHURIKEN50:
+		m_iShurikenCount += _itemPower;
+		if (m_iShurikenCount > 99)
+		{
+			m_iShurikenCount = 99;
+		}
+		break;
+	case eITEM::BOMB2:
+	case eITEM::BOMB5:
+		m_iBombCount += _itemPower;
+		if (m_iBombCount > 20)
+		{
+			m_iBombCount = 20;
+		}
+		break;
+	default:
+		break;
+	}
+
 }

@@ -10,6 +10,7 @@ constexpr const TCHAR* SHURIKEN50PATH = L"../../Client//Bin/Resource/Texture/Ite
 constexpr const TCHAR* BOMB2PATH = L"../../Client//Bin/Resource/Texture/Item/BOMB2.png";
 constexpr const TCHAR* BOMB5PATH = L"../../Client//Bin/Resource/Texture/Item/BOMB5.png";
 
+
 #include "GameObject.h"
 
 class CItem final : public CGameObject
@@ -27,6 +28,7 @@ public:		virtual CGameObject* Clone_GameObject() override;
 public:		virtual void ResetObject() override;
 public:	inline			void setItemPower(const _uint& itemPower) { mItemPower = itemPower; }
 public:	inline			void getItemPower(_uint& itemPower) { itemPower = mItemPower; }
+public: inline			void setItemType(const eITEM& itemType) { mItemType = itemType; }
 public: inline	CCollision* getCollider() { return mpCollider; }
 
 
@@ -41,6 +43,7 @@ private:	CTexture* mItemTexture;
 private:	CCubeTex* mItemPlane;
 private:	_uint mItemPower;
 private: CSphereCollision* mpCollider;
+private:	eITEM	mItemType;
 
 
 };

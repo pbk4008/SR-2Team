@@ -56,10 +56,9 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 
 _uint CLoading::Loading_ForStage1()
 {
-	//ToDo:¾²·¹µå·Î ºÒ·¯µéÀÏ °÷
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
-	//TextureºÒ·¯¿À±â
+
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
@@ -87,6 +86,7 @@ _uint CLoading::Loading_ForStage1()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Spawner/Spawner00%d.png", L"Spawner", 8);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Key/Key000.png", L"Key", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Potal/Potal00%d.png", L"Potal", 15);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
@@ -97,9 +97,7 @@ _uint CLoading::Loading_ForStage1()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
-
 	
-	//Component¿øº» »ý¼º
 	CComponent* pCom = nullptr;
 
 	pCom = CAnimator::Create(m_pDevice);
@@ -158,7 +156,7 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-	// Melee Monster #1
+	//// Melee Monster #1
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
@@ -172,8 +170,7 @@ _uint CLoading::Loading_ForStage1()
 	pObj = CMonBullet::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	
-	// Fly Monster
+
 	pObj = CFlyMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
@@ -210,20 +207,11 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
 
-	pObj = CBoss::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
-
-	pObj = CHP::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
-
-
-
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage1ItemData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Terrain(L"Stage1TerrainData"),E_FAIL);
+
 
 	m_bFinish = true;
 	return 0;
@@ -234,10 +222,110 @@ _uint CLoading::Loading_ForStage2()
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
-	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Sword/Player_Attack_Sword00%d.png", L"PlayerSwordAttack", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Shuriken/Player_Attack_Shuriken00%d.png", L"PlayerShurikenAttack", 8);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Bomb/Player_Attack_Bomb00%d.png", L"PlayerBombAttack", 3);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Shuriken/Shuriken00%d.png", L"Shuriken", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN50PATH, L"SHURIKEN50", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
+
+
+	//Component
+	CComponent* pCom = nullptr;
+
+	pCom = CAnimator::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::ANIMATOR, pCom);
+
+	_vec3 vEye = _vec3(0.f, 0.f, -10.f);
+	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
+	_vec3 vUp = _vec3(0.f, 1.f, 0.f);
+
+	pCom = CCamera::Create(m_pDevice, vEye, vAt, vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::CAMERA, pCom);
+
+	pCom = CSphereCollision::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::SPHERECOL, pCom);
+
+	pCom = CBoxCollision::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::BOXCOL, pCom);
+
+	pCom = CNaviMesh::Create(m_pDevice, 0, 0);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::NAVIMESH, pCom);
+
+	pCom = CCubeTex::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::CUBETEX, pCom);
+
+	//////////////////////////////////////////////////////////////////////////////////
+	CGameObject* pObj = nullptr;
+
+	//Quad
+	pObj = CQuad::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::QUAD, pObj);
+
+	//Cube
+	pObj = CCube::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::CUBE, pObj);
+
+	////Player
+	pObj = CPlayer::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+
+	////////Camera
+	pObj = CMainCamera::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
+
+	////PlayerModel
+	pObj = CPlayerModel::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
+
+	pObj = CShuriken::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
+
+	pObj = CBomb::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
+
+	pObj = CFog::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::FOG, pObj);
+
+	pObj = CItem::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::ITEM, pObj);
+
+	pObj = CUI::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::UI, pObj);
+
+
+
+	//FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -674,7 +762,7 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 
 			VtxInfoValue.erase(0, dot + 1);
 		}
-		//ÁöÇü »ý¼º
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (i==0)
 		{
 			CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2,2,1,1);
@@ -688,7 +776,7 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 		
 		pTerrain = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
 		pTerrain->setVtxSetting(iVecTerrainInfo[0], iVecTerrainInfo[1], iVecTerrainInfo[2], iVecTerrainInfo[3]);
-		//ÁöÇü ÅØ½ºÃÄ ºÒ·¯¿À±â
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		wstring FolderName;
 		wstring FileName;
 
@@ -718,10 +806,10 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
 			Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
 
-		//Todo:ÁöÇü ÅØ½ºÃÄ ³Ö±â
+		//Todo:
 		pTerrain->setTexture(FileName.c_str());
 
-		//ÁöÇü Scale°ª
+		// Scale
 		Key = "Scale";
 		
 		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
@@ -840,7 +928,7 @@ HRESULT CLoading::Load_Quad(const _tchar* strName)
 		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
 			Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
 
-		//QuadÅØ½ºÃÄ ³Ö±â
+		//Quadï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 		pQuad->setTexture(FileName.c_str());
 
 		Key = "Scale";
@@ -904,7 +992,7 @@ HRESULT CLoading::Load_Quad(const _tchar* strName)
 			strPos.erase(0, dot + 1);
 		}
 
-		//QuadTransform ¼³Á¤
+		//QuadTransform 
 		pQuad->getTransform()->setScale(Scale);
 		pQuad->getTransform()->setAngle(vRotate);
 		pQuad->getTransform()->setPos(Position);
@@ -1095,30 +1183,43 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 		if (!TypeName.compare(L"HP20"))
 		{
 			pItem->setItemPower(20);
+			pItem->setItemType(eITEM::HP20);
 		}
 		else if (!TypeName.compare(L"HP50"))
 		{
 			pItem->setItemPower(50);
+			pItem->setItemType(eITEM::HP50);
+
 		}
 		else if (!TypeName.compare(L"HP100"))
 		{
 			pItem->setItemPower(100);
+			pItem->setItemType(eITEM::HP100);
+
 		}
 		else if (!TypeName.compare(L"SHURIKEN20"))
 		{
 			pItem->setItemPower(20);
+			pItem->setItemType(eITEM::SHURIKEN20);
+
 		}
 		else if (!TypeName.compare(L"SHURIKEN50"))
 		{
 			pItem->setItemPower(50);
+			pItem->setItemType(eITEM::SHURIKEN50);
+
 		}
 		else if (!TypeName.compare(L"BOMB2"))
 		{
 			pItem->setItemPower(2);
+			pItem->setItemType(eITEM::BOMB2);
+
 		}
 		else if (!TypeName.compare(L"BOMB5"))
 		{
 			pItem->setItemPower(5);
+			pItem->setItemType(eITEM::BOMB5);
+
 		}
 		
 		pItem->setTexture(TypeName.c_str());
@@ -1655,19 +1756,13 @@ HRESULT	CLoading::Load_Monster(const _tchar* strName)
 		}
 
 
-		pMeleeMon->getTransform()->setScale(Scale);
-		pMeleeMon->getTransform()->setAngle(vRotate);
-		pMeleeMon->getTransform()->setPos(Position);
+		pMeleeMon->LoadTransform(Scale, vRotate, Position);
 		pMeleeMon->setActive(true);
 
-		pShootMon->getTransform()->setScale(Scale);
-		pShootMon->getTransform()->setAngle(vRotate);
-		pShootMon->getTransform()->setPos(Position);
+		pShootMon->LoadTransform(Scale, vRotate, Position);
 		pShootMon->setActive(true);
 
-		pFlyMon->getTransform()->setScale(Scale);
-		pFlyMon->getTransform()->setAngle(vRotate);
-		pFlyMon->getTransform()->setPos(Position);
+		pFlyMon->LoadTransform(Scale, vRotate, Position);
 		pFlyMon->setActive(true);
 
 		Key = "Radius";

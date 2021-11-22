@@ -36,9 +36,9 @@ HRESULT C2Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
 	
-	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
 }
@@ -121,34 +121,6 @@ HRESULT C2Stage::Init_GameLogic_Layer()
 	m_pPlayer->setCamera(pCam);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 	m_pPlayer->AddRef();
-
-	
-	for (_int i = 0; i < 3; i++)
-	{
-		CDoor* pDoor = Clone_ObjProto<CDoor>(GAMEOBJECTID::DOOR);
-		pDoor->AddRef();
-		pDoor->setIndex(m_vecDoor.size());
-		m_vecDoor.emplace_back(pDoor);
-		FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::DOOR,pDoor),E_FAIL);
-	}
-	DoorSetting();
-
-	//CMeleeMon* m_pMeleeMon = nullptr;
-	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
-
-	////CShootMon* m_pShootMonn = nullptr;
-	//pGameObject = m_pShootMonn = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
-
-	//CFlyMon* m_pFlyMonn = nullptr;
-	//pGameObject = m_pFlyMonn = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
-
-	//boss
-	//CBoss* m_pBoss = nullptr;
-	//pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;

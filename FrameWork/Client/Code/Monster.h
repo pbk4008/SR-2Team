@@ -24,10 +24,20 @@ protected:
 	virtual void Free();
 public:
 	void setItemCheck(_bool bCheck) { m_bItemCheck = bCheck; }
+	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPos);
 protected:
 	CAstar* m_pAstar;
 	_vec3 m_pTargetPos;
 	_bool m_bItemCheck;
+	_vec3 m_vStart;
+	_vec3 m_vEnd;
+	_vec3 m_vDir;
+
+	_vec3 m_vNodeFirst;
+	_vec3 m_vNodeSecond;
+	_float m_fNodeLen;
+	_bool m_bFirst;
+	_bool m_bReborn;
 };
 
 #endif // Monster_h__

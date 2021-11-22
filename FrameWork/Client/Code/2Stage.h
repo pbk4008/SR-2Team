@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __STAGE_H__
-#define __STAGE_H__
+#ifndef __2STAGE_H__
+#define __2STAGE_H__
 #include "Scene.h"
 class CLoading;
 class CDoor;

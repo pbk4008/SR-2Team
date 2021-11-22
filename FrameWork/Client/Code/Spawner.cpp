@@ -119,7 +119,7 @@ void CSpawner::SpawnMonster(const _float& fDeltaTime)
 
 		if (m_dwIndex == 1)
 			m_dwCurrentMonCount--;
-		if (m_fSpawnTime > 1.5f)
+		if (m_fSpawnTime > 5.f)
 		{
 			RandomMonSpawn();
 			m_fSpawnTime = 0.f;
@@ -163,7 +163,9 @@ void CSpawner::RandomMonSpawn()
 	}
 	if (m_dwIndex == 0)
 		static_cast<CMonster*>(pMonster)->setItemCheck(true);
-	pMonster->getTransform()->setPos(vPos);
+	_vec3 vScale = { 1.f,1.f,1.f };
+	_vec3 vAngle = { 0.f,0.f,0.f };
+	static_cast<CMonster*>(pMonster)->LoadTransform(vScale, vAngle, vPos);
 }
 
 CSpawner* CSpawner::Create(LPDIRECT3DDEVICE9 pDevice)

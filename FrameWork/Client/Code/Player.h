@@ -40,6 +40,8 @@ public:
 	void setCamera(CMainCamera* pCamera);
 	void setModel(CPlayerModel* pModel);
 	void setJumpCount(const _int& iJumpCount) { m_iJumpCount = iJumpCount; }
+	void PlusFormItem(const _int& _itemPower, const eITEM& _itemType);
+	std::tuple<_int, _int, _int> getState() { return { m_iCurrentHp,m_iShurikenCount,m_iBombCount }; }
 public:
 	ATTACKTYPE getAttackType() { return m_eCurType; }
 	_int getJumpCount() { return m_iJumpCount; }
@@ -58,10 +60,11 @@ private:
 	_bool m_bDash;
 	_bool m_bDashDelay;
 	_float m_fAngle;
+	_float m_fAngleX;
 	_float m_fDashTime;
 	_int m_iJumpCount;
-	_float m_fMaxHp;
-	_float m_fCurrentHp;
+	_int m_iMaxHp;
+	_int m_iCurrentHp;
 	_int m_iShurikenCount;
 	_int m_iBombCount;
 	_int m_iGetKeyCount;

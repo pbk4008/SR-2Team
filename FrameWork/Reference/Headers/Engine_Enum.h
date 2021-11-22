@@ -55,9 +55,11 @@ namespace Engine
 		CUBE,
 		ITEM,
 		UI,
+		UICHAR,
 		DOOR,
 		SPAWNER,
 		KEY,
+		POTAL,
 		GAMEOBJECT_END
 	};
 	enum class COLLISIONTAG {PLAYER,MONSTER,BULLET,ETC,MAX};

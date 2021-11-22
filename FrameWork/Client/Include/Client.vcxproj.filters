@@ -242,6 +242,15 @@
     <Filter Include="01.Scene\02.Stage\03.BossStage">
       <UniqueIdentifier>{13418075-9d7f-40da-85da-01a37fe613ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\08.Etc\03.Potal">
+      <UniqueIdentifier>{573200d7-2e4e-4ad0-86f9-ed5fc91fe8fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\08.Etc\03.Potal\00.Animation">
+      <UniqueIdentifier>{b56e8ca6-420a-4fc4-9330-81d2eba73a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\07. UI\Char">
+      <UniqueIdentifier>{3d4de02a-4f5e-4e65-bc62-8500cf18d636}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -445,9 +454,18 @@
     <ClInclude Include="..\Code\Key.h">
       <Filter>02.GameObject\08.Etc\02.Key</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\BossStage.h">
-      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+    <ClInclude Include="..\Code\Potal.h">
+      <Filter>02.GameObject\08.Etc\03.Potal</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\PotalAnim.h">
+      <Filter>02.GameObject\08.Etc\03.Potal\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\UiChar.h">
+      <Filter>02.GameObject\07. UI\Char</Filter>
+    </ClInclude>
+	<ClInclude Include="..\Code\BossStage.h">
+      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+	</ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -598,9 +616,6 @@
     <ClCompile Include="..\Code\Item.cpp">
       <Filter>02.GameObject\06. Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UI.cpp">
-      <Filter>02.GameObject\07. UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Boss_ChargeAnim.cpp">
       <Filter>02.GameObject\05.Boss\00. Animation\05. Charge</Filter>
     </ClCompile>
@@ -631,7 +646,19 @@
     <ClCompile Include="..\Code\Key.cpp">
       <Filter>02.GameObject\08.Etc\02.Key</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossStage.cpp">
+    <ClCompile Include="..\Code\Potal.cpp">
+      <Filter>02.GameObject\08.Etc\03.Potal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PotalAnim.cpp">
+      <Filter>02.GameObject\08.Etc\03.Potal\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UiChar.cpp">
+      <Filter>02.GameObject\07. UI\Char</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UI.cpp">
+      <Filter>02.GameObject\07. UI</Filter>
+	</ClCompile>
+	<ClCompile Include="..\Code\BossStage.cpp">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClCompile>
   </ItemGroup>

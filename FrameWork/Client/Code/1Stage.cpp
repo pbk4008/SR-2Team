@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "1Stage.h"
+#include "2Stage.h"
 #include "Layer.h"
 #include "Loading.h"
 #include "MeleeMon.h"
@@ -12,20 +13,24 @@
 #include "Door.h"
 #include "Spawner.h"
 #include "DoorObserver.h"
+#include "Potal.h"
 
 C1Stage::C1Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr), m_pSpawner(nullptr)
+, m_iSecondMonCount(0.f), m_dwCurFloor(0), m_bPotalSpawn(false), m_pPotal(nullptr)
 {
 	m_vecDoor.reserve(3);
 	m_vecDoorObserver.reserve(3);
 	m_vecClearBox.reserve(9);
+	m_vecSecondFloorMon.reserve(50);
 }
 
 C1Stage::C1Stage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false)
-, m_pPlayer(nullptr), m_pSpawner(nullptr)
+, m_pPlayer(nullptr), m_pSpawner(nullptr), m_iSecondMonCount(0.f), m_dwCurFloor(0), m_bPotalSpawn(false), m_pPotal(nullptr)
 {
 	m_vecDoorObserver.reserve(3);
 	m_vecDoor.reserve(3);
 	m_vecClearBox.reserve(9);
+	m_vecSecondFloorMon.reserve(50);
 }
 
 C1Stage::~C1Stage()
@@ -36,15 +41,28 @@ HRESULT C1Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	
-	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
-
+	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+	m_dwCurFloor = 1;
 	return S_OK;
 }
 
 _int C1Stage::Update_Scene(const _float& fDeltaTime)
 {
+	/*if (!m_bFirst)
+	{
+		CFlyMon* pMeleeMon = nullptr;
+		pMeleeMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+		_vec3 vPos = { 5.f,1.f,5.f };
+		_vec3 vScale = { 1.f,1.f,1.f };
+		_vec3 vAngle = { 0.f,0.f,0.f };
+		pMeleeMon->LoadTransform(vScale,vAngle,vPos);
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER3, pMeleeMon);
+		m_bFirst = true;
+	}*/
+
+
 	if (!m_bFirst)
 	{
 		m_bFirst = true;
@@ -63,21 +81,59 @@ _int C1Stage::Update_Scene(const _float& fDeltaTime)
 	if (m_vecDoorObserver[2]->getSpawnerActive())//3π¯∑Î(∏µÁ ∆˜≈ª ¥›±‚)
 		m_vecDoorObserver[2]->ClearObserver();
 
-	for (auto pDoor : m_vecDoor)
+	if (m_dwCurFloor == 1)
 	{
-		if (!pDoor->getClear())
+		for (auto pDoor : m_vecDoor)
 		{
-			m_bFloorClear = false;
-			break;
+			if (!pDoor->getClear())
+			{
+				m_bFloorClear = false;
+				break;
+			}
+			else
+				m_bFloorClear = true;
 		}
-		else
-			m_bFloorClear = true;
+		if (m_bFloorClear)
+		{
+			FloorClear();
+			m_dwCurFloor++;
+		}
 	}
-	if (m_bFloorClear)
-		FloorClear();
-	if (m_pPlayer->getJumpCount() == 0)
+	if (m_dwCurFloor == 2)
 	{
-		//∞‘¿”¡æ∑·
+		CheckSecondMonster();
+		if (m_pPlayer->getJumpCount() == 0)
+		{
+			//∞‘¿”¡æ∑·
+		}
+		if (m_iSecondMonCount == 0)
+		{
+			if (!m_bPotalSpawn)
+			{
+				m_pPotal = Clone_ObjProto<CPotal>(GAMEOBJECTID::POTAL);
+				m_pPotal->AddRef();
+				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::POTAL, m_pPotal);
+				m_bPotalSpawn = true;
+			}
+		}
+		if (m_pPotal)
+		{
+			if (m_pPotal->getClear())
+			{
+				//æ¿¿Ãµø
+				if (m_pLoading->getFinish())
+				{
+					CScene* pScene = nullptr;
+
+					pScene = C2Stage::Create(m_pDevice);
+
+					pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
+					NULL_CHECK_RETURN(pScene, E_FAIL);
+
+					FAILED_CHECK_RETURN(Change_Scene(pScene), -1);
+				}
+			}
+		}
 	}
 	return iExit;
 }
@@ -146,18 +202,6 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	}
 	DoorSetting();
 
-	/*CMeleeMon* m_pMeleeMon = nullptr;
-	pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);*/
-
-	////CShootMon* m_pShootMonn = nullptr;
-	//pGameObject = m_pShootMonn = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
-
-	//CFlyMon* m_pFlyMonn = nullptr;
-	//pGameObject = m_pFlyMonn = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
-
 	CSpawner* pSpawner = nullptr;
 
 	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
@@ -211,7 +255,8 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	pSpawner->setIndex(2);
 	pSpawner->SettingCollision();
 	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
-
+	
+	
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
 }
@@ -289,7 +334,63 @@ void C1Stage::FloorClear()
 	for (auto pClearBox : m_vecClearBox)
 		pClearBox->setActive(true);
 	m_pPlayer->setJumpCount(30);
+	SecondFloorSpawn();
+	m_iSecondMonCount = m_vecSecondFloorMon.size();
 }
+
+void C1Stage::SecondFloorSpawn()
+{
+	CGameObject* pMonster = nullptr;
+	for (_int i = 0; i < 50; i++)
+	{
+		_int iRand = rand() % 3;
+		switch (iRand)
+		{
+		case 0:
+			pMonster = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER1);
+			if (!pMonster)
+			{
+				pMonster = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER1, pMonster);
+			}
+			break;
+		case 1:
+			pMonster = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER2);
+			if (!pMonster)
+			{
+				pMonster = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER2, pMonster);
+			}
+			break;
+		case 2:
+			pMonster = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER3);
+			if (!pMonster)
+			{
+				pMonster = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER3, pMonster);
+			}
+			break;
+		}
+		_float fRandX = _float(rand() % 96);
+		_float fRandZ = _float(rand() % 96);
+		_vec3 vRandPos = { fRandX, 16, fRandZ };
+		pMonster->getTransform()->setPos(vRandPos);
+		pMonster->AddRef();
+		m_vecSecondFloorMon.emplace_back(static_cast<CMonster*>(pMonster));
+	}
+}
+
+void C1Stage::CheckSecondMonster()
+{
+	_int iCount = 0;
+	for (auto pMonster : m_vecSecondFloorMon)
+	{
+		if (pMonster->getActive())
+			iCount++;
+	}
+	m_iSecondMonCount = iCount;
+}
+
 
 C1Stage* C1Stage::Create(LPDIRECT3DDEVICE9 pDevice)
 {
