@@ -28,6 +28,10 @@ public:
 public:
 	static CRcTex* Create(LPDIRECT3DDEVICE9 pDevice);
 	static CRcTex* Create(LPDIRECT3DDEVICE9 pDevice, _uint index);
+
+	virtual LPDIRECT3DVERTEXBUFFER9 Get_VtxBuffer() { return m_pVB; }
+
+
 private:
 	virtual void Free();
 };

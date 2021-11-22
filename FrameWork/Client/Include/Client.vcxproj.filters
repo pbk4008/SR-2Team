@@ -457,6 +457,9 @@
     <ClInclude Include="..\Code\PotalAnim.h">
       <Filter>02.GameObject\08.Etc\03.Potal\00.Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\BossStage.h">
+      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -645,6 +648,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\PotalAnim.cpp">
       <Filter>02.GameObject\08.Etc\03.Potal\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
+      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

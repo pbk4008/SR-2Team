@@ -41,6 +41,9 @@ CBoss::CBoss(const CBoss& rhs)
 
 	CComponent* pComponent = nullptr;
 
+	m_iHP = 1000;
+
+
 	// collision
 	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
 	m_pCollision->setRadius(1.f);
@@ -80,8 +83,8 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
-	//m_pTransform->setScale(3.f, 3.f, 3.f);
-	//m_pTransform->UsingGravity(fDeltaTime);
+	m_pTransform->setScale(3.f, 3.f, 3.f);
+	m_pTransform->UsingGravity(fDeltaTime);
 
 	HitBoss(fDeltaTime);
 
@@ -247,24 +250,24 @@ HRESULT CBoss::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
-	// collision
-	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pCollision->setRadius(1.f);
-	m_pCollision->setTag(COLLISIONTAG::MONSTER);
-	m_pCollision->setActive(true);
-	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
-	m_pCollision->setTransform(m_pTransform);
-	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
+	//// collision
+	//m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
+	//m_pCollision->setRadius(1.f);
+	//m_pCollision->setTag(COLLISIONTAG::MONSTER);
+	//m_pCollision->setActive(true);
+	//m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
+	//m_pCollision->setTransform(m_pTransform);
+	//pComponent = m_pCollision;
+	//Insert_Collision(m_pCollision);
+	//m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
-	// collision
-	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pAttackColl->setRadius(1.f);
-	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
-	m_pAttackColl->setActive(false);
-	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
+	//// collision
+	//m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
+	//m_pAttackColl->setRadius(1.f);
+	//m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
+	//m_pAttackColl->setActive(false);
+	//pComponent = m_pAttackColl;
+	//Insert_Collision(m_pAttackColl);
 
 	return S_OK;
 }
