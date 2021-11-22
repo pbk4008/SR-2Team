@@ -51,8 +51,6 @@ private:
 
 public:
 	virtual const _int& getHP() const { return m_iHP; }
-	virtual int getHP2() { return m_iHP; }
-
 	void setPos(const _vec3& vPos);
 	void setLook(const _vec3& vLook);
 	void setTarget(const _vec3& vTarget);

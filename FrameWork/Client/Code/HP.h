@@ -46,7 +46,7 @@ private:
 	_float	 m_fY;
 	_float	 m_fSizeX;
 	_float	 m_fSizeY;
-	_int	 m_iLength;
+	_float	 m_fLength;
 };
 
 #endif // HP_h__

@@ -83,8 +83,21 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
-	m_pTransform->setScale(3.f, 3.f, 3.f);
+	_vec3 vScale(3.f, 3.f, 3.f);
+	m_pTransform->setScale(vScale);
 	m_pTransform->UsingGravity(fDeltaTime);
+
+	if (m_eCurState == STATE::DEATH)
+	{
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
+		{
+			if (!m_pAnimator->getAnimPlay())
+			{
+				setActive(false);
+				return iExit;
+			}
+		}
+	}
 
 	HitBoss(fDeltaTime);
 
@@ -100,7 +113,7 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 
 	if (GetAsyncKeyState('K'))
 	{
-		m_iHP = 200;
+		m_iHP = 150;
 	}
 
 	if (GetAsyncKeyState('O'))

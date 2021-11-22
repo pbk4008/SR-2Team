@@ -4,21 +4,21 @@
 
 CHP::CHP()
 	:m_fX(0.f), m_fY(0.f), m_fSizeX(0.f), m_fSizeY(0.f), m_pBufferCom(nullptr),
-	m_pTexture(nullptr)
+	m_pTexture(nullptr), m_fLength(0.f)
 {
 
 }
 
 CHP::CHP(LPDIRECT3DDEVICE9 pDevice)
 	:CGameObject(pDevice), m_fX(0.f), m_fY(0.f), m_fSizeX(0.f), m_fSizeY(0.f), m_pBufferCom(nullptr),
-	m_pTexture(nullptr)
+	m_pTexture(nullptr), m_fLength(0.f)
 {
 
 }
 
 CHP::CHP(const CHP& rhs)
 	:m_fX(rhs.m_fX), m_fY(rhs.m_fY), m_fSizeX(rhs.m_fSizeX), m_fSizeY(rhs.m_fSizeY), m_pBufferCom(rhs.m_pBufferCom),
-	m_pTexture(rhs.m_pTexture)
+	m_pTexture(rhs.m_pTexture), m_fLength(rhs.m_fLength)
 {
 
 }
@@ -36,8 +36,6 @@ HRESULT CHP::Init_HP()
 
 	m_pTexture->setTexture(GetTexture(L"Boss_HPFull", TEXTURETYPE::TEX_NORMAL));
 
-	//m_pBoss->getHP2();
-
 	m_fX = WINCX * 0.5f;
 	m_fY = WINCY - 550.f;
 	m_fSizeX = 100.f;
@@ -53,15 +51,35 @@ Engine::_int CHP::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOSS);
+	m_pBoss = static_cast<CBoss*>(pObject);
+	m_fLength = m_pBoss->getHP();
+
+	if (m_pBoss == nullptr)
+		return iExit;
+
+
+
+
 
 	VTXTEX* pVertex = nullptr;
+
 	LPDIRECT3DVERTEXBUFFER9 vBuff;
+
 	vBuff = m_pBufferCom->Get_VtxBuffer();
+
 	vBuff->Lock(0, 0, (void**)&pVertex, 0);
+
 	_vec3 CurVtx1;
 	_vec3 CurVtx2;
-	CurVtx1 = pVertex[1].vPos;
+
+	pVertex[1].vPos.x = m_fLength / 1000;
+	pVertex[2].vPos.x = m_fLength / 1000;
+
+	/*CurVtx1 = pVertex[1].vPos;
 	CurVtx2 = pVertex[2].vPos;
+
+
 	if (GetAsyncKeyState('T'))
 	{
 		CurVtx1.x -= 0.1f;
@@ -69,7 +87,8 @@ Engine::_int CHP::Update_GameObject(const _float& fDeltaTime)
 
 		pVertex[1].vPos = CurVtx1;
 		pVertex[2].vPos = CurVtx2;
-	}
+	}*/
+
 	vBuff->Unlock();
 
 
