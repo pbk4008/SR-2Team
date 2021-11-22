@@ -242,6 +242,12 @@
     <Filter Include="01.Scene\02.Stage\03.BossStage">
       <UniqueIdentifier>{13418075-9d7f-40da-85da-01a37fe613ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\08.Etc\03.Potal">
+      <UniqueIdentifier>{573200d7-2e4e-4ad0-86f9-ed5fc91fe8fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\08.Etc\03.Potal\00.Animation">
+      <UniqueIdentifier>{b56e8ca6-420a-4fc4-9330-81d2eba73a7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -433,9 +439,6 @@
     <ClInclude Include="..\Code\3Stage.h">
       <Filter>01.Scene\02.Stage\02.3Stage</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\BossStage.h">
-      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\Spawner.h">
       <Filter>02.GameObject\08.Etc\01.Spawner</Filter>
     </ClInclude>
@@ -447,6 +450,12 @@
     </ClInclude>
     <ClInclude Include="..\Code\Key.h">
       <Filter>02.GameObject\08.Etc\02.Key</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Potal.h">
+      <Filter>02.GameObject\08.Etc\03.Potal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\PotalAnim.h">
+      <Filter>02.GameObject\08.Etc\03.Potal\00.Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -619,9 +628,6 @@
     <ClCompile Include="..\Code\3Stage.cpp">
       <Filter>01.Scene\02.Stage\02.3Stage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossStage.cpp">
-      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Spawner.cpp">
       <Filter>02.GameObject\08.Etc\01.Spawner</Filter>
     </ClCompile>
@@ -633,6 +639,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Key.cpp">
       <Filter>02.GameObject\08.Etc\02.Key</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Potal.cpp">
+      <Filter>02.GameObject\08.Etc\03.Potal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PotalAnim.cpp">
+      <Filter>02.GameObject\08.Etc\03.Potal\00.Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

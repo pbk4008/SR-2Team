@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SpawnerAnim.h"
 
-CSpawnerAnim::CSpawnerAnim()
+CSpawnerAnim::CSpawnerAnim() 
 {
 }
 

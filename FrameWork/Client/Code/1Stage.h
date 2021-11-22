@@ -1,12 +1,14 @@
 #pragma once
-#ifndef __STAGE_H__
-#define __STAGE_H__
+#ifndef __1STAGE_H__
+#define __1STAGE_H__
 #include "Scene.h"
 class CLoading;
 class CPlayer;
 class CSpawner;
 class CDoorObserver;
 class CDoor;
+class CMonster;
+class CPotal;
 class C1Stage final : public CScene
 {
 private:
@@ -27,6 +29,8 @@ private:
 	void DoorSetting();
 	void setClearBox();
 	void FloorClear();
+	void SecondFloorSpawn();
+	void CheckSecondMonster();
 public:
 	static C1Stage* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -36,10 +40,15 @@ private:
 	vector<CDoorObserver*> m_vecDoorObserver;
 	vector<CDoor*> m_vecDoor;
 	vector<CGameObject*> m_vecClearBox;
+	vector<CMonster*> m_vecSecondFloorMon;
 	CSpawner* m_pSpawner;
+	CPlayer* m_pPlayer;
+	CPotal* m_pPotal;
 
+	_ulong m_dwCurFloor;
 	_bool m_bFloorClear;
 	_bool m_bFirst;
-	CPlayer* m_pPlayer;
+	_bool m_bPotalSpawn;
+	_int m_iSecondMonCount;
 };
 #endif
