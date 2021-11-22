@@ -10,7 +10,6 @@
 #include "Terrain.h"
 #include "ShootMon.h"
 #include "FlyMon.h"
-#include "Boss.h"
 #include "UI.h"
 #include "Door.h"
 
@@ -36,9 +35,6 @@ HRESULT C3Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
-	
-	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
 }
@@ -144,11 +140,6 @@ HRESULT C3Stage::Init_GameLogic_Layer()
 	//CFlyMon* m_pFlyMonn = nullptr;
 	//pGameObject = m_pFlyMonn = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
 	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
-
-	//boss
-	CBoss* m_pBoss = nullptr;
-	pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;

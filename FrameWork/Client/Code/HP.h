@@ -3,8 +3,15 @@
 #define HP_h__
 
 #include "GameObject.h"
-#include "Boss.h"
 
+BEGIN(Engine)
+class  CRcTex;
+class  CTexture;
+class  CTransform;
+class  CRenderer;
+END
+
+class CBoss;
 class CHP : public CGameObject
 {
 private:
@@ -14,31 +21,32 @@ private:
 	virtual ~CHP();
 
 public:
-	HRESULT Init_CHP();
+	virtual HRESULT Init_HP();
 	virtual _int Update_GameObject(const _float& fDeltaTime) override;
-	virtual void LateUpdate_GameObject() override;
+	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
-	virtual void ResetObject() override;
 
-public:
+
 	static CHP* Create(LPDIRECT3DDEVICE9 pDevice);
-	void setLength(const _float& fLength);
 
 private:
-	virtual HRESULT Add_Component() override;
-	virtual void Free() override;
-
-public:
-	void setTexture(const _tchar* pTextureName);
+	HRESULT Add_Component();
+	virtual void Free(void);
 
 private:
-	CTexture*			m_pTexture;
-	CRcTex*				m_pBufferCom;
-	CBoss*				m_pBoss;
+	CRcTex*		m_pBufferCom;
+	CTexture*	m_pTexture;
+	CBoss*		m_pBoss;
 
-
-	_float				m_fLength;
+private:
+	_matrix	 m_pTransMatrix;
+	_matrix	 m_ProjMatrix;
+	_float	 m_fX;
+	_float	 m_fY;
+	_float	 m_fSizeX;
+	_float	 m_fSizeY;
+	_int	 m_iLength;
 };
 
 #endif // HP_h__
