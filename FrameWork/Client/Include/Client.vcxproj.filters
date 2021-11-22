@@ -236,6 +236,9 @@
     <Filter Include="02.GameObject\08.Etc\02.Key">
       <UniqueIdentifier>{7c3e6e88-072e-440a-a735-434705b2e5fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\02.Stage\03.BossStage">
+      <UniqueIdentifier>{13418075-9d7f-40da-85da-01a37fe613ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
