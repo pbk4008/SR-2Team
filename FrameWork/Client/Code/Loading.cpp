@@ -157,25 +157,40 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
 	//// Melee Monster #1
+<<<<<<< HEAD
 	//pObj = CMeleeMon::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	////
 	// 
+=======
+	pObj = CMeleeMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
+	//
+>>>>>>> bk
 	//// Shoot Monster
-	//pObj = CShootMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+	pObj = CShootMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
-	//// MonBullet
-	//pObj = CMonBullet::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	// MonBullet
+	pObj = CMonBullet::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
 
-	//pObj = CFlyMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+<<<<<<< HEAD
+=======
+	pObj = CFlyMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
+
+	//pObj = CBoss::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+
+>>>>>>> bk
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
@@ -217,10 +232,11 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
 
 
-	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage1ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage1TerrainData"),E_FAIL);
+
 
 	m_bFinish = true;
 	return 0;
@@ -1721,19 +1737,13 @@ HRESULT	CLoading::Load_Monster(const _tchar* strName)
 		}
 
 
-		pMeleeMon->getTransform()->setScale(Scale);
-		pMeleeMon->getTransform()->setAngle(vRotate);
-		pMeleeMon->getTransform()->setPos(Position);
+		pMeleeMon->LoadTransform(Scale, vRotate, Position);
 		pMeleeMon->setActive(true);
 
-		pShootMon->getTransform()->setScale(Scale);
-		pShootMon->getTransform()->setAngle(vRotate);
-		pShootMon->getTransform()->setPos(Position);
+		pShootMon->LoadTransform(Scale, vRotate, Position);
 		pShootMon->setActive(true);
 
-		pFlyMon->getTransform()->setScale(Scale);
-		pFlyMon->getTransform()->setAngle(vRotate);
-		pFlyMon->getTransform()->setPos(Position);
+		pFlyMon->LoadTransform(Scale, vRotate, Position);
 		pFlyMon->setActive(true);
 
 		Key = "Radius";

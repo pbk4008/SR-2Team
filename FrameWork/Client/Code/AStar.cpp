@@ -11,11 +11,24 @@ CAstar::~CAstar()
 {
 }
 
-HRESULT CAstar::Init_AStar()
+HRESULT CAstar::Init_AStar(const _vec3& vPos)
 {
-	 CGameObject* pObj=GetGameObject(GAMEOBJECTID::TERRAIN);
-	 m_vecCell = static_cast<CTerrain*>(pObj)->getNaviMesh()->getNaviCell();
-	 m_vecMesh = static_cast<CTerrain*>(pObj)->getNaviMesh()->getMesh();
+	vector<CGameObject*>* pObjList = GetGameObjects(LAYERID::ENVIRONMENT, GAMEOBJECTID::TERRAIN);
+
+	CTerrain* pTerrain = nullptr;
+	_float fMin = 1000.f;
+	for (auto iter : *pObjList)
+	{
+		_vec3 vTerrainPos = iter->getTransform()->getPos();
+		_float fLen = abs(vPos.y - vTerrainPos.y);
+		if (fMin > fLen)
+		{
+			fMin = fLen;
+			pTerrain = static_cast<CTerrain*>(iter);
+		}
+	}
+	 m_vecCell = pTerrain->getNaviMesh()->getNaviCell();
+	 m_vecMesh = pTerrain->getNaviMesh()->getMesh();
 	return S_OK;
 }
 
@@ -47,6 +60,10 @@ _int CAstar::getIndex(const _vec3& vPos)
 			return i;
 	}
 	return -1;
+}
+_bool CAstar::getObstacle(const _ulong& dwIndex)
+{
+	return m_vecCell[dwIndex]->bCheck;
 }
 bool CAstar::PathFind(const _int& dwStartIndex, const _int& dwGoalIndex, const _vec3& vGoal)
 {
@@ -144,10 +161,10 @@ _bool CAstar::IsPicking(const _vec3& vPos, const _ulong& dwIndex)
 	return true;
 }
 
-CAstar* CAstar::Create()
+CAstar* CAstar::Create(const _vec3& vPos)
 {
 	CAstar* pInstance = new CAstar();
-	if (FAILED(pInstance->Init_AStar()))
+	if (FAILED(pInstance->Init_AStar(vPos)))
 		Safe_Release(pInstance);
 	return pInstance;
 }
