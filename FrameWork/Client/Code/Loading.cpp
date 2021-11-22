@@ -180,6 +180,16 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
+	// MonBullet
+	pObj = CMonBullet::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	
+	// Fly Monster
+	pObj = CFlyMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+
 	//// MonBullet
 	//pObj = CMonBullet::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
@@ -194,16 +204,6 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
 
-	// MonBullet
-	pObj = CMonBullet::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	
-	// Fly Monster
-	pObj = CFlyMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
-	
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
