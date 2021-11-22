@@ -166,6 +166,7 @@
     <ClInclude Include="..\Code\Boss_MeleeAnim.h" />
     <ClInclude Include="..\Code\Boss_RangeAnim.h" />
     <ClInclude Include="..\Code\Boss_WalkAnim.h" />
+    <ClInclude Include="..\Code\UiChar.h" />
     <ClInclude Include="..\Code\DoorObserver.h" />
     <ClInclude Include="..\Code\Fireball.h" />
     <ClInclude Include="..\Code\Fireball_Anim.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="..\Code\Boss_MeleeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_WalkAnim.cpp" />
+    <ClCompile Include="..\Code\UiChar.cpp" />
     <ClCompile Include="..\Code\DoorObserver.cpp" />
     <ClCompile Include="..\Code\Fireball.cpp" />
     <ClCompile Include="..\Code\Fireball_Anim.cpp" />

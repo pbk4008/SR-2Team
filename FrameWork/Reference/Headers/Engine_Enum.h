@@ -55,6 +55,7 @@ namespace Engine
 		CUBE,
 		ITEM,
 		UI,
+		UICHAR,
 		DOOR,
 		SPAWNER,
 		KEY,

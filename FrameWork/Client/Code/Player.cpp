@@ -60,9 +60,9 @@ HRESULT CPlayer::Init_Player()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_fSpeed = 8.f;
-	m_iMaxHp = 100.f;
+	m_iMaxHp = 100;
 	//m_iCurrentHp = m_iMaxHp;
-	m_iCurrentHp = 0;
+	m_iCurrentHp = 60;
 	m_iShurikenCount = 15;
 	m_iBombCount = 3;
 
@@ -284,14 +284,28 @@ void CPlayer::ChangeState()
 					m_pAtkCollision->setActive(true);
 					break;
 				case ATTACKTYPE::SHURIKEN:
-					pBullet =Shoot(GAMEOBJECTID::SHURIKEN, bCheck);
-					if (bCheck)
-						Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKEN, pBullet);
+					if (m_iShurikenCount > 0)
+					{
+						pBullet = Shoot(GAMEOBJECTID::SHURIKEN, bCheck);
+						if (bCheck)
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKEN, pBullet);
+					}
+					else if (m_iShurikenCount <= 0)
+					{
+						m_pModel->setState(STATE::IDLE);
+					}
 					break;
 				case ATTACKTYPE::BOMB:
-					pBullet =Shoot(GAMEOBJECTID::BOMB,bCheck);
-					if (bCheck)
-						Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOMB, pBullet);
+					if (m_iBombCount > 0)
+					{
+						pBullet = Shoot(GAMEOBJECTID::BOMB, bCheck);
+						if (bCheck)
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOMB, pBullet);
+					}
+					else if (m_iBombCount <= 0)
+					{
+						m_pModel->setState(STATE::IDLE);
+					}
 					break;
 				}
 			}
@@ -322,6 +336,8 @@ void CPlayer::Dash(const float& fDeltaTime)
 	_vec3 vLook;
 	m_pTransform->getAxis(VECAXIS::AXIS_LOOK, vLook);
 	D3DXVec3Normalize(&vLook, &vLook);
+	if(!m_bJump)
+	vLook.y = 0.f;
 	TelePort(fDeltaTime, vLook, 1.f);
 	if (!m_bDash)
 	{
@@ -340,10 +356,14 @@ CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 	CGameObject* pBullet = GetGameObject(LAYERID::GAME_LOGIC, eID);
 	if (!pBullet)
 	{
-		if(eID==GAMEOBJECTID::SHURIKEN)
+		if (eID == GAMEOBJECTID::SHURIKEN)
+		{
 			pBullet = Clone_ObjProto<CShuriken>(eID);
+		}
 		if (eID == GAMEOBJECTID::BOMB)
+		{
 			pBullet = Clone_ObjProto<CBomb>(eID);
+		}
 		bCheck = true;
 	}
 	else
@@ -351,6 +371,12 @@ CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 	static_cast<CBullet*>(pBullet)->setPos(vPos);
 	static_cast<CBullet*>(pBullet)->setLook(vLook);
 	static_cast<CBullet*>(pBullet)->setAngle(m_pTransform->getAngle().y);
+
+	if (eID == GAMEOBJECTID::SHURIKEN)
+		--m_iShurikenCount;
+	else if (eID == GAMEOBJECTID::BOMB)
+		--m_iBombCount;
+
 	
 	return static_cast<CBullet*>(pBullet);
 }
@@ -433,9 +459,9 @@ void CPlayer::PlusFormItem(const _int& _itemPower, const eITEM& _itemType)
 	case eITEM::BOMB2:
 	case eITEM::BOMB5:
 		m_iBombCount += _itemPower;
-		if (m_iBombCount > 10)
+		if (m_iBombCount > 20)
 		{
-			m_iBombCount = 10;
+			m_iBombCount = 20;
 		}
 		break;
 	default:

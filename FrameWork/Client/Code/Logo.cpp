@@ -8,6 +8,7 @@
 #include "BackGround.h"
 #include "2Stage.h"
 #include "3Stage.h"
+#include "UiChar.h"
 
 
 CLogo::CLogo():m_pLoading(nullptr)
@@ -61,7 +62,6 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 }
 
 void CLogo::LateUpdate_Scene()
-
 {
 	CScene::LateUpdate_Scene();
 }
@@ -133,6 +133,10 @@ HRESULT CLogo::Init_LogoScene()
 	//Logo씬에서 사용할 텍스쳐
 	CTextureMgr* pTexutreMgr = Init_TextureMgr();
 	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/BackGround/BackGround.png", L"BackGround", 1);
+
+	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/char/Green%d.png", L"GreenChar", 12);
+	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/char/Red%d.png", L"RedChar", 12);
+	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/char/Yellow%d.png", L"YellowChar", 12);
 
 	//Component 원본
 	CComponent* pCom = nullptr;
