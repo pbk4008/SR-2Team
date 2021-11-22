@@ -10,6 +10,12 @@
 #include "HP.h"
 #include "UI.h"
 
+////////////
+#include "MeleeMon.h"
+#include "ShootMon.h"
+#include "FlyMon.h"
+////////////
+
 CBossStage::CBossStage() : m_pLoading(nullptr), m_pPlayer(nullptr)
 {
 }
@@ -89,14 +95,26 @@ HRESULT CBossStage::Init_GameLogic_Layer()
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 	m_pPlayer->AddRef();
 
+	/*CMeleeMon* m_pMeleeMon = nullptr;
+	pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);*/
+
+	/*CShootMon* m_pShootMonn = nullptr;
+	pGameObject = m_pShootMonn = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);*/
+
+	CFlyMon* m_pFlyMonn = nullptr;
+	pGameObject = m_pFlyMonn = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);
+
 	//boss
-	CBoss* m_pBoss = nullptr;
+	/*CBoss* m_pBoss = nullptr;
 	pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
 
 	CHP* pHP = nullptr;
 	pGameObject = pHP = CHP::Create(m_pDevice);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSSHP, pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSSHP, pGameObject), E_FAIL);*/
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;

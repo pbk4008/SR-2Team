@@ -32,6 +32,7 @@ public:
 private:
 	void Change_State();
 	CBullet* Shoot(GAMEOBJECTID eID);
+	void HitMonster(const _float& fTimeDelta);
 
 
 public:
@@ -59,6 +60,8 @@ private:
 
 	_bool			m_bAttack;
 	_bool			m_bMoving;
+
+	_bool			m_bTracking;
 
 	_float			m_iTimer;
 	_float			m_fSpeed;

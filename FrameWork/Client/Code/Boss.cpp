@@ -14,7 +14,7 @@ CBoss::CBoss()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_pCollision(nullptr), m_pAttackColl(nullptr),
 	m_iHP(0), m_bAttack(false), m_bMoving(false), m_iTimer(0), m_fSpeed(0.f), m_iAttackNumber(0),
-	m_bChargeAttack(false), m_fChargeTime (0.f), m_fFireballTimer(0.f)
+	m_bChargeAttack(false), m_fChargeTime (0.f), m_fFireballTimer(0.f), m_bHPHit(false)
 {
 
 }
@@ -23,7 +23,7 @@ CBoss::CBoss(LPDIRECT3DDEVICE9 pDevice)
 	: CGameObject(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_pCollision(nullptr), m_pAttackColl(nullptr),
 	m_iHP(0), m_bAttack(false), m_bMoving(false), m_iTimer(0), m_fSpeed(0.f), m_iAttackNumber(0),
-	m_bChargeAttack(false), m_fChargeTime(0.f), m_fFireballTimer(0.f)
+	m_bChargeAttack(false), m_fChargeTime(0.f), m_fFireballTimer(0.f), m_bHPHit(false)
 {
 
 }
@@ -34,7 +34,7 @@ CBoss::CBoss(const CBoss& rhs)
 	m_pAnimator(rhs.m_pAnimator), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX),
 	m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(rhs.m_iHP),
 	m_iAttackNumber(rhs.m_iAttackNumber), m_bChargeAttack(rhs.m_bChargeAttack), m_fChargeTime(rhs.m_fChargeTime),
-	m_fFireballTimer(rhs.m_fFireballTimer)
+	m_fFireballTimer(rhs.m_fFireballTimer), m_bHPHit(rhs.m_bHPHit)
 {
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
@@ -82,24 +82,11 @@ HRESULT CBoss::Init_Boss()
 _int CBoss::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-
-	_vec3 vScale(3.f, 3.f, 3.f);
-	m_pTransform->setScale(vScale);
 	m_pTransform->UsingGravity(fDeltaTime);
 
-	if (m_eCurState == STATE::DEATH)
-	{
-		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
-		{
-			if (!m_pAnimator->getAnimPlay())
-			{
-				setActive(false);
-				return iExit;
-			}
-		}
-	}
+	/*_vec3 vScale(2.f,2.f,2.f);
+	m_pTransform->setScale(vScale);*/
 
-	HitBoss(fDeltaTime);
 
 	if (GetAsyncKeyState('P'))
 	{
@@ -124,10 +111,22 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 
 	HPCheck();		///hp checks into pattern --> m_eCurState
 
+	if (m_eCurState == STATE::DEATH)
+	{
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"Boss_Death"))
+		{
+			if (!m_pAnimator->getAnimPlay())
+			{
+				setActive(false);
+				return iExit;
+			}
+		}
+	}
+
 	Follow(fDeltaTime); /// into chase and chase range --> follow distance
 	Attack_Dis(fDeltaTime); /// stance determines attack distance
 
-	Change_State();
+	//Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -138,17 +137,25 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 void CBoss::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
+
+	_float fDeltaTime = GetOutDeltaTime();
+
+	HitBoss(fDeltaTime);
+	HitPlayer(fDeltaTime);
 }
 
 void CBoss::Render_GameObject()
 {
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
-	m_pCollision->Render_Collision();
+	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
 
 	CGameObject::Render_GameObject();
+	m_pCollision->Render_Collision();
+
+	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 CGameObject* CBoss::Clone_GameObject()
@@ -226,23 +233,6 @@ void CBoss::Change_State()
 	}
 }
 
-void CBoss::GetHit(const _float fDeltaTime)
-{
-	m_iTimer += fDeltaTime;
-	if (m_iTimer >= 1.0f)
-	{
-		cout << "Boss got hit!" << endl;
-		m_pAttackColl->setActive(false);
-
-		if (m_pAttackColl->getActive())
-			m_pAttackColl->Update_Component(fDeltaTime);
-
-		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
-
-		m_iTimer = 0.f;
-	}
-}
-
 CBoss* CBoss::Create(LPDIRECT3DDEVICE9 pDevice)
 {
 	CBoss* pInstance = new CBoss(pDevice);
@@ -298,23 +288,6 @@ void CBoss::Follow(const _float& fDeltaTime)
 
 	if (m_eCurState == STATE::CHARGE)
 		ChaseCharge(&playerPos, m_fSpeed, fDeltaTime);
-}
-
-void CBoss::HitPlayer(const _float& fDeltaTime)
-{
-	m_iTimer += fDeltaTime;
-	if (m_iTimer >= 1.0f)
-	{
-		cout << "Player Hit!" << endl;
-		m_pAttackColl->setActive(false);
-
-		if (m_pAttackColl->getActive())
-			m_pAttackColl->Update_Component(fDeltaTime);
-
-		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
-
-		m_iTimer = 0.f;
-	}
 }
 
 void CBoss::MeleeAttack(const _float& fDeltaTime)
@@ -398,23 +371,41 @@ void CBoss::setTarget(const _vec3& vTarget)
 
 void CBoss::HitBoss(const _float& fTimeDelta)
 {
-	if (m_pCollision->getHit())
+	m_iTimer += fTimeDelta;
+	if (m_iTimer >= 2.0f)
+	//if (m_iTimer >= 1.0f)
 	{
-		m_iTimer += fTimeDelta;
-		if (m_iTimer >= 1.0f)
-
+		if (m_pCollision->getHit())
 		{
-			m_iHP -= 50;
-			cout << "Boss Hit!" << endl;
-			m_pCollision->setActive(false);
-
-			if (m_pCollision->getActive())
-				m_pCollision->Update_Component(fTimeDelta);
+			m_iHP -= 30;
+			m_bHPHit = true;
+			cout << "Boss got Hit!" << endl;
+			cout << m_iHP << endl;
 
 			m_pCollision->Collison(COLLISIONTAG::PLAYER);
+			m_pCollision->ResetCollision();
+			m_pCollision->setHit(false);
 
 			m_iTimer = 0.f;
 		}
+	}
+}
+
+void CBoss::HitPlayer(const _float& fDeltaTime)
+{
+	m_iTimer += fDeltaTime;
+	if (m_iTimer >= 3.4f)
+	{
+		cout << "Player got Hit!" << endl;
+		m_pAttackColl->setActive(false);
+		m_pAttackColl->setHit(false);
+
+		if (m_pAttackColl->getActive())
+			m_pAttackColl->Update_Component(fDeltaTime);
+
+		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
+
+		m_iTimer = 0.f;
 	}
 }
 
@@ -422,12 +413,15 @@ void CBoss::HPCheck()
 {
 	if (m_iHP <= 0)
 		m_eCurState = STATE::DEATH;
+
 	else if (m_iHP >= 700 && m_iHP <= 1000)
 		m_eCurState = STATE::MELEE;
-	else if (m_iHP > 300 && m_iHP <= 699)
+
+	else if (m_iHP > 1 && m_iHP <= 699)
 		m_eCurState = STATE::RANGE;
-	else if (m_iHP > 1 && m_iHP <= 299)
-		m_eCurState = STATE::CHARGE;
+
+	//else if (m_iHP > 1 && m_iHP <= 299)
+		//m_eCurState = STATE::CHARGE;
 	
 }
 
@@ -447,8 +441,8 @@ void CBoss::Attack_Dis(const _float& fDeltaTime)
 		{
 			Change_State();
 			MeleeAttack(fDeltaTime); 
-			HitPlayer(fDeltaTime);
-			m_pAttackColl->setActive(true);
+			//
+			//m_pAttackColl->setActive(true);
 		}
 		else if (fDis > 1.0f)
 		{
@@ -463,7 +457,7 @@ void CBoss::Attack_Dis(const _float& fDeltaTime)
 		{
 			Change_State();
 			RangeAttack(fDeltaTime);
-			m_pAttackColl->setActive(true);
+			//m_pAttackColl->setActive(true);
 		}
 		else if (fDis > 10.0f)
 		{

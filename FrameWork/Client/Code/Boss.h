@@ -27,7 +27,6 @@ public:
 
 private:
 	void Change_State();
-	void GetHit(const _float fDeltaTime);
 	virtual HRESULT Add_Component();
 
 	virtual void	 HPCheck();
@@ -38,8 +37,8 @@ private:
 	virtual void	 ChargeTarget(const _float& fDeltaTime);
 	virtual void	 ChargeAttack(const _float& fDeltaTime, const _vec3 vDir, const _vec3 vPos, const _vec3 vPlayerPos);
 
-	virtual void	 HitPlayer(const _float& fDeltaTime);
-	virtual void	 HitBoss(const _float& fTimeDelta);
+	virtual void	 HitPlayer(const _float& fDeltaTime);  // 보스가 플레이어 공격하는 충돌
+	virtual void	 HitBoss(const _float& fTimeDelta);	   // 보스가 맞는 충돌
 
 	virtual void	 Chase(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	virtual void	 ChaseRange(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
@@ -51,6 +50,8 @@ private:
 
 public:
 	virtual const _int& getHP() const { return m_iHP; }
+	virtual const _bool& getHPHit() const { return m_bHPHit; }
+
 	void setPos(const _vec3& vPos);
 	void setLook(const _vec3& vLook);
 	void setTarget(const _vec3& vTarget);
@@ -76,6 +77,7 @@ private:
 	_bool			m_bAttack;
 	_bool			m_bMoving;
 	_bool			m_bChargeAttack;
+	_bool			m_bHPHit;
 
 	_float			m_iTimer;
 	_float			m_fFireballTimer;
@@ -88,3 +90,19 @@ private:
 };
 
 #endif // Boss_h__
+
+//if (m_pCollision->getHit())
+//{
+//	m_iHP -= 50;
+//	cout << "Boss got Hit!" << endl;
+//	m_pCollision->ResetCollision();
+//	//m_pCollision->Collison(COLLISIONTAG::PLAYER);
+//	//m_pCollision->setActive(false);
+//	//m_pCollision->setHit(false);
+//}
+//if (m_pAttackColl->getHit())
+//{
+//	cout << "Player got Hit!" << endl;
+//	m_pAttackColl->ResetCollision();
+//	m_pAttackColl->setActive(false);
+//}

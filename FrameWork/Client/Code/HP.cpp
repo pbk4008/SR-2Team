@@ -51,46 +51,44 @@ Engine::_int CHP::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
+	//CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOSS);
+	//m_pBoss = static_cast<CBoss*>(pObject);
+	//
+	//_bool HpHit = m_pBoss->getHPHit();
+
+	//if (m_pBoss == nullptr)
+	//	return iExit;
+
+	//VTXTEX* pVertex = nullptr;
+	//LPDIRECT3DVERTEXBUFFER9 vBuff;
+	//vBuff = m_pBufferCom->Get_VtxBuffer();
+
+	//vBuff->Lock(0, 0, (void**)&pVertex, 0);
+
+	//_vec3 CurVtx1;
+	//_vec3 CurVtx2;
+	///*pVertex[1].vPos.x = m_fLength;
+	//pVertex[2].vPos.x = m_fLength;*/
+
+	//CurVtx1 = pVertex[1].vPos;
+	//CurVtx2 = pVertex[2].vPos;
+	////if (GetAsyncKeyState('T'))
+	//if(HpHit)
+	//{
+	//	CurVtx1.x -= 0.1f;
+	//	CurVtx2.x -= 0.1f;
+
+	//	pVertex[1].vPos = CurVtx1;
+	//	pVertex[2].vPos = CurVtx2;
+	//	//HpHit = false;
+	//}
+
+	//vBuff->Unlock();
+
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOSS);
 	m_pBoss = static_cast<CBoss*>(pObject);
 	m_fLength = m_pBoss->getHP();
-
-	if (m_pBoss == nullptr)
-		return iExit;
-
-
-
-
-
-	VTXTEX* pVertex = nullptr;
-
-	LPDIRECT3DVERTEXBUFFER9 vBuff;
-
-	vBuff = m_pBufferCom->Get_VtxBuffer();
-
-	vBuff->Lock(0, 0, (void**)&pVertex, 0);
-
-	_vec3 CurVtx1;
-	_vec3 CurVtx2;
-
-	pVertex[1].vPos.x = m_fLength / 1000;
-	pVertex[2].vPos.x = m_fLength / 1000;
-
-	/*CurVtx1 = pVertex[1].vPos;
-	CurVtx2 = pVertex[2].vPos;
-
-
-	if (GetAsyncKeyState('T'))
-	{
-		CurVtx1.x -= 0.1f;
-		CurVtx2.x -= 0.1f;
-
-		pVertex[1].vPos = CurVtx1;
-		pVertex[2].vPos = CurVtx2;
-	}*/
-
-	vBuff->Unlock();
-
+	m_fSizeX = m_fLength / 10;
 
 	D3DXMatrixIdentity(&m_pTransMatrix);
 
@@ -173,7 +171,7 @@ HRESULT CHP::Add_Component()
 
 void CHP::Free(void)
 {
+	CGameObject::Free();
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 }

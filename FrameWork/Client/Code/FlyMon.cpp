@@ -12,7 +12,7 @@ CFlyMon::CFlyMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(0), m_pAnimator(nullptr),
 	m_eCurState(STATE::MAX), m_ePreState(STATE::MAX), m_bMoving(false),
-	m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0)
+	m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0), m_bTracking(false)
 {
 
 }
@@ -21,7 +21,7 @@ CFlyMon::CFlyMon(LPDIRECT3DDEVICE9 pDevice)
 	: CMonster(pDevice), m_pBufferCom(nullptr), m_pTexture(nullptr),
 	m_fSpeed(0.f), m_bAttack(false), m_iTimer(0),
 	m_pAnimator(nullptr), m_eCurState(STATE::MAX), m_ePreState(STATE::MAX),
-	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0)
+	m_bMoving(false), m_pCollision(nullptr), m_pAttackColl(nullptr), m_iHP(0), m_bTracking(false)
 {
 
 }
@@ -31,7 +31,7 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	m_fSpeed(rhs.m_fSpeed), m_bAttack(rhs.m_bAttack), m_iTimer(rhs.m_iTimer),
 	m_pAnimator(rhs.m_pAnimator), m_eCurState(rhs.m_eCurState),
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr),
-	m_iHP(rhs.m_iHP)
+	m_iHP(rhs.m_iHP), m_bTracking(rhs.m_bTracking)
 {
 	m_pBufferCom->AddRef();
 
@@ -78,38 +78,50 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	m_pTransform->UsingGravity(fDeltaTime);
 
-	if (m_eCurState == STATE::DEATH)
+	_vec3	m_vInfo;
+	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
+	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	_vec3 vPos = pObject->getTransform()->getPos();
+	_vec3  vDis = m_vInfo - vPos;
+	_float fDis = D3DXVec3Length(&vDis);
+	if (fDis <= 3.0f)
+		m_bTracking = true;
+
+	if (m_bTracking)
 	{
-		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
+		if (m_eCurState == STATE::DEATH)
 		{
-			if (!m_pAnimator->getAnimPlay())
+			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
 			{
-				_int iRandNum = rand() % 100;
-				if (m_bItemCheck)//Item积己
+				if (!m_pAnimator->getAnimPlay())
 				{
-					if (iRandNum < 60)
+					_int iRandNum = rand() % 100;
+					if (m_bItemCheck)//Item积己
 					{
-						CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
-						if (!pKey)
+						if (iRandNum < 60)
 						{
-							pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
-							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
+							CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
+							if (!pKey)
+							{
+								pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
+								Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
+							}
+							pKey->getTransform()->setPos(m_pTransform->getPos());
 						}
-						pKey->getTransform()->setPos(m_pTransform->getPos());
 					}
+					setActive(false);
+					return iExit;
 				}
-				setActive(false);
-				return iExit;
 			}
 		}
+
+		Follow(fDeltaTime);
+		Attack_Dis(fDeltaTime);
 	}
 
-	Follow(fDeltaTime);
-	Attack_Dis(fDeltaTime);
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
-
 	return iExit;
 }
 
@@ -117,16 +129,9 @@ void CFlyMon::LateUpdate_GameObject()
 {
 	CGameObject::LateUpdate_GameObject();
 
-	if (m_pCollision->getHit())
-	{
-		m_eCurState = STATE::DEATH;
-		Change_State();
+	_float fDeltaTime = GetOutDeltaTime();
 
-		m_fSpeed = 0.f;
-
-		cout << "阁胶磐 面倒" << endl;
-		m_pCollision->setHit(false);
-	}
+	HitMonster(fDeltaTime);
 }
 
 void CFlyMon::Render_GameObject()
@@ -205,6 +210,30 @@ void CFlyMon::Change_State()
 			break;
 		}
 		m_ePreState = m_eCurState;
+	}
+}
+
+void CFlyMon::HitMonster(const _float& fTimeDelta)
+{
+	m_iTimer += fTimeDelta;
+	if (m_iTimer >= 2.0f)
+		//if (m_iTimer >= 1.0f)
+	{
+		if (m_pCollision->getHit())
+		{
+			m_eCurState = CFlyMon::STATE::DEATH;
+			Change_State();
+			m_fSpeed = 0.f;
+
+			cout << "Monster got Hit!" << endl;
+			cout << m_iHP << endl;
+
+			m_pCollision->Collison(COLLISIONTAG::PLAYER);
+			m_pCollision->ResetCollision();
+			m_pCollision->setHit(false);
+
+			m_iTimer = 0.f;
+		}
 	}
 }
 
