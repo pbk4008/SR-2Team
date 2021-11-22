@@ -3,8 +3,10 @@
 #define __STAGE_H__
 #include "Scene.h"
 class CLoading;
-class CDoor;
 class CPlayer;
+class CSpawner;
+class CDoorObserver;
+class CDoor;
 class C1Stage final : public CScene
 {
 private:
@@ -31,8 +33,11 @@ private:
 	virtual void Free();
 private:
 	CLoading* m_pLoading;
+	vector<CDoorObserver*> m_vecDoorObserver;
 	vector<CDoor*> m_vecDoor;
 	vector<CGameObject*> m_vecClearBox;
+	CSpawner* m_pSpawner;
+
 	_bool m_bFloorClear;
 	_bool m_bFirst;
 	CPlayer* m_pPlayer;

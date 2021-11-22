@@ -56,6 +56,8 @@ namespace Engine
 		ITEM,
 		UI,
 		DOOR,
+		SPAWNER,
+		KEY,
 		GAMEOBJECT_END
 	};
 	enum class COLLISIONTAG {PLAYER,MONSTER,BULLET,ETC,MAX};

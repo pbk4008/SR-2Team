@@ -43,6 +43,7 @@ public:
 public:
 	ATTACKTYPE getAttackType() { return m_eCurType; }
 	_int getJumpCount() { return m_iJumpCount; }
+	_int getKeyCount() { return m_iGetKeyCount; }
 private:
 	STATE m_eCulState;
 	STATE m_ePreState;
@@ -63,6 +64,7 @@ private:
 	_float m_fCurrentHp;
 	_int m_iShurikenCount;
 	_int m_iBombCount;
+	_int m_iGetKeyCount;
 
 
 	CMainCamera* m_pMainCamera;

@@ -6,11 +6,13 @@
 #include "Shuriken.h"
 #include "Bomb.h"
 #include "SphereCollision.h"
+#include "Key.h"
+
 CPlayer::CPlayer() : m_pMainCamera(nullptr), m_pModel(nullptr) , m_eCulState(STATE::MAX),
 m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
-,m_fMaxHp(0.f), m_fCurrentHp(0.f),m_iShurikenCount(0),m_iBombCount(0)
+,m_fMaxHp(0.f), m_fCurrentHp(0.f),m_iShurikenCount(0),m_iBombCount(0),m_iGetKeyCount(0)
 {
 }
 
@@ -18,7 +20,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pDevice): CGameObject(pDevice), m_pMainCamera
 m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(nullptr), m_pAtkCollision(nullptr)
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
-, m_fMaxHp(0.f), m_fCurrentHp(0.f), m_iShurikenCount(0), m_iBombCount(0)
+, m_fMaxHp(0.f), m_fCurrentHp(0.f), m_iShurikenCount(0), m_iBombCount(0), m_iGetKeyCount(0)
 {
 }
 
@@ -29,6 +31,7 @@ m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState
 m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_bDash(rhs.m_bDash)
 , m_fDashTime(rhs.m_fDashTime), m_bDashDelay(rhs.m_bDashDelay), m_iJumpCount(rhs.m_iJumpCount)
 , m_fMaxHp(rhs.m_fMaxHp), m_fCurrentHp(rhs.m_fCurrentHp), m_iShurikenCount(rhs.m_iShurikenCount), m_iBombCount(rhs.m_iBombCount)
+, m_iGetKeyCount(rhs.m_iGetKeyCount)
 {
 	m_pTransform->setPos(3.f,0.f,3.f);
 	if (rhs.m_pModel)
@@ -71,7 +74,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	if (!m_bJump)
 		m_pTransform->UsingGravity(fDeltaTime);
 	else
-		m_pTransform->Jump(fDeltaTime, 6.f, m_bJump);
+		m_pTransform->Jump(fDeltaTime, 4.f, m_bJump);
 	KeyInput(fDeltaTime);
 	m_pHitCollision->WallCollision();
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
@@ -129,6 +132,8 @@ void CPlayer::LateUpdate_GameObject()
 		switch (eTag)
 		{
 		case COLLISIONTAG::ETC:
+			if (typeid(*m_pHitCollision->getCollider()) == typeid(CKey))
+				m_iGetKeyCount++;
 			m_bHide = true;
 			break;
 		case COLLISIONTAG::MONSTER:

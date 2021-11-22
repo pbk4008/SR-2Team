@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "Monster.h"
 #include "AStar.h"
-CMonster::CMonster() :m_pAstar(nullptr)
+CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 }
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
-	:CGameObject(pDevice), m_pAstar(nullptr)
+	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 }
 
-CMonster::CMonster(const CMonster& rhs) : CGameObject(rhs), m_pAstar(nullptr), m_pTargetPos(rhs.m_pTargetPos)
+CMonster::CMonster(const CMonster& rhs) : CGameObject(rhs), m_pAstar(nullptr), m_pTargetPos(rhs.m_pTargetPos), m_bItemCheck(rhs.m_bItemCheck)
 {
 	m_pAstar = CAstar::Create();
 }
@@ -40,7 +40,7 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 
 	if (fDis >= 1.0f)
 	{
-	m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
+		MoveRoute(m_vInfo, *pTargetPos, fTimeDelta, fSpeed);
 	}
 	m_pTransform->setPos(m_vInfo);
 }
@@ -61,11 +61,10 @@ void CMonster::Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed
 	_vec3 vDis = *pTargetPos - m_vInfo;
 	_float fDis = D3DXVec3Length(&vDis);
 
-	MoveRoute(m_vInfo, *pTargetPos, fTimeDelta, fSpeed);
-	/*if (fDis >= 5.0f)
+	if (fDis >= 5.0f)
 	{
 		MoveRoute(m_vInfo, *pTargetPos, fTimeDelta, fSpeed);
-	}*/
+	}
 	m_pTransform->setPos(m_vInfo);
 }
 
@@ -88,7 +87,7 @@ void CMonster::Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, c
 
 	if (fDis >= 2.5f)
 	{
-		m_vInfo += *D3DXVec3Normalize(&vDir, &vDir) * fSpeed * fTimeDelta;
+		MoveRoute(m_vInfo, *pTargetPos, fTimeDelta, fSpeed);
 	}
 	m_pTransform->setPos(m_vInfo);
 }
@@ -136,6 +135,11 @@ void CMonster::MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaT
 	_vec3 vPos = m_pTransform->getPos();
 	vPos += vMovePos;
 	vStart = vPos;
+}
+
+void CMonster::ResetObject()
+{
+	m_bItemCheck = false;
 }
 
 void CMonster::Free()

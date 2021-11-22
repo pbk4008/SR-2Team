@@ -8,7 +8,8 @@
 #include "ShootMon_Death.h"
 #include "MonBullet.h"
 #include "SphereCollision.h"
-#include "AStar.h"
+#include "Key.h"
+
 CShootMon::CShootMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(0), m_pAnimator(nullptr),
@@ -87,6 +88,20 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 		{
 			if (!m_pAnimator->getAnimPlay())
 			{
+				_int iRandNum = rand() % 100;
+				if (m_bItemCheck)//Item»ý¼º
+				{
+					if (iRandNum < 60)
+					{
+						CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
+						if (!pKey)
+						{
+							pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
+						}
+						pKey->getTransform()->setPos(m_pTransform->getPos());
+					}
+				}
 				setActive(false);
 				return iExit;
 			}
