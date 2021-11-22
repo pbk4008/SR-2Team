@@ -37,6 +37,7 @@ protected:
 	_vec3 m_vNodeSecond;
 	_float m_fNodeLen;
 	_bool m_bFirst;
+	_bool m_bReborn;
 };
 
 #endif // Monster_h__

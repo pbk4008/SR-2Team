@@ -128,24 +128,21 @@ void CTerrain::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _v
 
 void CTerrain::Create_NaviMesh()
 {
-	m_pNaviMesh->setVtxCnt(m_pBufferCom->getVtxPos(), m_pBufferCom->getCntX(), m_pBufferCom->getCntZ());
+	_vec3 vTerrainPos = m_pTransform->getPos();
+	m_pNaviMesh->setVtxCnt(m_pBufferCom->getVtxPos(), m_pBufferCom->getCntX(), m_pBufferCom->getCntZ(), vTerrainPos.y);
 	auto pVector = CCollisionMgr::GetInstance()->getVecWall();
 	for (auto pWall : pVector)
 	{ 
 		_vec3 vAxis = static_cast<CBoxCollision*>(pWall)->getScale();
-		vAxis * 0.5f;
+		vAxis *= 0.5f;
 		_vec3 vPos = pWall->getCenter();
 		
-		vPos.y -= vAxis.y;
-		if (vPos.y < 0)
-			vPos.y = 0.f;
-		else if (vPos.y > 0.f)
-			continue;
-		_vec3 vLeftBottom = _vec3(vPos.x - vAxis.x, vPos.y, vPos.z - vAxis.z);
-		_vec3 vRightTop = _vec3(vPos.x + vAxis.x, vPos.y, vPos.z + vAxis.z);
+		vPos.y = vTerrainPos.y;
 
-		RECT rc = { _long(vLeftBottom.x),_long(vLeftBottom.z), _long(vRightTop.x), _long(vRightTop.z) };
-		m_pNaviMesh->Check_Shape(vPos,&rc);
+		_vec3 vLeftTop = { vPos.x - vAxis.x, vPos.y, vPos.z - vAxis.z };
+		_vec3 vRightBottom = { vPos.x + vAxis.x, vPos.y, vPos.z + vAxis.z };
+
+		m_pNaviMesh->Check_Shape(vLeftTop, vRightBottom);
 	}
 	m_pNaviMesh->Connet_NaviMesh();
 }

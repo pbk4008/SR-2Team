@@ -82,18 +82,24 @@ CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID 
 {
 	for (auto& pObj : (*pGameObejctArr))
 	{
-		if (pObj->getActive())
-		{
-			if (eObjID != GAMEOBJECTID::SHURIKEN && eObjID != GAMEOBJECTID::BOMB)
-				return pObj;
-			else
-				continue;
-		}
-		else
+		if (!pObj->getActive())
 		{
 			pObj->setActive(true);
 			pObj->ResetObject();
 			return pObj;
+		}
+		else
+		{
+			if (eObjID == GAMEOBJECTID::SHURIKEN
+				|| eObjID == GAMEOBJECTID::BOMB
+				|| eObjID == GAMEOBJECTID::FOG
+				|| eObjID == GAMEOBJECTID::MONSTER1
+				|| eObjID == GAMEOBJECTID::MONSTER2
+				|| eObjID == GAMEOBJECTID::MONSTER3
+				|| eObjID == GAMEOBJECTID::MONBULLET)
+				continue;
+			else
+				return pObj;
 		}
 	}
 	return nullptr;

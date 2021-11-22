@@ -41,9 +41,9 @@ HRESULT C1Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	
-	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	m_dwCurFloor = 1;
 	return S_OK;
 }
@@ -256,14 +256,7 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	pSpawner->SettingCollision();
 	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
 	
-<<<<<<< HEAD
-	//CMeleeMon* m_pMeleeMon = nullptr;
-	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
-	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
-=======
->>>>>>> bk
-
+	
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
 }

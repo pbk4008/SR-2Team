@@ -157,18 +157,10 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
 	//// Melee Monster #1
-<<<<<<< HEAD
-	//pObj = CMeleeMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	////
-	// 
-=======
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	//
->>>>>>> bk
 	//// Shoot Monster
 	pObj = CShootMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -179,18 +171,10 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
 
-<<<<<<< HEAD
-=======
 	pObj = CFlyMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
-
-	//pObj = CBoss::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
-
->>>>>>> bk
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
@@ -223,13 +207,6 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
 
-	pObj = CBoss::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
-
-	pObj = CHP::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSSHP, pObj);
 
 
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
@@ -347,10 +324,10 @@ _uint CLoading::Loading_ForStage2()
 
 
 
-	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
+	//FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
 
 	m_bFinish = true;
 	return 0;

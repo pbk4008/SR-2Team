@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Monster.h"
 #include "AStar.h"
-CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f)
+CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 	ZeroMemory(&m_vStart, sizeof(_vec3));
@@ -12,7 +12,7 @@ CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m
 }
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
-	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f)
+	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 	ZeroMemory(&m_vStart, sizeof(_vec3));
@@ -24,7 +24,7 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
 
 CMonster::CMonster(const CMonster& rhs) : CGameObject(rhs), m_pAstar(nullptr), m_pTargetPos(rhs.m_pTargetPos), m_bItemCheck(rhs.m_bItemCheck)
 ,m_vStart(rhs.m_vStart), m_vEnd(rhs.m_vEnd), m_bFirst(rhs.m_bFirst), m_vDir(rhs.m_vDir),m_vNodeFirst(rhs.m_vNodeFirst)
-,m_vNodeSecond(rhs.m_vNodeSecond), m_fNodeLen(rhs.m_fNodeLen)
+,m_vNodeSecond(rhs.m_vNodeSecond), m_fNodeLen(rhs.m_fNodeLen), m_bReborn(rhs.m_bReborn)
 {
 }
 
@@ -177,6 +177,7 @@ void CMonster::MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaT
 
 void CMonster::ResetObject()
 {
+	m_bReborn = true;
 	m_bItemCheck = false;
 }
 
@@ -191,6 +192,6 @@ void CMonster::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _v
 	m_pTransform->setScale(vScale);
 	m_pTransform->setAngle(vRotate);
 	m_pTransform->setPos(vPos);
-
-	m_pAstar = CAstar::Create(vPos);
+	if(!m_bReborn)
+		m_pAstar = CAstar::Create(vPos);
 }
