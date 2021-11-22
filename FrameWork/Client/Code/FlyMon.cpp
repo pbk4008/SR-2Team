@@ -7,6 +7,7 @@
 #include "FlyMon_Attack.h"
 #include "FlyMon_Death.h"
 #include "SphereCollision.h"
+#include "Key.h"
 CFlyMon::CFlyMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
 	m_bAttack(false), m_iTimer(0), m_pAnimator(nullptr),
@@ -32,10 +33,10 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr),
 	m_iHP(rhs.m_iHP)
 {
+	m_pBufferCom->AddRef();
+
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
-
-	m_iHP = 100;
 
 	CComponent* pComponent = nullptr;
 
@@ -48,6 +49,7 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
+	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
@@ -82,6 +84,20 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 		{
 			if (!m_pAnimator->getAnimPlay())
 			{
+				_int iRandNum = rand() % 100;
+				if (m_bItemCheck)//Item»ý¼º
+				{
+					if (iRandNum < 60)
+					{
+						CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
+						if (!pKey)
+						{
+							pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
+						}
+						pKey->getTransform()->setPos(m_pTransform->getPos());
+					}
+				}
 				setActive(false);
 				return iExit;
 			}
@@ -252,35 +268,15 @@ HRESULT CFlyMon::Add_Component()
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
 
-	// collision
-	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pCollision->setRadius(1.f);
-	m_pCollision->setTag(COLLISIONTAG::MONSTER);
-	m_pCollision->setActive(true);
-	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
-	m_pCollision->setTransform(m_pTransform);
-	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
-
-	// collision
-	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pAttackColl->setRadius(1.f);
-	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
-	m_pAttackColl->setActive(false);
-	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
-
 	return S_OK;
 }
 
 void CFlyMon::Free()
 {
-	CGameObject::Free();
+	CMonster::Free();
 	Safe_Release(m_pCollision);
 	Safe_Release(m_pAttackColl);
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
-	CGameObject::Free();
 }

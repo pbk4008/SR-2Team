@@ -4,7 +4,7 @@
 #include "Loading.h"
 #include "BackGround.h"
 #include "Transform.h"
-#include "Stage.h"
+#include "1Stage.h"
 #include "BackGround.h"
 
 
@@ -43,7 +43,7 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 		{
 			CScene* pScene = nullptr;
 
-			pScene = CStage::Create(m_pDevice);
+			pScene = C1Stage::Create(m_pDevice);
 
 			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
@@ -128,7 +128,7 @@ HRESULT CLogo::Init_LogoScene()
 {
 	//Logo씬에서 사용할 텍스쳐
 	CTextureMgr* pTexutreMgr = Init_TextureMgr();
-	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/BackGround.png", L"BackGround", 1);
+	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/BackGround/BackGround.png", L"BackGround", 1);
 
 	//Component 원본
 	CComponent* pCom = nullptr;

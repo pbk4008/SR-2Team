@@ -11,7 +11,9 @@ private:
 	virtual ~CLoading();
 public:
 	HRESULT Init_Loading(SCENEID eLoading);
-	_uint   Loading_ForStage();
+	_uint   Loading_ForStage1();
+	_uint   Loading_ForStage2();
+	_uint   Loading_ForStage3();
 public:
 	static CLoading* Create(LPDIRECT3DDEVICE9 pDevice, SCENEID eID);
 	static unsigned CALLBACK Thread_Main(void* pArg);
@@ -22,6 +24,8 @@ public:
 	HRESULT	Load_MeleeMon(const _tchar* strName);
 	HRESULT	Load_ShootMon(const _tchar* strName);
 	HRESULT	Load_FlyMon(const _tchar* strName);
+
+	HRESULT	Load_Monster(const _tchar* strName);
 	HRESULT	Load_Boss(const _tchar* strName);
 	
 private:

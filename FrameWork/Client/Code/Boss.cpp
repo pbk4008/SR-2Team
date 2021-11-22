@@ -9,7 +9,6 @@
 #include "Boss_DeathAnim.h"
 #include "Boss_ChargeAnim.h"
 #include "Fireball.h"
-#include "HP.h"
 
 CBoss::CBoss()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_pAnimator(nullptr),
@@ -72,9 +71,7 @@ HRESULT CBoss::Init_Boss()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fSpeed = 5.f;
 
-	m_iHP = 699;
-
-//	m_pHP = Clone_ObjProto<CHP>(GAMEOBJECTID::BOSSHP);
+	m_iHP = 1000;
 	
 	return S_OK;
 }
@@ -83,8 +80,8 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
 
-	m_pTransform->setScale(3.f, 3.f, 3.f);
-	m_pTransform->UsingGravity(fDeltaTime);
+	//m_pTransform->setScale(3.f, 3.f, 3.f);
+	//m_pTransform->UsingGravity(fDeltaTime);
 
 	HitBoss(fDeltaTime);
 
@@ -108,7 +105,6 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 		m_iHP = 0;
 	}
 
-	//jkhkjhk
 
 	HPCheck();		///hp checks into pattern --> m_eCurState
 
@@ -410,7 +406,7 @@ void CBoss::HPCheck()
 {
 	if (m_iHP <= 0)
 		m_eCurState = STATE::DEATH;
-	else if (m_iHP > 1000 && m_iHP <= 700)
+	else if (m_iHP >= 700 && m_iHP <= 1000)
 		m_eCurState = STATE::MELEE;
 	else if (m_iHP > 300 && m_iHP <= 699)
 		m_eCurState = STATE::RANGE;
@@ -547,9 +543,6 @@ _matrix* CBoss::ComputeLookAtTarget(const _vec3* pTargetPos)
 {
 	_matrix matView, matBill;
 	D3DXMatrixIdentity(&matBill);
-
-	_matrix matWorld;
-	matWorld = m_pTransform->getWorldMatrix();
 
 	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
 

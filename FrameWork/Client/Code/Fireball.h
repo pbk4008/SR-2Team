@@ -24,6 +24,8 @@ public:
 
 private:
 	void Move(const _float& fDeltaTime);
+	virtual _matrix* ComputeLookAtTarget();
+
 
 private:
 	virtual HRESULT Add_Component();

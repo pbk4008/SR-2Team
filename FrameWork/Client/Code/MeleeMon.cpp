@@ -7,6 +7,7 @@
 #include "MeleeMon_Attack.h"
 #include "MeleeMon_Death.h"
 #include "SphereCollision.h"
+#include "Key.h"
 
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -85,6 +86,20 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 		{
 			if (!m_pAnimator->getAnimPlay())
 			{
+				_int iRandNum = rand() % 100;
+				if (m_bItemCheck)//Item생성
+				{
+					if (iRandNum < 60)//나올 확률 60%
+					{
+						CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
+						if (!pKey)
+						{
+							pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
+						}
+						pKey->getTransform()->setPos(m_pTransform->getPos());
+					}
+				}
 				setActive(false);
 				return iExit;
 			}

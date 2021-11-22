@@ -5,7 +5,6 @@
 #include "GameObject.h"
 #include "Player.h"
 
-class CHP;
 class CBullet;
 class CBoss : public CGameObject
 {
@@ -31,16 +30,16 @@ private:
 	void GetHit(const _float fDeltaTime);
 	virtual HRESULT Add_Component();
 
+	virtual void	 HPCheck();
 	virtual void	 Follow(const _float& fDeltaTime);
 	virtual void	 Attack_Dis(const _float& fDeltaTime);
-	virtual void	 HitPlayer(const _float& fDeltaTime);
 	virtual void	 MeleeAttack(const _float& fDeltaTime);
 	virtual void	 RangeAttack(const _float& fDeltaTime);
 	virtual void	 ChargeTarget(const _float& fDeltaTime);
 	virtual void	 ChargeAttack(const _float& fDeltaTime, const _vec3 vDir, const _vec3 vPos, const _vec3 vPlayerPos);
 
+	virtual void	 HitPlayer(const _float& fDeltaTime);
 	virtual void	 HitBoss(const _float& fTimeDelta);
-	virtual void	 HPCheck();
 
 	virtual void	 Chase(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	virtual void	 ChaseRange(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
@@ -51,6 +50,7 @@ private:
 
 
 public:
+	_int getHP() { return m_iHP; }
 	void setPos(const _vec3& vPos);
 	void setLook(const _vec3& vLook);
 	void setTarget(const _vec3& vTarget);
@@ -63,13 +63,15 @@ private:
 	CRcTex*			m_pBufferCom;
 	CTexture*		m_pTexture;
 	CAnimator*		m_pAnimator;
-	CHP*			m_pHP;
 
 	STATE			m_eCurState;
 	STATE			m_ePreState;
 
 	CSphereCollision*		m_pCollision; // 몬스터가 맞는 충돌
 	CSphereCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
+
+	//CCollision* m_pCollision;
+	//CCollision* m_pAttackColl;
 
 	_int			m_iHP;
 	_int			m_iAttackNumber;
