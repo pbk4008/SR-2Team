@@ -197,6 +197,8 @@
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
+    <ClInclude Include="..\Code\Potal.h" />
+    <ClInclude Include="..\Code\PotalAnim.h" />
     <ClInclude Include="..\Code\Spawner.h" />
     <ClInclude Include="..\Code\Quad.h" />
     <ClInclude Include="..\Code\Cube.h" />
@@ -266,6 +268,8 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
+    <ClCompile Include="..\Code\Potal.cpp" />
+    <ClCompile Include="..\Code\PotalAnim.cpp" />
     <ClCompile Include="..\Code\Spawner.cpp" />
     <ClCompile Include="..\Code\Quad.cpp" />
     <ClCompile Include="..\Code\Cube.cpp" />
