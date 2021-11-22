@@ -10,7 +10,6 @@
 #include "FlyMon.h"
 #include "UI.h"
 #include "Door.h"
-#include "Boss.h"
 #include "Spawner.h"
 #include "DoorObserver.h"
 
@@ -159,11 +158,6 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	//pGameObject = m_pFlyMonn = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
 	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
 
-	//boss
-	CBoss* m_pBoss = nullptr;
-	pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
-
 	CSpawner* pSpawner = nullptr;
 
 	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
@@ -217,10 +211,6 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	pSpawner->setIndex(2);
 	pSpawner->SettingCollision();
 	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
-	
-	//CMeleeMon* m_pMeleeMon = nullptr;
-	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
