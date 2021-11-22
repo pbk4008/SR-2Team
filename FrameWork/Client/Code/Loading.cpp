@@ -171,21 +171,18 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-<<<<<<< HEAD
 	//// Melee Monster #1
 	//pObj = CMeleeMon::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	////
 	////// Shoot Monster
-=======
 	// Melee Monster #1
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	//
 	//// Shoot Monster
->>>>>>> bk
 	//pObj = CShootMon::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
