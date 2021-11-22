@@ -56,10 +56,10 @@ HRESULT CLoading::Init_Loading(SCENEID eLoading)
 
 _uint CLoading::Loading_ForStage1()
 {
-	//ToDo:¾²·¹µå·Î ºÒ·¯µéÀÏ °÷
+	//ToDo:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
-	//TextureºÒ·¯¿À±â
+	//Textureï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
@@ -112,7 +112,7 @@ _uint CLoading::Loading_ForStage1()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_EMPTY.png", L"Boss_HPFull", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/HP/HP_FULL.png", L"Boss_HPEmpty", 1);
 	
-	//Component¿øº» »ý¼º
+	//Componentï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	CComponent* pCom = nullptr;
 
 	pCom = CAnimator::Create(m_pDevice);
@@ -171,12 +171,12 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-	//// Melee Monster #1
-	//pObj = CMeleeMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	////
-	////// Shoot Monster
+	// Melee Monster #1
+	pObj = CMeleeMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
+	//
+	//// Shoot Monster
 	//pObj = CShootMon::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
@@ -185,8 +185,7 @@ _uint CLoading::Loading_ForStage1()
 	//pObj = CMonBullet::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	//
-	//// Fly Monster
+
 	//pObj = CFlyMon::Create(m_pDevice);
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
@@ -201,9 +200,10 @@ _uint CLoading::Loading_ForStage1()
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
-	/*pObj = CBoss::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);*/
+
+	//pObj = CBoss::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -238,10 +238,10 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
 
 
-	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage1ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage1TerrainData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -271,7 +271,7 @@ _uint CLoading::Loading_ForStage2()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
 
 
-	//Component¿øº» »ý¼º
+	//Componentï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	CComponent* pCom = nullptr;
 
 	pCom = CAnimator::Create(m_pDevice);
@@ -355,7 +355,7 @@ _uint CLoading::Loading_ForStage2()
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);*/
 
 	m_bFinish = true;
 	return 0;
@@ -478,7 +478,7 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 
 			VtxInfoValue.erase(0, dot + 1);
 		}
-		//ÁöÇü »ý¼º
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (i==0)
 		{
 			CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2,2,1,1);
@@ -492,7 +492,7 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 		
 		pTerrain = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);
 		pTerrain->setVtxSetting(iVecTerrainInfo[0], iVecTerrainInfo[1], iVecTerrainInfo[2], iVecTerrainInfo[3]);
-		//ÁöÇü ÅØ½ºÃÄ ºÒ·¯¿À±â
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		wstring FolderName;
 		wstring FileName;
 
@@ -522,10 +522,10 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
 			Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
 
-		//Todo:ÁöÇü ÅØ½ºÃÄ ³Ö±â
+		//Todo:ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 		pTerrain->setTexture(FileName.c_str());
 
-		//ÁöÇü Scale°ª
+		//ï¿½ï¿½ï¿½ï¿½ Scaleï¿½ï¿½
 		Key = "Scale";
 		
 		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
@@ -644,7 +644,7 @@ HRESULT CLoading::Load_Quad(const _tchar* strName)
 		if (!GetTexture(FileName.c_str(), TEXTURETYPE::TEX_NORMAL))
 			Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, strtemp, FileName.c_str(), 1);
 
-		//QuadÅØ½ºÃÄ ³Ö±â
+		//Quadï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 		pQuad->setTexture(FileName.c_str());
 
 		Key = "Scale";
@@ -708,7 +708,7 @@ HRESULT CLoading::Load_Quad(const _tchar* strName)
 			strPos.erase(0, dot + 1);
 		}
 
-		//QuadTransform ¼³Á¤
+		//QuadTransform ï¿½ï¿½ï¿½ï¿½
 		pQuad->getTransform()->setScale(Scale);
 		pQuad->getTransform()->setAngle(vRotate);
 		pQuad->getTransform()->setPos(Position);
