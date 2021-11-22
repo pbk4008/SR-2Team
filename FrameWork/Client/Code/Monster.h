@@ -20,10 +20,14 @@ protected:
 private:
 	void MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaTime, const _float& fSpeed);
 protected:
+	virtual void ResetObject();
 	virtual void Free();
+public:
+	void setItemCheck(_bool bCheck) { m_bItemCheck = bCheck; }
 protected:
 	CAstar* m_pAstar;
 	_vec3 m_pTargetPos;
+	_bool m_bItemCheck;
 };
 
 #endif // Monster_h__
