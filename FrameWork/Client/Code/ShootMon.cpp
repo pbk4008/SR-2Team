@@ -33,10 +33,10 @@ CShootMon::CShootMon(const CShootMon& rhs)
 	m_ePreState(rhs.m_ePreState), m_bMoving(rhs.m_bMoving), m_pCollision(nullptr), m_pAttackColl(nullptr),
 	m_iHP(rhs.m_iHP), m_pMonBullet(rhs.m_pMonBullet)
 {
+	m_pBufferCom->AddRef();
+
 	SettingAnimator();
 	m_eCurState = STATE::IDLE;
-
-	m_iHP = 100;
 
 	CComponent* pComponent = nullptr;
 
@@ -49,6 +49,7 @@ CShootMon::CShootMon(const CShootMon& rhs)
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
+	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
@@ -58,8 +59,6 @@ CShootMon::CShootMon(const CShootMon& rhs)
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
 	Insert_Collision(m_pAttackColl);
-
-	m_pTransform->setPos(3.f, 3.f, 3.f);
 }
 
 CShootMon::~CShootMon()
@@ -234,25 +233,6 @@ HRESULT CShootMon::Add_Component()
 	pComponent = m_pBufferCom = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
 	m_pBufferCom->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_STATIC].emplace(COMPONENTID::RCTEX, pComponent);
-
-	// collision
-	m_pCollision = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pCollision->setRadius(1.f);
-	m_pCollision->setTag(COLLISIONTAG::MONSTER);
-	m_pCollision->setActive(true);
-	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
-	m_pCollision->setTransform(m_pTransform);
-	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
-	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
-
-	// collision
-	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pAttackColl->setRadius(1.f);
-	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
-	m_pAttackColl->setActive(false);
-	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
 
 	return S_OK;
 }

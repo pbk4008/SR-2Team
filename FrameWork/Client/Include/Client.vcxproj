@@ -160,6 +160,7 @@
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
     <ClInclude Include="..\Code\Boss.h" />
+    <ClInclude Include="..\Code\BossStage.h" />
     <ClInclude Include="..\Code\Boss_ChargeAnim.h" />
     <ClInclude Include="..\Code\Boss_DeathAnim.h" />
     <ClInclude Include="..\Code\Boss_IdleAnim.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />
+    <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\Boss_ChargeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_DeathAnim.cpp" />
     <ClCompile Include="..\Code\Boss_IdleAnim.cpp" />

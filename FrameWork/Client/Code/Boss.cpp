@@ -71,7 +71,7 @@ HRESULT CBoss::Init_Boss()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_fSpeed = 5.f;
 
-	m_iHP = 800;
+	m_iHP = 1000;
 	
 	return S_OK;
 }

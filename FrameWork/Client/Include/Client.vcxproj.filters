@@ -221,6 +221,9 @@
     <Filter Include="01.Scene\02.Stage\02.3Stage">
       <UniqueIdentifier>{6d628c72-6686-4a21-8a26-9d09c169e654}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Scene\02.Stage\03.BossStage">
+      <UniqueIdentifier>{13418075-9d7f-40da-85da-01a37fe613ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -412,6 +415,9 @@
     <ClInclude Include="..\Code\3Stage.h">
       <Filter>01.Scene\02.Stage\02.3Stage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\BossStage.h">
+      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -582,6 +588,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\3Stage.cpp">
       <Filter>01.Scene\02.Stage\02.3Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
+      <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
