@@ -160,9 +160,9 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
 
 	//boss
-	CBoss* m_pBoss = nullptr;
+	/*CBoss* m_pBoss = nullptr;
 	pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);*/
 
 	CSpawner* pSpawner = nullptr;
 

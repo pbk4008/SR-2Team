@@ -170,25 +170,15 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
-	// Melee Monster #1
-	pObj = CMeleeMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	//
-	//// Shoot Monster
-	pObj = CShootMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
-
-	// MonBullet
-	pObj = CMonBullet::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-	
-	// Fly Monster
-	pObj = CFlyMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+	//// Melee Monster #1
+	//pObj = CMeleeMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
+	////
+	////// Shoot Monster
+	//pObj = CShootMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
 	//// MonBullet
 	//pObj = CMonBullet::Create(m_pDevice);
@@ -200,9 +190,19 @@ _uint CLoading::Loading_ForStage1()
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
-	pObj = CBoss::Create(m_pDevice);
+	//// MonBullet
+	//pObj = CMonBullet::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	//
+	//// Fly Monster
+	//pObj = CFlyMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+
+	/*pObj = CBoss::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);*/
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -798,30 +798,43 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 		if (!TypeName.compare(L"HP20"))
 		{
 			pItem->setItemPower(20);
+			pItem->setItemType(eITEM::HP20);
 		}
 		else if (!TypeName.compare(L"HP50"))
 		{
 			pItem->setItemPower(50);
+			pItem->setItemType(eITEM::HP50);
+
 		}
 		else if (!TypeName.compare(L"HP100"))
 		{
 			pItem->setItemPower(100);
+			pItem->setItemType(eITEM::HP100);
+
 		}
 		else if (!TypeName.compare(L"SHURIKEN20"))
 		{
 			pItem->setItemPower(20);
+			pItem->setItemType(eITEM::SHURIKEN20);
+
 		}
 		else if (!TypeName.compare(L"SHURIKEN50"))
 		{
 			pItem->setItemPower(50);
+			pItem->setItemType(eITEM::SHURIKEN50);
+
 		}
 		else if (!TypeName.compare(L"BOMB2"))
 		{
 			pItem->setItemPower(2);
+			pItem->setItemType(eITEM::BOMB2);
+
 		}
 		else if (!TypeName.compare(L"BOMB5"))
 		{
 			pItem->setItemPower(5);
+			pItem->setItemType(eITEM::BOMB5);
+
 		}
 		
 		pItem->setTexture(TypeName.c_str());
