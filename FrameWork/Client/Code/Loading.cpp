@@ -252,6 +252,106 @@ _uint CLoading::Loading_ForStage2()
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Sword/Player_Attack_Sword00%d.png", L"PlayerSwordAttack", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Shuriken/Player_Attack_Shuriken00%d.png", L"PlayerShurikenAttack", 8);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Attack/Bomb/Player_Attack_Bomb00%d.png", L"PlayerBombAttack", 3);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Shuriken/Shuriken00%d.png", L"Shuriken", 4);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN50PATH, L"SHURIKEN50", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB2PATH, L"BOMB2", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, BOMB5PATH, L"BOMB5", 1);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/UI.png", L"UI", 1);
+
+
+	//Component원본 생성
+	CComponent* pCom = nullptr;
+
+	pCom = CAnimator::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::ANIMATOR, pCom);
+
+	_vec3 vEye = _vec3(0.f, 0.f, -10.f);
+	_vec3 vAt = _vec3(0.f, 0.f, 1.f);
+	_vec3 vUp = _vec3(0.f, 1.f, 0.f);
+
+	pCom = CCamera::Create(m_pDevice, vEye, vAt, vUp, D3DXToRadian(60.f), (_float)WINCX / WINCY, 0.1f, 1000.f);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::CAMERA, pCom);
+
+	pCom = CSphereCollision::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::SPHERECOL, pCom);
+
+	pCom = CBoxCollision::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::BOXCOL, pCom);
+
+	pCom = CNaviMesh::Create(m_pDevice, 0, 0);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::NAVIMESH, pCom);
+
+	pCom = CCubeTex::Create(m_pDevice);
+	NULL_CHECK_RETURN(pCom, -1);
+	Init_ComProto(COMPONENTID::CUBETEX, pCom);
+
+	//////////////////////////////////////////////////////////////////////////////////
+	CGameObject* pObj = nullptr;
+
+	//Quad
+	pObj = CQuad::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::QUAD, pObj);
+
+	//Cube
+	pObj = CCube::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::CUBE, pObj);
+
+	////Player
+	pObj = CPlayer::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::PLAYER, pObj);
+
+	////////Camera
+	pObj = CMainCamera::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::CAMERA, pObj);
+
+	////PlayerModel
+	pObj = CPlayerModel::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
+
+	pObj = CShuriken::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
+
+	pObj = CBomb::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BOMB, pObj);
+
+	pObj = CFog::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::FOG, pObj);
+
+	pObj = CItem::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::ITEM, pObj);
+
+	pObj = CUI::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::UI, pObj);
+
+
+
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);

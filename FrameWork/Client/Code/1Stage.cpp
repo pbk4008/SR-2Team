@@ -42,7 +42,7 @@ HRESULT C1Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	m_dwCurFloor = 1;

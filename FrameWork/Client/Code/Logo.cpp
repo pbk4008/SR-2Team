@@ -6,6 +6,8 @@
 #include "Transform.h"
 #include "1Stage.h"
 #include "BackGround.h"
+#include "2Stage.h"
+#include "3Stage.h"
 
 
 CLogo::CLogo():m_pLoading(nullptr)
@@ -26,7 +28,9 @@ HRESULT CLogo::Init_Scene()
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_ProtoMgr(), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
+	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
 	return S_OK;
@@ -43,7 +47,7 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 		{
 			CScene* pScene = nullptr;
 
-			pScene = C1Stage::Create(m_pDevice);
+			pScene = C2Stage::Create(m_pDevice);
 
 			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
@@ -147,7 +151,7 @@ HRESULT CLogo::Init_LogoScene()
 
 	//GameObject원본 생성
 	CGameObject* pObj = nullptr;
-	pObj = CBackGround::Create(m_pDevice, SCENEID::STAGE_ONE);
+	pObj = CBackGround::Create(m_pDevice, SCENEID::STAGE_TWO);
 	NULL_CHECK_RETURN(pObj, E_FAIL);
 	Init_ObjProto(GAMEOBJECTID::BACKGROUND, pObj);
 
