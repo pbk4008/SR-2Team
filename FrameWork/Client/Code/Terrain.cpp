@@ -43,7 +43,7 @@ _int CTerrain::Update_GameObject(const _float& fDeltaTime)
 	m_pTransform->Update_Component(fDeltaTime);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
-	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
 }
 
@@ -55,10 +55,12 @@ void CTerrain::LateUpdate_GameObject()
 void CTerrain::Render_GameObject()
 {
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pTexture->Render_Texture();
 	m_pBufferCom->Render_Buffer();
 	CGameObject::Render_GameObject();
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 

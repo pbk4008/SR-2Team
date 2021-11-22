@@ -22,6 +22,8 @@
 #include "NaviMesh.h"
 #include "HP.h"
 #include "Door.h"
+#include "Spawner.h"
+#include "Key.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -83,6 +85,9 @@ _uint CLoading::Loading_ForStage1()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Spawner/Spawner00%d.png", L"Spawner", 8);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Key/Key000.png", L"Key", 1);
+
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
@@ -171,9 +176,9 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	//
 	//// Shoot Monster
-	//pObj = CShootMon::Create(m_pDevice);
-	//NULL_CHECK_RETURN(pObj, -1);
-	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+	pObj = CShootMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
 	//// MonBullet
 	//pObj = CMonBullet::Create(m_pDevice);
@@ -188,6 +193,16 @@ _uint CLoading::Loading_ForStage1()
 	pObj = CBoss::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+
+	// MonBullet
+	pObj = CMonBullet::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	
+	// Fly Monster
+	pObj = CFlyMon::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 	
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -212,6 +227,15 @@ _uint CLoading::Loading_ForStage1()
 	pObj = CDoor::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::DOOR, pObj);
+
+	pObj = CSpawner::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SPAWNER, pObj);
+
+	pObj = CKey::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
+
 
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);

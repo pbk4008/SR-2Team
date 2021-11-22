@@ -167,6 +167,7 @@
     <ClInclude Include="..\Code\Boss_MeleeAnim.h" />
     <ClInclude Include="..\Code\Boss_RangeAnim.h" />
     <ClInclude Include="..\Code\Boss_WalkAnim.h" />
+    <ClInclude Include="..\Code\DoorObserver.h" />
     <ClInclude Include="..\Code\Fireball.h" />
     <ClInclude Include="..\Code\Fireball_Anim.h" />
     <ClInclude Include="..\Code\Door.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="..\Code\FogAnim.h" />
     <ClInclude Include="..\Code\HP.h" />
     <ClInclude Include="..\Code\Item.h" />
+    <ClInclude Include="..\Code\Key.h" />
     <ClInclude Include="..\Code\Loading.h" />
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="..\Code\Player.h" />
     <ClInclude Include="..\Code\Player_AttackAnim.h" />
     <ClInclude Include="..\Code\Player_IdleAnim.h" />
+    <ClInclude Include="..\Code\Spawner.h" />
     <ClInclude Include="..\Code\Quad.h" />
     <ClInclude Include="..\Code\Cube.h" />
     <ClInclude Include="..\Code\ShootMon.h" />
@@ -206,6 +209,7 @@
     <ClInclude Include="..\Code\ShootMon_WalkF.h" />
     <ClInclude Include="..\Code\Shuriken.h" />
     <ClInclude Include="..\Code\ShurikenAnim.h" />
+    <ClInclude Include="..\Code\SpawnerAnim.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Code\UI.h" />
     <ClInclude Include="..\Headers\Enum.h" />
@@ -233,6 +237,7 @@
     <ClCompile Include="..\Code\Boss_MeleeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_WalkAnim.cpp" />
+    <ClCompile Include="..\Code\DoorObserver.cpp" />
     <ClCompile Include="..\Code\Fireball.cpp" />
     <ClCompile Include="..\Code\Fireball_Anim.cpp" />
     <ClCompile Include="..\Code\Door.cpp" />
@@ -246,6 +251,7 @@
     <ClCompile Include="..\Code\FogAnim.cpp" />
     <ClCompile Include="..\Code\HP.cpp" />
     <ClCompile Include="..\Code\Item.cpp" />
+    <ClCompile Include="..\Code\Key.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
@@ -262,6 +268,7 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_AttackAnim.cpp" />
     <ClCompile Include="..\Code\Player_IdleAnim.cpp" />
+    <ClCompile Include="..\Code\Spawner.cpp" />
     <ClCompile Include="..\Code\Quad.cpp" />
     <ClCompile Include="..\Code\Cube.cpp" />
     <ClCompile Include="..\Code\ShootMon.cpp" />
@@ -272,6 +279,7 @@
     <ClCompile Include="..\Code\ShootMon_WalkF.cpp" />
     <ClCompile Include="..\Code\Shuriken.cpp" />
     <ClCompile Include="..\Code\ShurikenAnim.cpp" />
+    <ClCompile Include="..\Code\SpawnerAnim.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\UI.cpp" />
     <ClCompile Include="Client.cpp" />

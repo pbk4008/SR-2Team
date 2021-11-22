@@ -128,7 +128,7 @@ HRESULT CLogo::Init_LogoScene()
 {
 	//Logo씬에서 사용할 텍스쳐
 	CTextureMgr* pTexutreMgr = Init_TextureMgr();
-	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Test/BackGround.png", L"BackGround", 1);
+	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/BackGround/BackGround.png", L"BackGround", 1);
 
 	//Component 원본
 	CComponent* pCom = nullptr;

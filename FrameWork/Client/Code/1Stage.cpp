@@ -11,17 +11,20 @@
 #include "UI.h"
 #include "Door.h"
 #include "Boss.h"
+#include "Spawner.h"
+#include "DoorObserver.h"
 
-C1Stage::C1Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr)
+C1Stage::C1Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr), m_pSpawner(nullptr)
 {
 	m_vecDoor.reserve(3);
+	m_vecDoorObserver.reserve(3);
 	m_vecClearBox.reserve(9);
 }
 
 C1Stage::C1Stage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false)
-, m_pPlayer(nullptr)
-
+, m_pPlayer(nullptr), m_pSpawner(nullptr)
 {
+	m_vecDoorObserver.reserve(3);
 	m_vecDoor.reserve(3);
 	m_vecClearBox.reserve(9);
 }
@@ -50,6 +53,16 @@ _int C1Stage::Update_Scene(const _float& fDeltaTime)
 	}
 	_int iExit = 0;
 	iExit = CScene::Update_Scene(fDeltaTime);
+
+	for (auto pObserver : m_vecDoorObserver)
+		pObserver->ActiveObserver();
+
+	if (m_pPlayer->getKeyCount() > 5)//1¹ø·ë(¾ÆÀÌÅÛ È¹µæ)
+		m_vecDoorObserver[0]->ClearObserver();
+	if (m_vecDoorObserver[1]->getSpawnerActive())//2¹ø·ë(¹öÆ¼±â 35¸¶¸® ³ª¿È)
+		m_vecDoorObserver[1]->ClearObserver();
+	if (m_vecDoorObserver[2]->getSpawnerActive())//3¹ø·ë(¸ðµç Æ÷Å» ´Ý±â)
+		m_vecDoorObserver[2]->ClearObserver();
 
 	for (auto pDoor : m_vecDoor)
 	{
@@ -120,7 +133,6 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 	m_pPlayer->AddRef();
 
-	
 	for (_int i = 0; i < 3; i++)
 	{
 		CDoor* pDoor = Clone_ObjProto<CDoor>(GAMEOBJECTID::DOOR);
@@ -128,6 +140,10 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 		pDoor->setIndex(m_vecDoor.size());
 		m_vecDoor.emplace_back(pDoor);
 		FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::DOOR,pDoor),E_FAIL);
+
+		CDoorObserver* pDoorObserver = CDoorObserver::Create();
+		pDoorObserver->setDoor(pDoor);
+		m_vecDoorObserver.emplace_back(pDoorObserver);
 	}
 	DoorSetting();
 
@@ -147,6 +163,64 @@ HRESULT C1Stage::Init_GameLogic_Layer()
 	CBoss* m_pBoss = nullptr;
 	pGameObject = m_pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BOSS, pGameObject), E_FAIL);
+
+	CSpawner* pSpawner = nullptr;
+
+	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
+	_vec3 vPos = { 15.f,1.f,80.f };
+	_vec3 vAngle = { 0.f,0.f,0.f };
+	pSpawner->setTransform(vPos, vAngle);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::SPAWNER, pSpawner), E_FAIL);
+	pSpawner->setIndex(0);
+	m_vecDoorObserver[0]->Insert_Spawner(pSpawner);
+
+	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
+	vPos = { 80.f,1.f,80.f };
+	vAngle = { 0.f,90.f,0.f };
+	pSpawner->setTransform(vPos, vAngle);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::SPAWNER, pSpawner), E_FAIL);
+	pSpawner->setIndex(1);
+	m_vecDoorObserver[1]->Insert_Spawner(pSpawner);
+
+	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
+	vPos = { 40.f,1.f,35.f };
+	vAngle = {0.f,120.f,0.f };
+	pSpawner->setTransform(vPos, vAngle);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::SPAWNER, pSpawner), E_FAIL);
+	pSpawner->setIndex(2);
+	pSpawner->SettingCollision();
+	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
+	
+	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
+	vPos = { 40.f,1.f,15.f };
+	vAngle = { 0.f,30.f,0.f };
+	pSpawner->setTransform(vPos, vAngle);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::SPAWNER, pSpawner), E_FAIL);
+	pSpawner->setIndex(2);
+	pSpawner->SettingCollision();
+	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
+	
+	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
+	vPos = { 60.f,1.f,15.f };
+	vAngle = { 0.f,-30.f,0.f };
+	pSpawner->setTransform(vPos, vAngle);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::SPAWNER, pSpawner), E_FAIL);
+	pSpawner->setIndex(2);
+	pSpawner->SettingCollision();
+	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
+	
+	pSpawner = Clone_ObjProto<CSpawner>(GAMEOBJECTID::SPAWNER);
+	vPos = { 60.f,1.f,35.f };
+	vAngle = { 0.f,-120.f,0.f };
+	pSpawner->setTransform(vPos, vAngle);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::SPAWNER, pSpawner), E_FAIL);
+	pSpawner->setIndex(2);
+	pSpawner->SettingCollision();
+	m_vecDoorObserver[2]->Insert_Spawner(pSpawner);
+	
+	//CMeleeMon* m_pMeleeMon = nullptr;
+	//pGameObject = m_pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	//FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
 	return S_OK;
@@ -244,6 +318,10 @@ void C1Stage::Free()
 	CScene::Free();
 
 	Safe_Release(m_pPlayer);
+
+	for_each(m_vecDoorObserver.begin(), m_vecDoorObserver.end(), DeleteObj);
+	m_vecDoorObserver.clear();
+	m_vecDoorObserver.shrink_to_fit();
 
 	for_each(m_vecDoor.begin(), m_vecDoor.end(), DeleteObj);
 	m_vecDoor.clear();

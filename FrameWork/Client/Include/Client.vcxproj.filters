@@ -224,6 +224,21 @@
     <Filter Include="01.Scene\02.Stage\03.BossStage">
       <UniqueIdentifier>{13418075-9d7f-40da-85da-01a37fe613ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\08.Etc\01.Spawner">
+      <UniqueIdentifier>{ca6f8047-9f4e-4a1e-b968-766aa696576a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\08.Etc\01.Spawner\00.Animation">
+      <UniqueIdentifier>{4699508e-529f-4e23-91d2-551bf0467b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Designe">
+      <UniqueIdentifier>{5448a78d-34d5-4ede-b771-46a9386b273b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Designe\00.Observer">
+      <UniqueIdentifier>{e2bcf64e-07ef-4534-aaee-a350d49c43c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\08.Etc\02.Key">
+      <UniqueIdentifier>{7c3e6e88-072e-440a-a735-434705b2e5fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -418,6 +433,19 @@
     <ClInclude Include="..\Code\BossStage.h">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Spawner.h">
+      <Filter>02.GameObject\08.Etc\01.Spawner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\SpawnerAnim.h">
+      <Filter>02.GameObject\08.Etc\01.Spawner\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\DoorObserver.h">
+      <Filter>04.Designe\00.Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Key.h">
+      <Filter>02.GameObject\08.Etc\02.Key</Filter>
+>>>>>>> main
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -591,6 +619,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Spawner.cpp">
+      <Filter>02.GameObject\08.Etc\01.Spawner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpawnerAnim.cpp">
+      <Filter>02.GameObject\08.Etc\01.Spawner\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DoorObserver.cpp">
+      <Filter>04.Designe\00.Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Key.cpp">
+      <Filter>02.GameObject\08.Etc\02.Key</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
