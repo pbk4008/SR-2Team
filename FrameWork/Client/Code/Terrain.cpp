@@ -145,7 +145,7 @@ void CTerrain::Create_NaviMesh()
 		_vec3 vRightTop = _vec3(vPos.x + vAxis.x, vPos.y, vPos.z + vAxis.z);
 
 		RECT rc = { _long(vLeftBottom.x),_long(vLeftBottom.z), _long(vRightTop.x), _long(vRightTop.z) };
-		//m_pNaviMesh->Check_Shape(vPos,&rc);
+		m_pNaviMesh->Check_Shape(vPos,&rc);
 	}
 	m_pNaviMesh->Connet_NaviMesh();
 }

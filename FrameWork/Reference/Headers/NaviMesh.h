@@ -19,7 +19,7 @@ public:
 	void Connet_NaviMesh();
 private:
 	void Create_Cell(const _vec3* pVtx);
-	void Check_Index(_ulong iIndex, RECT* rc);
+	void Check_Index(_ulong iIndex, RECT* rc, const _ulong& dwCntX, const _ulong& dwCntZ);
 public:
 	static CNaviMesh* Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ);
 private:
