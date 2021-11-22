@@ -74,6 +74,9 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 				bCheck = true;
 			else
 				bCheck = false;
+
+			if (fY < fWallMaxY)
+				continue;
 			if (bCheck)
 			{
 				_float fWallTop = WallPos.y+WallAxis.y*0.5f;
