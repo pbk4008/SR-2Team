@@ -32,7 +32,7 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 	, const _float& fTerrinsYPos)
 {
 	_ulong dwIndex = _ulong(fX / dwVtxItv) * dwCntX + _ulong(fZ/ dwVtxItv);
-
+	
 	_float fWidth = (fX - pTerrainVtxPos[dwIndex + dwCntX].x) / dwVtxItv;
 	_float fHeight = (pTerrainVtxPos[dwIndex + dwCntX].z - fZ) / dwVtxItv;
 
@@ -82,6 +82,11 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 					fMin = fWallTop;
 			}
 		}
+	}
+	if (dwIndex > (dwCntX - 1) * (dwCntZ - 1))
+	{
+		fY = fMin;
+		return;
 	}
 	_float fBottomY = ((-Plane.a * fX) + (-Plane.c * fZ) + (-Plane.d)) / Plane.b;
 	fBottomY += fTerrinsYPos;

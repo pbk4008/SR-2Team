@@ -177,19 +177,19 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
 	//
 	//// Shoot Monster
-	pObj = CShootMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
+	//pObj = CShootMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
 
-	// MonBullet
-	pObj = CMonBullet::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
+	//// MonBullet
+	//pObj = CMonBullet::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
 	
 	// Fly Monster
-	pObj = CFlyMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+	//pObj = CFlyMon::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
 	//// MonBullet
 	//pObj = CMonBullet::Create(m_pDevice);
@@ -201,9 +201,9 @@ _uint CLoading::Loading_ForStage1()
 	//NULL_CHECK_RETURN(pObj, -1);
 	//Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
 
-	pObj = CBoss::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
+	//pObj = CBoss::Create(m_pDevice);
+	//NULL_CHECK_RETURN(pObj, -1);
+	//Init_ObjProto(GAMEOBJECTID::BOSS, pObj);
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -238,10 +238,10 @@ _uint CLoading::Loading_ForStage1()
 	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
 
 
-	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
-	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage1ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage1TerrainData"),E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"),E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -252,10 +252,10 @@ _uint CLoading::Loading_ForStage2()
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
-	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
+	/*FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
-	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);*/
 
 	m_bFinish = true;
 	return 0;

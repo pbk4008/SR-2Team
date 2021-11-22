@@ -93,8 +93,10 @@ void CNaviMesh::Check_Shape(const _vec3& pCenter, RECT* rc)
 			break;
 		}
 		iIndex++;
+		if (iIndex >= m_vecNaviCell.size())
+			iIndex = m_vecNaviCell.size() - 1;
 	}
-	Check_Index(iIndex,rc);
+	Check_Index(iIndex,rc,m_dwCntX, m_dwCntZ);
 }
 
 void CNaviMesh::Connet_NaviMesh()
@@ -169,110 +171,123 @@ void CNaviMesh::Connet_NaviMesh()
 	}
 }
 
-void CNaviMesh::Check_Index(_ulong iIndex, RECT* rc)
+void CNaviMesh::Check_Index(_ulong iIndex, RECT* rc, const _ulong& dwCntX, const _ulong& dwCntZ)
 {
 	_bool bEnd[3] = {false, false, false};
 	for (_int i = 0; i < 3; i++)
 	{
-
 		POINT pt = { _long(m_vecNaviCell[iIndex]->vPoint[i].x), _long(m_vecNaviCell[iIndex]->vPoint[i].z) };
 		if (PtInRect(rc, pt))
 			bEnd[i] = true;
 	}
 	if (!bEnd[0] && !bEnd[1] && !bEnd[2])
 		return;
-	//아래쪽
-	if (iIndex < m_dwCntX * 2 && iIndex%2 == 0)
+
+	if (iIndex % 2 == 0)//아래 삼각형
 	{
-		if (m_vecNaviCell[iIndex + 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex + 1]->bCheck = false;
-			Check_Index(iIndex + 1, rc);
-		}
-	}
-	//왼쪽
-	else if (iIndex % (m_dwCntX * 2) == 0)
-	{
-		if (m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck = false;
-			Check_Index(iIndex - (m_dwCntX * 2) + 1, rc);
-		}
-		if (m_vecNaviCell[iIndex + 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex + 1]->bCheck = false;
-			Check_Index(iIndex + 1, rc);
-		}
-	}
-	//오른쪽
-	else if (iIndex % (m_dwCntX * 2) == m_dwCntX - 1)
-	{
-		if (m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck = false;
-			Check_Index(iIndex + (m_dwCntX * 2) - 1, rc);
-		}
-		if (m_vecNaviCell[iIndex - 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex - 1]->bCheck = false;
-			Check_Index(iIndex - 1, rc);
-		}
-	}
-	//위쪽
-	else if (iIndex > (2 * m_dwCntX * (m_dwCntZ - 1)) && iIndex % 2 == 1)
-	{
-		if (m_vecNaviCell[iIndex + 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex + 1]->bCheck = false;
-			Check_Index(iIndex + 1, rc);
-		}
-		if (m_vecNaviCell[iIndex - 1]->bCheck)
-		{
-			m_vecNaviCell[iIndex - 1]->bCheck = false;
-			Check_Index(iIndex - 1, rc);
-		}
+		//if(iIndex<)
+		//오른쪽
+		//아래쪽
+		//왼쪽
 	}
 	else
 	{
-		//오른쪽 위 삼각형
-		if (iIndex % 2 == 0)
-		{
-			if (m_vecNaviCell[iIndex - 1]->bCheck)
-			{
-				m_vecNaviCell[iIndex - 1]->bCheck = false;
-				Check_Index(iIndex - 1, rc);
-			}
-			if (m_vecNaviCell[iIndex + 1]->bCheck) 
-			{
-				m_vecNaviCell[iIndex + 1]->bCheck = false;
-				Check_Index(iIndex + 1, rc);
-			}
-			if (m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck)
-			{
-				m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck = false;
-				Check_Index(iIndex + (m_dwCntX * 2) - 1, rc);
-			}
-		}
-		//왼쪽 아래 삼각형
-		else
-		{
-			if (m_vecNaviCell[iIndex - 1]->bCheck)
-			{
-				m_vecNaviCell[iIndex - 1]->bCheck = false;
-				Check_Index(iIndex - 1, rc);
-			}
-			if (m_vecNaviCell[iIndex + 1]->bCheck)
-			{
-				m_vecNaviCell[iIndex + 1]->bCheck = false;
-				Check_Index(iIndex + 1, rc);
-			}
-			if (m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck)
-			{
-				m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck = false;
-				Check_Index(iIndex - (m_dwCntX * 2) + 1, rc);
-			}
-		}
+		//위쪽
+		//오른쪽
+		//아래쪽
 	}
+	//아래쪽
+	//if (iIndex < m_dwCntX * 2 && iIndex%2 == 0)
+	//{
+	//	if (m_vecNaviCell[iIndex + 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex + 1]->bCheck = false;
+	//		Check_Index(iIndex + 1, rc);
+	//	}
+	//}
+	////왼쪽
+	//else if (iIndex % (m_dwCntX * 2) == 0)
+	//{
+	//	if (m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck = false;
+	//		Check_Index(iIndex - (m_dwCntX * 2) + 1, rc);
+	//	}
+	//	if (m_vecNaviCell[iIndex + 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex + 1]->bCheck = false;
+	//		Check_Index(iIndex + 1, rc);
+	//	}
+	//}
+	////오른쪽
+	//else if (iIndex % (m_dwCntX * 2) == m_dwCntX - 1)
+	//{
+	//	if (m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck = false;
+	//		Check_Index(iIndex + (m_dwCntX * 2) - 1, rc);
+	//	}
+	//	if (m_vecNaviCell[iIndex - 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex - 1]->bCheck = false;
+	//		Check_Index(iIndex - 1, rc);
+	//	}
+	//}
+	////위쪽
+	//else if (iIndex > (2 * m_dwCntX * (m_dwCntZ - 1)) && iIndex % 2 == 1)
+	//{
+	//	if (m_vecNaviCell[iIndex + 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex + 1]->bCheck = false;
+	//		Check_Index(iIndex + 1, rc);
+	//	}
+	//	if (m_vecNaviCell[iIndex - 1]->bCheck)
+	//	{
+	//		m_vecNaviCell[iIndex - 1]->bCheck = false;
+	//		Check_Index(iIndex - 1, rc);
+	//	}
+	//}
+	//else
+	//{
+	//	//오른쪽 위 삼각형
+	//	if (iIndex % 2 == 0)
+	//	{
+	//		if (m_vecNaviCell[iIndex - 1]->bCheck)
+	//		{
+	//			m_vecNaviCell[iIndex - 1]->bCheck = false;
+	//			Check_Index(iIndex - 1, rc);
+	//		}
+	//		if (m_vecNaviCell[iIndex + 1]->bCheck) 
+	//		{
+	//			m_vecNaviCell[iIndex + 1]->bCheck = false;
+	//			Check_Index(iIndex + 1, rc);
+	//		}
+	//		if (m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck)
+	//		{
+	//			m_vecNaviCell[iIndex + (m_dwCntX * 2) - 1]->bCheck = false;
+	//			Check_Index(iIndex + (m_dwCntX * 2) - 1, rc);
+	//		}
+	//	}
+	//	//왼쪽 아래 삼각형
+	//	else
+	//	{
+	//		if (m_vecNaviCell[iIndex - 1]->bCheck)
+	//		{
+	//			m_vecNaviCell[iIndex - 1]->bCheck = false;
+	//			Check_Index(iIndex - 1, rc);
+	//		}
+	//		if (m_vecNaviCell[iIndex + 1]->bCheck)
+	//		{
+	//			m_vecNaviCell[iIndex + 1]->bCheck = false;
+	//			Check_Index(iIndex + 1, rc);
+	//		}
+	//		if (m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck)
+	//		{
+	//			m_vecNaviCell[iIndex - (m_dwCntX * 2) + 1]->bCheck = false;
+	//			Check_Index(iIndex - (m_dwCntX * 2) + 1, rc);
+	//		}
+	//	}
+	//}
 }
 
 CNaviMesh* CNaviMesh::Create(LPDIRECT3DDEVICE9 pDevice, const _ulong& dwCntX, const _ulong& dwCntZ)
