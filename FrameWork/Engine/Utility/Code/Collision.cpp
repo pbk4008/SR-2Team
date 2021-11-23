@@ -77,16 +77,20 @@ void CCollision::ResetCollision()
 	m_bHit = false;
 	m_pCollider = nullptr;
 }
-void CCollision::WallCollision()
+_bool CCollision::WallCollision()
 {
 	_vec3 vMove;
 	ZeroMemory(&vMove, sizeof(_vec3));
 	m_pCollisionMgr->WallCollision(this, vMove);
 	_vec3 vPos=m_pTarget->getTransform()->getPos();
 
-	vPos += vMove;
 
+	vPos += vMove;
+	
 	m_pTarget->getTransform()->setPos(vPos);
+	if (m_pTransform->IsZero(vMove))
+		return false;
+	return true;
 }
 void CCollision::Free()
 {

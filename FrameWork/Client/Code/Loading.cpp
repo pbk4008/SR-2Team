@@ -25,6 +25,8 @@
 #include "Spawner.h"
 #include "Key.h"
 #include "Layer.h"
+#include "Blood.h"
+#include "ShurikenHit.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -90,6 +92,7 @@ _uint CLoading::Loading_ForStage1()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Potal/Potal00%d.png", L"Potal", 15);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Blood/Blood.png", L"Blood", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Shuriken/ShurikenEffect00%d.png", L"ShurikenEff", 3);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
@@ -159,6 +162,10 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
+	pObj = CBlood::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BLOOD, pObj);
+
 	//// Melee Monster #1
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -177,6 +184,10 @@ _uint CLoading::Loading_ForStage1()
 	pObj = CFlyMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+
+	pObj = CShurikenEff::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SHURIKENEFF, pObj);
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);

@@ -90,13 +90,17 @@ CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID 
 		}
 		else
 		{
-			if (eObjID == GAMEOBJECTID::SHURIKEN
+			if (
+				eObjID == GAMEOBJECTID::SHURIKEN
 				|| eObjID == GAMEOBJECTID::BOMB
 				|| eObjID == GAMEOBJECTID::FOG
 				|| eObjID == GAMEOBJECTID::MONSTER1
 				|| eObjID == GAMEOBJECTID::MONSTER2
 				|| eObjID == GAMEOBJECTID::MONSTER3
-				|| eObjID == GAMEOBJECTID::MONBULLET)
+				|| eObjID == GAMEOBJECTID::MONBULLET
+				|| eObjID == GAMEOBJECTID::BLOOD
+				|| eObjID == GAMEOBJECTID::SHURIKENEFF
+				)
 				continue;
 			else
 				return pObj;

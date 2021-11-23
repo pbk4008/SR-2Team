@@ -99,6 +99,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	
 		if (m_eCurState == STATE::DEATH)
 		{
+			Blooding(fDeltaTime);//ÇÇÈê¸®´Â Effect
 			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
 			{
 				if (!m_pAnimator->getAnimPlay())
@@ -118,6 +119,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 						}
 					}
 					setActive(false);
+					m_dwBloodCount = 0;
 					return iExit;
 				}
 			}

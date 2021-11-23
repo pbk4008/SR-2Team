@@ -19,7 +19,7 @@ public:
 	void Render_Collision();
 	virtual void Collison(COLLISIONTAG eTag);
 	void ResetCollision();
-	void WallCollision();
+	_bool WallCollision();
 protected:
 	virtual void Free();
 public:
