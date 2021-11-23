@@ -48,6 +48,8 @@ template<typename T>
 T* Clone_ComProto(COMPONENTID eID);
 template<typename T>
 T* Clone_ObjProto(GAMEOBJECTID eID);
+inline _bool CheckObject(GAMEOBJECTID eID);
+inline _bool CheckComponent(COMPONENTID eID);
 
 //TextureMgr
 inline CTextureMgr* Init_TextureMgr();

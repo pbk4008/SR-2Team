@@ -60,3 +60,19 @@ void CProtoMgr::Free()
 	for_each(m_mapComProto.begin(), m_mapComProto.end(), DeleteMap);
 	m_mapComProto.clear();
 }
+
+_bool CProtoMgr::checkObject(GAMEOBJECTID eID)
+{
+	CGameObject* pObj = Find_ObjProto(eID);
+	if (pObj)
+		return true;
+	return false;
+}
+
+_bool CProtoMgr::checkComponent(COMPONENTID eID)
+{
+	CComponent* pObj = Find_ComProto(eID);
+	if (pObj)
+		return true;
+	return false;
+}
