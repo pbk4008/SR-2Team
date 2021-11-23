@@ -95,6 +95,7 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 		{
 			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
 			{
+				Blooding(fDeltaTime);
 				if (!m_pAnimator->getAnimPlay())
 				{
 					_int iRandNum = rand() % 100;
@@ -112,6 +113,7 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 						}
 					}
 					setActive(false);
+					m_dwBloodCount = 0;
 					return iExit;
 				}
 			}
@@ -231,9 +233,9 @@ void CFlyMon::HitMonster(const _float& fTimeDelta)
 			cout << "Monster got Hit!" << endl;
 			cout << m_iHP << endl;
 
-			m_pCollision->Collison(COLLISIONTAG::PLAYER);
+			//m_pCollision->Collison(COLLISIONTAG::PLAYER);
 			m_pCollision->ResetCollision();
-			m_pCollision->setHit(false);
+			//m_pCollision->setHit(false);
 
 			m_iTimer = 0.f;
 		}

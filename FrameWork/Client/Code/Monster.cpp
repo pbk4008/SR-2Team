@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "Monster.h"
 #include "AStar.h"
-CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false)
+#include "Blood.h"
+
+CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false), m_pBlood(nullptr)
+, m_fBloodTime(0.f), m_dwBloodCount(0)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 	ZeroMemory(&m_vStart, sizeof(_vec3));
@@ -12,7 +15,8 @@ CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m
 }
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
-	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false)
+	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false), m_pBlood(nullptr)
+	, m_fBloodTime(0.f), m_dwBloodCount(0)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 	ZeroMemory(&m_vStart, sizeof(_vec3));
@@ -24,7 +28,8 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
 
 CMonster::CMonster(const CMonster& rhs) : CGameObject(rhs), m_pAstar(nullptr), m_pTargetPos(rhs.m_pTargetPos), m_bItemCheck(rhs.m_bItemCheck)
 ,m_vStart(rhs.m_vStart), m_vEnd(rhs.m_vEnd), m_bFirst(rhs.m_bFirst), m_vDir(rhs.m_vDir),m_vNodeFirst(rhs.m_vNodeFirst)
-,m_vNodeSecond(rhs.m_vNodeSecond), m_fNodeLen(rhs.m_fNodeLen), m_bReborn(rhs.m_bReborn)
+,m_vNodeSecond(rhs.m_vNodeSecond), m_fNodeLen(rhs.m_fNodeLen), m_bReborn(rhs.m_bReborn), m_pBlood(nullptr)
+, m_fBloodTime(rhs.m_fBloodTime), m_dwBloodCount(rhs.m_dwBloodCount)
 {
 }
 
@@ -118,6 +123,26 @@ _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 	D3DXMatrixInverse(&matBill, NULL, &matBill);
 
 	return &matBill;
+}
+
+void CMonster::Blooding(const _float& fDeltaTime)
+{
+	if (m_dwBloodCount < 5)
+	{
+		m_fBloodTime += fDeltaTime;
+		if (m_fBloodTime > 1.5f)
+		{
+			m_pBlood = static_cast<CBlood*>(GetGameObject(GAMEOBJECTID::BLOOD));
+			if (m_pBlood)
+			{
+				m_pBlood = Clone_ObjProto<CBlood>(GAMEOBJECTID::BLOOD);
+				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BLOOD, m_pBlood);
+			}
+			m_pBlood->setStart(m_pTransform->getPos());
+			m_fBloodTime = 0.f;
+			m_dwBloodCount++;
+		}
+	}
 }
 
 void CMonster::MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaTime, const _float& fSpeed)

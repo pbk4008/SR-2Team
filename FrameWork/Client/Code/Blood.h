@@ -14,23 +14,25 @@ private:
 	explicit CBlood(const CBlood& rhs);
 	virtual ~CBlood();
 public:
+	HRESULT Init_Blood();
 	virtual _int Update_GameObject(const _float& fDeltaTime);
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject();
 	virtual CGameObject* Clone_GameObject();
 	virtual void ResetObject();
 private:
-	void ActivEffect();
+	void TerrainCheck();
+public:
+	static CBlood* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
 public:
 	void setStart(const _vec3 vStart);
 private:
-	vector<CRcTex*> m_vecBuffer;
+	CRcTex* m_pBuffer;
 	CTexture* m_pTexture;
 
-	_float m_fDuringTime;
 	_vec3 m_vStart;
 };
 #endif

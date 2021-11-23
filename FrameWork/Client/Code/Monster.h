@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 class CAstar;
+class CBlood;
 class CMonster abstract: public CGameObject
 {
 protected:
@@ -17,6 +18,7 @@ protected:
 	void		Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	void		Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	_matrix*	ComputeLookAtTarget(const _vec3* pTargetPos);
+	void		Blooding(const _float& fTime);
 private:
 	void MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaTime, const _float& fSpeed);
 protected:
@@ -38,6 +40,12 @@ protected:
 	_float m_fNodeLen;
 	_bool m_bFirst;
 	_bool m_bReborn;
+
+	_float m_fBloodTime;
+	_ulong m_dwBloodCount;
+	CBlood* m_pBlood;
+
+
 };
 
 #endif // Monster_h__
