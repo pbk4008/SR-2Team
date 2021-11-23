@@ -3,6 +3,7 @@
 #define __BOXCOLLISION_H__
 #include "Collision.h"
 BEGIN(Engine)
+
 class ENGINE_DLL CBoxCollision final : public CCollision
 {
 private:
@@ -24,7 +25,9 @@ private:
 	virtual void Free();
 public:
 	_vec3 getScale() { return m_vScale; }
+	_vec3 getAngle() { return m_vAngle; }
 	_vec3* getPoints() { return m_vPoint; }
+public: void getRotateMatrix(_matrix& world);
 public:
 	//void setAxis(const _vec3& vAxis);
 	void setAxis(const _vec3& vAxis, const _vec3& vAngle);

@@ -21,6 +21,8 @@ public:
 	virtual void Render_GameObject();
 	virtual CGameObject* Clone_GameObject();
 	virtual void ResetObject();
+public:
+	void setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPosition);
 private:
 	void setAnimation();
 	void setCollision();

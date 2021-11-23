@@ -49,9 +49,9 @@ void CBoxCollision::Render_Collision()
 	m_pDevice->SetTransform(D3DTS_WORLD,&m_pTransform->getWorldMatrix());
 	CCollision::Render_Collision();
 
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pBox->DrawSubset(0);
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//m_pBox->DrawSubset(0);
+	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 void CBoxCollision::Collison(COLLISIONTAG eTag)
@@ -84,9 +84,14 @@ void CBoxCollision::Free()
 void CBoxCollision::setAxis(const _vec3& vAxis, const _vec3& vAngle)
 {
 	m_vScale = vAxis;
-	//m_vAngle = vAngle;
+	m_vAngle = vAngle;
 	D3DXCreateBox(m_pDevice, 1.f, 1.f, 1.f, &m_pBox, nullptr);
 	CreateBoxPoint();
+}
+
+void Engine::CBoxCollision::getRotateMatrix(_matrix& world)
+{
+	world = m_pTransform->getRotateMatrix();
 }
 
 //void CBoxCollision::setAxis(const _vec3& vAxis)

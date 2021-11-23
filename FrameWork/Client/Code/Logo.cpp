@@ -34,7 +34,7 @@ HRESULT CLogo::Init_Scene()
 	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
 	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_THREE);
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::BOSS_STAGE);
+	m_pLoading = CLoading::Create(m_pDevice, SCENEID::BOSS_STAGE);	
 
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
@@ -47,7 +47,6 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 	iExit = CScene::Update_Scene(fDeltaTime);
 	if (m_pLoading->getFinish())
 	{
-		//ToDo:·Îµù ¾À¿¡¼­ ´ÙÀ½¾ÀÀ¸·Î ³Ñ¾î°¡´Â »óÈ£ÀÛ¿ë
 		if (Key_Down(VIR_ENTER))
 		{
 			CScene* pScene = nullptr;
@@ -75,7 +74,7 @@ void CLogo::LateUpdate_Scene()
 
 void CLogo::Render_Scene()
 {
-	//Debug¿ë
+	//Debugï¿½ï¿½
 }
 
 HRESULT CLogo::Init_Layer()
@@ -93,7 +92,7 @@ HRESULT CLogo::Init_Environment_Layer()
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
-	//TODO : Environment°ÔÀÓ¿ÀºêÁ§Æ® Ãß°¡
+	//TODO : Environmentï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 	CGameObject* pGameObject = nullptr;
 	pGameObject = Clone_ObjProto<CBackGround>(GAMEOBJECTID::BACKGROUND);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::BACKGROUND, pGameObject), E_FAIL);
@@ -106,7 +105,7 @@ HRESULT CLogo::Init_GameLogic_Layer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	//TODO : GameLogic °ÔÀÓ¿ÀºêÁ§Æ® Ãß°¡
+	//TODO : GameLogic ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::GAME_LOGIC, pLayer);
@@ -117,7 +116,7 @@ HRESULT CLogo::Init_UI_Layer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	//TODO : UI °ÔÀÓ¿ÀºêÁ§Æ® Ãß°¡
+	//TODO : UI ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
@@ -128,7 +127,7 @@ HRESULT CLogo::Init_LoadingLayer()
 {
 	CLayer* pLayer = CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	//TODO : UI °ÔÀÓ¿ÀºêÁ§Æ® Ãß°¡
+	//TODO : UI ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 	CGameObject* pGameObject = nullptr;
 
 	m_mapLayer.emplace(LAYERID::LOADING, pLayer);
@@ -137,7 +136,7 @@ HRESULT CLogo::Init_LoadingLayer()
 
 HRESULT CLogo::Init_LogoScene()
 {
-	//Logo¾À¿¡¼­ »ç¿ëÇÒ ÅØ½ºÃÄ
+	//Logoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½
 	CTextureMgr* pTexutreMgr = Init_TextureMgr();
 	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/BackGround/BackGround.png", L"BackGround", 1);
 
@@ -145,7 +144,7 @@ HRESULT CLogo::Init_LogoScene()
 	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/char/Red%d.png", L"RedChar", 12);
 	pTexutreMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/UI/char/Yellow%d.png", L"YellowChar", 12);
 
-	//Component ¿øº»
+	//Component ï¿½ï¿½ï¿½ï¿½
 	CComponent* pCom = nullptr;
 
 	pCom = CTexture::Create(m_pDevice);
@@ -160,7 +159,7 @@ HRESULT CLogo::Init_LogoScene()
 	NULL_CHECK_RETURN(pCom, E_FAIL);
 	Init_ComProto(COMPONENTID::TRANSFORM, pCom);
 
-	//GameObject¿øº» »ý¼º
+	//GameObjectï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	CGameObject* pObj = nullptr;
 	pObj = CBackGround::Create(m_pDevice, SCENEID::STAGE_TWO);
 	NULL_CHECK_RETURN(pObj, E_FAIL);

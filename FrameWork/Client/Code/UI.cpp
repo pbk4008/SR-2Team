@@ -169,6 +169,9 @@ void CUI::Render_GameObject()
 	_matrix			IdentityMatrix;
 	D3DXMatrixIdentity(&IdentityMatrix);
 
+	m_pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
+
+
 	m_pDevice->GetTransform(D3DTS_VIEW, &OldViewMatrix);
 	m_pDevice->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 	
@@ -217,6 +220,9 @@ void CUI::Render_GameObject()
 	m_pDevice->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
 	m_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
 }
 
 CUI* CUI::Create(LPDIRECT3DDEVICE9 pDevice)

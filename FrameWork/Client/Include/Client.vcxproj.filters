@@ -248,6 +248,12 @@
     <Filter Include="02.GameObject\07. UI\Char">
       <UniqueIdentifier>{3d4de02a-4f5e-4e65-bc62-8500cf18d636}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Sound">
+      <UniqueIdentifier>{5333d793-f349-40cd-8fab-12340631eb45}</UniqueIdentifier>
+    </Filter>
+	  <Filter Include="05. Sound\00. SoundMgr">
+		  <UniqueIdentifier>{bc6fc297-343b-4795-ab1b-b2e24d22a7ab}</UniqueIdentifier>
+	  </Filter>
     <Filter Include="02.GameObject\09.Effect">
       <UniqueIdentifier>{3c42e0e6-a4e4-46c8-afb4-9e9feb6d48e7}</UniqueIdentifier>
     </Filter>
@@ -475,6 +481,9 @@
     <ClInclude Include="..\Code\BossStage.h">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClInclude>
+	  <ClInclude Include="..\Code\SoundMgr.h">
+		  <Filter>05. Sound\00. SoundMgr</Filter>
+	  </ClInclude>
     <ClInclude Include="..\Code\Blood.h">
       <Filter>02.GameObject\09.Effect\00.Blood</Filter>
     </ClInclude>
@@ -679,6 +688,9 @@
     <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClCompile>
+	  <ClCompile Include="..\Code\SoundMgr.cpp">
+		  <Filter>05. Sound\00. SoundMgr</Filter>
+	  </ClCompile>
     <ClCompile Include="..\Code\Blood.cpp">
       <Filter>02.GameObject\09.Effect\00.Blood</Filter>
     </ClCompile>

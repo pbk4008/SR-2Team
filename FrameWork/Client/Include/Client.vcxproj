@@ -114,12 +114,14 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../Code;../Include;../Headers;../../Base;../../Reference/Headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../Reference/Library</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -171,6 +173,7 @@
     <ClInclude Include="..\Code\Boss_MeleeAnim.h" />
     <ClInclude Include="..\Code\Boss_RangeAnim.h" />
     <ClInclude Include="..\Code\Boss_WalkAnim.h" />
+    <ClInclude Include="..\Code\SoundMgr.h" />
     <ClInclude Include="..\Code\ShurikenAnim.h" />
     <ClInclude Include="..\Code\ShurikenHit.h" />
     <ClInclude Include="..\Code\ShurikenHitAnim.h" />
@@ -247,6 +250,7 @@
     <ClCompile Include="..\Code\Boss_MeleeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_WalkAnim.cpp" />
+    <ClCompile Include="..\Code\SoundMgr.cpp" />
     <ClCompile Include="..\Code\ShurikenAnim.cpp" />
     <ClCompile Include="..\Code\ShurikenHit.cpp" />
     <ClCompile Include="..\Code\ShurikenHitAnim.cpp" />

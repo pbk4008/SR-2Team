@@ -21,7 +21,7 @@ public:
 private:
 	virtual void Free();
 public:
-	_float getRadius() { return m_fRadius; }
+	const _float& getRadius() { return m_fRadius; }
 public:
 	void setRadius(const _float& fRadius);
 private:

@@ -336,10 +336,10 @@ _uint CLoading::Loading_ForStage2()
 
 
 
-	//FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
 
 	m_bFinish = true;
 	return 0;

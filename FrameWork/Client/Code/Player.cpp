@@ -109,7 +109,6 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	if (m_pAtkCollision->getActive())
 	{
 		m_pAtkCollision->Update_Component(fDeltaTime);
-		m_pAtkCollision->Collison(COLLISIONTAG::BULLET);
 		m_pAtkCollision->Collison(COLLISIONTAG::MONSTER);
 	}
 
@@ -128,13 +127,16 @@ void CPlayer::LateUpdate_GameObject()
 	{
 		//충돌 이후 작업
 		//cout << "Player 충돌!" << endl;		
-		CCollision* pCollider = m_pHitCollision->getCollider();//충돌한 대상 가져오기
-		COLLISIONTAG eTag = pCollider->getTag();//충돌한 대상의 tag값
+		CGameObject* pCollider = m_pHitCollision->getCollider()->getTarget();
+		COLLISIONTAG eTag = m_pHitCollision->getCollider()->getTag();//충돌한 대상의 tag값
 		switch (eTag)
 		{
 		case COLLISIONTAG::ETC:
-			if (typeid(*m_pHitCollision->getCollider()) == typeid(CKey))
-				m_iGetKeyCount++;
+			if (pCollider)
+			{
+				if (typeid(*pCollider) == typeid(CKey))
+					m_iGetKeyCount++;
+			}
 			m_bHide = true;
 			break;
 		case COLLISIONTAG::MONSTER:
@@ -152,7 +154,7 @@ void CPlayer::LateUpdate_GameObject()
 		if (m_bHide)
 			m_bHide = false;
 	}
-	if (m_pAtkCollision->getHit())
+	if (m_pAtkCollision->getCollider())
 	{
 		m_pAtkCollision->ResetCollision();
 		m_pAtkCollision->setActive(false);
@@ -199,23 +201,33 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	vLook.y = 0.f;
 	vRight.y = 0.f;
 
+	ZeroMemory(&m_vecWalkPower, sizeof(_vec3));
+
 	if (Key_Pressing(VIR_W))
 	{
+		m_vecWalkPower += (vLook * m_fSpeed * fDeltaTime);
 		vPos += vLook * m_fSpeed * fDeltaTime;
+
 		m_eCulState = STATE::WALK;
 	}
 	if (Key_Pressing(VIR_A))
 	{
+		m_vecWalkPower += (vRight * -m_fSpeed * fDeltaTime);
+
 		vPos += vRight * -m_fSpeed * fDeltaTime;
 		m_eCulState = STATE::WALK;
 	}
 	if (Key_Pressing(VIR_S))
 	{
+		m_vecWalkPower += (vLook * -m_fSpeed * fDeltaTime);
+
 		vPos += vLook * -m_fSpeed * fDeltaTime;
 		m_eCulState = STATE::WALK;
 	}
 	if (Key_Pressing(VIR_D))
 	{
+		m_vecWalkPower += (vRight * m_fSpeed * fDeltaTime);
+
 		vPos += vRight * m_fSpeed * fDeltaTime;
 		m_eCulState = STATE::WALK;
 	}
@@ -410,6 +422,7 @@ HRESULT CPlayer::Add_Component()
 	m_pAtkCollision->setTag(COLLISIONTAG::PLAYER);
 	m_pAtkCollision->setActive(false);
 	m_pAtkCollision->setPivot(1.f);
+	m_pAtkCollision->setTarget(this);
 	m_pAtkCollision->setTrigger(COLLISIONTRIGGER::ATTACK);
 	return S_OK;
 }

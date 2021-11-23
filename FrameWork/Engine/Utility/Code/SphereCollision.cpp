@@ -56,9 +56,9 @@ void CSphereCollision::Render_Collision()
 	matWorld.m[3][2] = m_vCenter.z;
 	m_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	CCollision::Render_Collision();
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pSphere->DrawSubset(0);
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+//	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//m_pSphere->DrawSubset(0);
+	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 void CSphereCollision::Collison(COLLISIONTAG eTag)

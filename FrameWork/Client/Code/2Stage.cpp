@@ -36,6 +36,8 @@ HRESULT C2Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
+	Init_Fog(D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.f), D3DFOG_EXP2, TRUE, 0.075f);
+
 	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
 	
 	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
@@ -207,6 +209,37 @@ C2Stage* C2Stage::Create(LPDIRECT3DDEVICE9 pDevice)
 	if (FAILED(pInstance->Init_Scene()))
 		Safe_Release(pInstance);
 	return pInstance;
+}
+
+void C2Stage::Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density)
+{
+	float Start = 0.5f;
+	float End = 50.f;
+
+	m_pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+	m_pDevice->SetRenderState(D3DRS_FOGCOLOR, Color);
+
+	if (D3DFOG_LINEAR == Mode)
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
+		m_pDevice->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
+	}
+	else
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
+	}
+
+	// Enable range-based fog if desired (only supported for
+	//   vertex fog).  For this example, it is assumed that UseRange
+	//   is set to a nonzero value only if the driver exposes the 
+	//   D3DPRASTERCAPS_FOGRANGE capability.
+	// Note: This is slightly more performance intensive
+	//   than non-range-based fog.
+	if (UseRange)
+		m_pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 }
 
 void C2Stage::Free()

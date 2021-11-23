@@ -37,6 +37,7 @@ private:
 	virtual void Free();
 public:
 	inline const _matrix& getWorldMatrix() const { return m_matWorld; }
+	inline const _matrix& getRotateMatrix() const { return m_matRotate; }
 	inline const _vec3& getPos() const { return m_vPos; }
 	inline const _vec3& getScale() const { return m_vScale; }
 	inline const _vec3& getAngle() const { return m_vAngle; }

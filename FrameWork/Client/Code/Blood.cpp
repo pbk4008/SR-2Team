@@ -1,15 +1,17 @@
 #include "pch.h"
 #include "Blood.h"
 
-CBlood::CBlood() : m_pTexture(nullptr), m_pBuffer(nullptr)
+CBlood::CBlood() : m_pTexture(nullptr), m_pBuffer(nullptr), m_fGravityTime(0.f)
 {
 }
 
 CBlood::CBlood(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pTexture(nullptr), m_pBuffer(nullptr)
+, m_fGravityTime(0.f)
 {
 }
 
 CBlood::CBlood(const CBlood& rhs) : CGameObject(rhs), m_pTexture(rhs.m_pTexture), m_pBuffer(rhs.m_pBuffer)
+, m_fGravityTime(rhs.m_fGravityTime)
 {
 	m_pBuffer->AddRef();
 	m_pTexture->AddRef();
@@ -28,7 +30,10 @@ HRESULT CBlood::Init_Blood()
 _int CBlood::Update_GameObject(const _float& fDeltaTime)
 {
 	_int iExit = 0;
-	m_pTransform->UsingGravity(fDeltaTime);
+	m_pTransform->setScale(0.3f, 0.3f, 0.3f);
+	Rotate();
+	DownMove(fDeltaTime);
+	m_pTransform->setPos(m_pTransform->getPos());
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	TerrainCheck();
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
@@ -56,6 +61,7 @@ CGameObject* CBlood::Clone_GameObject()
 void CBlood::ResetObject()
 {
 	m_pTransform->setPos(m_vStart);
+	m_fGravityTime = 0.f;
 }
 
 void CBlood::TerrainCheck()
@@ -63,9 +69,33 @@ void CBlood::TerrainCheck()
 	_vec3 vPivot = m_pTransform->getPos();
 	vPivot.y -= m_pTransform->getScale().y * 0.5f;
 	if (vPivot.y < m_pTransform->getBottomY())
-	{
 		setActive(false);
-	}
+}
+
+void CBlood::Rotate()
+{
+	_matrix matView, matBill;
+	D3DXMatrixIdentity(&matBill);
+
+	m_pDevice->GetTransform(D3DTS_VIEW, &matView);
+
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
+
+	D3DXMatrixInverse(&matBill, NULL, &matBill);
+
+	m_pTransform->setRotate(matBill);
+}
+
+void CBlood::DownMove(const _float& fDeltaTime)
+{
+	m_fGravityTime += fDeltaTime;
+	_vec3 vPos = m_pTransform->getPos();
+	_float fY = -(0.5f * 9.8f * m_fGravityTime * m_fGravityTime);
+	vPos.y += fY;
+	m_pTransform->setPos(vPos);
 }
 
 CBlood* CBlood::Create(LPDIRECT3DDEVICE9 pDevice)

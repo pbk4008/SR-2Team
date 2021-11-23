@@ -29,9 +29,9 @@ HRESULT CPotal::Init_Potal()
 
 _int CPotal::Update_GameObject(const _float& fDeltaTime)
 {
-	_vec3 vPos = { 10.f,16.f,50.f };
-	m_pTransform->setPos(vPos);
-	m_pTransform->setAngle(MATRIXINFO::MAT_UP, 90.f);
+	m_pTransform->setScale(m_pTransform->getScale());
+	m_pTransform->setAngle(m_pTransform->getAngle());
+	m_pTransform->setPos(m_pTransform->getPos());
 
 	_int iExit = CGameObject::Update_GameObject(fDeltaTime);
 
@@ -67,6 +67,13 @@ CGameObject* CPotal::Clone_GameObject()
 
 void CPotal::ResetObject()
 {
+}
+
+void CPotal::setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPosition)
+{
+	m_pTransform->setScale(vScale);
+	m_pTransform->setAngle(vRotate);
+	m_pTransform->setPos(vPosition);
 }
 
 void CPotal::setAnimation()

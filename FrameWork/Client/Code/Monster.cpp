@@ -130,15 +130,18 @@ void CMonster::Blooding(const _float& fDeltaTime)
 	if (m_dwBloodCount < 5)
 	{
 		m_fBloodTime += fDeltaTime;
-		if (m_fBloodTime > 1.5f)
+		if (m_fBloodTime > 0.3f)
 		{
 			m_pBlood = static_cast<CBlood*>(GetGameObject(GAMEOBJECTID::BLOOD));
-			if (m_pBlood)
+			if (!m_pBlood)
 			{
 				m_pBlood = Clone_ObjProto<CBlood>(GAMEOBJECTID::BLOOD);
 				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BLOOD, m_pBlood);
 			}
-			m_pBlood->setStart(m_pTransform->getPos());
+			_vec3 vBloodingPos = m_pTransform->getPos();
+			vBloodingPos.y += 0.5f;
+			_float fRand = (-0.5f+(rand()%2))/ (_float)RAND_MAX;
+			m_pBlood->setStart(vBloodingPos);
 			m_fBloodTime = 0.f;
 			m_dwBloodCount++;
 		}
