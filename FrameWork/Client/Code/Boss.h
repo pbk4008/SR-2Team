@@ -51,6 +51,8 @@ private:
 public:
 	virtual const _int& getHP() const { return m_iHP; }
 	virtual const _bool& getHPHit() const { return m_bHPHit; }
+	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPos);
+
 
 	void setPos(const _vec3& vPos);
 	void setLook(const _vec3& vLook);

@@ -5,6 +5,8 @@
 class CLoading;
 class CDoor;
 class CPlayer;
+class CMonster;
+class CPotal;
 class C3Stage final : public CScene
 {
 private:
@@ -30,5 +32,19 @@ private:
 private:
 	CLoading* m_pLoading;
 	CPlayer* m_pPlayer;
+	CPotal* m_pPotal;
+
+	_bool m_b1;
+	_bool m_b2;
+	_bool m_b3;
+	_bool m_b4;
+	_bool m_b5;
+	_bool m_b6;
+	_bool m_b7;
+	_bool m_b8;
+	_bool m_b9;
+	_bool m_b10;
+	_bool m_b11;
+	_bool m_b12;
 };
 #endif

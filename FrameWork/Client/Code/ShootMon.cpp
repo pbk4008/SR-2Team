@@ -81,14 +81,20 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	m_pTransform->UsingGravity(fDeltaTime);
 
+	_matrix matRot;
+	matRot = *ComputeLookAtTarget();
+	m_pTransform->setRotate(matRot);
+
 	_vec3	m_vInfo;
 	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 vPos = pObject->getTransform()->getPos();
 	_vec3  vDis = m_vInfo - vPos;
 	_float fDis = D3DXVec3Length(&vDis);
-	if (fDis <= 3.0f)
+	if (fDis <= 10.0f)
 		m_bTracking = true;
+	if (fDis >= 10.0f)
+		m_bTracking = false;
 
 	if (m_bTracking)
 	{

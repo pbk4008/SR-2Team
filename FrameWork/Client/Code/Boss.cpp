@@ -104,7 +104,7 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime); /// into chase and chase range --> follow distance
 	Attack_Dis(fDeltaTime); /// stance determines attack distance
 
-	//Change_State();
+	Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -583,4 +583,11 @@ void CBoss::Free()
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
+}
+
+void CBoss::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPos)
+{
+	m_pTransform->setScale(vScale);
+	m_pTransform->setAngle(vRotate);
+	m_pTransform->setPos(vPos);
 }

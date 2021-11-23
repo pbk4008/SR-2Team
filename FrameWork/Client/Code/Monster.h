@@ -16,7 +16,7 @@ protected:
 	void		Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	void		Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	void		Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
-	_matrix*	ComputeLookAtTarget(const _vec3* pTargetPos);
+	_matrix*	ComputeLookAtTarget();
 private:
 	void MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaTime, const _float& fSpeed);
 protected:

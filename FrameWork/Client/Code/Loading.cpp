@@ -365,6 +365,7 @@ _uint CLoading::Loading_ForStage3()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Spawner/Spawner00%d.png", L"Spawner", 8);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Key/Key000.png", L"Key", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Potal/Potal00%d.png", L"Potal", 15);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
@@ -502,24 +503,6 @@ _uint CLoading::Loading_ForBossStage()
 	m_pTextureMgr = Init_TextureMgr();
 	NULL_CHECK_RETURN(m_pTextureMgr, -1);
 
-	///////////////////////////
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Idle/IDLE_000.png", L"MeleeMon_Idle", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Walk/WALKF_00%d.png", L"MeleeMon_WalkF", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Attack/ATTACK_00%d.png", L"MeleeMon_Attack", 3);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/MeleeMon/Death/DEATH_00%d.png", L"MeleeMon_Death", 9);
-
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Idle/IDLE_000.png", L"ShootMon_Idle", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Walk/WALKF_00%d.png", L"ShootMon_WalkF", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Attack/ATTACK_00%d.png", L"ShootMon_Attack", 2);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/Death/DEATH_00%d.png", L"ShootMon_Death", 8);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/ShootMon/MonBullet/MONBULLET_000.png", L"MonBullet", 1);
-
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Idle/IDLE_000.png", L"FlyMon_Idle", 1);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Walk/MOVE_00%d.png", L"FlyMon_WalkF", 4);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Attack/ATTACK_00%d.png", L"FlyMon_Attack", 3);
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Monster/FlyMon/Death/DEATH_00%d.png", L"FlyMon_Death", 7);
-	///////////////////////////
-
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Idle/IDLE_000.png", L"Boss_Idle", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire1/FIRE_00%d.png", L"Boss_Fire1", 28);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Boss/Fire2/FIRE2_00%d.png", L"Boss_Fire2", 15);
@@ -588,29 +571,6 @@ _uint CLoading::Loading_ForBossStage()
 
 	//////////////////////////////////////////////////////////////////////////////////
 	CGameObject* pObj = nullptr;
-
-
-	///////////////////////////////
-	// Melee Monster #1
-	pObj = CMeleeMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER1, pObj);
-	//
-	//// Shoot Monster
-	pObj = CShootMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER2, pObj);
-
-	// MonBullet
-	pObj = CMonBullet::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONBULLET, pObj);
-
-	// Fly Monster
-	pObj = CFlyMon::Create(m_pDevice);
-	NULL_CHECK_RETURN(pObj, -1);
-	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
-	/////////////////////////////////
 
 	//Quad
 	pObj = CQuad::Create(m_pDevice);

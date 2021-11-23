@@ -38,10 +38,10 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 	_vec3	m_vInfo;
 	m_vInfo = m_pTransform->getPos();
 
-	_matrix matRot;
-	matRot = *ComputeLookAtTarget(pTargetPos);
+	/*_matrix matRot;
+	matRot = *ComputeLookAtTarget();
 
-	m_pTransform->setRotate(matRot);
+	m_pTransform->setRotate(matRot);*/
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
@@ -61,10 +61,10 @@ void CMonster::Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed
 	_vec3	m_vInfo;
 	m_vInfo = m_pTransform->getPos();
 
-	_matrix matRot;
-	matRot = *ComputeLookAtTarget(pTargetPos);
+	/*_matrix matRot;
+	matRot = *ComputeLookAtTarget();
 
-	m_pTransform->setRotate(matRot);
+	m_pTransform->setRotate(matRot);*/
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
@@ -86,10 +86,10 @@ void CMonster::Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, c
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
-	_matrix matRot;
-	matRot = *ComputeLookAtTarget(pTargetPos);
+	//_matrix matRot;
+	//matRot = *ComputeLookAtTarget();
 
-	m_pTransform->setRotate(matRot);
+	//m_pTransform->setRotate(matRot);
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
@@ -103,7 +103,7 @@ void CMonster::Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, c
 	m_pTransform->setPos(m_vInfo);
 }
 
-_matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
+_matrix* CMonster::ComputeLookAtTarget()
 {
 	_matrix matView, matBill;
 	D3DXMatrixIdentity(&matBill);

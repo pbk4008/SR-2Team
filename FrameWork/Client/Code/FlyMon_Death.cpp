@@ -48,6 +48,11 @@ _int CFlyMon_Death::Update_Component(const _float& fDeltaTime)
 	return iExit;
 }
 
+void CFlyMon_Death::Render_Animation()
+{
+	CAnimation::Render_Animation();
+}
+
 CComponent* CFlyMon_Death::Clone_Component()
 {
 	return new CFlyMon_Death(*this);
