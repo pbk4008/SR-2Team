@@ -112,6 +112,10 @@ _int C1Stage::Update_Scene(const _float& fDeltaTime)
 			{
 				m_pPotal = Clone_ObjProto<CPotal>(GAMEOBJECTID::POTAL);
 				m_pPotal->AddRef();
+				_vec3 vPos = { 10.f,16.f,50.f };
+				_vec3 vAngle = { 0.f,90.f,0.f };
+				_vec3 vScale = { 1.f,1.f,1.f };
+				m_pPotal->setTransform(vScale, vAngle, vPos);
 				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::POTAL, m_pPotal);
 				m_bPotalSpawn = true;
 			}
