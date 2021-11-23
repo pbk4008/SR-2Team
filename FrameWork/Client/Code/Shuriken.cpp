@@ -73,7 +73,8 @@ void CShuriken::LateUpdate_GameObject()
     {
         m_pEffect->setActive(true);
         m_pEffect->setStart(m_pTransform->getPos());
-        m_pCollision->setHit(false);
+
+        m_pCollision->ResetCollision();
         cout << "몬스터 충돌" << endl;
         setActive(false);
     }

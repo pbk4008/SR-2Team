@@ -28,6 +28,7 @@ public:
 	_vec3& getCenter() { return m_vCenter; }
 	COLLISIONTRIGGER getTrigger() { return m_eTrigger; }
 	CCollision* getCollider() { return m_pCollider; }
+	CGameObject* getTarget() { return m_pTarget; }
 public:
 	void setTransform(const _vec3& pCenter);
 	void setTransform(CTransform* pTransform);
