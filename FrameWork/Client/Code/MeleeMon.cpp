@@ -80,17 +80,23 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	m_pTransform->UsingGravity(fDeltaTime);
 
+	_matrix matRot;
+	matRot = *ComputeLookAtTarget();
+	m_pTransform->setRotate(matRot);
+
 	_vec3	m_vInfo;
 	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 vPos = pObject->getTransform()->getPos();
 	_vec3  vDis = m_vInfo - vPos;
 	_float fDis = D3DXVec3Length(&vDis);
-	if (fDis <= 3.0f)
+	if (fDis <= 8.0f)
 		m_bTracking = true;
+	if (fDis > 8.0f)
+		m_bTracking = false;
+	
 
-	if (m_bTracking)
-	{
+	
 		if (m_eCurState == STATE::DEATH)
 		{
 			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"MeleeMon_Death"))
@@ -98,9 +104,9 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 				if (!m_pAnimator->getAnimPlay())
 				{
 					_int iRandNum = rand() % 100;
-					if (m_bItemCheck)//Item생성
+					if (true)//Item생성
 					{
-						if (iRandNum < 60)//나올 확률 60%
+						if (iRandNum < 100)//나올 확률 60%
 						{
 							CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
 							if (!pKey)
@@ -116,8 +122,11 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 				}
 			}
 		}
-		Follow(fDeltaTime);
-		Attack_Dis(fDeltaTime);
+	if (m_bTracking)
+	{
+
+	Follow(fDeltaTime);
+	Attack_Dis(fDeltaTime);
 	}
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
@@ -175,7 +184,9 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Attack");
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF");
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Death");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Death", L"MeleeMon_WalkF");
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_Death");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Death", L"MeleeMon_Attack");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 

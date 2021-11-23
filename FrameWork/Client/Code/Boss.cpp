@@ -87,8 +87,6 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 	/*_vec3 vScale(2.f,2.f,2.f);
 	m_pTransform->setScale(vScale);*/
 
-
-
 	HPCheck();		///hp checks into pattern --> m_eCurState
 
 	if (m_eCurState == STATE::DEATH)
@@ -106,7 +104,7 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 	Follow(fDeltaTime); /// into chase and chase range --> follow distance
 	Attack_Dis(fDeltaTime); /// stance determines attack distance
 
-	//Change_State();
+	Change_State();
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
@@ -170,6 +168,9 @@ HRESULT CBoss::SettingAnimator()
 
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Range");
 	m_pAnimator->Connet_Animation(L"Boss_Range", L"Boss_Move");
+
+	m_pAnimator->Connet_Animation(L"Boss_Melee", L"Boss_Range");
+	m_pAnimator->Connet_Animation(L"Boss_Range", L"Boss_Melee");
 
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Death");
 	m_pAnimator->Connet_Animation(L"Boss_Death", L"Boss_Move");
@@ -582,4 +583,11 @@ void CBoss::Free()
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pAnimator);
 	Safe_Release(m_pBufferCom);
+}
+
+void CBoss::LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPos)
+{
+	m_pTransform->setScale(vScale);
+	m_pTransform->setAngle(vRotate);
+	m_pTransform->setPos(vPos);
 }

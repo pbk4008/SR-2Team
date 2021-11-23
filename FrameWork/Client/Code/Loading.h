@@ -23,9 +23,7 @@ public:
 	HRESULT Load_Quad(const _tchar* strName);
 	HRESULT Load_Cube(const _tchar* strName);
 	HRESULT Load_Item(const _tchar* strName);
-	HRESULT	Load_MeleeMon(const _tchar* strName);
-	HRESULT	Load_ShootMon(const _tchar* strName);
-	HRESULT	Load_FlyMon(const _tchar* strName);
+	
 
 	HRESULT	Load_Monster(const _tchar* strName);
 	HRESULT	Load_Boss(const _tchar* strName);
@@ -61,3 +59,8 @@ private:
 	CTextureMgr* m_pTextureMgr;
 };
 #endif
+
+
+//HRESULT	Load_MeleeMon(const _tchar* strName);
+//HRESULT	Load_ShootMon(const _tchar* strName);
+//HRESULT	Load_FlyMon(const _tchar* strName);

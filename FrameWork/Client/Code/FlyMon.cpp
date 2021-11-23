@@ -80,14 +80,20 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = 0;
 	m_pTransform->UsingGravity(fDeltaTime);
 
+	_matrix matRot;
+	matRot = *ComputeLookAtTarget();
+	m_pTransform->setRotate(matRot);
+
 	_vec3	m_vInfo;
 	m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 vPos = pObject->getTransform()->getPos();
 	_vec3  vDis = m_vInfo - vPos;
 	_float fDis = D3DXVec3Length(&vDis);
-	if (fDis <= 3.0f)
+	if (fDis <= 12.0f)
 		m_bTracking = true;
+	if (fDis >= 12.0f)
+		m_bTracking = false;
 
 	if (m_bTracking)
 	{
@@ -172,7 +178,9 @@ HRESULT CFlyMon::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Attack");
 	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_WalkF");
 	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Death");
+	m_pAnimator->Connet_Animation(L"FlyMon_Death", L"FlyMon_WalkF");
 	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_Death");
+	m_pAnimator->Connet_Animation(L"FlyMon_Death", L"FlyMon_Attack");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"FlyMon_Idle"));
 

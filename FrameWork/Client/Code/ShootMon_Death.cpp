@@ -48,6 +48,11 @@ _int CShootMon_Death::Update_Component(const _float& fDeltaTime)
 	return iExit;
 }
 
+void CShootMon_Death::Render_Animation()
+{
+	CAnimation::Render_Animation();
+}
+
 CComponent* CShootMon_Death::Clone_Component()
 {
 	return new CShootMon_Death(*this);

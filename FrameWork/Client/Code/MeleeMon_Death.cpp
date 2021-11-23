@@ -41,26 +41,17 @@ _int CMeleeMon_Death::Update_Component(const _float& fDeltaTime)
 	if (iExit & 0x80000000)
 		return -1;
 
-	Setting_Animation(fDeltaTime);
-	if (!m_bPlay)
-		ResetTimer();
-
 	return iExit;
+}
+
+void CMeleeMon_Death::Render_Animation()
+{
+	CAnimation::Render_Animation();
 }
 
 CComponent* CMeleeMon_Death::Clone_Component()
 {
 	return new CMeleeMon_Death(*this);
-}
-
-void CMeleeMon_Death::Setting_Animation(const _float& fDeltaTime)
-{
-
-}
-
-void CMeleeMon_Death::ResetTimer()
-{
-
 }
 
 CMeleeMon_Death* CMeleeMon_Death::Create(LPDIRECT3DDEVICE9 pDevice)
