@@ -87,8 +87,6 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 	/*_vec3 vScale(2.f,2.f,2.f);
 	m_pTransform->setScale(vScale);*/
 
-
-
 	HPCheck();		///hp checks into pattern --> m_eCurState
 
 	if (m_eCurState == STATE::DEATH)
@@ -170,6 +168,9 @@ HRESULT CBoss::SettingAnimator()
 
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Range");
 	m_pAnimator->Connet_Animation(L"Boss_Range", L"Boss_Move");
+
+	m_pAnimator->Connet_Animation(L"Boss_Melee", L"Boss_Range");
+	m_pAnimator->Connet_Animation(L"Boss_Range", L"Boss_Melee");
 
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Death");
 	m_pAnimator->Connet_Animation(L"Boss_Death", L"Boss_Move");

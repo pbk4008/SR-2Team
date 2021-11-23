@@ -174,7 +174,9 @@ HRESULT CShootMon::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"ShootMon_WalkF", L"ShootMon_Attack");
 	m_pAnimator->Connet_Animation(L"ShootMon_Attack", L"ShootMon_WalkF");
 	m_pAnimator->Connet_Animation(L"ShootMon_WalkF", L"ShootMon_Death");
+	m_pAnimator->Connet_Animation(L"ShootMon_Death", L"ShootMon_WalkF");
 	m_pAnimator->Connet_Animation(L"ShootMon_Attack", L"ShootMon_Death");
+	m_pAnimator->Connet_Animation(L"ShootMon_Death", L"ShootMon_Attack");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"ShootMon_Idle"));
 

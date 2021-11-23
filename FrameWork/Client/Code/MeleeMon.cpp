@@ -175,7 +175,9 @@ HRESULT CMeleeMon::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Attack");
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_WalkF");
 	m_pAnimator->Connet_Animation(L"MeleeMon_WalkF", L"MeleeMon_Death");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Death", L"MeleeMon_WalkF");
 	m_pAnimator->Connet_Animation(L"MeleeMon_Attack", L"MeleeMon_Death");
+	m_pAnimator->Connet_Animation(L"MeleeMon_Death", L"MeleeMon_Attack");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"MeleeMon_Idle"));
 

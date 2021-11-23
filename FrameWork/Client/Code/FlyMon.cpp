@@ -172,7 +172,9 @@ HRESULT CFlyMon::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Attack");
 	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_WalkF");
 	m_pAnimator->Connet_Animation(L"FlyMon_WalkF", L"FlyMon_Death");
+	m_pAnimator->Connet_Animation(L"FlyMon_Death", L"FlyMon_WalkF");
 	m_pAnimator->Connet_Animation(L"FlyMon_Attack", L"FlyMon_Death");
+	m_pAnimator->Connet_Animation(L"FlyMon_Death", L"FlyMon_Attack");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"FlyMon_Idle"));
 
