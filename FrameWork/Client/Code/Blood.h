@@ -20,12 +20,17 @@ public:
 	virtual CGameObject* Clone_GameObject();
 	virtual void ResetObject();
 private:
+	void ActivEffect();
+private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
+public:
+	void setStart(const _vec3 vStart);
 private:
 	vector<CRcTex*> m_vecBuffer;
 	CTexture* m_pTexture;
 
 	_float m_fDuringTime;
+	_vec3 m_vStart;
 };
 #endif
