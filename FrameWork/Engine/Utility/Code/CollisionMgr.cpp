@@ -595,6 +595,7 @@ Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision*
 
 	_matrix o;
 	o = setAngletomatrix(pBox->getAngle());
+	//pBox->getRotateMatrix(o);
 
 	_vec3 Test[15] = {
 		_vec3(1,0,0),
@@ -621,28 +622,59 @@ Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision*
 		}
 	}
 
+	_vec3 vnormalz;  
+	D3DXVec3Cross(&vnormalz, &Test[3], &Test[4]);
+	_vec3 vnormalx;
+	D3DXVec3Cross(&vnormalx, &Test[4], &Test[5]);
 
-	_vec3 boxCenter = pBox->getCenter();
-	_vec3 SphereCenter = pSphere->getCenter();
-	boxCenter.y = 0;
-	SphereCenter.y = 0;
-	_vec3 vecdir = SphereCenter - boxCenter;
-	//D3DXVec3Normalize(&vecdir, &vecdir);
-
-	_vec3 test5;
-	D3DXVec3Normalize(&test5, &Test[5]);
+	_vec3 T1;
+	D3DXVec3Cross(&T1, pVec, &vnormalz);
+	_vec3 Out1;
+	D3DXVec3Cross(&Out1, &T1, &vnormalz);
 
 
-	if(D3DXVec3Dot(&vecdir,&Test[3]) >= 0 )
-	*walkpower = -(*pVec - Test[5] * D3DXVec3Dot(pVec, &Test[5]));
-	else if(D3DXVec3Dot(&vecdir,&Test[3]) < 0 )
-	*walkpower = (*pVec - Test[5] * D3DXVec3Dot(pVec, &Test[5]));
+	_vec3 T2;
+	D3DXVec3Cross(&T2, pVec, &vnormalx);
+	_vec3 Out2;
+	D3DXVec3Cross(&Out2, &T2, &vnormalx);
 
-	if (mpInputDev->No_Key())
-		*walkpower *= 1.05f;
+	if (D3DXVec3Dot(pVec, &vnormalx) < 0 && D3DXVec3Dot(pVec,&vnormalz) >=0)
+	{
+		*walkpower += Out1;
+		//*walkpower -= Out2;
+	}
+	else if (D3DXVec3Dot(pVec, &vnormalx) < 0 && D3DXVec3Dot(pVec, &vnormalz) < 0)
+	{
+		*walkpower += Out1;
 
-	std::cout << D3DXVec3Dot(&vecdir, &Test[3]) << std::endl;
-	std::cout << test5.x << " " << test5.y << " " << test5.z << " " << std::endl;
+	}
+	else if (D3DXVec3Dot(pVec, &vnormalx) >= 0 && D3DXVec3Dot(pVec, &vnormalz) >= 0)
+	{
+		*walkpower += Out1;
+
+	}
+	else if (D3DXVec3Dot(pVec, &vnormalx) >= 0 && D3DXVec3Dot(pVec,&vnormalz) < 0)
+	{
+		*walkpower += Out1;
+	}
+
+
+	/*if (D3DXVec3Dot(pVec, &vnormalz) >= 0)
+	{
+		*walkpower += -(*pVec - (D3DXVec3Dot(pVec, &vnormalz) * vnormalz));
+		*walkpower += (*pVec - (D3DXVec3Dot(pVec, &vnormalx) * vnormalx));
+	}
+	else if (D3DXVec3Dot(pVec, &vnormalz) < 0)
+	{
+		*walkpower += (*pVec - (D3DXVec3Dot(pVec, &vnormalz) * vnormalz));
+		*walkpower += (*pVec - (D3DXVec3Dot(pVec, &vnormalx) * vnormalx));
+
+	}*/
+	/*if(D3DXVec3Dot(pVec,&vnormalx) < 0)
+	*walkpower += -(*pVec -  (D3DXVec3Dot(pVec, &vnormalx) * vnormalx) );*/
+
+	std::cout << D3DXVec3Dot(pVec, &vnormalz) << std::endl;
+	std::cout << D3DXVec3Dot(pVec, &vnormalx) << std::endl;
 
 	return true;
 }

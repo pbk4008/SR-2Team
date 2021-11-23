@@ -84,6 +84,7 @@ void CCollision::WallCollision()
 	ZeroMemory(&mvecWalkPower, sizeof(_vec3));
 	_vec3 vecWalkPower;
 	m_pTarget->GetWalkPower(&vecWalkPower);
+
 	m_pCollisionMgr->WallCollision(this, vecWalkPower,&mvecWalkPower);
 
 	_vec3 vPos=m_pTarget->getTransform()->getPos();
