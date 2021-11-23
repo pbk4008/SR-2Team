@@ -157,6 +157,7 @@
     <ClInclude Include="..\Code\3Stage.h" />
     <ClInclude Include="..\Code\AStar.h" />
     <ClInclude Include="..\Code\BackGround.h" />
+    <ClInclude Include="..\Code\Blood.h" />
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
     <ClInclude Include="..\Code\Boss.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="..\Code\3Stage.cpp" />
     <ClCompile Include="..\Code\AStar.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Blood.cpp" />
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />

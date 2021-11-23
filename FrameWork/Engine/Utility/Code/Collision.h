@@ -35,6 +35,7 @@ public:
 	void setHit(_bool bHit) { m_bHit = bHit; }
 	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
 	void setCollider(CCollision* pCollider) { m_pCollider = pCollider; }
+	void setCenter(const _vec3& vCenter) { m_vCenter = vCenter; }
 	void setPivot(const _vec3& vPivot) { m_vPivot = vPivot; }
 	void setPivot(const _float& fPivotLen) { m_fPivotLen = fPivotLen; };
 	void setTarget(CGameObject* pTarget);

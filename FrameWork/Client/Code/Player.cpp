@@ -138,6 +138,7 @@ void CPlayer::LateUpdate_GameObject()
 			m_bHide = true;
 			break;
 		case COLLISIONTAG::MONSTER:
+			m_iCurrentHp--;
 			m_eCulState = STATE::HIT;
 			break;
 		case COLLISIONTAG::BULLET:
