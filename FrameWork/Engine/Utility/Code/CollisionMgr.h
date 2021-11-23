@@ -39,6 +39,7 @@ public:
 		const _ulong& dwCntZ,
 		const _ulong& dwVtxItv
 		,const _float& fTerrinsYPos);
+
 	void Collision(CCollision* pCollision , COLLISIONTAG eTag);
 	void ClearCollision();
 	void ClearWall();
