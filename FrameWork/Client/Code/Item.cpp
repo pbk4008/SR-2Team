@@ -36,6 +36,7 @@ CItem::CItem(const CItem& rhs)
 	mpCollider->setActive(true);
 	mpCollider->setTrigger(COLLISIONTRIGGER::INTERACT);
 	mpCollider->setTransform(m_pTransform);
+	mpCollider->setTarget(this);
 	mpCollider->AddRef();
 	Insert_Collision(mpCollider);
 
