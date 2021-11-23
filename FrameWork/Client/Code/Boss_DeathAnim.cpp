@@ -41,10 +41,6 @@ _int CBoss_DeathAnim::Update_Component(const _float& fDeltaTime)
 	if (iExit & 0x80000000)
 		return -1;
 
-	Setting_Animation(fDeltaTime);
-	if (!m_bPlay)
-		ResetTimer();
-
 	return iExit;
 }
 
@@ -58,15 +54,6 @@ CComponent* CBoss_DeathAnim::Clone_Component()
 	return new CBoss_DeathAnim(*this);
 }
 
-void CBoss_DeathAnim::Setting_Animation(const _float& fDeltaTime)
-{
-
-}
-
-void CBoss_DeathAnim::ResetTimer()
-{
-
-}
 
 CBoss_DeathAnim* CBoss_DeathAnim::Create(LPDIRECT3DDEVICE9 pDevice)
 {

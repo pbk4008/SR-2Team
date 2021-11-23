@@ -9,7 +9,8 @@ class CBullet;
 class CBoss : public CGameObject
 {
 public:
-	enum class STATE { IDLE, WALKING, MELEE, RANGE, PILLAR, CHARGE, DEATH, MAX };
+	enum class STATE { IDLE, WALKING, MELEE, RANGE, DEATH, MAX };
+	enum class PHASE {PHASE1, PHASE2, MAX};
 
 private:
 	explicit CBoss();
@@ -34,29 +35,23 @@ private:
 	virtual void	 Attack_Dis(const _float& fDeltaTime);
 	virtual void	 MeleeAttack(const _float& fDeltaTime);
 	virtual void	 RangeAttack(const _float& fDeltaTime);
-	virtual void	 ChargeTarget(const _float& fDeltaTime);
-	virtual void	 ChargeAttack(const _float& fDeltaTime, const _vec3 vDir, const _vec3 vPos, const _vec3 vPlayerPos);
 
-	virtual void	 HitPlayer(const _float& fDeltaTime);  // 보스가 플레이어 공격하는 충돌
+	//virtual void	 HitPlayer(const _float& fDeltaTime);  // 보스가 플레이어 공격하는 충돌
 	virtual void	 HitBoss(const _float& fTimeDelta);	   // 보스가 맞는 충돌
 
 	virtual void	 Chase(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	virtual void	 ChaseRange(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
-	virtual void	 ChaseCharge(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 
-	virtual _matrix* ComputeLookAtTarget(const _vec3* pTargetPos);
+	virtual _matrix* ComputeLookAtTarget();
 	CBullet* Fireball(GAMEOBJECTID eID);
 
 
 public:
 	virtual const _int& getHP() const { return m_iHP; }
 	virtual const _bool& getHPHit() const { return m_bHPHit; }
-	void LoadTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPos);
+	CCollision* getCollider() { return m_pCollision; }
 
-
-	void setPos(const _vec3& vPos);
-	void setLook(const _vec3& vLook);
-	void setTarget(const _vec3& vTarget);
+	
 	virtual void	 Free();
 
 public:
@@ -69,6 +64,8 @@ private:
 
 	STATE			m_eCurState;
 	STATE			m_ePreState;
+
+	PHASE			m_ePhase;
 
 	CSphereCollision*		m_pCollision; // 몬스터가 맞는 충돌
 	CSphereCollision*		m_pAttackColl; // 몬스터가 플레이어 공격하는 충돌
@@ -85,10 +82,12 @@ private:
 	_float			m_fFireballTimer;
 	_float			m_fSpeed;
 	_float			m_fChargeTime;
+	_float			m_fAttackDelay;
 
 	_vec3			m_vTargetPos;
 	_vec3			m_vFirstPos;
 	_vec3			m_vLook;
+
 };
 
 #endif // Boss_h__

@@ -21,10 +21,6 @@ public:
 	virtual void Render_Animation();
 	virtual CComponent* Clone_Component();
 
-private:
-	void Setting_Animation(const _float& fDeltaTime);
-	void ResetTimer();
-
 public:
 	static CBoss_DeathAnim* Create(LPDIRECT3DDEVICE9 pDevice);
 

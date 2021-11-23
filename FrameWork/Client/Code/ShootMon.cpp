@@ -318,25 +318,6 @@ void CShootMon::Follow(const _float& fDeltaTime)
 	Chase_Target_Ranged(&playerPos, m_fSpeed, fDeltaTime);
 }
 
-//void CShootMon::Attack(const _float& fDeltaTime)
-//{
-//	CBullet* pBullet = nullptr;
-//
-//	m_iTimer += fDeltaTime;
-//	if (m_iTimer >= 1.5f)
-//	{
-//		//cout << "Shot!" << endl;
-//		m_bAttack = false;
-//
-//		pBullet = Shoot(GAMEOBJECTID::MONBULLET);
-//		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONBULLET, pBullet);
-//
-//		m_pAttackColl->setActive(true);
-//
-//		m_iTimer = 0.f;
-//	}
-//}
-
 void CShootMon::Attack_Dis(const _float& fDeltaTime)
 {
 	_vec3	m_vInfo;
