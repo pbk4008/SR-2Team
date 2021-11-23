@@ -3,18 +3,21 @@
 
 CGameObject::CGameObject() : m_pDevice(nullptr), m_bActive(false), m_pTransform(nullptr), m_bClone(false)
 {
-
+    ZeroMemory(&m_vecWalkPower, sizeof(_vec3));
 }
 
-CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false), m_bClone(false),
+CGameObject::CGameObject(LPDIRECT3DDEVICE9 pDevice) : m_pDevice(pDevice), m_bActive(false), m_bClone(false), m_vecWalkPower{},
 m_pTransform(nullptr)
 {
+	ZeroMemory(&m_vecWalkPower, sizeof(_vec3));
     m_pDevice->AddRef();
 }
 
 CGameObject::CGameObject(const CGameObject& rhs) : m_pDevice(rhs.m_pDevice), m_bActive(rhs.m_bActive), m_bClone(rhs.m_bClone)
 , m_pTransform(Clone_ComProto<CTransform>(COMPONENTID::TRANSFORM))
 {
+	ZeroMemory(&m_vecWalkPower, sizeof(_vec3));
+
     m_bClone = true;
     if (rhs.m_pDevice)
         m_pDevice->AddRef();

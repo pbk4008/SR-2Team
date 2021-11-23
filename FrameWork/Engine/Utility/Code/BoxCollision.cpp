@@ -84,9 +84,14 @@ void CBoxCollision::Free()
 void CBoxCollision::setAxis(const _vec3& vAxis, const _vec3& vAngle)
 {
 	m_vScale = vAxis;
-	//m_vAngle = vAngle;
+	m_vAngle = vAngle;
 	D3DXCreateBox(m_pDevice, 1.f, 1.f, 1.f, &m_pBox, nullptr);
 	CreateBoxPoint();
+}
+
+void Engine::CBoxCollision::getRotateMatrix(_matrix& world)
+{
+	world = m_pTransform->getRotateMatrix();
 }
 
 //void CBoxCollision::setAxis(const _vec3& vAxis)

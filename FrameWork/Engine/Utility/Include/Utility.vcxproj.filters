@@ -82,6 +82,9 @@
     <Filter Include="04.Component\07.NaviMesh">
       <UniqueIdentifier>{9b288021-3f0f-4e25-94e6-4a9729e3ae93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.Manager\04. SoundMgr">
+      <UniqueIdentifier>{859d9944-f7e6-4d88-83cb-b5240105eb0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">

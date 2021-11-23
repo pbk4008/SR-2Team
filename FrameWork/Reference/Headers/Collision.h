@@ -25,7 +25,7 @@ protected:
 public:
 	COLLISIONTAG getTag();
 	_bool getHit() { return m_bHit; }
-	_vec3& getCenter() { return m_vCenter; }
+	const _vec3& getCenter() { return m_vCenter; }
 	COLLISIONTRIGGER getTrigger() { return m_eTrigger; }
 	CCollision* getCollider() { return m_pCollider; }
 public:
@@ -49,6 +49,7 @@ protected:
 	_vec3 m_vPivot;
 	_float m_fPivotLen;
 	_vec3 m_vCenter;
+	_vec3 mvecWalkPower;
 };
 END
 #endif

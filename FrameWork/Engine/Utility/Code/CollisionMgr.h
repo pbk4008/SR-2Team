@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CCollision;
 class CSphereCollision;
 class CBoxCollision;
+class CInputDev;
 
 class ENGINE_DLL CCollisionMgr final : public CBase
 {
@@ -41,18 +42,20 @@ public:
 	void Collision(CCollision* pCollision , COLLISIONTAG eTag);
 	void ClearCollision();
 	void ClearWall();
-	void WallCollision(CCollision* pCollsion, _vec3& MoveVec);
+	void WallCollision(CCollision* pCollsion, _vec3& MoveVec,_vec3* walkpower);
 private:
 	_bool SphereCollisionCheck(CCollision* pCol, CCollision* pCollider);
 	_bool BoxCollisionCheck(CCollision* pCol, CCollision* pCollider);
 	_bool BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec = nullptr);
 	_bool ShpereBoxCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec = nullptr);
-	INTERVAL& GetInterval(CSphereCollision* pSphere, const _vec3& aixs);
-	INTERVAL& GetInterval(CBoxCollision* pBox, const _vec3& aixs);
+	INTERVAL GetInterval(CSphereCollision* pSphere, const _vec3& aixs);
+	INTERVAL GetInterval(CBoxCollision* pBox, const _vec3& aixs);
 	_vec3 GetMin(CSphereCollision* aabb);
 	_vec3 GetMax(CSphereCollision* aabb);
+	_bool OverlapOnAixs(CSphereCollision* AABB, CBoxCollision* OBB, const _vec3& axis);
+	_matrix setAngletomatrix(const _vec3& angle);
 
-	_bool BoxtoBoxCollisionCheckAABBtoOBB(CCollision* pCol, CCollision* pCollider);
+	_bool BoxtoBoxCollisionCheckAABBtoOBB(CCollision* pCol, CCollision* pCollider,_vec3* pVec,_vec3* walkpower);
 private:
 	virtual void Free();
 public:
@@ -60,6 +63,7 @@ public:
 private:
 	vector<CCollision*> m_vecCollision;
 	vector<CCollision*> m_vecWall;
+	CInputDev* mpInputDev;
 };
 END
 #endif

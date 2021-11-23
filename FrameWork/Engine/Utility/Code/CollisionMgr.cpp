@@ -3,10 +3,13 @@
 #include "Collision.h"
 #include "SphereCollision.h"
 #include "BoxCollision.h"
+#pragma comment(lib,"System.lib")
+#include "InputDev.h"
+
 IMPLEMENT_SINGLETON(CCollisionMgr)
 CCollisionMgr::CCollisionMgr()
 {
-
+	mpInputDev = CInputDev::GetInstance();
 }
 CCollisionMgr::~CCollisionMgr()
 {
@@ -27,13 +30,13 @@ HRESULT CCollisionMgr::Insert_Wall(CCollision* pCollision)
 
 
 void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float& fZ, const _vec3* pTerrainVtxPos,
-	const _ulong& dwCntX, 
-	const _ulong& dwCntZ, 
+	const _ulong& dwCntX,
+	const _ulong& dwCntZ,
 	const _ulong& dwVtxItv
 	, const _float& fTerrinsYPos)
 {
-	_ulong dwIndex = _ulong(fX / dwVtxItv) * dwCntX + _ulong(fZ/ dwVtxItv);
-	
+	_ulong dwIndex = _ulong(fX / dwVtxItv) * dwCntX + _ulong(fZ / dwVtxItv);
+
 	_float fWidth = (fX - pTerrainVtxPos[dwIndex + dwCntX].x) / dwVtxItv;
 	_float fHeight = (pTerrainVtxPos[dwIndex + dwCntX].z - fZ) / dwVtxItv;
 
@@ -48,7 +51,7 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 
 	_float fMin = 1000000000.f;
 	if (!m_vecWall.empty())
-	{	
+	{
 		for (auto pWall : m_vecWall)
 		{
 			CBoxCollision* pBox = static_cast<CBoxCollision*>(pWall);
@@ -60,11 +63,11 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 			_float fWallMinZ, fWallMaxZ;
 			_float fWallMinY, fWallMaxY;
 
-			fWallMinX = WallPos.x - (WallAxis.x*0.5f);
-			fWallMaxX = WallPos.x + (WallAxis.x*0.5f);
+			fWallMinX = WallPos.x - (WallAxis.x * 0.5f);
+			fWallMaxX = WallPos.x + (WallAxis.x * 0.5f);
 
-			fWallMinZ = WallPos.z - (WallAxis.z*0.5f);
-			fWallMaxZ = WallPos.z + (WallAxis.z*0.5f);
+			fWallMinZ = WallPos.z - (WallAxis.z * 0.5f);
+			fWallMaxZ = WallPos.z + (WallAxis.z * 0.5f);
 
 			fWallMinY = WallPos.y - (WallAxis.y * 0.5f);
 			fWallMaxY = WallPos.y + (WallAxis.y * 0.5f);
@@ -80,7 +83,7 @@ void CCollisionMgr::TerrainCollision(const _float& fX, _float& fY, const _float&
 				continue;
 			if (bCheck)
 			{
-				_float fWallTop = WallPos.y+WallAxis.y*0.5f;
+				_float fWallTop = WallPos.y + WallAxis.y * 0.5f;
 				_float fDist = abs(fY - fWallTop);
 				if (fMin > fDist)
 					fMin = fWallTop;
@@ -128,13 +131,13 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 			}
 			else if (typeid(*pCollision) == typeid(CBoxCollision))
 			{
-			if(BoxCollisionCheck(pCollision,pCol))
-				CollisionCheck = true;
+				if (BoxCollisionCheck(pCollision, pCol))
+					CollisionCheck = true;
 			}
 		}
 		if (CollisionCheck)
 		{
-			if (pCollision->getTrigger() == COLLISIONTRIGGER::INTERACT) 
+			if (pCollision->getTrigger() == COLLISIONTRIGGER::INTERACT)
 			{
 				pCollision->setHit(true);
 				pCollision->setCollider(pCol);
@@ -159,14 +162,17 @@ void CCollisionMgr::ClearWall()
 }
 
 
-void CCollisionMgr::WallCollision(CCollision* pCollsion, _vec3& MoveVec)
+void CCollisionMgr::WallCollision(CCollision* pCollsion, _vec3& MoveVec,_vec3* walkpower)
 {
 	for (auto pCollider : m_vecWall)
 	{
-		//ShpereBoxCollisionCheck(pCollsion, pCollider,&MoveVec);
-		
-		if (BoxToSphereCollisionCheck(pCollsion, pCollider, &MoveVec))
+		if (BoxtoBoxCollisionCheckAABBtoOBB(pCollsion, pCollider, &MoveVec,walkpower))
+		{
 			break;
+		}
+	
+		/*if (BoxToSphereCollisionCheck(pCollsion, pCollider, &MoveVec))
+			break;*/
 	}
 }
 
@@ -189,7 +195,7 @@ _bool CCollisionMgr::SphereCollisionCheck(CCollision* pCol, CCollision* pCollide
 
 	if (fRadiusSum > fLen)
 		return true;
-	
+
 	return false;
 }
 
@@ -225,7 +231,7 @@ _bool CCollisionMgr::BoxCollisionCheck(CCollision* pCol, CCollision* pCollider)
 		pColliderPos.z - vColliderAxis.z,
 		pColliderPos.z + vColliderAxis.z,
 	};
-	
+
 	_bool bCheck = true;
 
 	if (pColAABB.fMinX > pColiderAABB.fMaxX
@@ -260,8 +266,8 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 	_vec3 pSpherePos = pSphere->getCenter();
 
 	//길이
-	_vec3 pBoxAxis = 0.5f*pBox->getScale();
-	_vec3 pSphereAxis = 0.5f*_vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
+	_vec3 pBoxAxis = 0.5f * pBox->getScale();
+	_vec3 pSphereAxis = 0.5f * _vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
 
 	//콜리전의 AABB
 	AABB pBoxAABB =
@@ -298,7 +304,7 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 
 	if (bCheck)
 	{
-  		if(!pVec)
+		if (!pVec)
 			return bCheck;
 		if (pBoxAABB.fMinX < pSphereAABB.fMinX &&
 			pBoxAABB.fMaxX < pSphereAABB.fMaxX)
@@ -328,7 +334,7 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 				if (pBoxPos.x > pSpherePos.x)
 					*pVec *= -1;
 			}
-			else if(min(pVec->x, pVec->z) == pVec->z)
+			else if (min(pVec->x, pVec->z) == pVec->z)
 			{
 				pVec->x = 0.f;
 				if (pBoxPos.z > pSpherePos.z)
@@ -457,32 +463,121 @@ Engine::_bool Engine::CCollisionMgr::ShpereBoxCollisionCheck(CCollision* pCol, C
 
 
 
-Engine::CCollisionMgr::INTERVAL& Engine::CCollisionMgr::GetInterval(CSphereCollision* pSphere, const _vec3& aixs)
+Engine::CCollisionMgr::INTERVAL Engine::CCollisionMgr::GetInterval(CSphereCollision* pSphere, const _vec3& axis)
 {
-	_vec3 pSpherePosion = pSphere->getCenter();
-	_vec3 pSphereAxis = 0.5f * _vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
+	_vec3 i = GetMin(pSphere);
+	_vec3 a = GetMax(pSphere);
+
+	_vec3 vertex[8] = {
+		_vec3(i.x, a.y, a.z),
+		_vec3(i.x, a.y, i.z),
+		_vec3(i.x, i.y, a.z),
+		_vec3(i.x, i.y, i.z),
+		_vec3(a.x, a.y, a.z),
+		_vec3(a.x, a.y, i.z),
+		_vec3(a.x, i.y, a.z),
+		_vec3(a.x, i.y, i.z)
+	};
+
+	INTERVAL result;
+	result.fmin = result.fmax = D3DXVec3Dot(&axis, &vertex[0]);
+
+	for (int i = 1; i < 8; ++i)
+	{
+		_float projection = D3DXVec3Dot(&axis, &vertex[i]);
+		result.fmin = (projection < result.fmin) ?
+			projection : result.fmin;
+		result.fmax = (projection > result.fmax) ?
+			projection : result.fmax;
+
+	}
+
+	return result;
 
 }
 
-Engine::CCollisionMgr::INTERVAL& Engine::CCollisionMgr::GetInterval(CBoxCollision* pBox, const _vec3& aixs)
+Engine::CCollisionMgr::INTERVAL Engine::CCollisionMgr::GetInterval(CBoxCollision* pBox, const _vec3& axis)
 {
 	_vec3 pBoxPos = pBox->getCenter();
 	_vec3 pBoxScale = 0.5f * pBox->getScale();
+	_vec3 pBoxRotate = pBox->getAngle();
+	_matrix pBoxRot;
+	pBoxRot = setAngletomatrix(pBoxRotate);
+	_vec3 A[] = {
+		_vec3(pBoxRot.m[0][0],pBoxRot.m[0][1],pBoxRot.m[0][2]),
+		_vec3(pBoxRot.m[1][0],pBoxRot.m[1][1],pBoxRot.m[1][2]),
+		_vec3(pBoxRot.m[2][0],pBoxRot.m[2][1],pBoxRot.m[2][2])
+	};
+	_vec3 vertex[8];
 
+	vertex[0] = pBoxPos + A[0] * pBoxScale[0] + A[1] * pBoxScale[1] + A[2] * pBoxScale[2];
+	vertex[1] = pBoxPos - A[0] * pBoxScale[0] + A[1] * pBoxScale[1] + A[2] * pBoxScale[2];
+	vertex[2] = pBoxPos + A[0] * pBoxScale[0] - A[1] * pBoxScale[1] + A[2] * pBoxScale[2];
+	vertex[3] = pBoxPos + A[0] * pBoxScale[0] + A[1] * pBoxScale[1] - A[2] * pBoxScale[2];
+	vertex[4] = pBoxPos - A[0] * pBoxScale[0] - A[1] * pBoxScale[1] - A[2] * pBoxScale[2];
+	vertex[5] = pBoxPos + A[0] * pBoxScale[0] - A[1] * pBoxScale[1] - A[2] * pBoxScale[2];
+	vertex[6] = pBoxPos - A[0] * pBoxScale[0] + A[1] * pBoxScale[1] - A[2] * pBoxScale[2];
+	vertex[7] = pBoxPos - A[0] * pBoxScale[0] - A[1] * pBoxScale[1] + A[2] * pBoxScale[2];
+
+	INTERVAL result;
+	result.fmin = result.fmax = D3DXVec3Dot(&axis, &vertex[0]);
+
+	for (int i = 1; i < 8; ++i)
+	{
+		_float projection = D3DXVec3Dot(&axis, &vertex[i]);
+		result.fmin = (projection < result.fmin) ?
+			projection : result.fmin;
+		result.fmax = (projection > result.fmax) ?
+			projection : result.fmax;
+	}
+
+	return result;
 
 }
 
 Engine::_vec3 Engine::CCollisionMgr::GetMin(CSphereCollision* aabb)
 {
+	_vec3 aabbSize = 0.5f * _vec3(aabb->getRadius(), aabb->getRadius(), aabb->getRadius());
+	_vec3 p1 = aabb->getCenter() + aabbSize;
+	_vec3 p2 = aabb->getCenter() - aabbSize;
 
+	return _vec3(fminf(p1.x, p2.x), fminf(p1.y, p2.y), fminf(p1.z, p2.z));
 }
 
 Engine::_vec3 Engine::CCollisionMgr::GetMax(CSphereCollision* aabb)
 {
+	_vec3 aabbSize = 0.5f * _vec3(aabb->getRadius(), aabb->getRadius(), aabb->getRadius());
+	_vec3 p1 = aabb->getCenter() + aabbSize;
+	_vec3 p2 = aabb->getCenter() - aabbSize;
 
+	return _vec3(fmaxf(p1.x, p2.x), fmaxf(p1.y, p2.y), fmaxf(p1.z, p2.z));
 }
 
-Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision* pCol, CCollision* pCollider)
+
+Engine::_bool Engine::CCollisionMgr::OverlapOnAixs(CSphereCollision* AABB, CBoxCollision* OBB, const _vec3& axis)
+{
+	INTERVAL a = GetInterval(AABB, axis);
+	INTERVAL b = GetInterval(OBB, axis);
+	return ((b.fmin <= a.fmax) && (a.fmin <= b.fmax));
+}
+
+
+
+Engine::_matrix Engine::CCollisionMgr::setAngletomatrix(const _vec3& angle)
+{
+	_matrix matSRP;
+	D3DXMatrixIdentity(&matSRP);
+
+	D3DXQUATERNION quatSRP;
+	D3DXQuaternionIdentity(&quatSRP);
+
+	D3DXQuaternionRotationYawPitchRoll(&quatSRP, D3DXToRadian(angle.y), D3DXToRadian(angle.x), D3DXToRadian(angle.z));
+	D3DXMatrixRotationQuaternion(&matSRP, &quatSRP);
+
+	return matSRP;
+}
+
+Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision* pCol, CCollision* pCollider,_vec3* pVec,_vec3* walkpower)
 {
 
 	CBoxCollision* pBox = nullptr;
@@ -498,40 +593,56 @@ Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision*
 		pSphere = static_cast<CSphereCollision*>(pCol);
 	}
 
+	_matrix o;
+	o = setAngletomatrix(pBox->getAngle());
 
-	//콜리전의 AABB
-	AABB pBoxAABB =
+	_vec3 Test[15] = {
+		_vec3(1,0,0),
+		_vec3(0,1,0),
+		_vec3(0,0,1),
+		_vec3(o.m[0][0],o.m[0][1],o.m[0][2]),
+		_vec3(o.m[1][0],o.m[1][1],o.m[1][2]),
+		_vec3(o.m[2][0],o.m[2][1],o.m[2][2])
+	};
+
+	for (int i = 0; i < 3; ++i)
 	{
-		pBoxPos.x - pBoxScale.x,
-		pBoxPos.x + pBoxScale.x,
-		pBoxPos.y - pBoxScale.y,
-		pBoxPos.y + pBoxScale.y,
-		pBoxPos.z - pBoxScale.z,
-		pBoxPos.z + pBoxScale.z,
-	};
+		D3DXVec3Cross(&Test[6 + i * 3 + 0], &Test[i], &Test[0]);
+		D3DXVec3Cross(&Test[6 + i * 3 + 1], &Test[i], &Test[1]);
+		D3DXVec3Cross(&Test[6 + i * 3 + 2], &Test[i], &Test[2]);
+	}
 
-	_vec3 pSphereVertex[8] = {
-		_vec3(-pSphereAxis.x,pSphereAxis.y,pSphereAxis.z),
-		_vec3(-pSphereAxis.x,pSphereAxis.y,-pSphereAxis.z),
-		_vec3(-pSphereAxis.x,-pSphereAxis.y,pSphereAxis.z),
-		_vec3(-pSphereAxis.x,-pSphereAxis.y,-pSphereAxis.z),
-		_vec3(pSphereAxis.x,pSphereAxis.y,pSphereAxis.z),
-		_vec3(pSphereAxis.x,pSphereAxis.y,-pSphereAxis.z),
-		_vec3(pSphereAxis.x,-pSphereAxis.y,pSphereAxis.z),
-		_vec3(pSphereAxis.x,-pSphereAxis.y,-pSphereAxis.z)
-	};
-
-	//콜리더의 AABB
-	AABB pSphereAABB =
+	for (int i = 0; i < 15; ++i)
 	{
-		pSpherePos.x - pSphereAxis.x,
-		pSpherePos.x + pSphereAxis.x,
-		pSpherePos.y - pSphereAxis.y,
-		pSpherePos.y + pSphereAxis.y,
-		pSpherePos.z - pSphereAxis.z,
-		pSpherePos.z + pSphereAxis.z,
-	};
+		//한개라도 오버랩되는 축이 없다면 충돌이아님
+		if (!OverlapOnAixs(pSphere, pBox, Test[i]))
+		{
+			return false;
+		}
+	}
 
 
-	return false;
+	_vec3 boxCenter = pBox->getCenter();
+	_vec3 SphereCenter = pSphere->getCenter();
+	boxCenter.y = 0;
+	SphereCenter.y = 0;
+	_vec3 vecdir = SphereCenter - boxCenter;
+	//D3DXVec3Normalize(&vecdir, &vecdir);
+
+	_vec3 test5;
+	D3DXVec3Normalize(&test5, &Test[5]);
+
+
+	if(D3DXVec3Dot(&vecdir,&Test[3]) >= 0 )
+	*walkpower = -(*pVec - Test[5] * D3DXVec3Dot(pVec, &Test[5]));
+	else if(D3DXVec3Dot(&vecdir,&Test[3]) < 0 )
+	*walkpower = (*pVec - Test[5] * D3DXVec3Dot(pVec, &Test[5]));
+
+	if (mpInputDev->No_Key())
+		*walkpower *= 1.05f;
+
+	std::cout << D3DXVec3Dot(&vecdir, &Test[3]) << std::endl;
+	std::cout << test5.x << " " << test5.y << " " << test5.z << " " << std::endl;
+
+	return true;
 }

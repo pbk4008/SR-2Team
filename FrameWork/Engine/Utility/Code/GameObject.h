@@ -27,6 +27,8 @@ public:
 	CComponent* getComponent(COMPONENTID eID, COMPONENTTYPE eType);
 	inline _bool getActive() { return m_bActive; }
 	inline CTransform* getTransform() { return m_pTransform; }
+public: inline void GetWalkPower(_vec3* walkpower) { *walkpower = m_vecWalkPower; }
+
 public:
 	void setActive(const _bool& bActive);
 protected:
@@ -35,6 +37,7 @@ protected:
 	_bool m_bActive;//게임 오브젝트 활성화 및 비활성화 상태 판단
 	CTransform* m_pTransform;
 	_bool m_bClone;
+	_vec3 m_vecWalkPower;
 };
 END
 #endif

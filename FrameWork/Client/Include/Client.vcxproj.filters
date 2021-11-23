@@ -251,6 +251,12 @@
     <Filter Include="02.GameObject\07. UI\Char">
       <UniqueIdentifier>{3d4de02a-4f5e-4e65-bc62-8500cf18d636}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Sound">
+      <UniqueIdentifier>{5333d793-f349-40cd-8fab-12340631eb45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Sound\00. SoundMgr">
+      <UniqueIdentifier>{bc6fc297-343b-4795-ab1b-b2e24d22a7ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -463,9 +469,12 @@
     <ClInclude Include="..\Code\UiChar.h">
       <Filter>02.GameObject\07. UI\Char</Filter>
     </ClInclude>
-	<ClInclude Include="..\Code\BossStage.h">
+    <ClInclude Include="..\Code\BossStage.h">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
-	</ClInclude>
+    </ClInclude>
+    <ClInclude Include="..\Code\SoundMgr.h">
+      <Filter>05. Sound\00. SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -657,9 +666,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UI.cpp">
       <Filter>02.GameObject\07. UI</Filter>
-	</ClCompile>
-	<ClCompile Include="..\Code\BossStage.cpp">
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundMgr.cpp">
+      <Filter>05. Sound\00. SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

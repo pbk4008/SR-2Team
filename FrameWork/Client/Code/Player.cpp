@@ -198,23 +198,33 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 	vLook.y = 0.f;
 	vRight.y = 0.f;
 
+	ZeroMemory(&m_vecWalkPower, sizeof(_vec3));
+
 	if (Key_Pressing(VIR_W))
 	{
+		m_vecWalkPower += (vLook * m_fSpeed * fDeltaTime);
 		vPos += vLook * m_fSpeed * fDeltaTime;
+
 		m_eCulState = STATE::WALK;
 	}
 	if (Key_Pressing(VIR_A))
 	{
+		m_vecWalkPower += (vRight * -m_fSpeed * fDeltaTime);
+
 		vPos += vRight * -m_fSpeed * fDeltaTime;
 		m_eCulState = STATE::WALK;
 	}
 	if (Key_Pressing(VIR_S))
 	{
+		m_vecWalkPower += (vLook * -m_fSpeed * fDeltaTime);
+
 		vPos += vLook * -m_fSpeed * fDeltaTime;
 		m_eCulState = STATE::WALK;
 	}
 	if (Key_Pressing(VIR_D))
 	{
+		m_vecWalkPower += (vRight * m_fSpeed * fDeltaTime);
+
 		vPos += vRight * m_fSpeed * fDeltaTime;
 		m_eCulState = STATE::WALK;
 	}
