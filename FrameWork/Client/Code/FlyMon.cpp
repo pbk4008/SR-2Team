@@ -95,8 +95,7 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	if (fDis >= 12.0f)
 		m_bTracking = false;
 
-	if (m_bTracking)
-	{
+	
 		if (m_eCurState == STATE::DEATH)
 		{
 			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
@@ -122,9 +121,10 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 				}
 			}
 		}
-
-		Follow(fDeltaTime);
-		Attack_Dis(fDeltaTime);
+	if (m_bTracking)
+	{
+	Follow(fDeltaTime);
+	Attack_Dis(fDeltaTime);
 	}
 
 

@@ -96,11 +96,10 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	if (fDis >= 10.0f)
 		m_bTracking = false;
 
-	if (m_bTracking)
-	{
+	
 		if (m_eCurState == STATE::DEATH)
 		{
-			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"Shootmon_Death"))
+			if (lstrcmp(m_pAnimator->getCurrentAnim(), L"Shootmon_Death"))
 			{
 				if (!m_pAnimator->getAnimPlay())
 				{
@@ -123,7 +122,8 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 				}
 			}
 		}
-
+	if (m_bTracking)
+	{
 		Follow(fDeltaTime);
 		Attack_Dis(fDeltaTime);
 	}

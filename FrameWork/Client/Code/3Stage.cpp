@@ -15,14 +15,15 @@
 #include "Potal.h"
 
 C3Stage::C3Stage() : m_pLoading(nullptr), m_pPlayer(nullptr), m_b1(false), m_b10(false), m_b11(false)
-, m_b3(false), m_b4(false), m_b5(false), m_b6(false), m_b7(false), m_b8(false), m_b9(false), m_b12(false), m_b2(false)
+, m_b3(false), m_b4(false), m_b5(false), m_b6(false), m_b7(false), m_b8(false), m_b9(false), m_b12(false), m_b2(false),
+m_pPotal(nullptr), m_bPotalSpawn(false)
 {
 	
 }
 
 C3Stage::C3Stage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_pPlayer(nullptr), m_b1(false)
 , m_b10(false), m_b11(false), m_b3(false), m_b4(false), m_b5(false), m_b6(false), m_b7(false), 
-m_b8(false), m_b9(false), m_b12(false), m_b2(false)
+m_b8(false), m_b9(false), m_b12(false), m_b2(false), m_pPotal(nullptr), m_bPotalSpawn(false)
 
 {
 	
@@ -49,14 +50,34 @@ _int C3Stage::Update_Scene(const _float& fDeltaTime)
 	if (!m_b1)
 	{
 		//1
-		CMeleeMon* pMeleeMon = nullptr;
-		pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+
+		//CMeleeMon* pMeleeMon = nullptr;
+		//pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+		//_vec3 vPos = { 7.f,1.f,48.f };
+		//_vec3 vScale = { 1.f,1.f,1.f };
+		//_vec3 vAngle = { 0.f,0.f,0.f };
+		//pMeleeMon->LoadTransform(vScale, vAngle, vPos);
+		//Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER1, pMeleeMon);
+
+		CShootMon* pShootMon = nullptr;
+		pShootMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
 		_vec3 vPos = { 7.f,1.f,48.f };
 		_vec3 vScale = { 1.f,1.f,1.f };
 		_vec3 vAngle = { 0.f,0.f,0.f };
-		pMeleeMon->LoadTransform(vScale, vAngle, vPos);
-		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER1, pMeleeMon);
+		pShootMon->LoadTransform(vScale, vAngle, vPos);
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER2, pShootMon);
 
+		/*CFlyMon* pFlyMon = nullptr;
+		pFlyMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+		_vec3 vPos = { 7.f,1.f,48.f };
+		_vec3 vScale = { 1.f,1.f,1.f };
+		_vec3 vAngle = { 0.f,0.f,0.f };
+		pFlyMon->LoadTransform(vScale, vAngle, vPos);
+		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER3, pFlyMon);*/
+
+	}
+
+		/*
 		//2
 		pMeleeMon = nullptr;
 		pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
@@ -65,9 +86,7 @@ _int C3Stage::Update_Scene(const _float& fDeltaTime)
 		vAngle = { 0.f,0.f,0.f };
 		pMeleeMon->LoadTransform(vScale, vAngle, vPos);
 		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER1, pMeleeMon);
-	}
 
-		/*
 		pMeleeMon = nullptr;
 		pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
 		vPos = { 38.f,1.f,64.f };
@@ -75,8 +94,7 @@ _int C3Stage::Update_Scene(const _float& fDeltaTime)
 		vAngle = { 0.f,0.f,0.f };
 		pMeleeMon->LoadTransform(vScale, vAngle, vPos);
 		Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::MONSTER1, pMeleeMon);
-	if (!m_b2)
-	{//3
+		//3
 		CMeleeMon* pMeleeMon = nullptr;
 		pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
 		_vec3 vPos = { 22.f,1.f,10.f };
@@ -169,7 +187,6 @@ _int C3Stage::Update_Scene(const _float& fDeltaTime)
 		*/
 
 	m_b1 = true;
-	//m_b2 = true;
 	return iExit;
 }
 

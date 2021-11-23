@@ -34,6 +34,7 @@ private:
 	CPlayer* m_pPlayer;
 	CPotal* m_pPotal;
 
+	_bool m_bPotalSpawn;
 	_bool m_b1;
 	_bool m_b2;
 	_bool m_b3;
