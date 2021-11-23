@@ -136,9 +136,6 @@
     <Filter Include="02.GameObject\04.Bullet\99.Animation">
       <UniqueIdentifier>{8394a9ea-490e-41ce-b7d4-28aa37c988a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\04.Bullet\99.Animation\00.ShurikenAnim">
-      <UniqueIdentifier>{09338338-9a6f-4eae-8e67-9402043f9e00}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject\04.Bullet\99.Animation\01.BombAnim">
       <UniqueIdentifier>{e6fd3afe-c72d-4e4c-bea4-9f8db0a89eaa}</UniqueIdentifier>
     </Filter>
@@ -254,8 +251,23 @@
     <Filter Include="05. Sound">
       <UniqueIdentifier>{5333d793-f349-40cd-8fab-12340631eb45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. Sound\00. SoundMgr">
-      <UniqueIdentifier>{bc6fc297-343b-4795-ab1b-b2e24d22a7ab}</UniqueIdentifier>
+	  <Filter Include="05. Sound\00. SoundMgr">
+		  <UniqueIdentifier>{bc6fc297-343b-4795-ab1b-b2e24d22a7ab}</UniqueIdentifier>
+	  </Filter>
+    <Filter Include="02.GameObject\09.Effect">
+      <UniqueIdentifier>{3c42e0e6-a4e4-46c8-afb4-9e9feb6d48e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\09.Effect\00.Blood">
+      <UniqueIdentifier>{e8b915c2-cada-48ca-b1c4-90e29eb13b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\09.Effect\01.ShurikenHit">
+      <UniqueIdentifier>{354983a4-5146-4315-b6ef-336058326aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\09.Effect\01.ShurikenHit\00.Animation">
+      <UniqueIdentifier>{856067f0-2851-43d6-9a47-69ce29326182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\04.bullet\99.Animation\00.ShurikenAnim">
+      <UniqueIdentifier>{516c107f-cde8-417a-ae76-ba7a62a8d93e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -382,9 +394,6 @@
     <ClInclude Include="..\Code\BombAnim.h">
       <Filter>02.GameObject\04.Bullet\99.Animation\01.BombAnim</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\ShurikenAnim.h">
-      <Filter>02.GameObject\04.Bullet\99.Animation\00.ShurikenAnim</Filter>
-    </ClInclude>
     <ClInclude Include="..\Code\Shuriken.h">
       <Filter>02.GameObject\04.Bullet\00.Shuriken</Filter>
     </ClInclude>
@@ -472,8 +481,20 @@
     <ClInclude Include="..\Code\BossStage.h">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClInclude>
-    <ClInclude Include="..\Code\SoundMgr.h">
-      <Filter>05. Sound\00. SoundMgr</Filter>
+	  <ClInclude Include="..\Code\SoundMgr.h">
+		  <Filter>05. Sound\00. SoundMgr</Filter>
+	  </ClInclude>
+    <ClInclude Include="..\Code\Blood.h">
+      <Filter>02.GameObject\09.Effect\00.Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShurikenHit.h">
+      <Filter>02.GameObject\09.Effect\01.ShurikenHit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShurikenHitAnim.h">
+      <Filter>02.GameObject\09.Effect\01.ShurikenHit\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\ShurikenAnim.h">
+      <Filter>02.GameObject\04.bullet\99.Animation\00.ShurikenAnim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -580,9 +601,6 @@
     <ClCompile Include="..\Code\BombAnim.cpp">
       <Filter>02.GameObject\04.Bullet\99.Animation\01.BombAnim</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ShurikenAnim.cpp">
-      <Filter>02.GameObject\04.Bullet\99.Animation\00.ShurikenAnim</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Shuriken.cpp">
       <Filter>02.GameObject\04.Bullet\00.Shuriken</Filter>
     </ClCompile>
@@ -670,8 +688,20 @@
     <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SoundMgr.cpp">
-      <Filter>05. Sound\00. SoundMgr</Filter>
+	  <ClCompile Include="..\Code\SoundMgr.cpp">
+		  <Filter>05. Sound\00. SoundMgr</Filter>
+	  </ClCompile>
+    <ClCompile Include="..\Code\Blood.cpp">
+      <Filter>02.GameObject\09.Effect\00.Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShurikenHit.cpp">
+      <Filter>02.GameObject\09.Effect\01.ShurikenHit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShurikenHitAnim.cpp">
+      <Filter>02.GameObject\09.Effect\01.ShurikenHit\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShurikenAnim.cpp">
+      <Filter>02.GameObject\04.bullet\99.Animation\00.ShurikenAnim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

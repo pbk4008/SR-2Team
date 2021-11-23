@@ -18,11 +18,8 @@ class CShootMon_Death : public CAnimation
 public:
 	HRESULT Init_ShootMon_Death();
 	virtual _int Update_Component(const _float& fDeltaTime);
+	virtual void Render_Animation();
 	virtual CComponent* Clone_Component();
-
-private:
-	void Setting_Animation(const _float& fDeltaTime);
-	void ResetTimer();
 
 public:
 	static CShootMon_Death* Create(LPDIRECT3DDEVICE9 pDevice);

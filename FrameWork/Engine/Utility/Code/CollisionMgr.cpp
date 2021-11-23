@@ -140,10 +140,9 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 			if (pCollision->getTrigger() == COLLISIONTRIGGER::INTERACT)
 			{
 				pCollision->setHit(true);
-				pCollision->setCollider(pCol);
-			}
 			pCol->setHit(true);
 			pCol->setCollider(pCollision);
+			pCollision->setCollider(pCol);
 			return;
 		}
 	}
@@ -207,11 +206,11 @@ _bool CCollisionMgr::BoxCollisionCheck(CCollision* pCol, CCollision* pCollider)
 	_vec3 pColPos = pBoxCol->getCenter();
 	_vec3 pColliderPos = pBoxCollider->getCenter();
 
-	//±æÀÌ
+	//ï¿½ï¿½ï¿½ï¿½
 	_vec3 vColAxis = pBoxCol->getScale();
 	_vec3 vColliderAxis = pBoxCollider->getScale();
 
-	//ÄÝ¸®ÀüÀÇ AABB
+	//ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ AABB
 	AABB pColAABB =
 	{
 		pColPos.x - vColAxis.x,
@@ -221,7 +220,7 @@ _bool CCollisionMgr::BoxCollisionCheck(CCollision* pCol, CCollision* pCollider)
 		pColPos.z - vColAxis.z,
 		pColPos.z + vColAxis.z,
 	};
-	//ÄÝ¸®´õÀÇ AABB
+	//ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ AABB
 	AABB pColiderAABB =
 	{
 		pColliderPos.x - vColliderAxis.x,
@@ -265,11 +264,11 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 	_vec3 pBoxPos = pBox->getCenter();
 	_vec3 pSpherePos = pSphere->getCenter();
 
-	//±æÀÌ
+	//ï¿½ï¿½ï¿½ï¿½
 	_vec3 pBoxAxis = 0.5f * pBox->getScale();
 	_vec3 pSphereAxis = 0.5f * _vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
 
-	//ÄÝ¸®ÀüÀÇ AABB
+	//ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ AABB
 	AABB pBoxAABB =
 	{
 		pBoxPos.x - pBoxAxis.x,
@@ -279,7 +278,7 @@ _bool CCollisionMgr::BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCo
 		pBoxPos.z - pBoxAxis.z,
 		pBoxPos.z + pBoxAxis.z,
 	};
-	//ÄÝ¸®´õÀÇ AABB
+	//ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½ AABB
 	AABB pSphereAABB =
 	{
 		pSpherePos.x - pSphereAxis.x,
@@ -394,15 +393,15 @@ Engine::_bool Engine::CCollisionMgr::ShpereBoxCollisionCheck(CCollision* pCol, C
 	_vec3 pBoxPos = pBox->getCenter();
 	_vec3 pSpherePos = pSphere->getCenter();
 
-	//¹Ú½º 
+	//ï¿½Ú½ï¿½ 
 	_vec3 pBoxAxis = 0.5f * pBox->getScale();
 	_float fSphereRadius = pSphere->getRadius();
 
-	// »óÀÚÃÖ¼ÒÃÖ´ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½Ö´ï¿½
 	_vec3 pBoxMin = { pBoxPos.x - pBoxAxis.x,pBoxPos.y - pBoxAxis.y , pBoxPos.z - pBoxAxis.z };
 	_vec3 pBoxMax = { pBoxPos.x + pBoxAxis.x, pBoxPos.y + pBoxAxis.y , pBoxPos.z + pBoxAxis.z };
 
-	// ±¸ ¿¡¼­ Á¦ÀÏ °¡±î¿îÁ¡ Ã£±â
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
 
 	_float x = max(pBoxMin.x, min(pSpherePos.x, pBoxMax.x));
 	_float y = max(pBoxMin.y, min(pSpherePos.y, pBoxMax.y));
@@ -615,7 +614,7 @@ Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision*
 
 	for (int i = 0; i < 15; ++i)
 	{
-		//ÇÑ°³¶óµµ ¿À¹ö·¦µÇ´Â ÃàÀÌ ¾ø´Ù¸é Ãæµ¹ÀÌ¾Æ´Ô
+		//ï¿½Ñ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½æµ¹ï¿½Ì¾Æ´ï¿½
 		if (!OverlapOnAixs(pSphere, pBox, Test[i]))
 		{
 			return false;

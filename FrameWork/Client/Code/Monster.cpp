@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "Monster.h"
 #include "AStar.h"
-CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false)
+#include "Blood.h"
+
+CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false), m_pBlood(nullptr)
+, m_fBloodTime(0.f), m_dwBloodCount(0)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 	ZeroMemory(&m_vStart, sizeof(_vec3));
@@ -12,7 +15,8 @@ CMonster::CMonster() :m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m
 }
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
-	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false)
+	:CGameObject(pDevice), m_pAstar(nullptr), m_bItemCheck(false), m_bFirst(false), m_fNodeLen(0.f), m_bReborn(false), m_pBlood(nullptr)
+	, m_fBloodTime(0.f), m_dwBloodCount(0)
 {
 	ZeroMemory(&m_pTargetPos, sizeof(_vec3));
 	ZeroMemory(&m_vStart, sizeof(_vec3));
@@ -24,7 +28,8 @@ CMonster::CMonster(LPDIRECT3DDEVICE9 pDevice)
 
 CMonster::CMonster(const CMonster& rhs) : CGameObject(rhs), m_pAstar(nullptr), m_pTargetPos(rhs.m_pTargetPos), m_bItemCheck(rhs.m_bItemCheck)
 ,m_vStart(rhs.m_vStart), m_vEnd(rhs.m_vEnd), m_bFirst(rhs.m_bFirst), m_vDir(rhs.m_vDir),m_vNodeFirst(rhs.m_vNodeFirst)
-,m_vNodeSecond(rhs.m_vNodeSecond), m_fNodeLen(rhs.m_fNodeLen), m_bReborn(rhs.m_bReborn)
+,m_vNodeSecond(rhs.m_vNodeSecond), m_fNodeLen(rhs.m_fNodeLen), m_bReborn(rhs.m_bReborn), m_pBlood(nullptr)
+, m_fBloodTime(rhs.m_fBloodTime), m_dwBloodCount(rhs.m_dwBloodCount)
 {
 }
 
@@ -38,10 +43,10 @@ void CMonster::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const
 	_vec3	m_vInfo;
 	m_vInfo = m_pTransform->getPos();
 
-	_matrix matRot;
-	matRot = *ComputeLookAtTarget(pTargetPos);
+	/*_matrix matRot;
+	matRot = *ComputeLookAtTarget();
 
-	m_pTransform->setRotate(matRot);
+	m_pTransform->setRotate(matRot);*/
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
@@ -61,10 +66,10 @@ void CMonster::Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed
 	_vec3	m_vInfo;
 	m_vInfo = m_pTransform->getPos();
 
-	_matrix matRot;
-	matRot = *ComputeLookAtTarget(pTargetPos);
+	/*_matrix matRot;
+	matRot = *ComputeLookAtTarget();
 
-	m_pTransform->setRotate(matRot);
+	m_pTransform->setRotate(matRot);*/
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
@@ -72,7 +77,7 @@ void CMonster::Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed
 	_vec3 vDis = *pTargetPos - m_vInfo;
 	_float fDis = D3DXVec3Length(&vDis);
 
-	if (fDis >= 5.0f)
+	if (fDis >= 10.0f)
 	{
 		MoveRoute(m_vInfo, *pTargetPos, fTimeDelta, fSpeed);
 	}
@@ -86,10 +91,10 @@ void CMonster::Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, c
 	_matrix m_matWorld = m_pTransform->getWorldMatrix();
 	_vec3	m_vScale = m_pTransform->getScale();
 
-	_matrix matRot;
-	matRot = *ComputeLookAtTarget(pTargetPos);
+	//_matrix matRot;
+	//matRot = *ComputeLookAtTarget();
 
-	m_pTransform->setRotate(matRot);
+	//m_pTransform->setRotate(matRot);
 
 	_vec3 vDir = *pTargetPos - m_vInfo;
 
@@ -103,7 +108,7 @@ void CMonster::Chase_Target_Fly(const _vec3* pTargetPos, const _float& fSpeed, c
 	m_pTransform->setPos(m_vInfo);
 }
 
-_matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
+_matrix* CMonster::ComputeLookAtTarget()
 {
 	_matrix matView, matBill;
 	D3DXMatrixIdentity(&matBill);
@@ -118,6 +123,29 @@ _matrix* CMonster::ComputeLookAtTarget(const _vec3* pTargetPos)
 	D3DXMatrixInverse(&matBill, NULL, &matBill);
 
 	return &matBill;
+}
+
+void CMonster::Blooding(const _float& fDeltaTime)
+{
+	if (m_dwBloodCount < 5)
+	{
+		m_fBloodTime += fDeltaTime;
+		if (m_fBloodTime > 0.3f)
+		{
+			m_pBlood = static_cast<CBlood*>(GetGameObject(GAMEOBJECTID::BLOOD));
+			if (!m_pBlood)
+			{
+				m_pBlood = Clone_ObjProto<CBlood>(GAMEOBJECTID::BLOOD);
+				Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BLOOD, m_pBlood);
+			}
+			_vec3 vBloodingPos = m_pTransform->getPos();
+			vBloodingPos.y += 0.5f;
+			_float fRand = (-0.5f+(rand()%2))/ (_float)RAND_MAX;
+			m_pBlood->setStart(vBloodingPos);
+			m_fBloodTime = 0.f;
+			m_dwBloodCount++;
+		}
+	}
 }
 
 void CMonster::MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaTime, const _float& fSpeed)

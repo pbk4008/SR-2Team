@@ -41,26 +41,17 @@ _int CShootMon_Death::Update_Component(const _float& fDeltaTime)
 	if (iExit & 0x80000000)
 		return -1;
 
-	Setting_Animation(fDeltaTime);
-	if (!m_bPlay)
-		ResetTimer();
-
 	return iExit;
+}
+
+void CShootMon_Death::Render_Animation()
+{
+	CAnimation::Render_Animation();
 }
 
 CComponent* CShootMon_Death::Clone_Component()
 {
 	return new CShootMon_Death(*this);
-}
-
-void CShootMon_Death::Setting_Animation(const _float& fDeltaTime)
-{
-
-}
-
-void CShootMon_Death::ResetTimer()
-{
-
 }
 
 CShootMon_Death* CShootMon_Death::Create(LPDIRECT3DDEVICE9 pDevice)

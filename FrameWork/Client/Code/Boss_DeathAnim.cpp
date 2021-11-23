@@ -48,6 +48,11 @@ _int CBoss_DeathAnim::Update_Component(const _float& fDeltaTime)
 	return iExit;
 }
 
+void CBoss_DeathAnim::Render_Animation()
+{
+	CAnimation::Render_Animation();
+}
+
 CComponent* CBoss_DeathAnim::Clone_Component()
 {
 	return new CBoss_DeathAnim(*this);

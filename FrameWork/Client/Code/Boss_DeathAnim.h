@@ -18,6 +18,7 @@ class CBoss_DeathAnim : public CAnimation
 public:
 	HRESULT Init_Boss_DeathAnim();
 	virtual _int Update_Component(const _float& fDeltaTime);
+	virtual void Render_Animation();
 	virtual CComponent* Clone_Component();
 
 private:

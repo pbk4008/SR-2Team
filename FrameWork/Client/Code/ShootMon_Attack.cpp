@@ -30,7 +30,7 @@ CShootMon_Attack::~CShootMon_Attack()
 HRESULT CShootMon_Attack::Init_ShootMon_WalkF()
 {
 	m_bLoop = true;
-	m_fPlaySpeed = 0.28f;
+	m_fPlaySpeed = 1.f;
 	m_fSpeed = 1.f;
 	InitTexture(L"ShootMon_Attack");
 

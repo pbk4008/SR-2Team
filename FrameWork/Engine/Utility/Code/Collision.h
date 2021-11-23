@@ -19,7 +19,7 @@ public:
 	void Render_Collision();
 	virtual void Collison(COLLISIONTAG eTag);
 	void ResetCollision();
-	void WallCollision();
+	_bool WallCollision();
 protected:
 	virtual void Free();
 public:
@@ -28,6 +28,7 @@ public:
 	const _vec3& getCenter() { return m_vCenter; }
 	COLLISIONTRIGGER getTrigger() { return m_eTrigger; }
 	CCollision* getCollider() { return m_pCollider; }
+	CGameObject* getTarget() { return m_pTarget; }
 public:
 	void setTransform(const _vec3& pCenter);
 	void setTransform(CTransform* pTransform);
@@ -35,6 +36,7 @@ public:
 	void setHit(_bool bHit) { m_bHit = bHit; }
 	void setTrigger(COLLISIONTRIGGER eTrigger) { m_eTrigger = eTrigger; }
 	void setCollider(CCollision* pCollider) { m_pCollider = pCollider; }
+	void setCenter(const _vec3& vCenter) { m_vCenter = vCenter; }
 	void setPivot(const _vec3& vPivot) { m_vPivot = vPivot; }
 	void setPivot(const _float& fPivotLen) { m_fPivotLen = fPivotLen; };
 	void setTarget(CGameObject* pTarget);

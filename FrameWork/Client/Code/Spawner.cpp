@@ -46,7 +46,12 @@ _int CSpawner::Update_GameObject(const _float& fDeltaTime)
 	_int iExit = CGameObject::Update_GameObject(fDeltaTime);
 	if (m_pInteract)
 		m_pInteract->Update_Component(fDeltaTime);
-	SpawnMonster(fDeltaTime);
+	if (bCheck)
+	{
+		RandomMonSpawn();
+		bCheck = false;
+	}
+	//SpawnMonster(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 	return iExit;
 }
@@ -132,7 +137,9 @@ void CSpawner::SpawnMonster(const _float& fDeltaTime)
 void CSpawner::RandomMonSpawn()
 {
 	CGameObject* pMonster = nullptr;
-	_int randNum = rand() % 3;
+	/*_int randNum = rand() % 3;*/
+	_int randNum = 0;
+	
 	_vec3 vPos = m_pTransform->getPos();
 	switch (randNum)
 	{

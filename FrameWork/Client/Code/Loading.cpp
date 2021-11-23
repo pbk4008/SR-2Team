@@ -24,6 +24,9 @@
 #include "Door.h"
 #include "Spawner.h"
 #include "Key.h"
+#include "Layer.h"
+#include "Blood.h"
+#include "ShurikenHit.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -87,6 +90,9 @@ _uint CLoading::Loading_ForStage1()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Spawner/Spawner00%d.png", L"Spawner", 8);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Key/Key000.png", L"Key", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Potal/Potal00%d.png", L"Potal", 15);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Blood/Blood.png", L"Blood", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Shuriken/ShurikenEffect00%d.png", L"ShurikenEff", 3);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH	, L"HP20", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
@@ -156,6 +162,10 @@ _uint CLoading::Loading_ForStage1()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 	
+	pObj = CBlood::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BLOOD, pObj);
+
 	//// Melee Monster #1
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -174,6 +184,10 @@ _uint CLoading::Loading_ForStage1()
 	pObj = CFlyMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::MONSTER3, pObj);
+
+	pObj = CShurikenEff::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SHURIKENEFF, pObj);
 
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -206,8 +220,6 @@ _uint CLoading::Loading_ForStage1()
 	pObj = CKey::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
-
-
 
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage1QuadData"),E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage1CubeData"),E_FAIL);
@@ -366,8 +378,12 @@ _uint CLoading::Loading_ForStage3()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Spawner/Spawner00%d.png", L"Spawner", 8);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Key/Key000.png", L"Key", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Potal/Potal00%d.png", L"Potal", 15);
 
-	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Blood/Blood.png", L"Blood", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Shuriken/ShurikenEffect00%d.png", L"ShurikenEff", 3);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP20PATH, L"HP20", 1); 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP50PATH, L"HP50", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, HP100PATH, L"HP100", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, SHURIKEN20PATH, L"SHURIKEN20", 1);
@@ -436,6 +452,10 @@ _uint CLoading::Loading_ForStage3()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 
+	pObj = CBlood::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BLOOD, pObj);
+
 	// Melee Monster #1
 	pObj = CMeleeMon::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -459,6 +479,10 @@ _uint CLoading::Loading_ForStage3()
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
+
+	pObj = CShurikenEff::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SHURIKENEFF, pObj);
 
 	pObj = CBomb::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -523,6 +547,9 @@ _uint CLoading::Loading_ForBossStage()
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Shuriken/Shuriken00%d.png", L"Shuriken", 4);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/Bomb00%d.png", L"Bomb", 2);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Player/Bomb/BombSmoge00%d.png", L"BombSmoge", 4);
+
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Blood/Blood.png", L"Blood", 1);
+	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Effect/Shuriken/ShurikenEffect00%d.png", L"ShurikenEff", 3);
 
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Door/Door00%d.png", L"Door", 1);
 	m_pTextureMgr->Insert_Texture(m_pDevice, TEXTURETYPE::TEX_NORMAL, L"../Bin/Resource/Texture/Etc/Spawner/Spawner00%d.png", L"Spawner", 8);
@@ -597,9 +624,17 @@ _uint CLoading::Loading_ForBossStage()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::PLAYERMODEL, pObj);
 
+	pObj = CBlood::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::BLOOD, pObj);
+
 	pObj = CShuriken::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::SHURIKEN, pObj);
+
+	pObj = CShurikenEff::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::SHURIKENEFF, pObj);
 
 	pObj = CBomb::Create(m_pDevice);
 	NULL_CHECK_RETURN(pObj, -1);
@@ -1259,354 +1294,6 @@ HRESULT CLoading::Load_Item(const _tchar* strName)
 	return S_OK;
 }
 
-HRESULT CLoading::Load_MeleeMon(const _tchar* strName)
-{
-	wstring tmp = strName;
-	string strFile(tmp.begin(), tmp.end());
-
-
-	int MeleeMonSize = m_pIniManager->LoadDataInteger(strFile, "MeleeMonCount", "Count");
-
-	string Section;
-	string Key;
-	string Value;
-	CMeleeMon* pMeleeMon = nullptr;
-
-	for (int i = 0; i < MeleeMonSize; ++i)
-	{
-		Section = string_format("MeleeMon_%d", i);
-		size_t dot = 0;
-		int PointerSize = 0;
-
-		pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
-
-		Key = "ObjectAndTypeName";
-
-		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
-		std::wstring ObjectName;
-		std::wstring TypeName;
-		while (true)
-		{
-			if (FileFolderName.find(',') == std::string::npos)
-			{
-				Value = FileFolderName.substr(0, FileFolderName.size());
-				TypeName.assign(Value.begin(), Value.end());
-				break;
-			}
-			dot = FileFolderName.find(',');
-			Value = FileFolderName.substr(0, dot);
-			ObjectName.assign(Value.begin(), Value.end());
-			FileFolderName.erase(0, dot + 1);
-		}
-
-		pMeleeMon->SettingAnimator();
-
-		Key = "Scale";
-		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Scale{};
-
-		while (true)
-		{
-			if (strScale.find(',') == string::npos)
-			{
-				Value = strScale.substr(0, strScale.size());
-				*(((float*)&Scale) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strScale.find(',');
-			Value = strScale.substr(0, dot);
-			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
-			strScale.erase(0, dot + 1);
-		}
-
-		Key = "Euler Angle";
-		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 vRotate{};
-		while (true)
-		{
-			if (strAngle.find(',') == string::npos)
-			{
-				Value = strAngle.substr(0, strAngle.size());
-				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strAngle.find(',');
-			Value = strAngle.substr(0, dot);
-			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
-			strAngle.erase(0, dot + 1);
-		}
-
-		Key = "Position";
-		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Position{};
-		while (true)
-		{
-			if (strPos.find(',') == string::npos)
-			{
-				Value = strPos.substr(0, strPos.size());
-				*(((float*)&Position) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strPos.find(',');
-			Value = strPos.substr(0, dot);
-			*(((float*)&Position) + (PointerSize++)) = stof(Value);
-			strPos.erase(0, dot + 1);
-		}
-
-
-		pMeleeMon->getTransform()->setScale(Scale);
-		pMeleeMon->getTransform()->setAngle(vRotate);
-		pMeleeMon->getTransform()->setPos(Position);
-		pMeleeMon->setActive(true);
-
-		Key = "Radius";
-		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
-		_float fRadius = stof(strRadius);
-		static_cast<CSphereCollision*>(pMeleeMon->getCollider())->setRadius(fRadius);
-
-		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pMeleeMon);
-	}
-	return S_OK;
-}
-
-HRESULT CLoading::Load_ShootMon(const _tchar* strName)
-{
-	wstring tmp = strName;
-	string strFile(tmp.begin(), tmp.end());
-
-
-	int ShootMonSize = m_pIniManager->LoadDataInteger(strFile, "ShootMonCount", "Count");
-
-	string Section;
-	string Key;
-	string Value;
-	CShootMon* pShootMon = nullptr;
-
-	for (int i = 0; i < ShootMonSize; ++i)
-	{
-		Section = string_format("ShootMon_%d", i);
-		size_t dot = 0;
-		int PointerSize = 0;
-
-		pShootMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
-
-		Key = "ObjectAndTypeName";
-
-		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
-		std::wstring ObjectName;
-		std::wstring TypeName;
-		while (true)
-		{
-			if (FileFolderName.find(',') == std::string::npos)
-			{
-				Value = FileFolderName.substr(0, FileFolderName.size());
-				TypeName.assign(Value.begin(), Value.end());
-				break;
-			}
-			dot = FileFolderName.find(',');
-			Value = FileFolderName.substr(0, dot);
-			ObjectName.assign(Value.begin(), Value.end());
-			FileFolderName.erase(0, dot + 1);
-		}
-
-		pShootMon->SettingAnimator();
-
-		Key = "Scale";
-		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Scale{};
-
-		while (true)
-		{
-			if (strScale.find(',') == string::npos)
-			{
-				Value = strScale.substr(0, strScale.size());
-				*(((float*)&Scale) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strScale.find(',');
-			Value = strScale.substr(0, dot);
-			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
-			strScale.erase(0, dot + 1);
-		}
-
-		Key = "Euler Angle";
-		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 vRotate{};
-		while (true)
-		{
-			if (strAngle.find(',') == string::npos)
-			{
-				Value = strAngle.substr(0, strAngle.size());
-				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strAngle.find(',');
-			Value = strAngle.substr(0, dot);
-			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
-			strAngle.erase(0, dot + 1);
-		}
-
-		Key = "Position";
-		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Position{};
-		while (true)
-		{
-			if (strPos.find(',') == string::npos)
-			{
-				Value = strPos.substr(0, strPos.size());
-				*(((float*)&Position) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strPos.find(',');
-			Value = strPos.substr(0, dot);
-			*(((float*)&Position) + (PointerSize++)) = stof(Value);
-			strPos.erase(0, dot + 1);
-		}
-
-
-		pShootMon->getTransform()->setScale(Scale);
-		pShootMon->getTransform()->setAngle(vRotate);
-		pShootMon->getTransform()->setPos(Position);
-		pShootMon->setActive(true);
-
-		Key = "Radius";
-		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
-		_float fRadius = stof(strRadius);
-		static_cast<CSphereCollision*>(pShootMon->getCollider())->setRadius(fRadius);
-
-		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pShootMon);
-	}
-	return S_OK;
-}
-
-HRESULT CLoading::Load_FlyMon(const _tchar* strName)
-{
-	wstring tmp = strName;
-	string strFile(tmp.begin(), tmp.end());
-
-
-	int FlyMonSize = m_pIniManager->LoadDataInteger(strFile, "FlyMonCount", "Count");
-
-	string Section;
-	string Key;
-	string Value;
-	CFlyMon* pFlyMon = nullptr;
-
-	for (int i = 0; i < FlyMonSize; ++i)
-	{
-		Section = string_format("FlyMon_%d", i);
-		size_t dot = 0;
-		int PointerSize = 0;
-
-		pFlyMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
-
-		Key = "ObjectAndTypeName";
-
-		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
-		std::wstring ObjectName;
-		std::wstring TypeName;
-		while (true)
-		{
-			if (FileFolderName.find(',') == std::string::npos)
-			{
-				Value = FileFolderName.substr(0, FileFolderName.size());
-				TypeName.assign(Value.begin(), Value.end());
-				break;
-			}
-			dot = FileFolderName.find(',');
-			Value = FileFolderName.substr(0, dot);
-			ObjectName.assign(Value.begin(), Value.end());
-			FileFolderName.erase(0, dot + 1);
-		}
-
-		pFlyMon->SettingAnimator();
-
-		Key = "Scale";
-		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Scale{};
-
-		while (true)
-		{
-			if (strScale.find(',') == string::npos)
-			{
-				Value = strScale.substr(0, strScale.size());
-				*(((float*)&Scale) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strScale.find(',');
-			Value = strScale.substr(0, dot);
-			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
-			strScale.erase(0, dot + 1);
-		}
-
-		Key = "Euler Angle";
-		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 vRotate{};
-		while (true)
-		{
-			if (strAngle.find(',') == string::npos)
-			{
-				Value = strAngle.substr(0, strAngle.size());
-				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strAngle.find(',');
-			Value = strAngle.substr(0, dot);
-			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
-			strAngle.erase(0, dot + 1);
-		}
-
-		Key = "Position";
-		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Position{};
-		while (true)
-		{
-			if (strPos.find(',') == string::npos)
-			{
-				Value = strPos.substr(0, strPos.size());
-				*(((float*)&Position) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strPos.find(',');
-			Value = strPos.substr(0, dot);
-			*(((float*)&Position) + (PointerSize++)) = stof(Value);
-			strPos.erase(0, dot + 1);
-		}
-
-
-		pFlyMon->getTransform()->setScale(Scale);
-		pFlyMon->getTransform()->setAngle(vRotate);
-		pFlyMon->getTransform()->setPos(Position);
-		pFlyMon->setActive(true);
-
-		Key = "Radius";
-		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
-		_float fRadius = stof(strRadius);
-		static_cast<CSphereCollision*>(pFlyMon->getCollider())->setRadius(fRadius);
-
-		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::ITEM, pFlyMon);
-	}
-	return S_OK;
-}
-
 HRESULT	CLoading::Load_Monster(const _tchar* strName)
 {
 	wstring tmp = strName;
@@ -1622,122 +1309,133 @@ HRESULT	CLoading::Load_Monster(const _tchar* strName)
 	CShootMon* pShootMon = nullptr;
 	CFlyMon* pFlyMon = nullptr;
 
-	//////////////////////////////////
-		size_t dot = 0;
-		int PointerSize = 0;
-	for (int i = 0; i < MonsterSize; ++i)
+	size_t dot = 0;
+	int PointerSize = 0;
+
+	/*CLayer* pLayer = CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	CGameObject* pGameObject = nullptr;
+
+	pGameObject = pMeleeMon = Clone_ObjProto<CMeleeMon>(GAMEOBJECTID::MONSTER1);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER1, pGameObject), E_FAIL);
+
+	pGameObject = pShootMon = Clone_ObjProto<CShootMon>(GAMEOBJECTID::MONSTER2);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER2, pGameObject), E_FAIL);
+
+	pGameObject = pFlyMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::MONSTER3, pGameObject), E_FAIL);*/
+
+	Key = "Scale";
+	string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+	_vec3 Scale{};
+
+	while (true)
 	{
-		Section = string_format("FlyMon_%d", i);
-
-		pFlyMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
-
-		Key = "ObjectAndTypeName";
-
-		std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
-		std::wstring ObjectName;
-		std::wstring TypeName;
-		while (true)
+		if (strScale.find(',') == string::npos)
 		{
-			if (FileFolderName.find(',') == std::string::npos)
-			{
-				Value = FileFolderName.substr(0, FileFolderName.size());
-				TypeName.assign(Value.begin(), Value.end());
-				break;
-			}
-			dot = FileFolderName.find(',');
-			Value = FileFolderName.substr(0, dot);
-			ObjectName.assign(Value.begin(), Value.end());
-			FileFolderName.erase(0, dot + 1);
+			Value = strScale.substr(0, strScale.size());
+			*(((float*)&Scale) + (PointerSize)) = stof(Value);
+			PointerSize = 0;
+			break;
 		}
-		//////////////////////////////////
-
-		pMeleeMon->SettingAnimator();
-		pShootMon->SettingAnimator();
-		pFlyMon->SettingAnimator();
-
-		Key = "Scale";
-		string strScale = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Scale{};
-
-		while (true)
-		{
-			if (strScale.find(',') == string::npos)
-			{
-				Value = strScale.substr(0, strScale.size());
-				*(((float*)&Scale) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strScale.find(',');
-			Value = strScale.substr(0, dot);
-			*(((float*)&Scale) + (PointerSize++)) = stof(Value);
-			strScale.erase(0, dot + 1);
-		}
-
-		Key = "Euler Angle";
-		string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 vRotate{};
-		while (true)
-		{
-			if (strAngle.find(',') == string::npos)
-			{
-				Value = strAngle.substr(0, strAngle.size());
-				*(((float*)&vRotate) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strAngle.find(',');
-			Value = strAngle.substr(0, dot);
-			*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
-			strAngle.erase(0, dot + 1);
-		}
-
-		Key = "Position";
-		string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
-
-		_vec3 Position{};
-		while (true)
-		{
-			if (strPos.find(',') == string::npos)
-			{
-				Value = strPos.substr(0, strPos.size());
-				*(((float*)&Position) + (PointerSize)) = stof(Value);
-				PointerSize = 0;
-				break;
-			}
-			dot = strPos.find(',');
-			Value = strPos.substr(0, dot);
-			*(((float*)&Position) + (PointerSize++)) = stof(Value);
-			strPos.erase(0, dot + 1);
-		}
-
-
-		pMeleeMon->LoadTransform(Scale, vRotate, Position);
-		pMeleeMon->setActive(true);
-
-		pShootMon->LoadTransform(Scale, vRotate, Position);
-		pShootMon->setActive(true);
-
-		pFlyMon->LoadTransform(Scale, vRotate, Position);
-		pFlyMon->setActive(true);
-
-		Key = "Radius";
-		std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
-		_float fRadius = stof(strRadius);
-		static_cast<CSphereCollision*>(pMeleeMon->getCollider())->setRadius(fRadius);
-		static_cast<CSphereCollision*>(pShootMon->getCollider())->setRadius(fRadius);
-		static_cast<CSphereCollision*>(pFlyMon->getCollider())->setRadius(fRadius);
-
-		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::MONSTER1, pMeleeMon);
-		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::MONSTER2, pShootMon);
-		Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::MONSTER3, pFlyMon);
+		dot = strScale.find(',');
+		Value = strScale.substr(0, dot);
+		*(((float*)&Scale) + (PointerSize++)) = stof(Value);
+		strScale.erase(0, dot + 1);
 	}
+
+	Key = "Euler Angle";
+	string strAngle = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+	_vec3 vRotate{};
+	while (true)
+	{
+		if (strAngle.find(',') == string::npos)
+		{
+			Value = strAngle.substr(0, strAngle.size());
+			*(((float*)&vRotate) + (PointerSize)) = stof(Value);
+			PointerSize = 0;
+			break;
+		}
+		dot = strAngle.find(',');
+		Value = strAngle.substr(0, dot);
+		*(((float*)&vRotate) + (PointerSize++)) = stof(Value);
+		strAngle.erase(0, dot + 1);
+	}
+
+	Key = "Position";
+	string strPos = m_pIniManager->LoadDataString(strFile, Section, Key);
+
+	_vec3 Position{};
+	while (true)
+	{
+		if (strPos.find(',') == string::npos)
+		{
+			Value = strPos.substr(0, strPos.size());
+			*(((float*)&Position) + (PointerSize)) = stof(Value);
+			PointerSize = 0;
+			break;
+		}
+		dot = strPos.find(',');
+		Value = strPos.substr(0, dot);
+		*(((float*)&Position) + (PointerSize++)) = stof(Value);
+		strPos.erase(0, dot + 1);
+	}
+
+
+	pMeleeMon->LoadTransform(Scale, vRotate, Position);
+	pMeleeMon->setActive(true);
+
+	pShootMon->LoadTransform(Scale, vRotate, Position);
+	pShootMon->setActive(true);
+
+	pFlyMon->LoadTransform(Scale, vRotate, Position);
+	pFlyMon->setActive(true);
+
+	Key = "Radius";
+	std::string strRadius = m_pIniManager->LoadDataString(strFile, Section, Key);
+	_float fRadius = stof(strRadius);
+	static_cast<CSphereCollision*>(pMeleeMon->getCollider())->setRadius(fRadius);
+	static_cast<CSphereCollision*>(pShootMon->getCollider())->setRadius(fRadius);
+	static_cast<CSphereCollision*>(pFlyMon->getCollider())->setRadius(fRadius);
+
+	Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::MONSTER1, pMeleeMon);
+	Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::MONSTER2, pShootMon);
+	Add_GameObject(LAYERID::LOADING, GAMEOBJECTID::MONSTER3, pFlyMon);
+
 	return S_OK;
 }
+
 
 HRESULT CLoading::Load_Boss(const _tchar* strName)
 {
 	return S_OK;
 }
+
+//size_t dot = 0;
+//int PointerSize = 0;
+//for (int i = 0; i < MonsterSize; ++i)
+//{
+//	Section = string_format("FlyMon_%d", i);
+//
+//	pFlyMon = Clone_ObjProto<CFlyMon>(GAMEOBJECTID::MONSTER3);
+//
+//	Key = "ObjectAndTypeName";
+//
+//	std::string FileFolderName = m_pIniManager->LoadDataString(strFile, Section, Key);
+//	std::wstring ObjectName;
+//	std::wstring TypeName;
+//	while (true)
+//	{
+//		if (FileFolderName.find(',') == std::string::npos)
+//		{
+//			Value = FileFolderName.substr(0, FileFolderName.size());
+//			TypeName.assign(Value.begin(), Value.end());
+//			break;
+//		}
+//		dot = FileFolderName.find(',');
+//		Value = FileFolderName.substr(0, dot);
+//		ObjectName.assign(Value.begin(), Value.end());
+//		FileFolderName.erase(0, dot + 1);
+//	}

@@ -43,7 +43,7 @@ public:
 	inline const _vec3& getAngle() const { return m_vAngle; }
 	inline const _vec3& getRevolve() const { return m_vRevolve; }
 	void getAxis(VECAXIS eAxis, _vec3& pVec);
-
+	_float getBottomY() { return m_fBottomY; }
 	// === Åø
 	inline const _vec3& getToolAngle() const { return m_ToolvAngle; }
 public:

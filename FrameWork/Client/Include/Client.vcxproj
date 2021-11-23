@@ -74,12 +74,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../Bin\</OutDir>
     <IncludePath>$(DXSDK_DIR)Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;</LibraryPath>
+    <OutDir>../Bin\</OutDir>
+    <IncludePath>$(DXSDK_DIR)Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -161,6 +162,7 @@
     <ClInclude Include="..\Code\3Stage.h" />
     <ClInclude Include="..\Code\AStar.h" />
     <ClInclude Include="..\Code\BackGround.h" />
+    <ClInclude Include="..\Code\Blood.h" />
     <ClInclude Include="..\Code\Bomb.h" />
     <ClInclude Include="..\Code\BombAnim.h" />
     <ClInclude Include="..\Code\Boss.h" />
@@ -172,6 +174,9 @@
     <ClInclude Include="..\Code\Boss_RangeAnim.h" />
     <ClInclude Include="..\Code\Boss_WalkAnim.h" />
     <ClInclude Include="..\Code\SoundMgr.h" />
+    <ClInclude Include="..\Code\ShurikenAnim.h" />
+    <ClInclude Include="..\Code\ShurikenHit.h" />
+    <ClInclude Include="..\Code\ShurikenHitAnim.h" />
     <ClInclude Include="..\Code\UiChar.h" />
     <ClInclude Include="..\Code\DoorObserver.h" />
     <ClInclude Include="..\Code\Fireball.h" />
@@ -216,7 +221,6 @@
     <ClInclude Include="..\Code\ShootMon_Idle.h" />
     <ClInclude Include="..\Code\ShootMon_WalkF.h" />
     <ClInclude Include="..\Code\Shuriken.h" />
-    <ClInclude Include="..\Code\ShurikenAnim.h" />
     <ClInclude Include="..\Code\SpawnerAnim.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Code\UI.h" />
@@ -235,6 +239,7 @@
     <ClCompile Include="..\Code\3Stage.cpp" />
     <ClCompile Include="..\Code\AStar.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Blood.cpp" />
     <ClCompile Include="..\Code\Bomb.cpp" />
     <ClCompile Include="..\Code\BombAnim.cpp" />
     <ClCompile Include="..\Code\Boss.cpp" />
@@ -246,6 +251,9 @@
     <ClCompile Include="..\Code\Boss_RangeAnim.cpp" />
     <ClCompile Include="..\Code\Boss_WalkAnim.cpp" />
     <ClCompile Include="..\Code\SoundMgr.cpp" />
+    <ClCompile Include="..\Code\ShurikenAnim.cpp" />
+    <ClCompile Include="..\Code\ShurikenHit.cpp" />
+    <ClCompile Include="..\Code\ShurikenHitAnim.cpp" />
     <ClCompile Include="..\Code\UiChar.cpp" />
     <ClCompile Include="..\Code\DoorObserver.cpp" />
     <ClCompile Include="..\Code\Fireball.cpp" />
@@ -290,7 +298,6 @@
     <ClCompile Include="..\Code\ShootMon_Idle.cpp" />
     <ClCompile Include="..\Code\ShootMon_WalkF.cpp" />
     <ClCompile Include="..\Code\Shuriken.cpp" />
-    <ClCompile Include="..\Code\ShurikenAnim.cpp" />
     <ClCompile Include="..\Code\SpawnerAnim.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\UI.cpp" />

@@ -43,5 +43,6 @@ private:
 	_ulong m_dwIndex;
 	_float m_fSpawnTime;
 	_float m_fCollisionTime;
+	bool bCheck;
 };
 #endif

@@ -201,7 +201,8 @@ void CTransform::UsingGravity(const _float& fDeltaTime)
 	m_fGravityTime += fDeltaTime;
 	_float fY = -(0.5f * 9.8f * m_fGravityTime * m_fGravityTime);
 	m_vPos.y += fY;
-	if (m_fBottomY + 1.f > m_vPos.y)
+
+	if (m_fBottomY + 1.f > m_vPos.y )
 	{
 		m_fGravityTime = 0.f;
 		m_vPos.y = m_fBottomY+1.f;

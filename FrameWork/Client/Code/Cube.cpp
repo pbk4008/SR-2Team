@@ -141,4 +141,5 @@ void CCube::setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3 
 	m_pTransform->setAngle(m_vRotate);
 	m_pTransform->setPos(m_vPosition);
 	m_pCollision->setAxis(vScale, vRotate);
+	m_pCollision->setCenter(vPosition);
 }

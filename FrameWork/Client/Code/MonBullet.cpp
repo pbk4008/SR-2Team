@@ -35,7 +35,7 @@ HRESULT CMonBullet::Init_MonBullet()
 	CBullet::Add_Component();
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_fSpeed = 1.f;
+	m_fSpeed = 10.f;
 	return S_OK;
 }
 
@@ -49,7 +49,7 @@ _int CMonBullet::Update_GameObject(const _float& fDeltaTime)
 
 	Move(fDeltaTime);
 	m_fDestroyTime += fDeltaTime;
-	if (m_fDestroyTime > 3.f)
+	if (m_fDestroyTime > 10.f)
 	{
 		m_fDestroyTime = 0.f;
 		setActive(false);

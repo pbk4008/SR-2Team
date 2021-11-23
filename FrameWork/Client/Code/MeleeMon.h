@@ -23,12 +23,13 @@ public:
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
+	virtual void ResetObject();
 	HRESULT SettingAnimator();
-
 	CCollision* getCollider() { return m_pCollision; }
 
 private:
 	void Change_State();
+	void HitMonster(const _float& fTimeDelta);
 	
 public:
 	static CMeleeMon* Create(LPDIRECT3DDEVICE9 pDevice);
@@ -56,8 +57,11 @@ private:
 	_bool			m_bAttack;
 	_bool			m_bMoving;
 
+	_bool			m_bTracking;
+
 	_float			m_iTimer;
 	_float			m_fSpeed;
+	_float			m_fAttackDelay;
 
 };
 #endif
