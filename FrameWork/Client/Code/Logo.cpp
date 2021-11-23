@@ -31,9 +31,9 @@ HRESULT CLogo::Init_Scene()
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_ProtoMgr(), E_FAIL);
 
-	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
 	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::BOSS_STAGE);
-	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 
@@ -51,9 +51,9 @@ _int CLogo::Update_Scene(const _float& fDeltaTime)
 		{
 			CScene* pScene = nullptr;
 
-			//pScene = C2Stage::Create(m_pDevice);
+			pScene = C2Stage::Create(m_pDevice);
 			//pScene = CBossStage::Create(m_pDevice);
-			pScene = C1Stage::Create(m_pDevice);
+			//pScene = C1Stage::Create(m_pDevice);
 
 			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);

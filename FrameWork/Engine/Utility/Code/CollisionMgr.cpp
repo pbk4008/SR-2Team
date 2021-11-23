@@ -1,5 +1,6 @@
 #include "Engine_Include.h"
 #include "CollisionMgr.h"
+#include "Collision.h"
 #include "SphereCollision.h"
 #include "BoxCollision.h"
 IMPLEMENT_SINGLETON(CCollisionMgr)
@@ -451,7 +452,37 @@ Engine::_bool Engine::CCollisionMgr::ShpereBoxCollisionCheck(CCollision* pCol, C
 	return false;
 }
 
-Engine::_bool Engine::CCollisionMgr::BoxtoSphereCollisionCheckOBB(CCollision* pCol, CCollision* pCollider)
+
+
+
+
+
+Engine::CCollisionMgr::INTERVAL& Engine::CCollisionMgr::GetInterval(CSphereCollision* pSphere, const _vec3& aixs)
+{
+	_vec3 pSpherePosion = pSphere->getCenter();
+	_vec3 pSphereAxis = 0.5f * _vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
+
+}
+
+Engine::CCollisionMgr::INTERVAL& Engine::CCollisionMgr::GetInterval(CBoxCollision* pBox, const _vec3& aixs)
+{
+	_vec3 pBoxPos = pBox->getCenter();
+	_vec3 pBoxScale = 0.5f * pBox->getScale();
+
+
+}
+
+Engine::_vec3 Engine::CCollisionMgr::GetMin(CSphereCollision* aabb)
+{
+
+}
+
+Engine::_vec3 Engine::CCollisionMgr::GetMax(CSphereCollision* aabb)
+{
+
+}
+
+Engine::_bool Engine::CCollisionMgr::BoxtoBoxCollisionCheckAABBtoOBB(CCollision* pCol, CCollision* pCollider)
 {
 
 	CBoxCollision* pBox = nullptr;
@@ -468,14 +499,6 @@ Engine::_bool Engine::CCollisionMgr::BoxtoSphereCollisionCheckOBB(CCollision* pC
 	}
 
 
-	_vec3 pBoxPos = pBox->getCenter();
-	_vec3 pSpherePos = pSphere->getCenter();
-
-	//길이
-	_vec3 pBoxScale = 0.5f * pBox->getScale();
-	_vec3 pSphereAxis = 0.5f * _vec3(pSphere->getRadius(), pSphere->getRadius(), pSphere->getRadius());
-
-
 	//콜리전의 AABB
 	AABB pBoxAABB =
 	{
@@ -486,6 +509,18 @@ Engine::_bool Engine::CCollisionMgr::BoxtoSphereCollisionCheckOBB(CCollision* pC
 		pBoxPos.z - pBoxScale.z,
 		pBoxPos.z + pBoxScale.z,
 	};
+
+	_vec3 pSphereVertex[8] = {
+		_vec3(-pSphereAxis.x,pSphereAxis.y,pSphereAxis.z),
+		_vec3(-pSphereAxis.x,pSphereAxis.y,-pSphereAxis.z),
+		_vec3(-pSphereAxis.x,-pSphereAxis.y,pSphereAxis.z),
+		_vec3(-pSphereAxis.x,-pSphereAxis.y,-pSphereAxis.z),
+		_vec3(pSphereAxis.x,pSphereAxis.y,pSphereAxis.z),
+		_vec3(pSphereAxis.x,pSphereAxis.y,-pSphereAxis.z),
+		_vec3(pSphereAxis.x,-pSphereAxis.y,pSphereAxis.z),
+		_vec3(pSphereAxis.x,-pSphereAxis.y,-pSphereAxis.z)
+	};
+
 	//콜리더의 AABB
 	AABB pSphereAABB =
 	{

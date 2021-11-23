@@ -4,6 +4,9 @@
 #include "Base.h"
 BEGIN(Engine)
 class CCollision;
+class CSphereCollision;
+class CBoxCollision;
+
 class ENGINE_DLL CCollisionMgr final : public CBase
 {
 private:
@@ -16,6 +19,12 @@ private:
 		_float fMinZ;
 		_float fMaxZ;
 	}AABB;
+
+	typedef struct tagInterval {
+		_float fmin;
+		_float fmax;
+	}INTERVAL;
+
 	DECLARE_SINGLETON(CCollisionMgr)
 private:
 	explicit CCollisionMgr();
@@ -38,7 +47,12 @@ private:
 	_bool BoxCollisionCheck(CCollision* pCol, CCollision* pCollider);
 	_bool BoxToSphereCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec = nullptr);
 	_bool ShpereBoxCollisionCheck(CCollision* pCol, CCollision* pCollider, _vec3* pVec = nullptr);
-	_bool BoxtoSphereCollisionCheckOBB(CCollision* pCol, CCollision* pCollider);
+	INTERVAL& GetInterval(CSphereCollision* pSphere, const _vec3& aixs);
+	INTERVAL& GetInterval(CBoxCollision* pBox, const _vec3& aixs);
+	_vec3 GetMin(CSphereCollision* aabb);
+	_vec3 GetMax(CSphereCollision* aabb);
+
+	_bool BoxtoBoxCollisionCheckAABBtoOBB(CCollision* pCol, CCollision* pCollider);
 private:
 	virtual void Free();
 public:

@@ -151,6 +151,7 @@ void CTransform::TerrainOverMove()
 		{
 			fMin = fDist;
 			pTerrain = iter;
+			break;
 		}
 	}
 	CTerrainTex* pTerrainTex = static_cast<CTerrainTex*>(pTerrain->getComponent(COMPONENTID::TERRAINTEX, COMPONENTTYPE::TYPE_STATIC));
