@@ -36,19 +36,6 @@ _int CBossStage::Update_Scene(const _float& fDeltaTime)
 	_int iExit = 0;
 	iExit = CScene::Update_Scene(fDeltaTime);
 
-	/*CBoss* pBoss = nullptr;
-	pBoss = Clone_ObjProto<CBoss>(GAMEOBJECTID::BOSS);
-	_vec3 vPos = { 5.f,1.f,5.f };
-	_vec3 vScale = { 1.f,1.f,1.f };
-	_vec3 vAngle = { 0.f,0.f,0.f };
-	pBoss->LoadTransform(vScale, vAngle, vPos);
-	Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOSS, pBoss);
-
-	CGameObject* pGameObject = nullptr;
-	CHP* pHP = nullptr;
-	pGameObject = pHP = CHP::Create(m_pDevice);
-	Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::BOSSHP, pBoss);*/
-
 	return iExit;
 }
 

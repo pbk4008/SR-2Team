@@ -125,10 +125,19 @@ void ClearWall()
 {
 	CCollisionMgr::GetInstance()->ClearWall();
 }
+_bool CheckObject(GAMEOBJECTID eID)
+{
+	return CProtoMgr::GetInstance()->checkObject(eID);
+}
+_bool CheckComponent(COMPONENTID eID)
+{
+	return CProtoMgr::GetInstance()->checkComponent(eID);
+}
 
 void Utility_Release()
 {
 	CManagement::DestroyInstance();
+	INIManager::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
 	CCollisionMgr::DestroyInstance();

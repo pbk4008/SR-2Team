@@ -29,6 +29,7 @@ HRESULT CPotal::Init_Potal()
 
 _int CPotal::Update_GameObject(const _float& fDeltaTime)
 {
+
 	m_pTransform->setScale(m_pTransform->getScale());
 	m_pTransform->setAngle(m_pTransform->getAngle());
 	m_pTransform->setPos(m_pTransform->getPos());
@@ -63,6 +64,14 @@ void CPotal::Render_GameObject()
 CGameObject* CPotal::Clone_GameObject()
 {
 	return new CPotal(*this);
+}
+
+void CPotal::setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPosition)
+{
+	m_pTransform->setScale(vScale);
+	m_pTransform->setAngle(vRotate);
+	m_pTransform->setPos(vPosition);
+	m_pInteract->setCenter(m_pTransform->getPos());
 }
 
 void CPotal::ResetObject()

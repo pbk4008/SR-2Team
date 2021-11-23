@@ -27,6 +27,7 @@
 #include "Layer.h"
 #include "Blood.h"
 #include "ShurikenHit.h"
+#include "Potal.h"
 
 CLoading::CLoading() : m_eSceneID(SCENEID::STAGE_END), m_pDevice(nullptr), m_bFinish(false), m_pTextureMgr(nullptr)
 {
@@ -512,6 +513,10 @@ _uint CLoading::Loading_ForStage3()
 	NULL_CHECK_RETURN(pObj, -1);
 	Init_ObjProto(GAMEOBJECTID::KEY, pObj);
 
+	pObj = CPotal::Create(m_pDevice);
+	NULL_CHECK_RETURN(pObj, -1);
+	Init_ObjProto(GAMEOBJECTID::POTAL, pObj);
+
 
 	FAILED_CHECK_RETURN(Load_Quad(L"Stage3QuadData"), E_FAIL);
 	FAILED_CHECK_RETURN(Load_Cube(L"Stage3CubeData"), E_FAIL);
@@ -715,7 +720,6 @@ unsigned CLoading::Thread_Main(void* pArg)
 void CLoading::Free()
 {
  	Safe_Release(m_pDevice);
-	m_pIniManager->DestroyInstance();
 	m_pTextureMgr->DestroyInstance();
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
@@ -759,15 +763,20 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 			VtxInfoValue.erase(0, dot + 1);
 		}
 		//���� ����
-		if (i==0)
+		if (i == 0)
 		{
-			CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2,2,1,1);
-			NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
-			Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
-
-			CGameObject* pObj = CTerrain::Create(m_pDevice);
-			NULL_CHECK_RETURN(pObj, E_FAIL);
-			FAILED_CHECK_RETURN(Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj) , E_FAIL);
+			if (!CheckComponent(COMPONENTID::TERRAINTEX))
+			{
+				CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2, 2, 1, 1);
+				NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
+				Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
+			}
+			if (!CheckObject(GAMEOBJECTID::TERRAIN))
+			{
+				CGameObject* pObj = CTerrain::Create(m_pDevice);
+				NULL_CHECK_RETURN(pObj, E_FAIL);
+				FAILED_CHECK_RETURN(Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj), E_FAIL);
+			}
 		}
 		
 		pTerrain = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);

@@ -24,6 +24,10 @@ private:
 	HRESULT Init_GameLogic_Layer();
 	HRESULT Init_UI_Layer();
 	HRESULT Init_Loading_Layer();
+
+	void LoadMeleeMon();
+	void LoadShootMon();
+	void LoadFlyMon();
 	
 public:
 	static C3Stage* Create(LPDIRECT3DDEVICE9 pDevice);
@@ -35,6 +39,12 @@ private:
 	CPotal* m_pPotal;
 
 	_bool m_bPotalSpawn;
+	_bool m_bMeleeSpawn;
+	_bool m_bShootSpawn;
+	_bool m_bFlySpawn;
+
+
+
 	_bool m_b1;
 	_bool m_b2;
 	_bool m_b3;
