@@ -2,24 +2,27 @@
 #include "Shuriken.h"
 #include "ShurikenAnim.h"
 #include "SphereCollision.h"
+#include "ShurikenHit.h"
 
-CShuriken::CShuriken() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nullptr)
+CShuriken::CShuriken() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nullptr), m_pEffect(nullptr)
 {
     ZeroMemory(&m_vFirstPos, sizeof(_vec3));
     ZeroMemory(&m_vLook, sizeof(_vec3));
 }
 
 CShuriken::CShuriken(LPDIRECT3DDEVICE9 pDevice) : CBullet(pDevice), m_pAnimation(nullptr), m_pCollision(nullptr)
-, m_fSpeed(0.f)
+, m_fSpeed(0.f), m_pEffect(nullptr)
 {
     ZeroMemory(&m_vFirstPos, sizeof(_vec3));
     ZeroMemory(&m_vLook, sizeof(_vec3));
 }
 
 CShuriken::CShuriken(const CShuriken& rhs) : CBullet(rhs), m_pAnimation(nullptr)
-, m_fSpeed(rhs.m_fSpeed), m_pCollision(nullptr)
+, m_fSpeed(rhs.m_fSpeed), m_pCollision(nullptr), m_pEffect(nullptr)
 {
     Add_Component();
+
+    setEffect();
 }
 
 CShuriken::~CShuriken()
@@ -51,6 +54,13 @@ _int CShuriken::Update_GameObject(const _float& fDeltaTime)
         return iExit;
     }
     m_pCollision->Collison(COLLISIONTAG::MONSTER);
+    if (m_pCollision->WallCollision())
+    {
+        m_pEffect->setActive(true);
+        m_pEffect->setStart(m_pTransform->getPos());
+        setActive(false);
+        return iExit;
+    }
     Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
     
     return iExit;
@@ -61,7 +71,10 @@ void CShuriken::LateUpdate_GameObject()
     CBullet::LateUpdate_GameObject();
     if (m_pCollision->getHit())
     {
-        m_pCollision->setHit(false);
+        m_pEffect->setActive(true);
+        m_pEffect->setStart(m_pTransform->getPos());
+
+        m_pCollision->ResetCollision();
         cout << "몬스터 충돌" << endl;
         setActive(false);
     }
@@ -101,6 +114,19 @@ void CShuriken::Move(const _float& fDeltaTime)
     m_pTransform->setPos(vPos);
 }
 
+void CShuriken::setEffect()
+{
+    m_pEffect = static_cast<CShurikenEff*>(GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKENEFF));
+    if (!m_pEffect)
+    {
+        m_pEffect = Clone_ObjProto<CShurikenEff>(GAMEOBJECTID::SHURIKENEFF);
+        m_pEffect->AddRef();
+        Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKENEFF, m_pEffect);
+    }
+    m_pEffect->setActive(false);
+    m_pEffect->setStart(m_pTransform->getPos());
+}
+
 HRESULT CShuriken::Add_Component()
 {
     m_pAnimation = CShurikenAnim::Create(m_pDevice);
@@ -114,6 +140,7 @@ HRESULT CShuriken::Add_Component()
     m_pCollision->setTransform(m_pTransform);
     m_pCollision->setTag(COLLISIONTAG::BULLET);
     m_pCollision->setTrigger(COLLISIONTRIGGER::INTERACT);
+    m_pCollision->setTarget(this);
     m_pCollision->AddRef();
     m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
     
@@ -127,6 +154,7 @@ void CShuriken::Free()
     CBullet::Free();
     Safe_Release(m_pCollision);
     Safe_Release(m_pAnimation);
+    Safe_Release(m_pEffect);
 }
 
 void CShuriken::setPos(const _vec3& vPos)
@@ -135,9 +163,6 @@ void CShuriken::setPos(const _vec3& vPos)
     m_pTransform->setScale(1.f, 1.f, 1.f);
     m_vFirstPos = vPos;
 }
-
-
-
 
 CShuriken* CShuriken::Create(LPDIRECT3DDEVICE9 pDevice)
 {

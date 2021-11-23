@@ -95,39 +95,37 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	if (fDis >= 12.0f)
 		m_bTracking = false;
 
-	
-		if (m_eCurState == STATE::DEATH)
+	if (m_eCurState == STATE::DEATH)
+	{
+		if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
 		{
-			if (!lstrcmp(m_pAnimator->getCurrentAnim(), L"FlyMon_Death"))
+			Blooding(fDeltaTime);
+			if (!m_pAnimator->getAnimPlay())
 			{
-				if (!m_pAnimator->getAnimPlay())
+				_int iRandNum = rand() % 100;
+				if (m_bItemCheck)//Item持失
 				{
-					_int iRandNum = rand() % 100;
-					if (m_bItemCheck)//Item持失
+					if (iRandNum < 60)
 					{
-						if (iRandNum < 60)
+						CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
+						if (!pKey)
 						{
-							CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
-							if (!pKey)
-							{
-								pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
-								Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
-							}
-							pKey->getTransform()->setPos(m_pTransform->getPos());
+							pKey = Clone_ObjProto<CKey>(GAMEOBJECTID::KEY);
+							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY, pKey);
 						}
+						pKey->getTransform()->setPos(m_pTransform->getPos());
 					}
-					setActive(false);
-					return iExit;
 				}
+				setActive(false);
+				m_dwBloodCount = 0;
+				return iExit;
 			}
 		}
 	if (m_bTracking)
 	{
-	Follow(fDeltaTime);
-	Attack_Dis(fDeltaTime);
+		Follow(fDeltaTime);
+		Attack_Dis(fDeltaTime);
 	}
-
-
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 
@@ -239,9 +237,9 @@ void CFlyMon::HitMonster(const _float& fTimeDelta)
 			cout << "Monster got Hit!" << endl;
 			cout << m_iHP << endl;
 
-			m_pCollision->Collison(COLLISIONTAG::PLAYER);
+			//m_pCollision->Collison(COLLISIONTAG::PLAYER);
 			m_pCollision->ResetCollision();
-			m_pCollision->setHit(false);
+			//m_pCollision->setHit(false);
 
 			m_iTimer = 0.f;
 		}

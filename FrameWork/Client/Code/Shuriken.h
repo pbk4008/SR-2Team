@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CSphereCollision;
 END
 class CShurikenAnim;
+class CShurikenEff;
 class CShuriken final : public CBullet
 {
 private:
@@ -22,6 +23,7 @@ public:
 	virtual void ResetObject();
 private:
 	void Move(const _float& fDeltaTime);
+	void setEffect();
 private:
 	virtual HRESULT Add_Component();
 	virtual void Free();
@@ -32,6 +34,8 @@ public:
 private:
 	CShurikenAnim* m_pAnimation;
 	CSphereCollision* m_pCollision;
+
+	CShurikenEff* m_pEffect;
 	_float m_fSpeed;
 };
 #endif

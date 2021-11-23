@@ -134,12 +134,10 @@ void CCollisionMgr::Collision(CCollision* pCollision, COLLISIONTAG eTag)
 		if (CollisionCheck)
 		{
 			if (pCollision->getTrigger() == COLLISIONTRIGGER::INTERACT) 
-			{
 				pCollision->setHit(true);
-				pCollision->setCollider(pCol);
-			}
 			pCol->setHit(true);
 			pCol->setCollider(pCollision);
+			pCollision->setCollider(pCol);
 			return;
 		}
 	}

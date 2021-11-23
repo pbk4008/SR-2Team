@@ -101,6 +101,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 		{
 			if (lstrcmp(m_pAnimator->getCurrentAnim(), L"Shootmon_Death"))
 			{
+				Blooding(fDeltaTime);
 				if (!m_pAnimator->getAnimPlay())
 				{
 					_int iRandNum = rand() % 100;
@@ -117,6 +118,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 							pKey->getTransform()->setPos(m_pTransform->getPos());
 						}
 					}
+					m_dwBloodCount = 0;
 					setActive(false);
 					return iExit;
 				}
