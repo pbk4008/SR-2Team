@@ -22,6 +22,8 @@ public:
 	virtual void ResetObject();
 private:
 	void TerrainCheck();
+	void Rotate();
+	void DownMove(const _float& fDeltaTime);
 public:
 	static CBlood* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -34,5 +36,6 @@ private:
 	CTexture* m_pTexture;
 
 	_vec3 m_vStart;
+	_float m_fGravityTime;
 };
 #endif

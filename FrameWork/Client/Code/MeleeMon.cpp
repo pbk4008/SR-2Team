@@ -9,6 +9,7 @@
 #include "MeleeMon_Death.h"
 #include "SphereCollision.h"
 #include "Key.h"
+#include "Blood.h"
 
 CMeleeMon::CMeleeMon()
 	: m_pBufferCom(nullptr), m_pTexture(nullptr), m_fSpeed(0.f),
@@ -61,6 +62,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	m_pAttackColl->setRadius(1.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
 	m_pAttackColl->setTrigger(COLLISIONTRIGGER::ATTACK);
+	m_pAttackColl->setTransform(m_pTransform);
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
 	Insert_Collision(m_pAttackColl);
@@ -133,11 +135,15 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 		Follow(fDeltaTime);
 		Attack_Dis(fDeltaTime);
 	}
-
+	if (m_pBlood)
+		m_pBlood->Update_GameObject(fDeltaTime);
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 
-	if(m_pAttackColl->getActive())
-		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
+	if (m_pAttackColl->getActive())
+	{
+		m_pAttackColl->Update_Component(fDeltaTime);
+		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);	
+	}
 
 	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
 	return iExit;
@@ -168,6 +174,9 @@ void CMeleeMon::Render_GameObject()
 
 	m_pAnimator->Render_Animator();
 	m_pBufferCom->Render_Buffer();
+
+	if (m_pBlood)
+		m_pBlood->Render_GameObject();
 
 	CGameObject::Render_GameObject();
 }
@@ -265,7 +274,7 @@ void CMeleeMon::HitMonster(const _float& fTimeDelta)
 			if (m_iHP <= 0)
 				m_eCurState = CMeleeMon::STATE::DEATH;
 		}
-		else if (typeid(*m_pCollision->getCollider()) == typeid(CPlayer))
+		else if (typeid(*m_pCollision->getCollider()->getTarget()) == typeid(CPlayer))
 			m_eCurState = CMeleeMon::STATE::DEATH;
 		m_pCollision->ResetCollision();
 	}
