@@ -251,6 +251,15 @@
     <Filter Include="02.GameObject\07. UI\Char">
       <UniqueIdentifier>{3d4de02a-4f5e-4e65-bc62-8500cf18d636}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\09.Effect">
+      <UniqueIdentifier>{3c42e0e6-a4e4-46c8-afb4-9e9feb6d48e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\09.Effect\01.Shuriken">
+      <UniqueIdentifier>{2346e90c-35af-42c3-80f4-692418387aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\09.Effect\00.Blood">
+      <UniqueIdentifier>{e8b915c2-cada-48ca-b1c4-90e29eb13b87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -463,9 +472,12 @@
     <ClInclude Include="..\Code\UiChar.h">
       <Filter>02.GameObject\07. UI\Char</Filter>
     </ClInclude>
-	<ClInclude Include="..\Code\BossStage.h">
+    <ClInclude Include="..\Code\BossStage.h">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
-	</ClInclude>
+    </ClInclude>
+    <ClInclude Include="..\Code\Blood.h">
+      <Filter>02.GameObject\09.Effect\00.Blood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -657,9 +669,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\UI.cpp">
       <Filter>02.GameObject\07. UI</Filter>
-	</ClCompile>
-	<ClCompile Include="..\Code\BossStage.cpp">
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp">
       <Filter>01.Scene\02.Stage\03.BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Blood.cpp">
+      <Filter>02.GameObject\09.Effect\00.Blood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

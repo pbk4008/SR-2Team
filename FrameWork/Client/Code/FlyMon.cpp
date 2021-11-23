@@ -54,9 +54,11 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 
 	// collision
 	m_pAttackColl = Clone_ComProto<CSphereCollision>(COMPONENTID::SPHERECOL);
-	m_pAttackColl->setRadius(1.f);
+	m_pAttackColl->setRadius(2.f);
 	m_pAttackColl->setTag(COLLISIONTAG::MONSTER);
+	m_pAttackColl->setTrigger(COLLISIONTRIGGER::ATTACK);
 	m_pAttackColl->setActive(false);
+	m_pAttackColl->setTransform(m_pTransform);
 	pComponent = m_pAttackColl;
 	Insert_Collision(m_pAttackColl);
 }
@@ -121,7 +123,8 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 
 
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
+
 	return iExit;
 }
 
@@ -251,13 +254,13 @@ void CFlyMon::Attack(const _float& fDeltaTime)
 	if (m_iTimer >= 1.0f)
 	{
 		cout << "Attack!" << endl;
-		m_pAttackColl->setActive(false);
 
 		if (m_pAttackColl->getActive())
 			m_pAttackColl->Update_Component(fDeltaTime);
 
 		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
 
+		m_pAttackColl->setActive(false);
 		m_iTimer = 0.f;
 	}
 }
