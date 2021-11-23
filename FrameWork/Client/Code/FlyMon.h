@@ -23,8 +23,8 @@ public:
 	virtual void LateUpdate_GameObject();
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
+	virtual void ResetObject();
 	HRESULT SettingAnimator();
-
 	CCollision* getCollider() { return m_pCollision; }
 
 private:
@@ -61,6 +61,8 @@ private:
 
 	_float			m_iTimer;
 	_float			m_fSpeed;
+	_float			m_fAttackDelay;
+
 };
 
 #endif // FlyMon_h__

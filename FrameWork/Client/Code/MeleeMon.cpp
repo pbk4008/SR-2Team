@@ -90,7 +90,6 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 
 	_vec3	m_vInfo;
 	m_vInfo = m_pTransform->getPos();
-	//m_pTransform->getAxis(VECAXIS::AXIS_POS, m_vInfo);
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
 	_vec3 vPos = pObject->getTransform()->getPos();
 	_vec3  vDis = m_vInfo - vPos;

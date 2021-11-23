@@ -77,7 +77,7 @@ void CMonster::Chase_Target_Ranged(const _vec3* pTargetPos, const _float& fSpeed
 	_vec3 vDis = *pTargetPos - m_vInfo;
 	_float fDis = D3DXVec3Length(&vDis);
 
-	if (fDis >= 5.0f)
+	if (fDis >= 10.0f)
 	{
 		MoveRoute(m_vInfo, *pTargetPos, fTimeDelta, fSpeed);
 	}
