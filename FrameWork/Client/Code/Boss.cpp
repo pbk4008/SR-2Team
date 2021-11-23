@@ -88,26 +88,6 @@ _int CBoss::Update_GameObject(const _float& fDeltaTime)
 	m_pTransform->setScale(vScale);*/
 
 
-	if (GetAsyncKeyState('P'))
-	{
-		m_iHP = 800;
-	}
-
-	if (GetAsyncKeyState('L'))
-	{
-		m_iHP = 400;
-	}
-
-	if (GetAsyncKeyState('K'))
-	{
-		m_iHP = 150;
-	}
-
-	if (GetAsyncKeyState('O'))
-	{
-		m_iHP = 0;
-	}
-
 
 	HPCheck();		///hp checks into pattern --> m_eCurState
 
@@ -194,8 +174,11 @@ HRESULT CBoss::SettingAnimator()
 	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Death");
 	m_pAnimator->Connet_Animation(L"Boss_Death", L"Boss_Move");
 
-	m_pAnimator->Connet_Animation(L"Boss_Move", L"Boss_Charge");
-	m_pAnimator->Connet_Animation(L"Boss_Charge", L"Boss_Move");
+	m_pAnimator->Connet_Animation(L"Boss_Melee", L"Boss_Death");
+	m_pAnimator->Connet_Animation(L"Boss_Death", L"Boss_Melee");
+
+	m_pAnimator->Connet_Animation(L"Boss_Range", L"Boss_Death");
+	m_pAnimator->Connet_Animation(L"Boss_Death", L"Boss_Range");
 
 	FAILED_CHECK(m_pAnimator->Change_Animation(L"Boss_Idle"));
 
@@ -414,10 +397,10 @@ void CBoss::HPCheck()
 	if (m_iHP <= 0)
 		m_eCurState = STATE::DEATH;
 
-	else if (m_iHP >= 700 && m_iHP <= 1000)
+	else if (m_iHP >= 600 && m_iHP <= 1000)
 		m_eCurState = STATE::MELEE;
 
-	else if (m_iHP > 1 && m_iHP <= 699)
+	else if (m_iHP > 1 && m_iHP <= 599)
 		m_eCurState = STATE::RANGE;
 
 	//else if (m_iHP > 1 && m_iHP <= 299)
