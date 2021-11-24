@@ -336,10 +336,10 @@ _uint CLoading::Loading_ForStage2()
 
 
 
-	//FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
-	//FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Quad(L"Stage2QuadData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Cube(L"Stage2CubeData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Item(L"Stage2ItemData"), E_FAIL);
+	FAILED_CHECK_RETURN(Load_Terrain(L"Stage2TerrainData"), E_FAIL);
 
 	m_bFinish = true;
 	return 0;
@@ -715,7 +715,6 @@ unsigned CLoading::Thread_Main(void* pArg)
 void CLoading::Free()
 {
  	Safe_Release(m_pDevice);
-	m_pIniManager->DestroyInstance();
 	m_pTextureMgr->DestroyInstance();
 	WaitForSingleObject(m_hThread, INFINITE);
 	CloseHandle(m_hThread);
@@ -761,13 +760,18 @@ HRESULT CLoading::Load_Terrain(const _tchar* strName)
 		//���� ����
 		if (i==0)
 		{
-			CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2,2,1,1);
-			NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
-			Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
-
-			CGameObject* pObj = CTerrain::Create(m_pDevice);
-			NULL_CHECK_RETURN(pObj, E_FAIL);
-			FAILED_CHECK_RETURN(Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj) , E_FAIL);
+			if (!CheckComponent(COMPONENTID::TERRAINTEX))
+			{
+				CTerrainTex* pTerrainTex = CTerrainTex::Create(m_pDevice, 2, 2, 1, 1);
+				NULL_CHECK_RETURN(pTerrainTex, E_FAIL);
+				Init_ComProto(COMPONENTID::TERRAINTEX, pTerrainTex);
+			}
+			if (!CheckObject(GAMEOBJECTID::TERRAIN))
+			{
+				CGameObject* pObj = CTerrain::Create(m_pDevice);
+				NULL_CHECK_RETURN(pObj, E_FAIL);
+				FAILED_CHECK_RETURN(Init_ObjProto(GAMEOBJECTID::TERRAIN, pObj), E_FAIL);
+			}
 		}
 		
 		pTerrain = Clone_ObjProto<CTerrain>(GAMEOBJECTID::TERRAIN);

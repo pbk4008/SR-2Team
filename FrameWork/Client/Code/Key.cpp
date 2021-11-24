@@ -34,8 +34,9 @@ _int CKey::Update_GameObject(const _float& fDeltaTime)
 {
 	UpDownMove(fDeltaTime);
 	_int iExit = CGameObject::Update_GameObject(fDeltaTime);
-	return iExit;
+	m_pInteract->Collison(COLLISIONTAG::PLAYER);
 	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
+	return iExit;
 }
 
 void CKey::LateUpdate_GameObject()
@@ -73,9 +74,10 @@ void CKey::setCollision()
 	m_pInteract->setRadius(1.f);
 	m_pInteract->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pInteract->setTransform(m_pTransform);
+	m_pInteract->setTarget(this);
 	m_pInteract->setActive(true);
 	m_pInteract->AddRef();
-	Insert_Collision(m_pInteract);
+	Insert_ObjCollision(m_pInteract);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pInteract);
 }
 

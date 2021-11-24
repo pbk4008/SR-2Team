@@ -22,6 +22,7 @@ private:
 	virtual ~CCollisionMgr();
 public:
 	HRESULT Insert_Collision(CCollision* pCollision);
+	HRESULT Insert_ObjCollision(CCollision* pCollision);
 	HRESULT Insert_Wall(CCollision* pCollision);
 	void TerrainCollision(const _float& fX, _float& fY, const _float& fZ, 
 		const _vec3* pTerrainVtxPos,
@@ -33,6 +34,7 @@ public:
 	void ClearCollision();
 	void ClearWall();
 	void WallCollision(CCollision* pCollsion, _vec3& MoveVec);
+	void CopyCollision();
 private:
 	_bool SphereCollisionCheck(CCollision* pCol, CCollision* pCollider);
 	_bool BoxCollisionCheck(CCollision* pCol, CCollision* pCollider);
@@ -46,6 +48,9 @@ public:
 private:
 	vector<CCollision*> m_vecCollision;
 	vector<CCollision*> m_vecWall;
+
+	vector<CCollision*> m_vecLoadingCollision;
+	vector<CCollision*> m_vecLoadingWall;
 };
 END
 #endif

@@ -42,5 +42,6 @@ private:
 	_float m_fDoorSpeed;
 	_bool m_bEnter;
 	_bool m_bClear;
+	_bool m_bOpen;
 };
 #endif

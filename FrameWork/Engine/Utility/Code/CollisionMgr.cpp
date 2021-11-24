@@ -13,6 +13,13 @@ CCollisionMgr::~CCollisionMgr()
 HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 {
 	pCollision->AddRef();
+	m_vecLoadingCollision.emplace_back(pCollision);
+	return S_OK;
+}
+
+HRESULT CCollisionMgr::Insert_ObjCollision(CCollision* pCollision)
+{
+	pCollision->AddRef();
 	m_vecCollision.emplace_back(pCollision);
 	return S_OK;
 }
@@ -20,7 +27,7 @@ HRESULT CCollisionMgr::Insert_Collision(CCollision* pCollision)
 HRESULT CCollisionMgr::Insert_Wall(CCollision* pCollision)
 {
 	pCollision->AddRef();
-	m_vecWall.emplace_back(pCollision);
+	m_vecLoadingWall.emplace_back(pCollision);
 	return S_OK;
 }
 
@@ -165,6 +172,22 @@ void CCollisionMgr::WallCollision(CCollision* pCollsion, _vec3& MoveVec)
 		if (BoxToSphereCollisionCheck(pCollsion, pCollider, &MoveVec))
 			break;
 	}
+}
+
+void CCollisionMgr::CopyCollision()
+{
+	m_vecCollision.reserve(m_vecLoadingCollision.size());
+	m_vecWall.reserve(m_vecLoadingCollision.size());
+
+	for (auto pCollision : m_vecLoadingCollision)
+		m_vecCollision.emplace_back(pCollision);
+	for (auto pWall : m_vecLoadingWall)
+		m_vecWall.emplace_back(pWall);
+
+	m_vecLoadingCollision.clear();
+	m_vecLoadingCollision.shrink_to_fit();
+	m_vecLoadingWall.clear();
+	m_vecLoadingWall.shrink_to_fit();
 }
 
 

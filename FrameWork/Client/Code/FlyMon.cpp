@@ -50,7 +50,7 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
+	Insert_ObjCollision(m_pCollision);
 	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
@@ -61,7 +61,7 @@ CFlyMon::CFlyMon(const CFlyMon& rhs)
 	m_pAttackColl->setTrigger(COLLISIONTRIGGER::ATTACK);
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
+	Insert_ObjCollision(m_pAttackColl);
 }
 
 CFlyMon::~CFlyMon()
@@ -137,7 +137,7 @@ Engine::_int CFlyMon::Update_GameObject(const _float& fDeltaTime)
 	if (m_pAttackColl->getActive())
 		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);
 
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
 }
 
@@ -263,7 +263,7 @@ void CFlyMon::HitMonster(const _float& fTimeDelta)
 			if (m_iHP <= 0)
 				m_eCurState = CFlyMon::STATE::DEATH;
 		}
-		else if (typeid(*m_pCollision->getCollider()) == typeid(CPlayer))
+		else if (typeid(*(m_pCollision->getCollider()->getTarget())) == typeid(CPlayer))
 			m_eCurState = CFlyMon::STATE::DEATH;
 		m_pCollision->ResetCollision();
 	}
@@ -272,6 +272,8 @@ void CFlyMon::HitMonster(const _float& fTimeDelta)
 void CFlyMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	if (m_pTransform->getBottomY() != pObject->getTransform()->getBottomY())
+		return;
 	_vec3 playerPos = pObject->getTransform()->getPos();
 
 	Chase_Target_Fly(&playerPos, m_fSpeed, fDeltaTime);

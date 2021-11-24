@@ -34,6 +34,8 @@ public:
 	void setTransform(const _vec3& vPos, const _vec3& vAngle);
 	void setIndex(const _ulong dwIndex) { m_dwIndex = dwIndex; }
 	void SettingCollision();
+public:
+	_ulong getCurrentMonCount() { return m_dwCurrentMonCount; }
 private:
 	CRcTex* m_pBuffer;
 	CAnimation* m_pAnimation;

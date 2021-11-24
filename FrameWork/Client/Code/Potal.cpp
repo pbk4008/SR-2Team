@@ -74,6 +74,7 @@ void CPotal::setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3
 	m_pTransform->setScale(vScale);
 	m_pTransform->setAngle(vRotate);
 	m_pTransform->setPos(vPosition);
+	m_pInteract->setCenter(m_pTransform->getPos());
 }
 
 void CPotal::setAnimation()
@@ -91,7 +92,7 @@ void CPotal::setCollision()
 	m_pInteract->setTag(COLLISIONTAG::ETC);
 	m_pInteract->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pInteract->setTransform(m_pTransform);
-	Insert_Collision(m_pInteract);
+	Insert_ObjCollision(m_pInteract);
 }
 
 CPotal* CPotal::Create(LPDIRECT3DDEVICE9 pDevice)

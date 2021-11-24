@@ -21,6 +21,8 @@ public:
 	virtual void Render_GameObject() override;
 	virtual CGameObject* Clone_GameObject() override;
 	static CUI* Create(LPDIRECT3DDEVICE9 pDevice);
+public:
+	void setMonsterCount(const _ulong& dwCount) { m_dwMosnterCount = dwCount; }
 
 private:
 	HRESULT Add_Component();
@@ -43,9 +45,14 @@ private:std::array<CUiChar*, 2> mBombFrontUI; // ÆøÅº  ³Ñ¹ö ex) 3:
 private:std::array<CUiChar*, 5> mShurikenUI; // Ç¥Ã¢ ¼ýÀÚ ex)  99/99
 private:std::array<CUiChar*, 5> mBombUI; // ÆøÅº ¼ýÀÚ ex)  20/20
 private:std::tuple<_int, _int, _int> mPlayerState;
+private:std::array<CUiChar*, 3>mMonCountUI;
+private:CUiChar* mKeyCountUi;
+private:CRcTex* mKeyUi;
+private:CTexture* mKeyTexture;
 private:CPlayer* mPlayer;
 private:_bool		mPlayerTargetCheck;
-
+private:_matrix mKeyMatrix;
+private:_ulong m_dwMosnterCount;
 };
 
 #endif // UI_h__

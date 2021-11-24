@@ -45,13 +45,16 @@ _int CSpawner::Update_GameObject(const _float& fDeltaTime)
 
 	_int iExit = CGameObject::Update_GameObject(fDeltaTime);
 	if (m_pInteract)
+	{
 		m_pInteract->Update_Component(fDeltaTime);
-	if (bCheck)
+		m_pInteract->Collison(COLLISIONTAG::PLAYER);
+	}
+	/*if (bCheck)
 	{
 		RandomMonSpawn();
 		bCheck = false;
-	}
-	//SpawnMonster(fDeltaTime);
+	}*/
+	SpawnMonster(fDeltaTime);
 	Insert_RenderGroup(RENDERGROUP::PRIORITY, this);
 	return iExit;
 }
@@ -113,7 +116,7 @@ void CSpawner::SettingCollision()
 	m_pInteract->setTag(COLLISIONTAG::ETC);
 	m_pInteract->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pInteract->setTransform(m_pTransform);
-	Insert_Collision(m_pInteract);
+	Insert_ObjCollision(m_pInteract);
 }
 
 void CSpawner::SpawnMonster(const _float& fDeltaTime)
@@ -122,10 +125,10 @@ void CSpawner::SpawnMonster(const _float& fDeltaTime)
 	{
 		m_fSpawnTime += fDeltaTime;
 
-		if (m_dwIndex == 1)
-			m_dwCurrentMonCount--;
-		if (m_fSpawnTime > 5.f)
+		if (m_fSpawnTime > 1.5f)
 		{
+			if (m_dwIndex == 1)
+				m_dwCurrentMonCount--;
 			RandomMonSpawn();
 			m_fSpawnTime = 0.f;
 		}
@@ -137,8 +140,8 @@ void CSpawner::SpawnMonster(const _float& fDeltaTime)
 void CSpawner::RandomMonSpawn()
 {
 	CGameObject* pMonster = nullptr;
-	/*_int randNum = rand() % 3;*/
-	_int randNum = 0;
+	_int randNum = rand() % 3;
+	//_int randNum = 0;
 	
 	_vec3 vPos = m_pTransform->getPos();
 	switch (randNum)

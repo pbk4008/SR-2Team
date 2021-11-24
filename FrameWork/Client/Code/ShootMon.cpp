@@ -51,7 +51,7 @@ CShootMon::CShootMon(const CShootMon& rhs)
 	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
+	Insert_ObjCollision(m_pCollision);
 	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
@@ -138,7 +138,7 @@ _int CShootMon::Update_GameObject(const _float& fDeltaTime)
 	/*if (m_pAttackColl->getActive())
 		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);*/
 
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
 }
 
@@ -260,14 +260,13 @@ void CShootMon::HitMonster(const _float& fTimeDelta)
 {
 	if (m_pCollision->getHit())
 	{
-		cout << typeid(*(m_pCollision->getCollider()->getTarget())).name() << endl;
 		if (typeid(*(m_pCollision->getCollider()->getTarget())) == typeid(CShuriken))
 		{
 			m_iHP--;
 			if (m_iHP <= 0)
 				m_eCurState = CShootMon::STATE::DEATH;
 		}
-		else if (typeid(*m_pCollision->getCollider()) == typeid(CPlayer))
+		else if (typeid(*(m_pCollision->getCollider()->getTarget())) == typeid(CPlayer))
 			m_eCurState = CShootMon::STATE::DEATH;
 		m_pCollision->ResetCollision();
 	}
@@ -313,6 +312,8 @@ HRESULT CShootMon::Add_Component()
 void CShootMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	if (m_pTransform->getBottomY() != pObject->getTransform()->getBottomY())
+		return;
 	_vec3 playerPos = pObject->getTransform()->getPos();
 
 	Chase_Target_Ranged(&playerPos, m_fSpeed, fDeltaTime);

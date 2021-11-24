@@ -26,6 +26,8 @@ _int CScene::Update_Scene(const _float& fDeltaTime)
 	_int iExit = 0;
 	for (auto& iter : m_mapLayer)
 	{
+		if (iter.first == LAYERID::LOADING)
+			continue;
 		iExit = iter.second->Update_Layer(fDeltaTime);
 		if (iExit & 0x80000000)
 			return iExit;

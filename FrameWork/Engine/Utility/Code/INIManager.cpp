@@ -36,6 +36,7 @@ IMPLEMENT_SINGLETON(INIManager)
 		char* data = new char[256];
 		GetPrivateProfileStringA(section.c_str(), key.c_str(), "", data, 256, strFileName.c_str());
 
+		m_strResult = {};
 		m_strResult = data;
 		delete[] data;
 

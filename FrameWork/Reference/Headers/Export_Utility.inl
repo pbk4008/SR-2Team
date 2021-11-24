@@ -64,7 +64,14 @@ T* Clone_ObjProto(GAMEOBJECTID eID)
 {
 	return CProtoMgr::GetInstance()->Clone_ObjProto<T>(eID);
 }
-
+_bool CheckObject(GAMEOBJECTID eID)
+{
+	return CProtoMgr::GetInstance()->checkObject(eID);
+}
+_bool CheckComponent(COMPONENTID eID)
+{
+	return CProtoMgr::GetInstance()->checkComponent(eID);
+}
 
 CTextureMgr* Init_TextureMgr()
 {
@@ -113,6 +120,10 @@ HRESULT Insert_Collision(CCollision* pCollision)
 {
 	return CCollisionMgr::GetInstance()->Insert_Collision(pCollision);
 }
+HRESULT Insert_ObjCollision(CCollision* pCollision)
+{
+	return CCollisionMgr::GetInstance()->Insert_ObjCollision(pCollision);
+}
 HRESULT Insert_Wall(CCollision* pCollision)
 {
 	return CCollisionMgr::GetInstance()->Insert_Wall(pCollision);
@@ -129,6 +140,7 @@ void ClearWall()
 void Utility_Release()
 {
 	CManagement::DestroyInstance();
+	INIManager::DestroyInstance();
 	CRenderer::DestroyInstance();
 	CProtoMgr::DestroyInstance();
 	CCollisionMgr::DestroyInstance();
