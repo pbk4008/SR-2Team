@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MainApp.h"
 #include "Logo.h"
+#include "SoundMgr.h"
 
 CMainApp::CMainApp() : m_pGraphicDev(nullptr),m_pDevice(nullptr), m_pManagement(nullptr)
 {
@@ -15,6 +16,8 @@ HRESULT CMainApp::Init_MainApp()
 	FAILED_CHECK_RETURN(GraphicDevice_Setting(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_Scene(), E_FAIL);
 	
+	CSoundMgr::Get_Instance()->Initialize();
+
 	return S_OK;
 }
 

@@ -25,6 +25,8 @@ private:
 	
 public:
 	static CBossStage* Create(LPDIRECT3DDEVICE9 pDevice);
+	void Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density);
+
 private:
 	virtual void Free();
 private:

@@ -9,6 +9,7 @@
 #include "Boss.h"
 #include "HP.h"
 #include "UI.h"
+#include "SoundMgr.h"
 
 CBossStage::CBossStage() : m_pLoading(nullptr), m_pPlayer(nullptr)
 {
@@ -27,6 +28,10 @@ CBossStage::~CBossStage()
 HRESULT CBossStage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
+
+	Init_Fog(D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.f), D3DFOG_EXP2, TRUE, 0.075f);
+
+	CSoundMgr::Get_Instance()->PlayBGM((TCHAR*)L"BossStage.mp3");
 	
 	return S_OK;
 }
@@ -146,4 +151,29 @@ void CBossStage::Free()
 
 	Safe_Release(m_pPlayer);
 
+}
+
+void CBossStage::Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density)
+{
+	float Start = 0.5f;
+	float End = 50.f;
+
+	m_pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+	m_pDevice->SetRenderState(D3DRS_FOGCOLOR, Color);
+
+	if (D3DFOG_LINEAR == Mode)
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGSTART, (DWORD)(&Start));
+		m_pDevice->SetRenderState(D3DRS_FOGEND, (DWORD)(&End));
+	}
+	else
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGDENSITY, (DWORD)(&Density));
+	}
+
+	if (UseRange)
+		m_pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 }

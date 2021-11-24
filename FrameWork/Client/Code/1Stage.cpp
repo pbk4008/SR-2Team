@@ -14,6 +14,7 @@
 #include "Spawner.h"
 #include "DoorObserver.h"
 #include "Potal.h"
+#include "SoundMgr.h"
 
 C1Stage::C1Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr), m_pSpawner(nullptr)
 , m_iSecondMonCount(0.f), m_dwCurFloor(0), m_bPotalSpawn(false), m_pPotal(nullptr)
@@ -40,6 +41,8 @@ C1Stage::~C1Stage()
 HRESULT C1Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
+
+	CSoundMgr::Get_Instance()->PlayBGM((TCHAR*)L"Stage1.mp3");
 
 	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
 	

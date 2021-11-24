@@ -14,6 +14,7 @@
 #include "Door.h"
 #include "Potal.h"
 #include "BossStage.h"
+#include "SoundMgr.h"
 
 C3Stage::C3Stage() : m_pLoading(nullptr), m_pPlayer(nullptr), m_b1(false), m_b10(false), m_b11(false)
 , m_b3(false), m_b4(false), m_b5(false), m_b6(false), m_b7(false), m_b8(false), m_b9(false), m_b12(false), m_b2(false),
@@ -42,13 +43,13 @@ HRESULT C3Stage::Init_Scene()
 
 	Init_Fog(D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.f), D3DFOG_EXP2, TRUE, 0.075f);
 
+	CSoundMgr::Get_Instance()->PlayBGM((TCHAR*)L"Stage3.mp3");
 
 	return S_OK;
 }
 
 _int C3Stage::Update_Scene(const _float& fDeltaTime)
 {
-	
 	_int iExit = 0;
 	iExit = CScene::Update_Scene(fDeltaTime);
 
@@ -127,7 +128,7 @@ HRESULT C3Stage::Init_GameLogic_Layer()
 	CPlayerModel* pModel = Clone_ObjProto<CPlayerModel>(GAMEOBJECTID::PLAYERMODEL);
 
 	m_pPotal = Clone_ObjProto<CPotal>(GAMEOBJECTID::POTAL);
-	_vec3 vPos(10.f, 1.f, 10.f);
+	_vec3 vPos(7.f, 22.5f, 7.f);
 	_vec3 vRot( 0.f, 0.f, 0.f);
 	_vec3 vScale(1.f,1.f,1.f);
 	m_pPotal->setTransform(vScale, vRot, vPos);
@@ -209,12 +210,6 @@ void C3Stage::Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density)
 		m_pDevice->SetRenderState(D3DRS_FOGDENSITY, *(DWORD*)(&Density));
 	}
 
-	// Enable range-based fog if desired (only supported for
-	//   vertex fog).  For this example, it is assumed that UseRange
-	//   is set to a nonzero value only if the driver exposes the 
-	//   D3DPRASTERCAPS_FOGRANGE capability.
-	// Note: This is slightly more performance intensive
-	//   than non-range-based fog.
 	if (UseRange)
 		m_pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 }
