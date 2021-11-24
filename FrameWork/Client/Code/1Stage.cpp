@@ -18,6 +18,7 @@
 
 C1Stage::C1Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr), m_pSpawner(nullptr)
 , m_iSecondMonCount(0.f), m_dwCurFloor(0), m_bPotalSpawn(false), m_pPotal(nullptr)
+, m_pUI(nullptr)
 {
 	m_vecDoor.reserve(3);
 	m_vecDoorObserver.reserve(3);
@@ -27,6 +28,7 @@ C1Stage::C1Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false),
 
 C1Stage::C1Stage(LPDIRECT3DDEVICE9 pDevice) : CScene(pDevice), m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false)
 , m_pPlayer(nullptr), m_pSpawner(nullptr), m_iSecondMonCount(0.f), m_dwCurFloor(0), m_bPotalSpawn(false), m_pPotal(nullptr)
+, m_pUI(nullptr)
 {
 	m_vecDoorObserver.reserve(3);
 	m_vecDoor.reserve(3);
@@ -44,9 +46,11 @@ HRESULT C1Stage::Init_Scene()
 
 	CSoundMgr::Get_Instance()->PlayBGM((TCHAR*)L"Stage1.mp3");
 
-	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_ONE);
+	m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
 	
-	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
+
+	Init_Fog(D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.f), D3DFOG_EXP2, TRUE, 0.075f);
 	m_dwCurFloor = 1;
 	return S_OK;
 }
@@ -65,7 +69,6 @@ _int C1Stage::Update_Scene(const _float& fDeltaTime)
 		m_bFirst = true;
 	}*/
 
-
 	if (!m_bFirst)
 	{
 		m_bFirst = true;
@@ -77,11 +80,11 @@ _int C1Stage::Update_Scene(const _float& fDeltaTime)
 	for (auto pObserver : m_vecDoorObserver)
 		pObserver->ActiveObserver();
 
-	if (m_pPlayer->getKeyCount() > 5)//1¹ø·ë(¾ÆÀÌÅÛ È¹µæ)
+	if (m_pPlayer->getKeyCount() > 5 && !m_vecDoorObserver[0]->getRoomClear())//1¹ø·ë(¾ÆÀÌÅÛ È¹µæ)
 		m_vecDoorObserver[0]->ClearObserver();
-	if (m_vecDoorObserver[1]->getSpawnerActive())//2¹ø·ë(¹öÆ¼±â 35¸¶¸® ³ª¿È)
+	if (m_vecDoorObserver[1]->CheckMonster() && !m_vecDoorObserver[1]->getRoomClear())//2¹ø·ë(¹öÆ¼±â 35¸¶¸® ³ª¿È)
 		m_vecDoorObserver[1]->ClearObserver();
-	if (m_vecDoorObserver[2]->getSpawnerActive())//3¹ø·ë(¸ðµç Æ÷Å» ´Ý±â)
+	if (m_vecDoorObserver[2]->CheckSpawner() && !m_vecDoorObserver[2]->getRoomClear())//3¹ø·ë(¸ðµç Æ÷Å» ´Ý±â)
 		m_vecDoorObserver[2]->ClearObserver();
 
 	if (m_dwCurFloor == 1)
@@ -275,9 +278,9 @@ HRESULT C1Stage::Init_UI_Layer()
 	//TODO : UI °ÔÀÓ¿ÀºêÁ§Æ® Ãß°¡
 	CGameObject* pGameObject = nullptr;
 
-	CUI* pUI = nullptr;
-	pGameObject = CUI::Create(m_pDevice);
-	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::UI, pGameObject), E_FAIL);
+	m_pUI = nullptr;
+	m_pUI = CUI::Create(m_pDevice);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::UI, m_pUI), E_FAIL);
 
 	m_mapLayer.emplace(LAYERID::UI, pLayer);
 	return S_OK;
@@ -307,7 +310,7 @@ void C1Stage::DoorSetting()
 	m_vecDoor[0]->setTrigger(vTrigger);
 
 	vScale = { 1.f,7.f,9.f };
-	vPos = { 63.f, 3.5f,72.f };
+	vPos = { 63.f, 3.5f,73.f };
 	vTrigger = { 65.f,1.f,80.f };
 	m_vecDoor[1]->setTransform(vScale, vRotate, vPos);
 	m_vecDoor[1]->setTrigger(vTrigger);
@@ -381,7 +384,9 @@ void C1Stage::SecondFloorSpawn()
 		_float fRandX = _float(rand() % 96);
 		_float fRandZ = _float(rand() % 96);
 		_vec3 vRandPos = { fRandX, 16, fRandZ };
-		pMonster->getTransform()->setPos(vRandPos);
+		_vec3 vScale = { 1.f,1.f,1.f };
+		_vec3 vRotate = { 0.f,0.f,0.f };
+		static_cast<CMonster*>(pMonster)->LoadTransform(vScale, vRotate, vRandPos);
 		pMonster->AddRef();
 		m_vecSecondFloorMon.emplace_back(static_cast<CMonster*>(pMonster));
 	}
@@ -396,6 +401,31 @@ void C1Stage::CheckSecondMonster()
 			iCount++;
 	}
 	m_iSecondMonCount = iCount;
+}
+
+void C1Stage::Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density)
+{
+	float Start = 0.5f;
+	float End = 50.f;
+
+	m_pDevice->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+	m_pDevice->SetRenderState(D3DRS_FOGCOLOR, Color);
+
+	if (D3DFOG_LINEAR == Mode)
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGSTART, (DWORD)(&Start));
+		m_pDevice->SetRenderState(D3DRS_FOGEND, (DWORD)(&End));
+	}
+	else
+	{
+		m_pDevice->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+		m_pDevice->SetRenderState(D3DRS_FOGDENSITY, (DWORD)(&Density));
+	}
+
+	if (UseRange)
+		m_pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
 }
 
 
@@ -414,7 +444,7 @@ void C1Stage::Free()
 	CRenderer::GetInstance()->Clear_RenderList();
 	Safe_Release(m_pLoading);
 	CScene::Free();
-
+	Safe_Release(m_pUI);
 	Safe_Release(m_pPlayer);
 
 	for_each(m_vecDoorObserver.begin(), m_vecDoorObserver.end(), DeleteObj);

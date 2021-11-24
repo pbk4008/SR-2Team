@@ -61,6 +61,7 @@ HRESULT CItem::Init_CItem()
 
 _int CItem::Update_GameObject(const _float& fDeltaTime)
 {
+
 	_int iExit = 0;
 	iExit = CGameObject::Update_GameObject(fDeltaTime);
 	m_pTransform->setScale(m_pTransform->getScale());

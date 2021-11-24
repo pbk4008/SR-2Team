@@ -153,7 +153,9 @@ void CMonster::MoveRoute(_vec3& vStart, const _vec3& vEnd, const _float& fDeltaT
 	list<CELL*>& pRoute = m_pAstar->getRoute();
 	
 	if (pRoute.empty())
+	{
 		m_pAstar->StartAstar(vStart, vEnd);
+	}
 	else
 	{
 		if (!m_bFirst)

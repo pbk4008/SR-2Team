@@ -13,6 +13,12 @@ CUI::CUI()
 	, mShurikenUI{}
 	, mBombFrontUI{}
 	, mBombUI{}
+	, mMonCountUI{}
+	, mKeyCountUi(nullptr)
+	, mKeyUi(nullptr)
+	, mKeyTexture(nullptr)
+	, mKeyMatrix{}
+	,m_dwMosnterCount(0)
 
 {
 
@@ -28,6 +34,12 @@ CUI::CUI(LPDIRECT3DDEVICE9 pDevice)
 	, mShurikenUI{}
 	, mBombFrontUI{}
 	, mBombUI{}
+	, mMonCountUI{}
+	, mKeyCountUi(nullptr)
+	, mKeyUi(nullptr)
+	, mKeyTexture(nullptr)
+	, mKeyMatrix{}
+	, m_dwMosnterCount(0)
 {
 
 }
@@ -42,6 +54,12 @@ CUI::CUI(const CUI& rhs)
 	, mShurikenUI{}
 	, mBombFrontUI{}
 	, mBombUI{}
+	, mMonCountUI{}
+	, mKeyCountUi(nullptr)
+	, mKeyUi(nullptr)
+	, mKeyTexture(nullptr)
+	, mKeyMatrix{}
+	, m_dwMosnterCount(rhs.m_dwMosnterCount)
 {
 
 }
@@ -86,11 +104,27 @@ Engine::_int CUI::Update_GameObject(const _float& fDeltaTime)
 	m_pTransMatrix._42 = -m_fY + (WINCY >> 1);
 
 
+	_float fY = (WINCY>>1)-250;
+	_float fX = (WINCX >> 1) + 150;
+	D3DXMatrixIdentity(&mKeyMatrix);
+
+	mKeyMatrix._11 = 30;
+	mKeyMatrix._22 = 30;
+
+	mKeyMatrix._41 = fX - (WINCX >> 1);
+	mKeyMatrix._42 = -fY + (WINCY >> 1);
+
+	iExit = CGameObject::Update_GameObject(fDeltaTime);
+	////for (auto& HpUi : mHpUI)
+	_int KeyCount = mPlayer->getKeyCount();
+	if (KeyCount > 6)
+		KeyCount = 6;
+	mKeyCountUi->setTextureNumber(KeyCount);
+	mKeyCountUi->Update_GameObject(fDeltaTime);
+
 	int NowHp = std::get<0>(mPlayerState);
 	int quotient = 100;
 
-	iExit = CGameObject::Update_GameObject(fDeltaTime);
-	//for (auto& HpUi : mHpUI)
 	for (size_t HpUiIndex = 0; HpUiIndex < mHpUI.size(); ++HpUiIndex)
 	{
 		mHpUI[HpUiIndex]->Update_GameObject(fDeltaTime);
@@ -98,7 +132,18 @@ Engine::_int CUI::Update_GameObject(const _float& fDeltaTime)
 		NowHp %= quotient;
 		quotient /= 10;
 	}
-
+	for (size_t MonsterCount = 0; MonsterCount < mMonCountUI.size(); ++MonsterCount)
+	{
+		mMonCountUI[MonsterCount]->Update_GameObject(fDeltaTime);
+		if(m_dwMosnterCount==0)
+			mMonCountUI[MonsterCount]->setTextureNumber(0);
+		else
+		{
+			mMonCountUI[MonsterCount]->setTextureNumber(m_dwMosnterCount / quotient);
+			m_dwMosnterCount %= quotient;
+		}
+		quotient /= 10;
+	}
 	quotient = 10;
 
 	int NowShuriken = std::get<1>(mPlayerState);
@@ -189,6 +234,22 @@ void CUI::Render_GameObject()
 
 	m_pDevice->SetTexture(0, nullptr);
 
+	m_pDevice->SetTransform(D3DTS_WORLD, &mKeyMatrix);
+	mKeyTexture->Render_Texture();
+	mKeyUi->Render_Buffer();
+
+	m_pDevice->SetTexture(0, nullptr);
+
+	mKeyCountUi->Render_GameObject();
+
+	for (auto& monCountUI : mMonCountUI)
+	{
+		monCountUI->Render_GameObject();
+		if (m_dwMosnterCount==0)
+			break;
+	}
+
+
 	for (auto& HpUi : mHpUI)
 	{
 		HpUi->Render_GameObject();
@@ -261,6 +322,10 @@ void CUI::Free(void)
 {
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pBufferCom);
+	Safe_Release(mKeyCountUi);
+	Safe_Release(mKeyTexture);
+	Safe_Release(mKeyUi);
+
 	for_each(mHpUI.begin(), mHpUI.end(), DeleteObj);
 	for_each(mShurikenUI.begin(), mShurikenUI.end(), DeleteObj);
 	for_each(mBombUI.begin(), mBombUI.end(), DeleteObj);
@@ -352,5 +417,19 @@ HRESULT CUI::frontCharInit()
 
 	}
 
+
+	mKeyCountUi = CUiChar::Create(m_pDevice, (WINCX >> 1)+230 , (WINCY >> 1)-250 , 20.f, 30.f);
+	mKeyCountUi->setTexture(L"YellowChar");
+
+	mKeyTexture = Clone_ComProto<CTexture>(COMPONENTID::TEXTURE);
+	mKeyTexture->setTexture(GetTexture(L"Key", TEXTURETYPE::TEX_NORMAL));
+
+	mKeyUi = Clone_ComProto<CRcTex>(COMPONENTID::RCTEX);
+
+	for (size_t MonsterIndex = 0; MonsterIndex < mMonCountUI.size(); ++MonsterIndex)
+	{
+		mMonCountUI[MonsterIndex] = CUiChar::Create(m_pDevice, (WINCX >> 1) + 300 + 25.f* MonsterIndex, (WINCY >> 1) - 250, 20.f, 30.f);
+		mMonCountUI[MonsterIndex]->setTexture(L"YellowChar");
+	}
 	return S_OK;
 }

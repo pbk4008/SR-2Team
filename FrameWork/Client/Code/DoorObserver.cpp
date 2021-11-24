@@ -3,7 +3,7 @@
 #include "Door.h"
 #include "Spawner.h"
 
-CDoorObserver::CDoorObserver() : m_bActive(false) , m_pDoor(nullptr)
+CDoorObserver::CDoorObserver() : m_bActive(false) , m_pDoor(nullptr), m_bRoomClear(false)
 {
 }
 
@@ -39,9 +39,7 @@ void CDoorObserver::ActiveObserver()
 		if (!m_bActive)
 		{
 			for (auto pSpawner : m_vecSpawner)
-			{
 				pSpawner->setActive(true);
-			}
 			m_bActive = true;
 		}
 	}
@@ -52,6 +50,31 @@ void CDoorObserver::ClearObserver()
 	for (auto pSpawner : m_vecSpawner)
 		pSpawner->setActive(false);
 	m_pDoor->setClear(true);
+	m_bRoomClear = true;
+}
+
+_bool CDoorObserver::CheckMonster()
+{
+	if (m_vecSpawner.front()->getCurrentMonCount() <= 0)
+		return true;
+	return false;
+}
+
+_bool CDoorObserver::CheckSpawner()
+{
+	if (m_bActive)
+	{
+		_bool bCheck = false;
+		for (auto pSpawner : m_vecSpawner)
+		{
+			if (!pSpawner->getActive())
+				bCheck = true;
+			else
+				bCheck = false;
+		}
+		return bCheck;
+	}
+	return false;
 }
 
 CDoorObserver* CDoorObserver::Create()
@@ -69,17 +92,4 @@ void CDoorObserver::Free()
 	m_vecSpawner.shrink_to_fit();
 
 	Safe_Release(m_pDoor);
-}
-
-_bool CDoorObserver::getSpawnerActive()
-{
-	_bool bCheck = false;
-	for (auto pSpawner : m_vecSpawner)
-	{
-		if (pSpawner->getActive())
-			bCheck = false;
-		else
-			bCheck = true;
-	}
-	return bCheck;
 }

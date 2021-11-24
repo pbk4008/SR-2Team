@@ -53,7 +53,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
+	Insert_ObjCollision(m_pCollision);
 	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
@@ -65,7 +65,7 @@ CMeleeMon::CMeleeMon(const CMeleeMon& rhs)
 	m_pAttackColl->setTransform(m_pTransform);
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
+	Insert_ObjCollision(m_pAttackColl);
 }
 
 CMeleeMon::~CMeleeMon()
@@ -111,9 +111,9 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 			if (!m_pAnimator->getAnimPlay())
 			{
 				_int iRandNum = rand() % 100;
-				if (true)//Item생성
+				if (m_bItemCheck)//Item생성
 				{
-					if (iRandNum < 100)//나올 확률 60%
+					if (iRandNum < 60)//나올 확률 60%
 					{
 						CGameObject* pKey = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::KEY);
 						if (!pKey)
@@ -130,7 +130,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 			}
 		}
 	}
-	if (m_bTracking)
+	if (m_bTracking&&!static_cast<CPlayer*>(pObject)->getHide())
 	{
 		Follow(fDeltaTime);
 		Attack_Dis(fDeltaTime);
@@ -145,7 +145,7 @@ Engine::_int CMeleeMon::Update_GameObject(const _float& fDeltaTime)
 		m_pAttackColl->Collison(COLLISIONTAG::PLAYER);	
 	}
 
-	Insert_RenderGroup(RENDERGROUP::ALPHA, this);
+	Insert_RenderGroup(RENDERGROUP::NONALPHA, this);
 	return iExit;
 }
 
@@ -195,6 +195,7 @@ void CMeleeMon::ResetObject()
 	m_fAttackDelay = 0.f;
 
 	m_eCurState = STATE::IDLE;
+	m_bItemCheck = false;
 }
 
 HRESULT CMeleeMon::SettingAnimator()
@@ -308,8 +309,11 @@ void CMeleeMon::HitMonster(const _float& fTimeDelta)
 void CMeleeMon::Follow(const _float& fDeltaTime)
 {
 	CGameObject* pObject = GetGameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::PLAYER);
+	if (m_pTransform->getBottomY() != pObject->getTransform()->getBottomY())
+		return;
 	_vec3 playerPos = pObject->getTransform()->getPos();
 
+	
 	Chase_Target(&playerPos, m_fSpeed, fDeltaTime);
 }
 

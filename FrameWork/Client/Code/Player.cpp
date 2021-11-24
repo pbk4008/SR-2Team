@@ -43,9 +43,9 @@ m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_b
 	m_pHitCollision->setTransform(m_pTransform);
 	m_pAtkCollision->AddRef();
 	m_pAtkCollision->setTransform(m_pTransform);
-	Insert_Collision(m_pHitCollision);
+	Insert_ObjCollision(m_pHitCollision);
 	m_pHitCollision->setTarget(this);
-	Insert_Collision(m_pAtkCollision);
+	Insert_ObjCollision(m_pAtkCollision);
 
 
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pHitCollision);
@@ -80,7 +80,8 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	m_pHitCollision->WallCollision();
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
 	
-
+	if (m_bHide)
+		cout << "Àº½Å Áß" << endl;
 	if (m_bDash && !m_bDashDelay)
 	{
 		Dash(fDeltaTime);
@@ -144,7 +145,8 @@ void CPlayer::LateUpdate_GameObject()
 			m_eCulState = STATE::HIT;
 			break;
 		case COLLISIONTAG::BULLET:
-			//m_eCulState = STATE::HIT;
+			m_iCurrentHp--;
+			m_eCulState = STATE::HIT;
 			break;
 		}
 		m_pHitCollision->ResetCollision();
@@ -247,7 +249,11 @@ void CPlayer::KeyInput(const float& fDeltaTime)
 		m_eCurType = ATTACKTYPE::BOMB;
 
 	if (Key_Down(VIR_LBUTTON))
+	{
 		m_eCulState = STATE::ATTACK;
+		if (m_bHide)
+			m_bHide = false;
+	}
 	if (Key_Down(VIR_RBUTTON))
 	{
 		if(!m_bDashDelay)

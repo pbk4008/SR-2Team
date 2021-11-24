@@ -93,7 +93,7 @@ void CPotal::setCollision()
 	m_pInteract->setTag(COLLISIONTAG::ETC);
 	m_pInteract->setTrigger(COLLISIONTRIGGER::INTERACT);
 	m_pInteract->setTransform(m_pTransform);
-	Insert_Collision(m_pInteract);
+	Insert_ObjCollision(m_pInteract);
 }
 
 CPotal* CPotal::Create(LPDIRECT3DDEVICE9 pDevice)

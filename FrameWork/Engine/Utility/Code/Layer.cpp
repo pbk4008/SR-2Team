@@ -99,6 +99,7 @@ CGameObject* CLayer::Pooling(vector<CGameObject*>* pGameObejctArr, GAMEOBJECTID 
 				|| eObjID == GAMEOBJECTID::MONSTER3
 				|| eObjID == GAMEOBJECTID::MONBULLET
 				|| eObjID == GAMEOBJECTID::BLOOD
+				|| eObjID == GAMEOBJECTID::KEY
 				|| eObjID == GAMEOBJECTID::SHURIKENEFF
 				)
 				continue;
