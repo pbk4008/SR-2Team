@@ -295,6 +295,7 @@ void CPlayer::ChangeState()
 				{
 				case ATTACKTYPE::SWORD:
 					m_pAtkCollision->setActive(true);
+					CSoundMgr::Get_Instance()->PlaySound((TCHAR*)L"Sword.mp3", CSoundMgr::PLAYER);
 					break;
 				case ATTACKTYPE::SHURIKEN:
 					if (m_iShurikenCount > 0)
@@ -386,9 +387,15 @@ CBullet* CPlayer::Shoot(GAMEOBJECTID eID, _bool& bCheck)
 	static_cast<CBullet*>(pBullet)->setAngle(m_pTransform->getAngle().y);
 
 	if (eID == GAMEOBJECTID::SHURIKEN)
+	{ 
+		CSoundMgr::Get_Instance()->PlaySound((TCHAR*)L"Shuriken.mp3",CSoundMgr::PLAYER);
 		--m_iShurikenCount;
+	}
 	else if (eID == GAMEOBJECTID::BOMB)
+	{
+		CSoundMgr::Get_Instance()->PlaySound((TCHAR*)L"BombAttack.mp3", CSoundMgr::PLAYER);
 		--m_iBombCount;
+	}
 
 	
 	return static_cast<CBullet*>(pBullet);
@@ -457,6 +464,7 @@ void CPlayer::PlusFormItem(const _int& _itemPower, const eITEM& _itemType)
 	case eITEM::HP50:
 	case eITEM::HP100:
 		m_iCurrentHp += _itemPower;
+		CSoundMgr::Get_Instance()->PlaySound((TCHAR*)L"HPPostion.mp3", CSoundMgr::EFFECT);
 		if (m_iCurrentHp > m_iMaxHp)
 		{
 			m_iCurrentHp = m_iMaxHp;

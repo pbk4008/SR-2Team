@@ -64,8 +64,8 @@ _int CCollision::Update_Component(const _float& fDeltaTime)
 
 void CCollision::Render_Collision()
 {
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	/*m_pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);*/
 }
 
 void CCollision::Collison(COLLISIONTAG eTag)

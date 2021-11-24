@@ -14,7 +14,8 @@ HRESULT CMainApp::Init_MainApp()
 {
 	FAILED_CHECK_RETURN(GraphicDevice_Setting(), E_FAIL);
 	FAILED_CHECK_RETURN(Init_Scene(), E_FAIL);
-	
+	CSoundMgr::Get_Instance()->Initialize();
+
 	return S_OK;
 }
 
@@ -54,7 +55,7 @@ HRESULT CMainApp::GraphicDevice_Setting()
 	m_pDevice = m_pGraphicDev->getDevice();
 	m_pDevice->AddRef();
 
-	m_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	m_pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	return S_OK;
 }
 
@@ -85,6 +86,8 @@ void CMainApp::Free()
 {
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pGraphicDev);
+	CSoundMgr::Destroy_Instance();
+
 	m_pManagement->DestroyInstance();
 
 	Utility_Release();

@@ -36,9 +36,15 @@ HRESULT C2Stage::Init_Scene()
 {
 	FAILED_CHECK_RETURN(Init_Layer(), E_FAIL);
 
+
+
+
+	CSoundMgr::Get_Instance()->PlayBGM((TCHAR*)L"Stage2.mp3");
+
+
 	Init_Fog(D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.f), D3DFOG_EXP2, TRUE, 0.075f);
 
-	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_TWO);
+	//m_pLoading = CLoading::Create(m_pDevice, SCENEID::STAGE_THREE);
 	
 	//NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 

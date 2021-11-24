@@ -85,6 +85,9 @@
     <Filter Include="05.Manager\04. SoundMgr">
       <UniqueIdentifier>{859d9944-f7e6-4d88-83cb-b5240105eb0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Component\00.VIBuffer\05.SkyTex">
+      <UniqueIdentifier>{1e64d96d-0dbd-4228-b1be-12dee3380369}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Export\Export_Utility.h">

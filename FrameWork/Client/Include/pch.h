@@ -45,4 +45,7 @@ using namespace std;
 #pragma comment (lib, "vfw32.lib")
 ///////////////////////////////////////////////////////////////////////////
 
+#include "SoundMgr.h"
+
+
 #endif //PCH_H

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Cube.h"
-#include "Quad.h"
 #include "BoxCollision.h"
 CCube::CCube():m_pCollision(nullptr), m_CubePlane(nullptr)
 {

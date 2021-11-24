@@ -2,7 +2,6 @@
 #ifndef __CUBE_H__
 #define __CUBE_H__
 #include "GameObject.h"
-#include "Quad.h"
 BEGIN(Engine)
 class CBoxCollision;
 END

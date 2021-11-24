@@ -45,9 +45,9 @@ _int CBoxCollision::Update_Component(const _float& fDeltaTime)
 
 void CBoxCollision::Render_Collision()
 {
-	m_pDevice->SetTexture(0, nullptr);
+	//m_pDevice->SetTexture(0, nullptr);
 	m_pDevice->SetTransform(D3DTS_WORLD,&m_pTransform->getWorldMatrix());
-	CCollision::Render_Collision();
+	//CCollision::Render_Collision();
 
 	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	//m_pBox->DrawSubset(0);

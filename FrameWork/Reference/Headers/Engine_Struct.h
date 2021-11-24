@@ -38,6 +38,20 @@ namespace Engine
 		_vec2 vUV;
 	}VTXCUBE;
 	const _ulong FVF_CUBE = D3DFVF_XYZ |D3DFVF_NORMAL| D3DFVF_TEX1;
+
+	typedef struct tagVtxSkyTex
+	{
+		tagVtxSkyTex() {}
+		tagVtxSkyTex(const _vec3& _vpos, const _vec3& _vUv)
+		{
+			vPos = _vpos;
+			vUV = _vUv;
+		}
+		_vec3 vPos;
+		_vec3 vUV;
+	}VTXSKY;
+	const _ulong FVF_SKY = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
+
 	typedef struct tagIndex16
 	{
 		_ushort _0;
