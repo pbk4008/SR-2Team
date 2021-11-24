@@ -24,7 +24,7 @@ public:
 	CGameObject* getGameObject(GAMEOBJECTID eObjID);
 	vector<CGameObject*>* getGameObjects(LAYERID eLayerID, GAMEOBJECTID eObjID);
 	HRESULT add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject* pObj);
-private:
+public:
 	CScene* m_pScene;
 };
 END

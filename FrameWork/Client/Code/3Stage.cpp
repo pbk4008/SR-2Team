@@ -67,6 +67,7 @@ _int C3Stage::Update_Scene(const _float& fDeltaTime)
 			CScene* pScene = nullptr;
 			pScene = CBossStage::Create(m_pDevice);
 
+			CCollisionMgr::GetInstance()->CopyCollision();
 			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 

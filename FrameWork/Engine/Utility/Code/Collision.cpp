@@ -4,6 +4,7 @@
 #include "CollisionMgr.h"
 #include "Export_Function.h"
 
+
 CCollision::CCollision() : m_pTransform(nullptr), m_bHit(false),m_eTag(COLLISIONTAG::MAX)
 ,m_pCollisionMgr(nullptr), m_eTrigger(COLLISIONTRIGGER::MAX), m_pCollider(nullptr) 
 , m_pTarget(nullptr), m_fPivotLen(0.f)

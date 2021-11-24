@@ -53,9 +53,8 @@ CBoss::CBoss(const CBoss& rhs)
 	m_pCollision->setTrigger(COLLISIONTRIGGER::HIT);
 	m_pCollision->setTransform(m_pTransform);
 	pComponent = m_pCollision;
-	Insert_Collision(m_pCollision);
-	m_pCollision->AddRef();
 	Insert_ObjCollision(m_pCollision);
+	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision

@@ -58,11 +58,12 @@ _int C2Stage::Update_Scene(const _float& fDeltaTime)
 
 	if (m_pPotal->getClear())
 	{
-		if (m_pLoading->getFinish())
+		if (Key_Down(VIR_ENTER))
+		/*if (m_pLoading->getFinish())*/
 		{
 			CScene* pScene = nullptr;
 			pScene = C3Stage::Create(m_pDevice);
-
+			CCollisionMgr::GetInstance()->CopyCollision();
 			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
