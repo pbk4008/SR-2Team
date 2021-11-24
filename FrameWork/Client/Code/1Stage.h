@@ -9,6 +9,7 @@ class CDoorObserver;
 class CDoor;
 class CMonster;
 class CPotal;
+class CUI;
 class C1Stage final : public CScene
 {
 private:
@@ -31,6 +32,8 @@ private:
 	void FloorClear();
 	void SecondFloorSpawn();
 	void CheckSecondMonster();
+private:
+	void Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density);
 public:
 	static C1Stage* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -44,7 +47,7 @@ private:
 	CSpawner* m_pSpawner;
 	CPlayer* m_pPlayer;
 	CPotal* m_pPotal;
-
+	CUI* m_pUI;
 	_ulong m_dwCurFloor;
 	_bool m_bFloorClear;
 	_bool m_bFirst;

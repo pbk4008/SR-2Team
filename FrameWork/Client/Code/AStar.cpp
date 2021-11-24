@@ -37,7 +37,7 @@ void CAstar::StartAstar(const _vec3& vStart, const _vec3& vGoal)
 	m_OpenList.clear();
 	m_CloseList.clear();
 	m_BestList.clear();
-
+	
 	m_iStartIndex = getIndex(vStart);
 	_int dwEndIndex = getIndex(vGoal);
 	

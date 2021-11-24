@@ -14,6 +14,8 @@ private:
 public:
 	HRESULT Init_ComProto(COMPONENTID eID, CComponent* pComponent);
 	HRESULT Init_ObjProto(GAMEOBJECTID eID, CGameObject* pGameObject);
+	_bool checkObject(GAMEOBJECTID eID);
+	_bool checkComponent(COMPONENTID eID);
 public:
 	template<typename T>
 	T* Clone_ComProto(COMPONENTID eID)//캐스팅 된 상태로 바로 받기 위해서 템플릿 함수 사용
@@ -31,11 +33,6 @@ public:
 
 		return static_cast<T*>(pObjProto->Clone_GameObject());
 	}
-
-public:
-	_bool checkObject(GAMEOBJECTID eID);
-	_bool checkComponent(COMPONENTID eID);
-
 private:
 	CComponent* Find_ComProto(COMPONENTID eID);
 	CGameObject* Find_ObjProto(GAMEOBJECTID eID);

@@ -25,6 +25,8 @@ private:
 	HRESULT Init_UI_Layer();
 	HRESULT Init_Loading_Layer();
 
+	void Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density);
+
 	void LoadMeleeMon();
 	void LoadShootMon();
 	void LoadFlyMon();

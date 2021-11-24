@@ -5,6 +5,7 @@
 class CLoading;
 class CDoor;
 class CPlayer;
+class CPotal;
 class C2Stage final : public CScene
 {
 private:
@@ -22,21 +23,15 @@ private:
 	HRESULT Init_GameLogic_Layer();
 	HRESULT Init_UI_Layer();
 	HRESULT Init_Loading_Layer();
-	void DoorSetting();
-	void setClearBox();
-	void FloorClear();
 public:
 	static C2Stage* Create(LPDIRECT3DDEVICE9 pDevice);
 private: void Init_Fog(_ulong Color, _ulong Mode, BOOL UseRange, _float Density);
-
 private:
 	virtual void Free();
 private:
 	CLoading* m_pLoading;
-	vector<CDoor*> m_vecDoor;
-	vector<CGameObject*> m_vecClearBox;
-	_bool m_bFloorClear;
-	_bool m_bFirst;
 	CPlayer* m_pPlayer;
+	CPotal* m_pPotal;
+
 };
 #endif

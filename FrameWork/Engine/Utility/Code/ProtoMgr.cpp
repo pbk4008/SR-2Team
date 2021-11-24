@@ -33,6 +33,20 @@ HRESULT CProtoMgr::Init_ObjProto(GAMEOBJECTID eID, CGameObject* pGameObject)
 	m_mapObjProto.emplace(eID, pGameObject);
 	return S_OK;
 }
+_bool CProtoMgr::checkObject(GAMEOBJECTID eID)
+{
+	CGameObject* pObj = Find_ObjProto(eID);
+	if (pObj)
+		return true;
+	return false;
+}
+_bool CProtoMgr::checkComponent(COMPONENTID eID)
+{
+	CComponent* pObj = Find_ComProto(eID);
+	if (pObj)
+		return true;
+	return false;
+}
 CComponent* CProtoMgr::Find_ComProto(COMPONENTID eID)
 {
 	auto iter = m_mapComProto.find(eID);
@@ -59,20 +73,4 @@ void CProtoMgr::Free()
 	m_mapObjProto.clear();
 	for_each(m_mapComProto.begin(), m_mapComProto.end(), DeleteMap);
 	m_mapComProto.clear();
-}
-
-_bool CProtoMgr::checkObject(GAMEOBJECTID eID)
-{
-	CGameObject* pObj = Find_ObjProto(eID);
-	if (pObj)
-		return true;
-	return false;
-}
-
-_bool CProtoMgr::checkComponent(COMPONENTID eID)
-{
-	CComponent* pObj = Find_ComProto(eID);
-	if (pObj)
-		return true;
-	return false;
 }

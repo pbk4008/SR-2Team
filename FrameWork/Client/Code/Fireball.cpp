@@ -139,7 +139,7 @@ HRESULT CFireball::Add_Component()
 	m_pCollision->AddRef();
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, m_pCollision);
 
-	Insert_Collision(m_pCollision);
+	Insert_ObjCollision(m_pCollision);
 
 	return S_OK;
 }

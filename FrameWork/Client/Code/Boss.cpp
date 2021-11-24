@@ -55,6 +55,7 @@ CBoss::CBoss(const CBoss& rhs)
 	pComponent = m_pCollision;
 	Insert_Collision(m_pCollision);
 	m_pCollision->AddRef();
+	Insert_ObjCollision(m_pCollision);
 	m_mapComponent[(_ulong)COMPONENTTYPE::TYPE_DYNAMIC].emplace(COMPONENTID::SPHERECOL, pComponent);
 
 	// collision
@@ -64,7 +65,7 @@ CBoss::CBoss(const CBoss& rhs)
 	m_pAttackColl->setTrigger(COLLISIONTRIGGER::ATTACK);
 	m_pAttackColl->setActive(false);
 	pComponent = m_pAttackColl;
-	Insert_Collision(m_pAttackColl);
+	Insert_ObjCollision(m_pAttackColl);
 }
 
 CBoss::~CBoss()
@@ -139,7 +140,6 @@ void CBoss::LateUpdate_GameObject()
 
 void CBoss::Render_GameObject()
 {
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pCollision->Render_Collision();
 

@@ -44,6 +44,9 @@ inline HRESULT Add_GameObject(LAYERID eLayerID, GAMEOBJECTID eObjID, CGameObject
 inline HRESULT Init_ProtoMgr();
 inline HRESULT Init_ComProto(COMPONENTID eID, CComponent* pComponent);
 inline HRESULT Init_ObjProto(GAMEOBJECTID eID, CGameObject* pGameObject);
+inline _bool CheckObject(GAMEOBJECTID eID);
+inline _bool CheckComponent(COMPONENTID eID);
+
 template<typename T>
 T* Clone_ComProto(COMPONENTID eID);
 template<typename T>
@@ -66,6 +69,7 @@ inline void Clear_RenderList();
 inline CCollisionMgr* Init_CollisionMgr();
 inline HRESULT Insert_Wall(CCollision* pCollision);
 inline HRESULT Insert_Collision(CCollision* pCollision);
+inline HRESULT Insert_ObjCollision(CCollision* pCollision);
 inline void ClearCollision();
 inline void ClearWall();
 

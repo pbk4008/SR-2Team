@@ -4,17 +4,17 @@
 #include "SphereCollision.h"
 
 CDoor::CDoor() : m_pDoorModel(nullptr), m_bEnter(false), m_bClear(false), m_pInteract(nullptr)
-, m_fDoorTime(0.f),  m_fDoorSpeed(0.f), m_iIndex(-1)
+, m_fDoorTime(0.f),  m_fDoorSpeed(0.f), m_iIndex(-1), m_bOpen(false)
 {
 }
 
 CDoor::CDoor(LPDIRECT3DDEVICE9 pDevice) : CGameObject(pDevice), m_pDoorModel(nullptr), m_pInteract(nullptr)
-,m_bEnter(false), m_bClear(false), m_fDoorTime(0.f), m_fDoorSpeed(0.f), m_iIndex(-1)
+,m_bEnter(false), m_bClear(false), m_fDoorTime(0.f), m_fDoorSpeed(0.f), m_iIndex(-1), m_bOpen(false)
 {
 }
 
 CDoor::CDoor(const CDoor& rhs) : CGameObject(rhs), m_pDoorModel(nullptr), m_bEnter(rhs.m_bEnter),m_bClear(rhs.m_bClear)
-, m_fDoorTime(rhs.m_fDoorTime), m_fDoorSpeed(rhs.m_fDoorSpeed), m_iIndex(rhs.m_iIndex),m_pInteract(nullptr)
+, m_fDoorTime(rhs.m_fDoorTime), m_fDoorSpeed(rhs.m_fDoorSpeed), m_iIndex(rhs.m_iIndex),m_pInteract(nullptr), m_bOpen(false)
 {
 	m_pDoorModel = Clone_ObjProto<CCube>(GAMEOBJECTID::CUBE);
 	for (_int i = 0; i < 6; i++)
@@ -84,7 +84,7 @@ void CDoor::setCollision()
 	m_pInteract->setTransform(m_pTransform);
 	m_pInteract->setTag(COLLISIONTAG::ETC);
 	m_pInteract->setTrigger(COLLISIONTRIGGER::INTERACT);
-	Insert_Collision(m_pInteract);
+	Insert_ObjCollision(m_pInteract);
 }
 
 void CDoor::DoorOpen(const _float& fDeltaTime)
@@ -110,12 +110,15 @@ void CDoor::DoorOpen(const _float& fDeltaTime)
 	if (m_bClear)
 	{
 		//¿­¸²
-		m_fDoorTime += fDeltaTime;
-		vPos += vRight * m_fDoorSpeed * fDeltaTime;
-		if (m_fDoorTime > 1.5f)
+		if (!m_bOpen)
 		{
-			m_bClear = false;
-			m_fDoorTime = 0.f;
+			m_fDoorTime += fDeltaTime;
+			vPos += vRight * m_fDoorSpeed * fDeltaTime;
+			if (m_fDoorTime > 1.5f)
+			{
+				m_bOpen = true;
+				m_fDoorTime = 0.f;
+			}
 		}
 	}
 	m_pTransform->setPos(vPos);

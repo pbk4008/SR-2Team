@@ -20,7 +20,7 @@ CFog::CFog(const CFog& rhs) : CGameObject(rhs), m_pAnimation(nullptr),m_pCollisi
 	m_pSideBuffer->AddRef();
 	m_pFrontBuffer->AddRef();
 	Add_Component();
-	Insert_Collision(m_pCollision);
+	Insert_ObjCollision(m_pCollision);
 }
 
 CFog::~CFog()

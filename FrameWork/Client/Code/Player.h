@@ -46,6 +46,7 @@ public:
 	ATTACKTYPE getAttackType() { return m_eCurType; }
 	_int getJumpCount() { return m_iJumpCount; }
 	_int getKeyCount() { return m_iGetKeyCount; }
+	_bool getHide() { return m_bHide; }
 private:
 	STATE m_eCulState;
 	STATE m_ePreState;
