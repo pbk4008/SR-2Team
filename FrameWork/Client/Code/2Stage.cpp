@@ -55,22 +55,6 @@ _int C2Stage::Update_Scene(const _float& fDeltaTime)
 	_int iExit = 0;
 	iExit = CScene::Update_Scene(fDeltaTime);
 
-	for (auto pDoor : m_vecDoor)
-	{
-		if (!pDoor->getClear())
-		{
-			m_bFloorClear = false;
-			break;
-		}
-		else
-			m_bFloorClear = true;
-	}
-	if (m_bFloorClear)
-		FloorClear();
-	if (m_pPlayer->getJumpCount() == 0)
-	{
-		//게임종료
-	}
 
 	if (m_pPotal->getClear())
 	{
