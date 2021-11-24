@@ -78,13 +78,6 @@ void CPotal::ResetObject()
 {
 }
 
-void CPotal::setTransform(const _vec3& vScale, const _vec3& vRotate, const _vec3& vPosition)
-{
-	m_pTransform->setScale(vScale);
-	m_pTransform->setAngle(vRotate);
-	m_pTransform->setPos(vPosition);
-}
-
 void CPotal::setAnimation()
 {
 	m_pAnimation = CPotalAnim::Create(m_pDevice);

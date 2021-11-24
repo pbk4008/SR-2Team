@@ -168,7 +168,6 @@ void CMeleeMon::LateUpdate_GameObject()
 
 void CMeleeMon::Render_GameObject()
 {
-	m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 	m_pCollision->Render_Collision();
 

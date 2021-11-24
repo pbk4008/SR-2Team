@@ -172,7 +172,6 @@ void CPlayer::Render_GameObject()
 	
 
 	m_pModel->Render_GameObject();
-	//m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	CGameObject::Render_GameObject();
 }
 
