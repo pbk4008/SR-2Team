@@ -5,6 +5,7 @@
 class CLoading;
 class CDoor;
 class CPlayer;
+class CPotal;
 class C2Stage final : public CScene
 {
 private:
@@ -38,5 +39,7 @@ private:
 	_bool m_bFloorClear;
 	_bool m_bFirst;
 	CPlayer* m_pPlayer;
+	CPotal* m_pPotal;
+
 };
 #endif

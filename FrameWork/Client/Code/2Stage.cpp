@@ -13,6 +13,9 @@
 #include "Boss.h"
 #include "UI.h"
 #include "Door.h"
+#include "Potal.h"
+#include "3Stage.h"
+
 
 C2Stage::C2Stage() : m_pLoading(nullptr), m_bFloorClear(false), m_bFirst(false), m_pPlayer(nullptr)
 {
@@ -71,6 +74,22 @@ _int C2Stage::Update_Scene(const _float& fDeltaTime)
 	{
 		//게임종료
 	}
+
+	if (m_pPotal->getClear())
+	{
+		if (m_pLoading->getFinish())
+		{
+			CScene* pScene = nullptr;
+			pScene = C3Stage::Create(m_pDevice);
+
+			pScene->setLayer(LAYERID::LOADING, m_mapLayer[LAYERID::LOADING]);
+			NULL_CHECK_RETURN(pScene, E_FAIL);
+
+			FAILED_CHECK_RETURN(Change_Scene(pScene), E_FAIL);
+
+			return iExit;
+		}
+	}
 	return iExit;
 }
 
@@ -118,6 +137,13 @@ HRESULT C2Stage::Init_GameLogic_Layer()
 
 	CMainCamera* pCam = Clone_ObjProto<CMainCamera>(GAMEOBJECTID::CAMERA);
 	CPlayerModel* pModel = Clone_ObjProto<CPlayerModel>(GAMEOBJECTID::PLAYERMODEL);
+
+	m_pPotal = Clone_ObjProto<CPotal>(GAMEOBJECTID::POTAL);
+	_vec3 vPos(48.f, 31.f, 61.5f);
+	_vec3 vRot(0.f, 0.f, 0.f);
+	_vec3 vScale(1.f, 1.f, 1.f);
+	m_pPotal->setTransform(vScale, vRot, vPos);
+	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::POTAL, m_pPotal));
 
 	m_pPlayer->setModel(pModel);
 	m_pPlayer->setCamera(pCam);
