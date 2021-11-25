@@ -139,7 +139,7 @@ void CTransform::TerrainOverMove()
 		return;
 	CGameObject* pTerrain = nullptr;
 	_float fMin = 10000.f;
-	for (auto iter : *pTerrainList)
+	for (auto iter : *pTerrainList)  
 	{
 		_vec3 vTerrainPos;
 		vTerrainPos = iter->getTransform()->getPos();
@@ -151,7 +151,6 @@ void CTransform::TerrainOverMove()
 		{
 			fMin = fDist;
 			pTerrain = iter;
-			break;
 		}
 	}
 	CTerrainTex* pTerrainTex = static_cast<CTerrainTex*>(pTerrain->getComponent(COMPONENTID::TERRAINTEX, COMPONENTTYPE::TYPE_STATIC));

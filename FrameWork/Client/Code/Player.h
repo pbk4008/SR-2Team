@@ -41,6 +41,7 @@ public:
 	void setModel(CPlayerModel* pModel);
 	void setJumpCount(const _int& iJumpCount) { m_iJumpCount = iJumpCount; }
 	void PlusFormItem(const _int& _itemPower, const eITEM& _itemType);
+	void setScene(SCENEID eID) { m_eScene = eID; }
 	std::tuple<_int, _int, _int> getState() { return { m_iCurrentHp,m_iShurikenCount,m_iBombCount }; }
 public:
 	ATTACKTYPE getAttackType() { return m_eCurType; }
@@ -76,5 +77,7 @@ private:
 	
 	CSphereCollision* m_pHitCollision;
 	CSphereCollision* m_pAtkCollision;
+
+	SCENEID m_eScene;
 };
 #endif

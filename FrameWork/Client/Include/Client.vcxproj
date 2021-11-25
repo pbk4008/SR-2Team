@@ -224,7 +224,6 @@
     <ClInclude Include="..\Code\SpawnerAnim.h" />
     <ClInclude Include="..\Code\Terrain.h" />
     <ClInclude Include="..\Code\UI.h" />
-    <ClInclude Include="..\Headers\Enum.h" />
     <ClInclude Include="..\Headers\Include.h" />
     <ClInclude Include="..\Headers\Value.h" />
     <ClInclude Include="Client.h" />

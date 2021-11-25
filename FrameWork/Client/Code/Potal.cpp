@@ -54,11 +54,13 @@ void CPotal::LateUpdate_GameObject()
 
 void CPotal::Render_GameObject()
 {
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	CGameObject::Render_GameObject();
 	m_pDevice->SetTransform(D3DTS_WORLD, &m_pTransform->getWorldMatrix());
 
 	m_pAnimation->Render_Animation();
 	m_pBuffer->Render_Buffer();
+	m_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 CGameObject* CPotal::Clone_GameObject()

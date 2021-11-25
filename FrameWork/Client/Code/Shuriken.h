@@ -29,6 +29,7 @@ private:
 	virtual void Free();
 public:
 	virtual void setPos(const _vec3& vPos);
+	void setScene(SCENEID eScene) { m_eScene = eScene; }
 public:
 	static CShuriken* Create(LPDIRECT3DDEVICE9 pDevice);
 private:
@@ -37,5 +38,7 @@ private:
 
 	CShurikenEff* m_pEffect;
 	_float m_fSpeed;
+
+	SCENEID m_eScene;
 };
 #endif

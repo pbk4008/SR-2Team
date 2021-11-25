@@ -5,20 +5,21 @@
 #include "ShurikenHit.h"
 
 CShuriken::CShuriken() : m_pAnimation(nullptr), m_fSpeed(0.f), m_pCollision(nullptr), m_pEffect(nullptr)
+, m_eScene(SCENEID::STAGE_END)
 {
     ZeroMemory(&m_vFirstPos, sizeof(_vec3));
     ZeroMemory(&m_vLook, sizeof(_vec3));
 }
 
 CShuriken::CShuriken(LPDIRECT3DDEVICE9 pDevice) : CBullet(pDevice), m_pAnimation(nullptr), m_pCollision(nullptr)
-, m_fSpeed(0.f), m_pEffect(nullptr)
+, m_fSpeed(0.f), m_pEffect(nullptr), m_eScene(SCENEID::STAGE_END)
 {
     ZeroMemory(&m_vFirstPos, sizeof(_vec3));
     ZeroMemory(&m_vLook, sizeof(_vec3));
 }
 
 CShuriken::CShuriken(const CShuriken& rhs) : CBullet(rhs), m_pAnimation(nullptr)
-, m_fSpeed(rhs.m_fSpeed), m_pCollision(nullptr), m_pEffect(nullptr)
+, m_fSpeed(rhs.m_fSpeed), m_pCollision(nullptr), m_pEffect(nullptr), m_eScene(rhs.m_eScene)
 {
     Add_Component();
 
@@ -54,7 +55,7 @@ _int CShuriken::Update_GameObject(const _float& fDeltaTime)
         return iExit;
     }
     m_pCollision->Collison(COLLISIONTAG::MONSTER);
-    if (m_pCollision->WallCollision())
+    if (m_pCollision->WallCollision(m_eScene))
     {
         m_pEffect->setActive(true);
         m_pEffect->setStart(m_pTransform->getPos());
@@ -102,6 +103,7 @@ void CShuriken::ResetObject()
     m_pTransform->setPos(m_vFirstPos);
     m_pTransform->setScale(1.f, 1.f, 1.f);
     m_fDestroyTime = 0.f;
+    m_eScene = SCENEID::STAGE_END;
 }
 
 void CShuriken::Move(const _float& fDeltaTime)

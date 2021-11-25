@@ -58,8 +58,7 @@ _int C2Stage::Update_Scene(const _float& fDeltaTime)
 
 	if (m_pPotal->getClear())
 	{
-		if (Key_Down(VIR_ENTER))
-		/*if (m_pLoading->getFinish())*/
+		if (m_pLoading->getFinish())
 		{
 			CScene* pScene = nullptr;
 			pScene = C3Stage::Create(m_pDevice);
@@ -129,6 +128,7 @@ HRESULT C2Stage::Init_GameLogic_Layer()
 
 	m_pPlayer->setModel(pModel);
 	m_pPlayer->setCamera(pCam);
+	m_pPlayer->setScene(SCENEID::STAGE_TWO);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 	m_pPlayer->AddRef();
 

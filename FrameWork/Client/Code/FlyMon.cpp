@@ -229,7 +229,6 @@ CFlyMon* CFlyMon::Create(LPDIRECT3DDEVICE9 pDevice)
 
 void CFlyMon::Change_State()
 {
-	//if (m_ePreState != m_eCurState)
 	if (m_eCurState != m_ePreState)
 	{
 		switch (m_eCurState)

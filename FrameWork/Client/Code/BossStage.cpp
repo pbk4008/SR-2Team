@@ -91,6 +91,7 @@ HRESULT CBossStage::Init_GameLogic_Layer()
 
 	m_pPlayer->setModel(pModel);
 	m_pPlayer->setCamera(pCam);
+	m_pPlayer->setScene(SCENEID::BOSS_STAGE);
 	FAILED_CHECK_RETURN(pLayer->Add_Object(GAMEOBJECTID::PLAYER, pGameObject), E_FAIL);
 	m_pPlayer->AddRef();
 

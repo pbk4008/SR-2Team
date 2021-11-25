@@ -13,6 +13,7 @@ m_ePreState(STATE::MAX),m_fSpeed(0.f),m_pHitCollision(nullptr),m_pAtkCollision(n
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD),m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
 ,m_iMaxHp(0), m_iCurrentHp(0),m_iShurikenCount(0),m_iBombCount(0),m_iGetKeyCount(0)
+, m_eScene(SCENEID::STAGE_END)
 {
 }
 
@@ -21,6 +22,7 @@ m_fSpeed(0.f),m_eCulState(STATE::MAX),m_ePreState(STATE::MAX), m_pHitCollision(n
 , m_bAttack(false), m_fAngle(0.f),m_bJump(false), m_eCurType(ATTACKTYPE::SWORD), m_ePreType(ATTACKTYPE::SWORD)
 , m_bHide(false), m_bDash(false), m_fDashTime(0.f), m_bDashDelay(false), m_iJumpCount(-1)
 , m_iMaxHp(0), m_iCurrentHp(0), m_iShurikenCount(0), m_iBombCount(0), m_iGetKeyCount(0),m_fAngleX(0.f)
+,m_eScene(SCENEID::STAGE_END)
 {
 }
 
@@ -31,7 +33,7 @@ m_fSpeed(rhs.m_fSpeed), m_eCulState(rhs.m_eCulState),m_ePreState(rhs.m_ePreState
 m_eCurType(rhs.m_eCurType),m_ePreType(rhs.m_ePreType), m_bHide(rhs.m_bHide), m_bDash(rhs.m_bDash)
 , m_fDashTime(rhs.m_fDashTime), m_bDashDelay(rhs.m_bDashDelay), m_iJumpCount(rhs.m_iJumpCount)
 , m_iMaxHp(rhs.m_iMaxHp), m_iCurrentHp(rhs.m_iCurrentHp), m_iShurikenCount(rhs.m_iShurikenCount), m_iBombCount(rhs.m_iBombCount)
-, m_iGetKeyCount(rhs.m_iGetKeyCount) , m_fAngleX(rhs.m_fAngleX)
+, m_iGetKeyCount(rhs.m_iGetKeyCount) , m_fAngleX(rhs.m_fAngleX), m_eScene(rhs.m_eScene)
 {
 	m_pTransform->setPos(3.f,0.f,3.f);
 	if (rhs.m_pModel)
@@ -77,7 +79,7 @@ _int CPlayer::Update_GameObject(const _float& fDeltaTime)
 	else
 		m_pTransform->Jump(fDeltaTime, 4.f, m_bJump);
 	KeyInput(fDeltaTime);
-	m_pHitCollision->WallCollision();
+	m_pHitCollision->WallCollision(m_eScene);
 	m_pTransform->setScale(0.8f, 0.5f, 0.8f);
 	
 	if (m_bHide)
@@ -306,6 +308,7 @@ void CPlayer::ChangeState()
 					if (m_iShurikenCount > 0)
 					{
 						pBullet = Shoot(GAMEOBJECTID::SHURIKEN, bCheck);
+						static_cast<CShuriken*>(pBullet)->setScene(m_eScene);
 						if (bCheck)
 							Add_GameObject(LAYERID::GAME_LOGIC, GAMEOBJECTID::SHURIKEN, pBullet);
 					}

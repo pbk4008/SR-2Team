@@ -295,9 +295,6 @@
     <ClInclude Include="..\Code\Loading.h">
       <Filter>01.Scene\00.Loding</Filter>
     </ClInclude>
-    <ClInclude Include="..\Headers\Enum.h">
-      <Filter>98.Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Headers\Include.h">
       <Filter>98.Headers</Filter>
     </ClInclude>
